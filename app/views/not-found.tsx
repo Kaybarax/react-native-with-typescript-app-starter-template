@@ -1,50 +1,122 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import React, {Component} from 'react';
 import SafeComponentWrapper from '../safe-component-wrapper';
-import {Button, Image, Text, View} from "react-native";
+import {Button, Image, ScrollView, Text, View} from "react-native";
+import className, {
+    AlignCenterContentCN,
+    FlexColumnContainerCN,
+    FlexContainerChildItemFullWidthCN,
+    FlexFluidRowContainerCN
+} from "../theme/app-style-classnames";
 
 export default class NotFound extends Component {
-  static routeName = 'not-found';
-  static routePathPattern = '/not-found';
 
-  render() {
-    return (
-        <SafeComponentWrapper>
-          <View
-              // className="container is-fluid"
-          >
-            <View
-                // className={'flex-row-container'}
-            >
-              <View
-                  // className={'flex-container-child-item center-align-content'}
-              >
-                <Text
-                    // className="title"
+    render() {
+        return (
+            <SafeComponentWrapper>
+                <ScrollView
+                    style={[
+                        ...className(FlexColumnContainerCN),
+                    ]}
                 >
-                  Oops! Sorry, Page Not Found
-                </Text>
-              </View>
-            </View>
-            <View style={{paddingTop: 40}}>
-              <Button
-                  // className="button"
-                  title={'Return'}
-                  onPress={() => {
-                    //
-                  }}
-              />
-            </View>
-            <View>
-              <Image
-                  source={require('../media/images/_404_.png')}
-              />
-            </View>
-          </View>
-        </SafeComponentWrapper>
-    );
-  }
+                    <View
+                        style={[
+                            ...className(FlexFluidRowContainerCN)
+                        ]}
+                    >
+                        <View
+                            style={[
+                                ...className(
+                                    FlexContainerChildItemFullWidthCN,
+                                )
+                            ]}
+                        >
+                            <View
+                                style={[
+                                    ...className(FlexFluidRowContainerCN)
+                                ]}
+                            >
+                                <Text
+                                    style={[
+                                        ...className(FlexContainerChildItemFullWidthCN,
+                                            AlignCenterContentCN)
+                                    ]}
+                                >
+                                    Oops! View, Not Found
+                                </Text>
+                            </View>
+                        </View>
+                        <View
+                            style={[
+                                ...className(
+                                    FlexContainerChildItemFullWidthCN,
+                                    {
+                                        paddingTop: 10
+                                    },
+                                )
+                            ]}
+                        >
+                            <View
+                                style={[
+                                    ...className()
+                                ]}
+                            >
+                                <Button
+                                    title={'Return'}
+                                    onPress={() => {
+                                        //
+                                    }}
+                                />
+                            </View>
+                        </View>
+                        <View
+                            style={[
+                                ...className(
+                                    FlexContainerChildItemFullWidthCN,
+                                    {
+                                        paddingTop: 10
+                                    },
+                                )
+                            ]}
+                        >
+                            <View
+                                style={[
+                                    ...className(FlexFluidRowContainerCN)
+                                ]}
+                            >
+                                <View
+                                    style={[
+                                        ...className(
+                                            FlexContainerChildItemFullWidthCN,
+                                            {
+                                                paddingTop: 10
+                                            },
+                                        )
+                                    ]}
+                                >
+                                    <Image
+                                        source={require('../media/images/_404_.png')}
+                                        style={[
+                                            {
+                                                width: '100%',
+                                                height: '100%',
+                                            }
+                                        ]}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </SafeComponentWrapper>
+        );
+    }
 }

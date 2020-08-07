@@ -954,6 +954,11 @@
   dependencies:
     deep-assign "^3.0.0"
 
+"@react-native-community/checkbox@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.4.2.tgz#109214058610200fcbb97e8761cf0cba8df5abd5"
+  integrity sha512-vGetj36fOD+o3xCx8AGg56HqopetKQAWCEslD3oj8cs0xaGyRLQh3Febu13wMBOdaAQP85kITpaIET9DF4Apaw==
+
 "@react-native-community/cli-debugger-ui@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.9.0.tgz#4177764ba69243c97aa26829d59d9501acb2bd71"
@@ -1109,6 +1114,14 @@
     query-string "^6.12.1"
     react-is "^16.13.0"
     use-subscription "^1.4.0"
+
+"@react-navigation/drawer@^5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@react-navigation/drawer/-/drawer-5.9.0.tgz#e8813df2f1aa5694521c1a46c88d0b42c50fbe6c"
+  integrity sha512-YcuJ9QD4cFyjfXJx6vMsG3u3bfOU/Nt+GvMMl+4rZOxw2LStmubY1jqfsEAli/+dTUHv5kXJf5dF+/GhUCqA5g==
+  dependencies:
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.2.1"
 
 "@react-navigation/material-top-tabs@^5.2.14":
   version "5.2.14"
@@ -2174,6 +2187,11 @@ core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.5.tgz#c79e75f5e38dbc85a662d91eea52b8256d53b813"
   integrity sha512-lacdXOimsiD0QyNf9BC/mxivNJ/ybBGJXQFKzRekp1WTHoVUWsUHEn+2T8GJAzzIhyOuXA+gOxCVN3l+5PLPUA==
 
+core-js@^1.0.0:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+  integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
+
 core-js@^2.2.2, core-js@^2.4.1:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
@@ -2942,6 +2960,19 @@ fbjs-scripts@^1.1.0:
     plugin-error "^0.1.2"
     semver "^5.1.0"
     through2 "^2.0.0"
+
+fbjs@^0.8.9:
+  version "0.8.17"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
+  integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
 
 fbjs@^1.0.0:
   version "1.0.0"
@@ -4332,6 +4363,11 @@ lodash@^4.17.10, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.3.
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^4.17.4:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
+
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -4348,7 +4384,7 @@ logkitty@^0.7.1:
     dayjs "^1.8.15"
     yargs "^15.1.0"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -5502,7 +5538,15 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.5.9, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.5.10:
+  version "15.5.10"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
+  integrity sha1-J5ffwxJhguOpXj37suiT3ddFYVQ=
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+
+prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5576,6 +5620,13 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.8.1, react-is@^16.8.4, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-dropdownalert@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-dropdownalert/-/react-native-dropdownalert-4.3.0.tgz#56b612d63576387fa1a507b4158d92e7b7638af3"
+  integrity sha512-fXs18A23nrTB95jkTdP7c9TzoSZU0xS9F4lxMzwW1DFI08Nm62S4X00UqWu+Ong+TBDDP18/aF7b50T67Z26EQ==
+  dependencies:
+    prop-types "15.5.10"
+
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
@@ -5598,6 +5649,19 @@ react-native-material-textfield@^0.16.1:
   dependencies:
     prop-types "^15.5.9"
 
+react-native-orientation-loading-overlay@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-native-orientation-loading-overlay/-/react-native-orientation-loading-overlay-0.1.6.tgz#fe8900828c28aa786c822dadf6fe55401f59da8e"
+  integrity sha512-SbsBFnZIejF/zZy3nL2vmmZkUovQ9ed28b6p2x8ZhAYoseHyO3dS0iahhPu1eSneGE2+XVw+zoKHmxOmVFmKXw==
+
+react-native-ratings@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.2.0.tgz#8523e98868470855ec1d2feb112e466e17a1fd9f"
+  integrity sha512-oSrkQ4rnpYjCw+d6MPJQghXfrfb3uQKoTJx1exdk7xqzw4jnv3pyu0PAuxCDJk/rfDSD/sirIAudz+zdGxrBog==
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-reanimated@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.9.0.tgz#38676c99dd585504fdc7331efb45e5f48ec7339a"
@@ -5614,6 +5678,11 @@ react-native-screens@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.9.0.tgz#ead2843107ba00fee259aa377582e457c74f1f3b"
   integrity sha512-5MaiUD6HA3nzY3JbVI8l3V7pKedtxQF3d8qktTVI0WmWXTI4QzqOU8r8fPVvfKo3MhOXwhWBjr+kQ7DZaIQQeg==
+
+react-native-simple-radio-button@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.4.tgz#86e2dbe8af9e6bf60eee088f60466f7a975e7758"
+  integrity sha512-QOZNmJUn0ViBGU+at7wAG/uGzd5PfXi0kMHr9lfTCLXknW/f9f2fOVjxjdHvOCdf/zA/eMJBjGjtusSDzQf1+w==
 
 react-native-sqlite-storage@^5.0.0:
   version "5.0.0"

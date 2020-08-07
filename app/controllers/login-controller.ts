@@ -1,6 +1,11 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import {toastNotificationCallback} from "../shared-components-and-modules/notification-center/notifications-controller";
 import {deepCloneObject, isNullUndefined} from "../util/util";
@@ -11,9 +16,16 @@ import {appSQLiteDb} from "../app-management/data-manager/embeddedDb-manager";
 /**
  * sd _ Kaybarax
  * @param signUpModel
+ * @param appStore
  * @param toastNotificationAlert
  */
-export function handleSignUp(signUpModel, toastNotificationAlert) {
+export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
+
+    toastNotificationCallback(
+        'info',
+        'Signup Functionality upcoming',
+        toastNotificationAlert,
+    );
 
     // //save to sqlitedb if you fancy
 
@@ -21,10 +33,10 @@ export function handleSignUp(signUpModel, toastNotificationAlert) {
     // let tx = db.transaction;
     // let store = tx.objectStore(APP_SQLITE_DATABASE.USERS);
     // // Put the data into the db
-    let user = toJS(signUpModel.user);
-    let userId = user.id;
+    // let user = toJS(signUpModel.user);
+    // let userId = user.id;
     //then strip id away
-    delete user.id;
+    // delete user.id;
     // @ts-ignore
     // let DML_Statements = appSQLiteDb.DML_Statements;
     // DML_Statements.addUserStmt(DB_REFERENCE.db,user);
@@ -46,8 +58,15 @@ export function handleSignUp(signUpModel, toastNotificationAlert) {
  * @param toastNotificationAlert
  * @param appStore
  * @param authStore
+ * @param navigation
  */
-export function handleLogin(loginForm, toastNotificationAlert, appStore, authStore) {
+export function handleLogin(loginForm, toastNotificationAlert, appStore, authStore, navigation) {
+
+    toastNotificationCallback(
+        'info',
+        'Signup Functionality upcoming',
+        toastNotificationAlert,
+    );
 
     // let db = window.db;//get db;
     // // Set up an object store and transaction
@@ -89,5 +108,11 @@ export function handleLogin(loginForm, toastNotificationAlert, appStore, authSto
  */
 export function handleResetPassword(toastNotificationAlert) {
     // todo: ... your logic ... you get the drill by now
+
+    toastNotificationCallback(
+        'succ',
+        'I will leave this one for you))',
+        toastNotificationAlert,
+    );
     // toastNotificationCallback('info', 'You can play around with this!)', toastNotificationAlert)
 }

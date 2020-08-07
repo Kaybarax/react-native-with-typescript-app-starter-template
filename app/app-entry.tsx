@@ -1,11 +1,16 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import 'react-native-gesture-handler';
-import React, {Fragment} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import MainAppRouting from "./routing-and-navigation/routes";
+import AppWithRouting from "./routing-and-navigation/routes";
 
 function AppEntry() {
 
@@ -13,11 +18,9 @@ function AppEntry() {
     // appIndexedDb();
 
     return (
-        <Fragment>
-            <NavigationContainer>
-                <MainAppRouting/>
-            </NavigationContainer>
-        </Fragment>
+        <NavigationContainer>
+            <AppWithRouting/>
+        </NavigationContainer>
     );
 }
 

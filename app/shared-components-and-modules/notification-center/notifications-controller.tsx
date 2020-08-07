@@ -1,8 +1,13 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
-import {isNullUndefined} from "../../util/util";
+import {isEmptyString, isNullUndefined} from "../../util/util";
 import {Alert} from "react-native";
 
 /**
@@ -18,39 +23,24 @@ export function toastNotificationCallback(
     notificationType,
     message,
     toastNotificationAlert,
-    position = 'top',
+    position = -100,
     duration = 3500,
 ) {
 
   if (isNullUndefined(toastNotificationAlert)) {
     // console.log('Toast Notification not Specified');
+    Alert.alert('Alert Error?');
     return;
   }
 
   let typeOfNotification = 'info';//default to this
   let typeOfNotificationMessage = 'You have not specifiedMessage';//default to this
 
-  if (notificationType === 'err' || notificationType === 'error') {
-    typeOfNotification = 'error';
-  }
-  if (notificationType === 'failure' || notificationType === 'fail') {
-    typeOfNotification = 'error';
-  }
-  if (notificationType === 'succ' || notificationType === 'success') {
-    typeOfNotification = 'success';
-  }
-  if (notificationType === 'warn' || notificationType === 'warning') {
-    typeOfNotification = 'warning';
-  }
-  if (notificationType === 'information') {
-    typeOfNotification = 'info';
-  }
-
   toastNotificationAlert.alert = true;
   toastNotificationAlert.position = position;
   toastNotificationAlert.duration = duration;
-  toastNotificationAlert.message = message || typeOfNotificationMessage;
-  toastNotificationAlert.type = typeOfNotification;
+  toastNotificationAlert.message = !isEmptyString(message) ? message : typeOfNotificationMessage;
+  toastNotificationAlert.type = notificationType || typeOfNotification;
   setTimeout(() => {
     toastNotificationAlert.alert = false;
     toastNotificationAlert.message = null;
@@ -58,15 +48,64 @@ export function toastNotificationCallback(
 
 }
 
+export interface ToastNotificationAlertProps {
+  alert: boolean,
+  message: string,
+  type: string,
+  duration?: number,
+  position?: number,
+  activity?: object,
+}
+
 /**
  * sd _ Kaybarax
  * @type {{duration: number, activity: null, alert: boolean, position: string, message: null, type: null}}
  */
-export const toastNotificationAlertProps = {
+export const toastNotificationAlertProps : ToastNotificationAlertProps = {
   alert: false,
-  message: null,
-  type: null,
+  message: '',
+  type: '',
   duration: 3500,
-  position: 'top',
-  activity: null,
+  position: -100,
+  activity: undefined,
+};
+
+export interface DropDownNotificationProps {
+  closeInterval: 4200,
+  startDelta: -100,
+  warnColor: "#FFC300",
+  infoColor: "#5BC0DE",
+  // showCancel={true},
+  messageNumOfLines: 4,
+  tapToCloseEnabled: true,
+  replaceEnabled: true,
+  updateStatusBar: false,
+  zIndex: 1000000,
+  titleStyle: {
+    fontSize: 17,
+    textAlign: "left",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "transparent"
+  }
+}
+
+export const dropDownNotificationAlertProps = {
+  closeInterval: 4200,
+  startDelta: -100,
+  warnColor: "#FFC300",
+  infoColor: "#5BC0DE",
+  // showCancel={true},
+  messageNumOfLines: 4,
+  tapToCloseEnabled: true,
+  replaceEnabled: true,
+  updateStatusBar: false,
+  zIndex: 1000000,
+  titleStyle: {
+    fontSize: 17,
+    textAlign: "left",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "transparent"
+  }
 };

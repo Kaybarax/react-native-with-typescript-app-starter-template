@@ -4,7 +4,7 @@
 
 import {isEmptyObject} from '../util/util';
 import {
-  HOME_VIEW_ROUTE,
+  PAGE1EXAMPLE_VIEW_ROUTE,
   PAGE2EXAMPLE_VIEW_ROUTE,
   PAGE3EXAMPLE_VIEW_ROUTE,
   PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
@@ -43,7 +43,7 @@ export class AppNavigation {
   navigateToHome = (navigator, navParams) => {
     this.navigate(
         navigator,
-        HOME_VIEW_ROUTE.name,
+        PAGE1EXAMPLE_VIEW_ROUTE.name,
         this.navigatedTo,
         navParams
     );

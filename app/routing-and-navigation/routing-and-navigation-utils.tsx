@@ -1,23 +1,22 @@
-import React, {ReactNode} from "react";
-import { Animated, Easing } from "react-native";
+//key
+//sd - self described
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
+
+import {Animated, Easing} from "react-native";
+import React from "react";
 
 /**
  * sd _ Kaybarax
  */
 export interface ViewRoute {
-    name: String;
-    screen: ReactNode;
+    name: string;
+    screen: any;
     options?: object;
-}
-
-export function ViewStackScreen(props) {
-
-    let {Stack, name, component, options} = props;
-
-    // return (
-    //     <Stack.Screen name={name} component={component} options={options} />
-    // );
-
 }
 
 /**
