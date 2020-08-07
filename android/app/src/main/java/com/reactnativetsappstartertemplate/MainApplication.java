@@ -14,6 +14,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import app_custom_native_modules.AppIntentsPackage;
 import app_custom_native_modules.AppSecurityPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
                     // Packages that cannot be autolinked yet can be added manually here, for example:
                     // packages.add(new MyReactNativePackage());
                     packages.add(new AppSecurityPackage());
+                    packages.add(new AppIntentsPackage());
                     return packages;
                 }
 
