@@ -97,8 +97,6 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
 
             //respond
             this.callback.invoke(this.responseMap);
-//            this.callback.invoke(SUCCESS_CALLBACK);
-            Util.emitPasswordHashResult(this.reactContext, responseMap);
 
         } catch (NoSuchAlgorithmException e) {
 
