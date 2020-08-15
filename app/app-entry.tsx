@@ -9,14 +9,15 @@
 
 import 'react-native-gesture-handler';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import AppWithRouting from "./routing-and-navigation/routes";
+import { NavigationContainer } from '@react-navigation/native';
+import AppWithRouting, { AppDevMocksWithRouting } from "./routing-and-navigation/routes";
 
 function AppEntry() {
 
     return (
         <NavigationContainer>
-            <AppWithRouting/>
+            <AppDevMocksWithRouting />
+            {/* <AppWithRouting /> */}
         </NavigationContainer>
     );
 }

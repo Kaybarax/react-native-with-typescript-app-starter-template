@@ -47,28 +47,28 @@ const App = () => {
     //hide all react warnings in production
     // console.warn = console.error = console.log = function (message) {};
 
-    let [dbLoaded, loadDb] = React.useState(appSQLiteDb.dbLoadedAndInitialized);
+    // let [dbLoaded, loadDb] = React.useState(appSQLiteDb.dbLoadedAndInitialized);
 
-    React.useEffect(() => {
-        //init embedded app db
-        appSQLiteDb.loadAndInitDB();
-        // while (!appSQLiteDb.dbLoadedAndInitialized) {
-        //     if (appSQLiteDb.dbLoadedAndInitialized) {
-        //         loadDb(true);
-        //     }
-        // }
-        if (appSQLiteDb.dbLoadedAndInitialized) {
-            loadDb(true);
-        }
-    });
+    // React.useEffect(() => {
+    //     //init embedded app db
+    //     appSQLiteDb.loadAndInitDB();
+    //     // while (!appSQLiteDb.dbLoadedAndInitialized) {
+    //     //     if (appSQLiteDb.dbLoadedAndInitialized) {
+    //     //         loadDb(true);
+    //     //     }
+    //     // }
+    //     if (appSQLiteDb.dbLoadedAndInitialized) {
+    //         loadDb(true);
+    //     }
+    // });
 
-    if (!dbLoaded) {
-        return (
-            <React.Fragment>
-                <Loader message={appSQLiteDb.latestProgressUpdate}/>
-            </React.Fragment>
-        )
-    }
+    // if (!dbLoaded) {
+    //     return (
+    //         <React.Fragment>
+    //             <Loader message={appSQLiteDb.latestProgressUpdate}/>
+    //         </React.Fragment>
+    //     )
+    // }
 
     return (
         <Provider
@@ -77,9 +77,9 @@ const App = () => {
             authStore={rootStore.authStore}
         >
             <StatusBar barStyle="dark-content"/>
-            <SafeAreaView>
+            {/* <SafeAreaView> */}
                 <AppEntry/>
-            </SafeAreaView>
+            {/* </SafeAreaView> */}
         </Provider>
     );
 

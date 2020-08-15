@@ -1,15 +1,22 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 //some sample stuff to guide you. you can remove them if you don't need them.
-export const TITLE = 'React SPA App Template Framework';
-export const AWS_COGNITO_AUTHENTICATION_CHOICE = 'AWS_COGNITO';
-export const GOOGLE_SIGN_IN_AUTHENTICATION_CHOICE = 'GOOGLE_SIGN_IN';
-export const FACEBOOK_SIGN_IN_AUTHENTICATION_CHOICE = 'FACEBOOK_SIGN_IN';
-export const TWITTER_SIGN_IN_AUTHENTICATION_CHOICE = 'TWITTER_SIGN_IN';
+export const AUTHENTICATION_CHOICE = {
+    AWS_COGNITO: 'AWS_COGNITO',
+    GOOGLE_SIGN_IN: 'GOOGLE_SIGN_IN',
+    FACEBOOK_SIGN_IN: 'FACEBOOK_SIGN_IN',
+    TWITTER_SIGN_IN: 'TWITTER_SIGN_IN',
+};
 export const MANDRILL_EMAIL_API_KEY = "";
-export const FACEBOOK_LOGIN_APP_ID = '';
+export const FACEBOOK_LOGIN_APP_ID = "";
+export const GOOGLE_API_KEY = "";
 export const USER_NOT_FOUND_EXCEPTION = 'UserNotFoundException';
 export const USER_NOT_AUTHORIZED_EXCEPTION = 'NotAuthorizedException';
 export const USER_NOT_CONFIRMED_EXCEPTION = 'UserNotConfirmedException';

@@ -12,7 +12,7 @@ import {toJS} from 'mobx';
 import {APP_SQLITE_DATABASE} from '../app-management/data-manager/declarations';
 import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
 import {User, UserCredentials} from '../app-management/data-manager/models-manager';
-import {createPasswordHash} from '../abdroid-custom-native-modules/app-security-custom-native-module';
+import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
 import {isEmptyString, isNullUndefined} from "../util/util";
 
 /**

@@ -7,16 +7,20 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import RN from 'react-native';
 import SafeComponentWrapper from "../safe-component-wrapper";
 import {
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
-    FlexFluidRowContainerCN
+    FlexFluidRowContainerCN,
+    AlignCenterContentCN,
+    AllViewsCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
-import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
+import { BlankSpaceDivider } from "../shared-components-and-modules/shared-components";
+import { createPasswordHash } from '../android-custom-native-modules/app-security-custom-native-module';
+// import { UserCredentials } from '../app-management/data-manager/models-manager';
 
 export default class AppDevScratchPad extends Component {
 
@@ -25,23 +29,31 @@ export default class AppDevScratchPad extends Component {
             <SafeComponentWrapper>
                 <RN.ScrollView
                     style={[
-                        ...className(FlexColumnContainerCN)
+                        ...className(FlexColumnContainerCN, AllViewsCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexFluidRowContainerCN)
+                            ...className(FlexFluidRowContainerCN,
+                                AllViewsCN)
                         ]}
                     >
                         <RN.View
                             style={[
-                                // ...className(FlexContainerChildItemFullWidthCN)
-                                FlexContainerChildItemFullWidthCN
+                                ...className(
+                                    FlexContainerChildItemFullWidthCN,
+                                    AllViewsCN
+                                )
                             ]}
                         >
                             <RN.Text
                                 // h5
-                                style={[]}
+                                style={[
+                                    ...className(
+                                        FlexFluidRowContainerCN,
+                                        AlignCenterContentCN, AllViewsCN
+                                    )
+                                ]}
                             >
                                 MOCK STUFF AWAY TO YOUR HEARTS DESIRE!!
                             </RN.Text>
@@ -49,13 +61,16 @@ export default class AppDevScratchPad extends Component {
                     </RN.View>
 
                     <RN.View
-                        style={{paddingTop: 40}}
+                        style={[
+                            ...className(
+                                FlexContainerChildItemFullWidthCN,
+                                AllViewsCN,
+                                { paddingTop: 10 }
+                            ),
+                        ]}
                     >
                         <RN.Button
                             title={'Go Home'}
-                            // children={
-                            //     <RN.Text></RN.Text>
-                            // }
                             // style={[
                             //     ...className()
                             // ]}
@@ -63,25 +78,37 @@ export default class AppDevScratchPad extends Component {
                                 // window.location.href = '/';
                             }}
                         />
-                        <BlankSpaceDivider/>
-                        <RN.View>
+                        <BlankSpaceDivider />
+                        <RN.View
+                            style={[
+                                ...className(
+                                    FlexFluidRowContainerCN,
+                                    AllViewsCN
+                                )
+                            ]}
+                        >
                             <RN.View
                                 // form
-                                style={[]}
+                                style={[
+                                    ...className(
+                                        FlexContainerChildItemFullWidthCN,
+                                        AllViewsCN
+                                    )
+                                ]}
                             >
                                 <RN.Text
                                     style={[
-                                        //
+                                        ...className(
+                                            FlexFluidRowContainerCN,
+                                            AlignCenterContentCN, AllViewsCN
+                                        )
                                     ]}
                                 >
                                     Mock file upload for example
                                 </RN.Text>
-                                <BlankSpaceDivider/>
+                                <BlankSpaceDivider />
                                 <RN.Button
                                     title={'Upload a file'}
-                                    // children={
-                                    //     <RN.Text></RN.Text>
-                                    // }
                                     // style={[
                                     //     ...className()
                                     // ]}
@@ -89,12 +116,9 @@ export default class AppDevScratchPad extends Component {
                                         // window.location.href = '/';
                                     }}
                                 />
-                                <BlankSpaceDivider/>
+                                <BlankSpaceDivider />
                                 <RN.Button
                                     title={'Submit file upload'}
-                                    // children={
-                                    //     <RN.Text></RN.Text>
-                                    // }
                                     // style={[
                                     //     ...className()
                                     // ]}
@@ -103,10 +127,48 @@ export default class AppDevScratchPad extends Component {
                                     }}
                                 />
                             </RN.View>
-                            <BlankSpaceDivider/>
+                            <BlankSpaceDivider />
+                            <RN.View
+                                // form
+                                style={[
+                                    ...className(
+                                        FlexContainerChildItemFullWidthCN,
+                                        AllViewsCN
+                                    )
+                                ]}
+                            >
+                                <RN.Text
+                                    style={[
+                                        ...className(
+                                            FlexFluidRowContainerCN,
+                                            AlignCenterContentCN, AllViewsCN
+                                        )
+                                    ]}
+                                >
+                                    Call a native module
+                                </RN.Text>
+                                <BlankSpaceDivider />
+                                <RN.Button
+                                    title={'Call password hash native module'}
+                                    // style={[
+                                    //     ...className()
+                                    // ]}
+                                    onPress={_ => {
+
+                                        console.log('Call password hash native module');
+                                        let yieldedUserCredentials = createPasswordHash('signUpModel', null, null);
+                                        let value = yieldedUserCredentials.next().value;
+                                        // let { password_hash, salt }: UserCredentials = yieldedUserCredentials.next().value;
+                                        console.log('yieldedUserCredentials: ', value);
+
+                                        // handleSignUp(null, null,null)
+
+                                    }}
+                                />
+                            </RN.View>
                         </RN.View>
                     </RN.View>
-                    <BlankSpaceDivider/>
+                    <BlankSpaceDivider />
                 </RN.ScrollView>
             </SafeComponentWrapper>
         );

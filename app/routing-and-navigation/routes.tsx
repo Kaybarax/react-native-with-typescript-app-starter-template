@@ -14,12 +14,13 @@ import {
     PAGE2EXAMPLE_VIEW_ROUTE,
     PAGE3EXAMPLE_VIEW_ROUTE,
     PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
-    PAGE4EXAMPLE_VIEW_ROUTE
+    PAGE4EXAMPLE_VIEW_ROUTE,
+    APP_DEV_MOCKS_VIEW_ROUTE
 } from "./views-routes-declarations";
-import {createStackNavigator} from '@react-navigation/stack';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {createDrawerNavigator} from "@react-navigation/drawer";
-import {useWindowDimensions} from "react-native";
+import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useWindowDimensions } from "react-native";
 
 /**
  * Manifest of all "main activity level" screens _ Kaybarax
@@ -34,7 +35,7 @@ export default function AppWithRouting() {
     const defaultViewTabbedViewsRouteMap = [
         <Tab.Screen
             name={PAGE1EXAMPLE_VIEW_ROUTE.name}
-            component={PAGE1EXAMPLE_VIEW_ROUTE.screen}/>,
+            component={PAGE1EXAMPLE_VIEW_ROUTE.screen} />,
         <Tab.Screen
             name={PAGE2EXAMPLE_VIEW_ROUTE.name}
             component={PAGE2EXAMPLE_VIEW_ROUTE.screen}
@@ -53,7 +54,7 @@ export default function AppWithRouting() {
     ];
 
     const DefaultViewTabbedViewsRouteMap = () => (
-        <Tab.Navigator children={defaultViewTabbedViewsRouteMap}/>
+        <Tab.Navigator children={defaultViewTabbedViewsRouteMap} />
     );
 
     function DefaultTabbedViewsWithDrawer() {
@@ -66,13 +67,13 @@ export default function AppWithRouting() {
             >
                 <DefaultTabbedViewsDrawer.Screen
                     name={'DefaultViewTabbedViewsRouteMap'}
-                    component={DefaultViewTabbedViewsRouteMap}/>
+                    component={DefaultViewTabbedViewsRouteMap} />
                 <DefaultTabbedViewsDrawer.Screen
                     name={'app_dev_mocks'}
-                    component={DefaultViewTabbedViewsRouteMap}/>
+                    component={DefaultViewTabbedViewsRouteMap} />
                 <DefaultTabbedViewsDrawer.Screen
                     name={'my_recipe_sub_app'}
-                    component={DefaultViewTabbedViewsRouteMap}/>
+                    component={DefaultViewTabbedViewsRouteMap} />
             </DefaultTabbedViewsDrawer.Navigator>
         );
     }
@@ -103,4 +104,25 @@ export default function AppWithRouting() {
 }
 
 export function RecipeAppWithRouting() {
+}
+
+export function AppDevMocksWithRouting() {
+
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator
+            initialRouteName={APP_DEV_MOCKS_VIEW_ROUTE.name}
+            screenOptions={{
+                title: 'App Dev Scratch Pad'
+            }}
+        >
+            <Stack.Screen
+                name={APP_DEV_MOCKS_VIEW_ROUTE.name}
+                component={APP_DEV_MOCKS_VIEW_ROUTE.screen}
+                key={APP_DEV_MOCKS_VIEW_ROUTE.name}
+            />
+        </Stack.Navigator>
+    );
+
 }

@@ -47,8 +47,7 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
     private final String SUCCESS_CALLBACK = "SUCCESS";
     private final String FAILURE_CALLBACK = "FAILURE";
     private ReactApplicationContext reactContext;
-    private final WritableMap response = Arguments.createMap();
-    private final HashMap<String, Object> responseMap = new HashMap<>();
+    private WritableMap responseMap = Arguments.createMap();
 
     public AppSecurityModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -58,6 +57,7 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
         this.userHash = null;
         passwordHash = null;
         passwordSalt = null;
+        this.responseMap = Arguments.createMap();
     }
 
     @NonNull
@@ -91,21 +91,14 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
             String hash = createHash(this.passwordText);
 
             //data to emit back
-            response.putString("message", SUCCESS_CALLBACK);
-            response.putString("passwordHash", passwordHash);
-            response.putString("passwordSalt", Arrays.toString(passwordSalt));
-
-            HashMap<String, Object> dataHashMap = new HashMap<>();
-
-            this.responseMap.put("message", SUCCESS_CALLBACK);
-            dataHashMap.put("passwordHash", passwordHash);
-            dataHashMap.put("passwordSalt", passwordSalt);
-            this.responseMap.put("data", dataHashMap);
+            this.responseMap.putString("message", SUCCESS_CALLBACK);
+            this.responseMap.putString("passwordHash", passwordHash);
+            this.responseMap.putString("passwordSalt", Arrays.toString(passwordSalt));
 
             //respond
             this.callback.invoke(this.responseMap);
 //            this.callback.invoke(SUCCESS_CALLBACK);
-            Util.emitPasswordHashResult(this.reactContext, response);
+            Util.emitPasswordHashResult(this.reactContext, responseMap);
 
         } catch (NoSuchAlgorithmException e) {
 

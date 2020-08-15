@@ -20,7 +20,7 @@ export const FlexRowContainerCN = {
   display: 'flex',
   flex: 1,
   flexDirection: 'row',
-  padding: 2,
+  padding: 3,
   width: '100%',
 };
 
@@ -29,7 +29,7 @@ export const FlexFluidRowContainerCN = {
   flex: 1,
   flexDirection: 'row',
   flexWrap: 'wrap',
-  padding: 2,
+  padding: 3,
   width: '100%',
 };
 
@@ -37,7 +37,7 @@ export const FlexColumnContainerCN = {
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  padding: 2,
+  padding: 3,
   width: '100%',
 };
 
@@ -46,7 +46,7 @@ export const FlexFluidColumnContainerCN = {
   flex: 1,
   flexDirection: 'column',
   flexWrap: 'wrap',
-  padding: 2,
+  padding: 3,
   width: '100%',
 };
 // end flex containers
