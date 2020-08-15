@@ -34,57 +34,21 @@ export default class AppStores {
   static namespace = 'AppStores_' + MobX_StoreKey_Identifier_In_AsyncStorage;
 
   @observable
-  app = persistedStoreFromAsyncStorage(
-      AppStoreProvider.storeKey(AppStores.namespace),
-      AppStoreProvider,
-      AppStores.namespace,
-  )
-      .then(store => store || AppStoreProvider.storeProvider(AppStores.namespace))
-      .catch(err => {
-        return AppStoreProvider.storeProvider(AppStores.namespace);
-      });
+  app = AppStoreProvider.storeProvider(AppStores.namespace);
 
   @observable
-  page1Example = persistedStoreFromAsyncStorage(
-      Page1ExampleStoreProvider.storeKey(AppStores.namespace),
-      Page1ExampleStoreProvider,
-      AppStores.namespace,
-  ).then(store => store || Page1ExampleStoreProvider.storeProvider(AppStores.namespace))
-      .catch(err => {
-        return Page1ExampleStoreProvider.storeProvider(AppStores.namespace);
-      });
+  page1Example = Page1ExampleStoreProvider.storeProvider(AppStores.namespace);
 
   @observable
-  page2Example = persistedStoreFromAsyncStorage(
-      Page2ExampleStoreProvider.storeKey(AppStores.namespace),
-      Page2ExampleStoreProvider,
-      AppStores.namespace,
-  ).then(store => store || Page2ExampleStoreProvider.storeProvider(AppStores.namespace))
-      .catch(err => {
-        return Page2ExampleStoreProvider.storeProvider(AppStores.namespace);
-      });
+  page2Example = Page2ExampleStoreProvider.storeProvider(AppStores.namespace);
 
   @observable
-  page3Example = persistedStoreFromAsyncStorage(
-      Page3ExampleStoreProvider.storeKey(AppStores.namespace),
-      Page3ExampleStoreProvider,
-      AppStores.namespace,
-  ).then(store => store || Page3ExampleStoreProvider.storeProvider(AppStores.namespace))
-      .catch(err => {
-        return Page3ExampleStoreProvider.storeProvider(AppStores.namespace);
-      });
+  page3Example = Page3ExampleStoreProvider.storeProvider(AppStores.namespace);
 
   @observable
-  page4Example = persistedStoreFromAsyncStorage(
-      Page4ExampleStoreProvider.storeKey(AppStores.namespace),
-      Page4ExampleStoreProvider,
-      AppStores.namespace,
-  ).then(store => store || Page4ExampleStoreProvider.storeProvider(AppStores.namespace))
-      .catch(err => {
-        return Page4ExampleStoreProvider.storeProvider(AppStores.namespace);
-      });
+  page4Example = Page4ExampleStoreProvider.storeProvider(AppStores.namespace);
 
-  // collect for provision for offline storage either to localstorage, indexedDB or any other app-offline storage
+  // collect for provision for offline storage to such as AsyncStorogae
   // Every store that you add, MAKE SURE to add it also here
   stores = [
     {

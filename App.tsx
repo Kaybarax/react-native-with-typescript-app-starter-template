@@ -17,9 +17,9 @@
  */
 
 import React from 'react';
-import RN, {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View,} from 'react-native';
+import RN, { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, } from 'react-native';
 
-import {Provider} from 'mobx-react';
+import { Provider } from 'mobx-react';
 import AppEntry from './app/app-entry';
 import rootStore from './app/stores';
 
@@ -30,7 +30,7 @@ import {
     LearnMoreLinks,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {appSQLiteDb} from "./app/app-management/data-manager/embeddedDb-manager";
+import { appSQLiteDb } from "./app/app-management/data-manager/embeddedDb-manager";
 import Loader from "./app/shared-components-and-modules/loaders";
 
 declare const global: { HermesInternal: null | {} };
@@ -76,21 +76,18 @@ const App = () => {
             appStore={rootStore.appStores.app}
             authStore={rootStore.authStore}
         >
-            <StatusBar barStyle="dark-content"/>
-            {/* <SafeAreaView> */}
-                <AppEntry/>
-            {/* </SafeAreaView> */}
+            <AppEntry />
         </Provider>
     );
 
     return (
         <>
-            <StatusBar barStyle="dark-content"/>
+            <StatusBar barStyle="dark-content" />
             <SafeAreaView>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
-                    <Header/>
+                    <Header />
                     {global.HermesInternal == null ? null : (
                         <View style={styles.engine}>
                             <Text style={styles.footer}>Engine: Hermes</Text>
@@ -107,13 +104,13 @@ const App = () => {
                         <View style={styles.sectionContainer}>
                             <Text style={styles.sectionTitle}>See Your Changes</Text>
                             <Text style={styles.sectionDescription}>
-                                <ReloadInstructions/>
+                                <ReloadInstructions />
                             </Text>
                         </View>
                         <View style={styles.sectionContainer}>
                             <Text style={styles.sectionTitle}>Debug</Text>
                             <Text style={styles.sectionDescription}>
-                                <DebugInstructions/>
+                                <DebugInstructions />
                             </Text>
                         </View>
                         <View style={styles.sectionContainer}>
@@ -122,7 +119,7 @@ const App = () => {
                                 Read the docs to discover what to do next:
                             </Text>
                         </View>
-                        <LearnMoreLinks/>
+                        <LearnMoreLinks />
                     </View>
                 </ScrollView>
             </SafeAreaView>

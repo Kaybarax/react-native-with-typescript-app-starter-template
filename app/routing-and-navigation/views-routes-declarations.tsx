@@ -27,39 +27,39 @@ export const DEFAULT_VIEW_ROUTE: ViewRoute = {
 
 //and then the other views routes declarations
 export const PAGE1EXAMPLE_VIEW_ROUTE: ViewRoute = {
-    name: 'PAGE1EXAMPLE_VIEW_ROUTE',
+    name: 'Page 1 Example',
     screen: Page1Example
 };
 
 export const PAGE2EXAMPLE_VIEW_ROUTE: ViewRoute = {
-    name: 'PAGE2EXAMPLE_VIEW_ROUTE',
+    name: 'Page 2 Example',
     screen: Page2Example
 };
 
 export const PAGE3EXAMPLE_VIEW_ROUTE: ViewRoute = {
-    name: 'PAGE3EXAMPLE_VIEW_ROUTE',
+    name: 'Page 3 Example',
     screen: Page3Example
 };
 
 export const PAGE4EXAMPLE_VIEW_ROUTE: ViewRoute = {
-    name: 'PAGE4EXAMPLE_VIEW_ROUTE',
+    name: 'Page 4 Example',
     screen: Page4Example
 };
 
 export const PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE: ViewRoute = {
-    name: 'PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE',
+    name: 'Page 4 SubItem Example',
     screen: Page4SubItemExample
 };
 
 //and then finally the 404 route
 export const _404_VIEW: ViewRoute = {
-    name: '_404_VIEW',
+    name: '_404_',
     screen: NotFound
 };
 
 // just added for your mocking of scenarios
 export const APP_DEV_MOCKS_VIEW_ROUTE = {
-    name: 'APP_DEV_MOCKS_VIEW_ROUTE',
+    name: 'App Dev Scratchpad',
     screen: AppDevScratchPad
 };
 

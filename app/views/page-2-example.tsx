@@ -138,7 +138,9 @@ function Page2Example(props) {
                                 encapsulation of bits and pieces.
                                 <Text>{'\n'}</Text><Text>{'\n'}</Text>
 
-                                <strong>Routing and navigation:</strong><Text>{'\n'}</Text>
+                                <Text
+                                    // strong
+                                    >Routing and navigation:</Text><Text>{'\n'}</Text>
                                 Again, React being a view library, well, no router and navigation pattern inherently
                                 included, and&nbsp;
                                 so it's up to the developer to pick and choose what they fancy. So I have picked a

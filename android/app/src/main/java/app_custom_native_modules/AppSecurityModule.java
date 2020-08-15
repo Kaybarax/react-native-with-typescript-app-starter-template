@@ -47,7 +47,7 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
     private final String SUCCESS_CALLBACK = "SUCCESS";
     private final String FAILURE_CALLBACK = "FAILURE";
     private ReactApplicationContext reactContext;
-    private WritableMap responseMap = Arguments.createMap();
+    private WritableMap responseMap;
 
     public AppSecurityModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -57,7 +57,6 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
         this.userHash = null;
         passwordHash = null;
         passwordSalt = null;
-        this.responseMap = Arguments.createMap();
     }
 
     @NonNull
@@ -90,7 +89,9 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
 
             String hash = createHash(this.passwordText);
 
-            //data to emit back
+            this.responseMap = Arguments.createMap();
+
+            //feedback data
             this.responseMap.putString("message", SUCCESS_CALLBACK);
             this.responseMap.putString("passwordHash", passwordHash);
             this.responseMap.putString("passwordSalt", Arrays.toString(passwordSalt));

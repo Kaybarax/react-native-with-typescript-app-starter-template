@@ -20,7 +20,9 @@ import {
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useWindowDimensions } from "react-native";
+import { useWindowDimensions, View, Text } from "react-native";
+import { observer, inject } from "mobx-react";
+import { makeId } from "../util/util";
 
 /**
  * Manifest of all "main activity level" screens _ Kaybarax
@@ -35,7 +37,9 @@ export default function AppWithRouting() {
     const defaultViewTabbedViewsRouteMap = [
         <Tab.Screen
             name={PAGE1EXAMPLE_VIEW_ROUTE.name}
-            component={PAGE1EXAMPLE_VIEW_ROUTE.screen} />,
+            component={PAGE1EXAMPLE_VIEW_ROUTE.screen}
+            key={PAGE1EXAMPLE_VIEW_ROUTE.name}
+        />,
         <Tab.Screen
             name={PAGE2EXAMPLE_VIEW_ROUTE.name}
             component={PAGE2EXAMPLE_VIEW_ROUTE.screen}
@@ -54,7 +58,9 @@ export default function AppWithRouting() {
     ];
 
     const DefaultViewTabbedViewsRouteMap = () => (
-        <Tab.Navigator children={defaultViewTabbedViewsRouteMap} />
+        <Tab.Navigator
+            children={defaultViewTabbedViewsRouteMap}
+        />
     );
 
     function DefaultTabbedViewsWithDrawer() {
@@ -66,22 +72,29 @@ export default function AppWithRouting() {
                 drawerType={dimensions.width >= 768 ? 'permanent' : 'front'}
             >
                 <DefaultTabbedViewsDrawer.Screen
-                    name={'DefaultViewTabbedViewsRouteMap'}
-                    component={DefaultViewTabbedViewsRouteMap} />
+                    name={'RNAST Home'}
+                    component={DefaultViewTabbedViewsRouteMap}
+                    key={makeId(8)}
+                />
                 <DefaultTabbedViewsDrawer.Screen
-                    name={'app_dev_mocks'}
-                    component={DefaultViewTabbedViewsRouteMap} />
+                    name={APP_DEV_MOCKS_VIEW_ROUTE.name}
+                    component={AppDevMocksWithRouting}
+                    key={makeId(8)}
+                />
                 <DefaultTabbedViewsDrawer.Screen
-                    name={'my_recipe_sub_app'}
-                    component={DefaultViewTabbedViewsRouteMap} />
+                    name={'My Recipe Subapp'}
+                    component={DefaultViewTabbedViewsRouteMap}
+                    key={makeId(8)}
+                />
             </DefaultTabbedViewsDrawer.Navigator>
         );
     }
 
     const appStackRouteMap = [
         <AppStack.Screen
-            name={'DefaultViewTabbedViewsRouteMap'}
+            name={'RNAST Homes'}
             component={DefaultTabbedViewsWithDrawer}
+            key={makeId(8)}
         />,
         <AppStack.Screen
             name={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name}
@@ -95,8 +108,22 @@ export default function AppWithRouting() {
         />,
     ];
 
+    //uncomment to run dev mocks only
+    // return <AppDevMocksWithRouting/>;
+
     return (
-        <AppStack.Navigator>
+        <AppStack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}
+            headerMode={'screen'}
+        >
             {appStackRouteMap}
         </AppStack.Navigator>
     );
@@ -109,6 +136,7 @@ export function RecipeAppWithRouting() {
 export function AppDevMocksWithRouting() {
 
     const Stack = createStackNavigator();
+    const AppDevMocks = (inject('authStore', 'appStore')(observer(APP_DEV_MOCKS_VIEW_ROUTE.screen)));
 
     return (
         <Stack.Navigator
@@ -119,7 +147,7 @@ export function AppDevMocksWithRouting() {
         >
             <Stack.Screen
                 name={APP_DEV_MOCKS_VIEW_ROUTE.name}
-                component={APP_DEV_MOCKS_VIEW_ROUTE.screen}
+                component={AppDevMocks}
                 key={APP_DEV_MOCKS_VIEW_ROUTE.name}
             />
         </Stack.Navigator>

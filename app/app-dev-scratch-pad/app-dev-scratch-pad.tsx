@@ -20,11 +20,13 @@ import {
 import className from "../util/react-native-based-utils";
 import { BlankSpaceDivider } from "../shared-components-and-modules/shared-components";
 import { createPasswordHash } from '../android-custom-native-modules/app-security-custom-native-module';
+import { makeId } from '../util/util';
 // import { UserCredentials } from '../app-management/data-manager/models-manager';
 
 export default class AppDevScratchPad extends Component {
 
     render() {
+        console.log('Comp props: ', this.props);
         return (
             <SafeComponentWrapper>
                 <RN.ScrollView
@@ -155,8 +157,10 @@ export default class AppDevScratchPad extends Component {
                                     // ]}
                                     onPress={_ => {
 
-                                        console.log('Call password hash native module');
-                                        let yieldedUserCredentials = createPasswordHash('signUpModel', null, null);
+                                        let password = makeId(8);
+
+                                        console.log('Call password hash for: ', password);
+                                        let yieldedUserCredentials = createPasswordHash(password, null, null);
                                         let value = yieldedUserCredentials.next().value;
                                         // let { password_hash, salt }: UserCredentials = yieldedUserCredentials.next().value;
                                         console.log('yieldedUserCredentials: ', value);
