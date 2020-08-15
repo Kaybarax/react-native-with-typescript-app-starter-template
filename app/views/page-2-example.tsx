@@ -11,22 +11,23 @@ import React from "react";
 import {inject, observer} from "mobx-react";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Button, Text} from "react-native";
-import className, {
+import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../theme/app-style-classnames";
+} from "../theme/app-layout-styles-classnames";
+import className from "../util/react-native-based-utils";
 
 function Page2Example(props) {
 
     const {
-        routerStore
+        navigation
     } = props;
 
     const _continueToPage3 = () => {
-        appNavigation.navigateToPage3Example(routerStore, null);
+        appNavigation.navigateToPage3Example(navigation, null);
     };
 
     return (
@@ -186,4 +187,4 @@ function Page2Example(props) {
 
 }
 
-export default (inject('authStore', 'appStore', 'routerStore')(observer(Page2Example)));
+export default (inject('authStore', 'appStore')(observer(Page2Example)));

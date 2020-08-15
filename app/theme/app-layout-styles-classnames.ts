@@ -7,14 +7,6 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-/**
- * sd _ Kaybarax
- * @param classNames
- */
-export default function className(...classNames) {
-  return [...classNames];
-}
-
 //this one for aid during dev to see your content borders
 export const AllViewsCN = {
   borderStyle: 'solid',

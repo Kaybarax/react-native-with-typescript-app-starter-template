@@ -21,3 +21,11 @@ export function enforceReactNaturalStateUpdateBehavior(self) {
     self.state = {updated: false};
   self.setState({updated: true});
 }
+
+/**
+ * sd _ Kaybarax
+ * @param classNames
+ */
+export default function className(...classNames) {
+    return [...classNames];
+}

@@ -13,14 +13,16 @@ import {isEmptyString} from "../../util/util";
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../../App";
-import className, {
+import {
     AlignCenterContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../../theme/app-style-classnames";
+} from "../../theme/app-layout-styles-classnames";
 import {handleSignUp} from "../../controllers/login-controller";
+import className from "../../util/react-native-based-utils";
+import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
 
 export default function SignUpForm(props) {
 
@@ -129,10 +131,12 @@ export default function SignUpForm(props) {
                         borderRadius: 8
                     }
                 ]}
-                onPress={_ => {
+                onPress={async _ => {
                     if (!isValidFormData()) {
                         return;
                     }
+                    signUpModel.user.status_ref_key_key = "STATUS";
+                    signUpModel.user.status_ref_key_value = "ACT";
                     handleSignUp(signUpModel, appStore, toastNotificationAlert);
                     //ready for next user
                     //some time to allow the alert to display
@@ -143,17 +147,13 @@ export default function SignUpForm(props) {
                     style={[
                         ...className(AllViewsCN,
                             FlexContainerChildItemFullWidthCN,
-                            AlignCenterContentCN),
-                        {
-                            fontSize: 24,
-                            color: 'lavenderblush',
-                            fontWeight: 'bold'
-                        }
+                            AlignCenterContentCN,
+                            RegistrationButtonTextCN),
                     ]}
                 >Sign Up</Text>
             </TouchableOpacity>
             <View style={{height: 10}}/>
-            <Text>Your sign up data is stored locally in your Async Storage</Text>
+            <Text>Your sign up data is stored locally in your SQLite Storage</Text>
         </ScrollView>
     );
 }

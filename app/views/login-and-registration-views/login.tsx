@@ -9,7 +9,7 @@
 
 import React from 'react';
 import {inject, observer} from "mobx-react";
-import {isNullUndefined, isTrue} from "../../util/util";
+import {isNullUndefined, isTrue, makeId} from "../../util/util";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import LoginForm from "./login-form";
@@ -19,14 +19,15 @@ import {LOGIN_PAGE_ACTIONS} from "../../stores/stores-data-store";
 import {User} from "../../app-management/data-manager/models-manager";
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Loader from "../../shared-components-and-modules/loaders";
-import className, {
+import {
     AlignCenterContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemOneHalfWidthCN,
     FlexFluidRowContainerCN
-} from "../../theme/app-style-classnames";
+} from "../../theme/app-layout-styles-classnames";
+import className from "../../util/react-native-based-utils";
 
 function Login(props) {
 
@@ -45,7 +46,8 @@ function Login(props) {
     };
 
     const showSignUpForm = () => {
-        login.signUpForm.user = new User();
+        let user: User = {id: makeId(32)};
+        login.signUpForm.user = user;
         login.pageAction = LOGIN_PAGE_ACTIONS.SIGN_UP;
     };
 

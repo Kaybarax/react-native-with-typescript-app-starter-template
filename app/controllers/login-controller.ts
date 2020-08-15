@@ -7,11 +7,13 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {toastNotificationCallback} from "../shared-components-and-modules/notification-center/notifications-controller";
-import {deepCloneObject, isNullUndefined} from "../util/util";
-import {toJS} from "mobx";
-import {APP_SQLITE_DATABASE, DB_REFERENCE} from "../app-management/data-manager/declarations";
-import {appSQLiteDb} from "../app-management/data-manager/embeddedDb-manager";
+import {toastNotificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
+import {toJS} from 'mobx';
+import {APP_SQLITE_DATABASE} from '../app-management/data-manager/declarations';
+import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
+import {User, UserCredentials} from '../app-management/data-manager/models-manager';
+import {createPasswordHash} from '../abdroid-custom-native-modules/app-security-custom-native-module';
+import {isEmptyString, isNullUndefined} from "../util/util";
 
 /**
  * sd _ Kaybarax
@@ -21,34 +23,60 @@ import {appSQLiteDb} from "../app-management/data-manager/embeddedDb-manager";
  */
 export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
 
-    toastNotificationCallback(
-        'info',
-        'Signup Functionality upcoming',
-        toastNotificationAlert,
-    );
+    let userSaved;
+    let userCredentialsSaved = false;
 
-    // //save to sqlitedb if you fancy
+    //save to sqlitedb
 
-    // Start a database transaction and get the notes object store
-    // let tx = db.transaction;
-    // let store = tx.objectStore(APP_SQLITE_DATABASE.USERS);
-    // // Put the data into the db
-    // let user = toJS(signUpModel.user);
-    // let userId = user.id;
-    //then strip id away
-    // delete user.id;
-    // @ts-ignore
-    // let DML_Statements = appSQLiteDb.DML_Statements;
-    // DML_Statements.addUserStmt(DB_REFERENCE.db,user);
-    // store.add(user, userId);
-    // // Wait for the database transaction to complete
-    // tx.oncomplete = function () {
-    //   toastNotificationCallback('succ', 'Sign up success', toastNotificationAlert)
-    // }
-    // tx.onerror = function (event) {
-    //   console.log('error storing note ' + event.target.errorCode);
-    //   toastNotificationCallback('err', 'Sign up failed!', toastNotificationAlert);
-    // }
+    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
+
+    // Put the data into the db
+    let user: User = toJS(signUpModel.user);
+
+    // get user password salt and hash
+    let userCredentials: UserCredentials = {
+        username: user.id,
+        salt: undefined
+    };
+
+    try {
+        let yieldedUserCredentials = createPasswordHash(signUpModel.password, userCredentials, toastNotificationAlert);
+        let {password_hash, salt}: UserCredentials = yieldedUserCredentials.next().value;
+        if (isEmptyString(password_hash) || isNullUndefined(salt)) {
+            toastNotificationCallback(
+                'err',
+                'Sign up failed',
+                toastNotificationAlert,
+            );
+            return;
+        }
+
+        //put user in db
+        userSaved = appSQLiteDb.addUserStmt(db, user);
+        // userSaved = true;
+        //put user credentials in db
+        appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
+        userCredentialsSaved = true;
+
+        toastNotificationCallback(
+            'succ',
+            'User signed up',
+            toastNotificationAlert,
+        );
+
+    } catch (err) {
+
+        if (!userSaved) {
+            //todo: rollback
+        }
+
+        toastNotificationCallback(
+            'err',
+            'User sign up failed',
+            toastNotificationAlert,
+        );
+        return;
+    }
 
 }
 

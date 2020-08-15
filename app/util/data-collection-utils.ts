@@ -5,7 +5,7 @@
 
 import React from "react";
 import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, objectKeyExists,} from './util';
-import {enforceReactNaturalStateUpdateBehavior} from "./react-based-utils";
+import {enforceReactNaturalStateUpdateBehavior} from "./react-native-based-utils";
 
 //TEXT-INPUTS
 /**

@@ -30,6 +30,8 @@ import {
     LearnMoreLinks,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {appSQLiteDb} from "./app/app-management/data-manager/embeddedDb-manager";
+import Loader from "./app/shared-components-and-modules/loaders";
 
 declare const global: { HermesInternal: null | {} };
 
@@ -45,12 +47,34 @@ const App = () => {
     //hide all react warnings in production
     // console.warn = console.error = console.log = function (message) {};
 
+    let [dbLoaded, loadDb] = React.useState(appSQLiteDb.dbLoadedAndInitialized);
+
+    React.useEffect(() => {
+        //init embedded app db
+        appSQLiteDb.loadAndInitDB();
+        // while (!appSQLiteDb.dbLoadedAndInitialized) {
+        //     if (appSQLiteDb.dbLoadedAndInitialized) {
+        //         loadDb(true);
+        //     }
+        // }
+        if (appSQLiteDb.dbLoadedAndInitialized) {
+            loadDb(true);
+        }
+    });
+
+    if (!dbLoaded) {
+        return (
+            <React.Fragment>
+                <Loader message={appSQLiteDb.latestProgressUpdate}/>
+            </React.Fragment>
+        )
+    }
+
     return (
         <Provider
             appStores={rootStore.appStores}
             appStore={rootStore.appStores.app}
             authStore={rootStore.authStore}
-            routerStore={rootStore.routerStore}
         >
             <StatusBar barStyle="dark-content"/>
             <SafeAreaView>

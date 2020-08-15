@@ -13,22 +13,23 @@ import {isEmptyArray} from "../util/util";
 import {SOs_and_Credits_List} from "../app-management/data-manager/list-manager";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Image, Text, View} from "react-native";
-import className, {
+import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../theme/app-style-classnames";
+} from "../theme/app-layout-styles-classnames";
+import className from "../util/react-native-based-utils";
 
 function Page4Example(props) {
 
     const {
-        routerStore
+        navigation
     } = props;
 
     const _viewAttributedPersonDetails = (person) => {
-        appNavigation.navigateToPage4SubItemExample(routerStore, {item: person})
+        appNavigation.navigateToPage4SubItemExample(navigation, {item: person})
     };
 
     return (
@@ -218,4 +219,4 @@ function Page4Example(props) {
 
 }
 
-export default (inject('authStore', 'appStore', 'routerStore')(observer(Page4Example)));
+export default (inject('authStore', 'appStore')(observer(Page4Example)));

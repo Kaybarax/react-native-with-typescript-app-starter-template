@@ -1,14 +1,17 @@
-package com.reactnativetsappstartertemplate;
+package test;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.soloader.SoLoader;
+import com.reactnativetsappstartertemplate.BuildConfig;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.List;
 import app_custom_native_modules.AppIntentsPackage;
 import app_custom_native_modules.AppSecurityPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+public class TestApplication extends Application implements ReactApplication {
 
     private final ReactNativeHost mReactNativeHost =
             new ReactNativeHost(this) {
@@ -25,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
                     return BuildConfig.DEBUG;
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 protected List<ReactPackage> getPackages() {
                     @SuppressWarnings("UnnecessaryLocalVariable")
@@ -33,6 +37,10 @@ public class MainApplication extends Application implements ReactApplication {
                     // packages.add(new MyReactNativePackage());
                     packages.add(new AppSecurityPackage());
                     packages.add(new AppIntentsPackage());
+
+//                    packages.removeIf(pkg -> pkg.getClass().isInstance(BugsnagReactNative.getPackage().getClass()));
+
+
                     return packages;
                 }
 
@@ -47,11 +55,12 @@ public class MainApplication extends Application implements ReactApplication {
         return mReactNativeHost;
     }
 
+    // Remove soloader !
     @Override
     public void onCreate() {
         super.onCreate();
-        SoLoader.init(this, /* native exopackage */ false);
-        initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+//        SoLoader.init(this, /* native exopackage */ false);
+//        initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     }
 
     /**
@@ -84,4 +93,5 @@ public class MainApplication extends Application implements ReactApplication {
             }
         }
     }
+
 }

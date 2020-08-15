@@ -15,7 +15,7 @@ import Page3Example from "../views/page-3-example";
 import Page4Example from "../views/page-4-example";
 import Page4SubItemExample from "../views/page-4-sub-item-example";
 import NotFound from "../views/not-found";
-// import AppDevScratchPad from "../../app-dev-scratch-pad/app-dev-scratch-pad";
+import AppDevScratchPad from "../app-dev-scratch-pad/app-dev-scratch-pad";
 import {ViewRoute} from "./routing-and-navigation-utils";
 
 ////declare the application views for routing
@@ -57,24 +57,23 @@ export const _404_VIEW: ViewRoute = {
     screen: NotFound
 };
 
-//just added for your mocking of scenarios
-// export const APP_DEV_MOCKS_VIEW_ROUTE = {
-// name: 'APP_DEV_MOCKS_VIEW_ROUTE',
-//     screen: AppDevScratchPad
-// };
+// just added for your mocking of scenarios
+export const APP_DEV_MOCKS_VIEW_ROUTE = {
+    name: 'APP_DEV_MOCKS_VIEW_ROUTE',
+    screen: AppDevScratchPad
+};
 
 
 /**
  * sd _ Kaybarax
  * @param fromState
  * @param toState
- * @param routerStore
  * @returns {Promise}
  */
-// const onAccessSecuredActivityCheckIfAuthenticated = async (fromState, toState, routerStore) => {
+// const onAccessSecuredActivityCheckIfAuthenticated = async (fromState, toState, rootStore) => {
 //   const {
-//     rootStore: {authStore},
-//   } = routerStore;
+//     authStore
+//   } = rootStore;
 //
 //   let isAuthenticated = await authStore
 //       .isAuthenticated()
@@ -99,10 +98,10 @@ export const _404_VIEW: ViewRoute = {
  * @returns {*}
  * by kevinbbarasa
  */
-// const redirectIfLoggedIn = async (fromState, toState, routerStore) => {
+// const redirectIfLoggedIn = async (fromState, toState, rootStore) => {
 //   const {
-//     rootStore: {authStore},
-//   } = routerStore;
+//     authStore
+//   } = rootStore;
 //
 //   let isAuthenticated = await authStore
 //       .isAuthenticated()

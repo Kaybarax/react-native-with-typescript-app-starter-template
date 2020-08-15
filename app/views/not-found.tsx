@@ -10,12 +10,13 @@
 import React, {Component} from 'react';
 import SafeComponentWrapper from '../safe-component-wrapper';
 import {Button, Image, ScrollView, Text, View} from "react-native";
-import className, {
+import {
     AlignCenterContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../theme/app-style-classnames";
+} from "../theme/app-layout-styles-classnames";
+import className from "../util/react-native-based-utils";
 
 export default class NotFound extends Component {
 

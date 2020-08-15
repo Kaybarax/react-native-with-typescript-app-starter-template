@@ -15,21 +15,22 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faCoffee} from '@fortawesome/free-solid-svg-icons'
 import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Image, Text} from "react-native";
-import className, {
+import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../theme/app-style-classnames";
+} from "../theme/app-layout-styles-classnames";
+import className from "../util/react-native-based-utils";
 
 function Page4SubItemExample(props) {
 
     const {
-        routerStore
+        params
     } = props;
 
-    let {item} = routerStore.routerState.params;
+    let {item} = params;
     let person = SOs_and_Credits_List.find(it => it.person === item);
 
     if (isNullUndefined(person)) {
@@ -76,7 +77,7 @@ function Page4SubItemExample(props) {
                                     ...className(FlexContainerChildItemFullWidthCN)
                                 ]}
                                 onPress={_ => {
-                                    // appNavigation.navigateToPage4Example(routerStore, null);
+                                    // appNavigation.navigateToPage4Example(navigation, null);
                                 }}
                             >
                                 <Text
@@ -237,7 +238,7 @@ function Page4SubItemExample(props) {
                         ...className(FlexContainerChildItemFullWidthCN)
                     ]}
                     onPress={_ => {
-                        // appNavigation.navigateToPage4Example(routerStore, null);
+                        // appNavigation.navigateToPage4Example(navigation, null);
                     }}
                 >
                     <Text
@@ -261,4 +262,4 @@ function Page4SubItemExample(props) {
 
 }
 
-export default (inject('authStore', 'appStore', 'routerStore')(observer(Page4SubItemExample)));
+export default (inject('authStore', 'appStore')(observer(Page4SubItemExample)));

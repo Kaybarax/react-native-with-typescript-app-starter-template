@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -46,6 +47,8 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
     private final String SUCCESS_CALLBACK = "SUCCESS";
     private final String FAILURE_CALLBACK = "FAILURE";
     private ReactApplicationContext reactContext;
+    private final WritableMap response = Arguments.createMap();
+    private final HashMap<String, Object> responseMap = new HashMap<>();
 
     public AppSecurityModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -93,8 +96,18 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
             params.putString("passwordHash", passwordHash);
             params.putString("passwordSalt", Arrays.toString(passwordSalt));
 
-            this.callback.invoke(SUCCESS_CALLBACK);
-            Util.emitPasswordHashResult(this.reactContext, params);
+            response.putString("message", SUCCESS_CALLBACK);
+            response.putString("passwordHash", passwordHash);
+
+            response.putString("message", SUCCESS_CALLBACK);
+            response.putString("passwordHash", passwordHash);
+            this.responseMap.put("message", SUCCESS_CALLBACK);
+            this.responseMap.put("message", SUCCESS_CALLBACK);
+
+            //respond
+            this.callback.invoke(this.responseMap);
+//            this.callback.invoke(SUCCESS_CALLBACK);
+//            Util.emitPasswordHashResult(this.reactContext, params);
 
         } catch (NoSuchAlgorithmException e) {
 

@@ -13,14 +13,16 @@ import {isEmptyString} from "../../util/util";
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../../App";
-import className, {
+import {
     AlignCenterContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
-} from "../../theme/app-style-classnames";
+} from "../../theme/app-layout-styles-classnames";
 import {handleLogin} from "../../controllers/login-controller";
+import className from "../../util/react-native-based-utils";
+import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
 
 export default function LoginForm(props) {
 
@@ -96,14 +98,10 @@ export default function LoginForm(props) {
             >
                 <Text
                     style={[
-                        {
-                            fontSize: 24,
-                            color: 'lavenderblush',
-                            fontWeight: 'bold'
-                        },
                         ...className(AllViewsCN,
                             FlexContainerChildItemFullWidthCN,
-                            AlignCenterContentCN)
+                            AlignCenterContentCN,
+                            RegistrationButtonTextCN)
                     ]}
                 >
                     Login

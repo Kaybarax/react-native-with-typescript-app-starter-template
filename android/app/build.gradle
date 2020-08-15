@@ -185,10 +185,30 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+
+    //for testing libraries
+
+    //junit
+    // https://mvnrepository.com/artifact/com.uphyca/android-junit4
+//    implementation group: 'com.uphyca', name: 'android-junit4', version: '0.5'
+
+     implementation 'junit:junit:4.12'
+
+    //roboelectric
+    testImplementation 'org.robolectric:robolectric:4.3'
+
+    //mockito
+    // https://mvnrepository.com/artifact/solar.blaz.android.test/android-mockito-runner
+    // compile group: 'solar.blaz.android.test', name: 'android-mockito-runner', version: '1.0'
+
+    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
+    testImplementation (group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.7')
+
+    //end for testing libraries inclusion
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

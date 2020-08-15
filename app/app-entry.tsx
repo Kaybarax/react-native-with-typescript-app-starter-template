@@ -14,9 +14,6 @@ import AppWithRouting from "./routing-and-navigation/routes";
 
 function AppEntry() {
 
-    //init app indexed db
-    // appIndexedDb();
-
     return (
         <NavigationContainer>
             <AppWithRouting/>
