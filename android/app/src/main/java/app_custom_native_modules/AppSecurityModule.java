@@ -90,24 +90,22 @@ public class AppSecurityModule extends ReactContextBaseJavaModule {
 
             String hash = createHash(this.passwordText);
 
-            //and then prepare result to emit feedback
-            WritableMap params = Arguments.createMap();
             //data to emit back
-            params.putString("passwordHash", passwordHash);
-            params.putString("passwordSalt", Arrays.toString(passwordSalt));
-
             response.putString("message", SUCCESS_CALLBACK);
             response.putString("passwordHash", passwordHash);
+            response.putString("passwordSalt", Arrays.toString(passwordSalt));
 
-            response.putString("message", SUCCESS_CALLBACK);
-            response.putString("passwordHash", passwordHash);
+            HashMap<String, Object> dataHashMap = new HashMap<>();
+
             this.responseMap.put("message", SUCCESS_CALLBACK);
-            this.responseMap.put("message", SUCCESS_CALLBACK);
+            dataHashMap.put("passwordHash", passwordHash);
+            dataHashMap.put("passwordSalt", passwordSalt);
+            this.responseMap.put("data", dataHashMap);
 
             //respond
             this.callback.invoke(this.responseMap);
 //            this.callback.invoke(SUCCESS_CALLBACK);
-//            Util.emitPasswordHashResult(this.reactContext, params);
+            Util.emitPasswordHashResult(this.reactContext, response);
 
         } catch (NoSuchAlgorithmException e) {
 
