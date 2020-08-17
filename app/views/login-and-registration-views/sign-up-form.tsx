@@ -153,7 +153,7 @@ export default function SignUpForm(props) {
                 >Sign Up</Text>
             </TouchableOpacity>
             <View style={{height: 10}}/>
-            <Text>Your sign up data is stored locally in your SQLite Storage</Text>
+            <Text>Your sign up data is stored locally in SQLite Storage</Text>
         </ScrollView>
     );
 }

@@ -8,25 +8,28 @@
  */
 
 import React from "react";
-import {textValueChanged} from "../../util/data-collection-utils";
-import {isEmptyString} from "../../util/util";
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import { textValueChanged } from "../../util/data-collection-utils";
+import { isEmptyString } from "../../util/util";
+import RN, { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
-import {SCREEN_HEIGHT} from "../../../App";
+import { SCREEN_HEIGHT } from "../../../App";
 import {
     AlignCenterContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
-    FlexFluidRowContainerCN
+    FlexFluidRowContainerCN,
+    AlignLeftFlexContainerContentCN,
+    AlignRightFlexContainerContentCN
 } from "../../theme/app-layout-styles-classnames";
-import {handleLogin} from "../../controllers/login-controller";
+import { handleLogin } from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
-import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
+import { RegistrationButtonTextCN, UnderlinedTextCN } from "../../theme/app-text-styles-classnames";
+import { BlankSpaceDivider } from "../../shared-components-and-modules/shared-components";
 
 export default function LoginForm(props) {
 
-    let {loginModel, toastNotificationAlert, appStore, authStore, navigation} = props;
+    let { loginModel, toastNotificationAlert, appStore, authStore, navigation } = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
 
@@ -59,25 +62,25 @@ export default function LoginForm(props) {
         >
             {
                 submit_pressed && isEmptyString(loginModel.username_or_email) &&
-                <Text style={{color: 'red'}}> * This field is required.</Text>
+                <Text style={{ color: 'red' }}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <AppTextInput
                 label="Username/Email"
                 onTextChange={text => textValueChanged(loginModel, text, 'username_or_email', null)}
             />
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             {
                 submit_pressed && isEmptyString(loginModel.password) &&
-                <Text style={{color: 'red'}}> * This field is required.</Text>
+                <Text style={{ color: 'red' }}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <AppTextInput
                 label="Password"
                 onTextChange={text => textValueChanged(loginModel, text, 'password', null)}
                 secureTextEntry={true}
             />
-            <View style={{height: 20}}/>
+            <BlankSpaceDivider/>
             <TouchableOpacity
                 style={[
                     ...className(AllViewsCN,
@@ -107,6 +110,41 @@ export default function LoginForm(props) {
                     Login
                 </Text>
             </TouchableOpacity>
+            <BlankSpaceDivider height={25}/>
+            <TouchableOpacity
+                style={[
+                    ...className(
+                        AllViewsCN,
+                        FlexContainerChildItemFullWidthCN
+                    ),
+                ]}
+                onPress={_ => {
+                    //todo: will be done
+                }}
+            >
+                <Text
+                    style={[
+                        ...className(AllViewsCN,
+                            AlignRightFlexContainerContentCN),
+                        {
+                            fontSize: 18,
+                            padding: 5
+                        }
+                    ]}
+                >
+                    <RN.Text
+                            style={[
+                                {
+                                    color: 'teal'
+                                },
+                                UnderlinedTextCN
+                            ]}
+                        >
+                            Forgot password?&nbsp;
+                        </RN.Text>
+                </Text>
+            </TouchableOpacity>
+
         </ScrollView>
     )
 }

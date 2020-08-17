@@ -4,3 +4,7 @@ export const RegistrationButtonTextCN = {
     color: 'lavenderblush',
     fontWeight: 'bold'
 }
+
+export const UnderlinedTextCN = {
+    textDecorationLine: 'underline'
+}

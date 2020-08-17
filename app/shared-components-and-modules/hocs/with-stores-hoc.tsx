@@ -8,14 +8,17 @@
  */
 
 import React from "react";
+import {inject, observer} from "mobx-react";
 
-const withStoresHoc = props => (Wrapped) => {
+const WithStoresHoc = (Wrapped, stores: Array<string>) => {
+
+    let WithStores = (inject(...stores)(observer(Wrapped)));
 
     return (
         <React.Fragment>
-            <Wrapped {...props}/>
+            <WithStores/>
         </React.Fragment>
     );
 }
 
-export default withStoresHoc;
+export default WithStoresHoc;

@@ -15,7 +15,8 @@ import {
     PAGE3EXAMPLE_VIEW_ROUTE,
     PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
     PAGE4EXAMPLE_VIEW_ROUTE,
-    APP_DEV_MOCKS_VIEW_ROUTE
+    APP_DEV_MOCKS_VIEW_ROUTE,
+    MY_RECIPE_LOGIN_VIEW_ROUTE
 } from "./views-routes-declarations";
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -83,7 +84,7 @@ export default function AppWithRouting() {
                 />
                 <DefaultTabbedViewsDrawer.Screen
                     name={'My Recipe Subapp'}
-                    component={DefaultViewTabbedViewsRouteMap}
+                    component={MyRecipeAppWithRouting}
                     key={makeId(8)}
                 />
             </DefaultTabbedViewsDrawer.Navigator>
@@ -130,7 +131,21 @@ export default function AppWithRouting() {
 
 }
 
-export function RecipeAppWithRouting() {
+export function MyRecipeAppWithRouting() {
+
+    const AppStack = createStackNavigator();
+
+    const appStackRouteMap = [
+        <AppStack.Screen
+            name={MY_RECIPE_LOGIN_VIEW_ROUTE.name}
+            component={MY_RECIPE_LOGIN_VIEW_ROUTE.screen}
+         />
+    ];
+
+    return (
+        <AppStack.Navigator children={appStackRouteMap}/>
+    );
+
 }
 
 export function AppDevMocksWithRouting() {

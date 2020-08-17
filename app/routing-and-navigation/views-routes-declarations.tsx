@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import Login from "../views/login-and-registration-views/login";
+import Login from "../views/my-recipes-sub-app-views/login";
 import Page1Example from "../views/page-1-example";
 import Page2Example from "../views/page-2-example";
 import Page3Example from "../views/page-3-example";
@@ -17,6 +17,7 @@ import Page4SubItemExample from "../views/page-4-sub-item-example";
 import NotFound from "../views/not-found";
 import AppDevScratchPad from "../app-dev-scratch-pad/app-dev-scratch-pad";
 import {ViewRoute} from "./routing-and-navigation-utils";
+import LoginActivity from '../views/my-recipes-sub-app-views/login';
 
 ////declare the application views for routing
 //the default view on app bootstrap
@@ -61,6 +62,12 @@ export const _404_VIEW: ViewRoute = {
 export const APP_DEV_MOCKS_VIEW_ROUTE = {
     name: 'App Dev Scratchpad',
     screen: AppDevScratchPad
+};
+
+
+export const MY_RECIPE_LOGIN_VIEW_ROUTE: ViewRoute = {
+    name: 'MY RECIPE LOGIN ',
+    screen: LoginActivity
 };
 
 

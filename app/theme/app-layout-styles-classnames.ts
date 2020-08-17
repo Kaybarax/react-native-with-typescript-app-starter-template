@@ -9,9 +9,9 @@
 
 //this one for aid during dev to see your content borders
 export const AllViewsCN = {
-  borderStyle: 'solid',
-  borderWidth: 1,
-  borderColor: '#152939',
+  // borderStyle: 'solid',
+  // borderWidth: 1,
+  // borderColor: '#152939',
 };
 
 //containers
