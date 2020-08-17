@@ -9,7 +9,7 @@
 
 import React, {Component} from 'react';
 import SafeComponentWrapper from '../safe-component-wrapper';
-import {Button, Image, ScrollView, Text, View} from "react-native";
+import RN, {Button, Image, ScrollView, Text, View} from "react-native";
 import {
     AlignCenterContentCN,
     FlexColumnContainerCN,
@@ -24,6 +24,7 @@ export default class NotFound extends Component {
         return (
             <SafeComponentWrapper>
                 <ScrollView
+                    contentInsetAdjustmentBehavior={"automatic"}
                     style={[
                         ...className(FlexColumnContainerCN),
                     ]}

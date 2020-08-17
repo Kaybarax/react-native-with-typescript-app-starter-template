@@ -32,6 +32,7 @@ function Page2Example(props) {
 
     return (
         <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 ...className(FlexColumnContainerCN)
             ]}
@@ -175,7 +176,7 @@ function Page2Example(props) {
 
                                 <Button
                                     title={'Continue to Page 3 Example...'}
-                                    // href={PAGE3EXAMPLE_VIEW_ROUTE.routeName}
+                                    // href={PAGE3EXAMPLE_SCREEN_ROUTE.routeName}
                                     onPress={_ => _continueToPage3()}
                                 />
                             </Text>

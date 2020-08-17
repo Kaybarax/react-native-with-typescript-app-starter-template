@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import {inject, observer} from "mobx-react";
 import {isNullUndefined, isTrue, makeId} from "../../util/util";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
@@ -28,6 +27,7 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from '../../theme/app-text-styles-classnames';
+import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 
 function Login(props) {
 
@@ -88,6 +88,7 @@ function Login(props) {
         >
 
             <ScrollView
+                contentInsetAdjustmentBehavior={"automatic"}
                 style={[
                     ...className(AllViewsCN,
                         FlexColumnContainerCN),
@@ -294,5 +295,6 @@ function Login(props) {
 
 }
 
-const LoginActivity = (inject('authStore', 'appStores')(observer(Login)));
+const LoginActivity = WithStoresHoc(Login,
+    ['authStore', 'appStores']);
 export default LoginActivity;

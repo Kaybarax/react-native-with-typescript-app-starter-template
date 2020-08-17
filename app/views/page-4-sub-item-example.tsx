@@ -36,6 +36,7 @@ function Page4SubItemExample(props) {
     if (isNullUndefined(person)) {
         return (
             <RN.ScrollView
+                contentInsetAdjustmentBehavior={"automatic"}
                 style={[
                     ...className(FlexColumnContainerCN)
                 ]}
@@ -99,6 +100,7 @@ function Page4SubItemExample(props) {
 
     return (
         <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 ...className(FlexColumnContainerCN)
             ]}

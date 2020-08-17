@@ -34,6 +34,7 @@ function Page1Example(props) {
 
     return (
         <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 ...className(FlexColumnContainerCN)
             ]}
@@ -99,7 +100,7 @@ function Page1Example(props) {
                                 "<Text>React Js SPA Web App with Login Starter Template Framework Design</Text>"&nbsp;
                                 has got you covered.<Text>{'\n'}</Text><Text>{'\n'}</Text>
                                 <Text
-                                    // href={PAGE2EXAMPLE_VIEW_ROUTE.name}
+                                    // href={PAGE2EXAMPLE_SCREEN_ROUTE.name}
                                     // onPress={_ => {
                                     //     _continueToPage2()
                                     // }}

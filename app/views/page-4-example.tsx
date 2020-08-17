@@ -34,6 +34,7 @@ function Page4Example(props) {
 
     return (
         <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 ...className(FlexColumnContainerCN)
             ]}

@@ -4,7 +4,7 @@
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
  * Github @_ https://github.com/Kaybarax
- * LinkedIAPP_DEV_MOCKS_VIEW_ROUTEn @_ https://linkedin.com/in/kaybarax
+ * LinkedIAPP_DEV_MOCKS_SCREEN_ROUTEn @_ https://linkedin.com/in/kaybarax
  */
 
 import {NativeModules} from 'react-native';

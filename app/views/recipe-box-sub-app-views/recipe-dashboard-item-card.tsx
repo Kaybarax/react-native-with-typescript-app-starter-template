@@ -22,7 +22,9 @@ export default function RecipeDashboardItemCard(props) {
     let {toastNotificationAlert} = props;
 
     return (
-        <RN.ScrollView>
+        <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
+        >
             <RN.View
                 // class="mx-auto"
                 // max-width="300"

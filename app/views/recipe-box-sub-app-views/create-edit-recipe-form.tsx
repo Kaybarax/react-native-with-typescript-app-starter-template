@@ -27,7 +27,9 @@ export function CreateEditRecipeForm(props) {
     let {toastNotificationAlert} = recipeBoxStore;
 
     return (
-        <RN.ScrollView>
+        <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
+        >
 
             <RN.View>
 

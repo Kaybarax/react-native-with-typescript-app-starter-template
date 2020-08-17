@@ -119,7 +119,7 @@ function Page3Example(props) {
                                 >
                                     localStorage
                                 </Text>
-                                ,&nbsp;Web Storage, but you can upgrade to&nbsp; 
+                                ,&nbsp;Web Storage, but you can upgrade to&nbsp;
                                 <Text
                                 // i
                                 >
@@ -134,9 +134,9 @@ function Page3Example(props) {
                                 <Text>{'\n'}</Text>
                                 Keeping with the beloved, extremely, philosophically, and amazingly powerful MobX, my
                                 routing and&nbsp;
-                                navigation logic and design, is wrapped around 
-                                <Text 
-                                // i 
+                                navigation logic and design, is wrapped around
+                                <Text
+                                // i
                                 >MobX State Router</Text> created by&nbsp;
                                 <Text
                                 // href={'https://twitter.com/NareshJBhatia'} target={'_blank'}
@@ -168,7 +168,7 @@ function Page3Example(props) {
                                 Rendered&nbsp;
                                 (SSR) while this is an all frontend side, single package packaged
                                 SPA.<Text>{'\n'}</Text>
-                                This current design mode is for an SPA with built in 
+                                This current design mode is for an SPA with built in
                                 <Text
                                 // i
                                 >Login and Sign Up</Text> facilities
@@ -189,7 +189,7 @@ function Page3Example(props) {
                                 <Text>{'\n\n'}</Text>
 
                                 <Text
-                                // href={PAGE4EXAMPLE_VIEW_ROUTE.routeName}
+                                // href={PAGE4EXAMPLE_SCREEN_ROUTE.routeName}
                                 // onPress={e => _continueToPage4()}
                                 >
                                     On to the credits, S/O and wrap up ... Continue to Page 4 Example...

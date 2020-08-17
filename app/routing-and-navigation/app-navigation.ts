@@ -4,11 +4,11 @@
 
 import {isEmptyObject} from '../util/util';
 import {
-  PAGE1EXAMPLE_VIEW_ROUTE,
-  PAGE2EXAMPLE_VIEW_ROUTE,
-  PAGE3EXAMPLE_VIEW_ROUTE,
-  PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
-  PAGE4EXAMPLE_VIEW_ROUTE
+  PAGE1EXAMPLE_SCREEN_ROUTE,
+  PAGE2EXAMPLE_SCREEN_ROUTE,
+  PAGE3EXAMPLE_SCREEN_ROUTE,
+  PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE,
+  PAGE4EXAMPLE_SCREEN_ROUTE
 } from "./views-routes-declarations";
 
 /**
@@ -43,7 +43,7 @@ export class AppNavigation {
   navigateToHome = (navigator, navParams) => {
     this.navigate(
         navigator,
-        PAGE1EXAMPLE_VIEW_ROUTE.name,
+        PAGE1EXAMPLE_SCREEN_ROUTE.name,
         this.navigatedTo,
         navParams
     );
@@ -52,7 +52,7 @@ export class AppNavigation {
   navigateToPage2Example = (navigator, navParams) => {
     this.navigate(
         navigator,
-        PAGE2EXAMPLE_VIEW_ROUTE.name,
+        PAGE2EXAMPLE_SCREEN_ROUTE.name,
         this.navigatedTo,
         navParams
     );
@@ -61,7 +61,7 @@ export class AppNavigation {
   navigateToPage3Example = (navigator, navParams) => {
     this.navigate(
         navigator,
-        PAGE3EXAMPLE_VIEW_ROUTE.name,
+        PAGE3EXAMPLE_SCREEN_ROUTE.name,
         this.navigatedTo,
         navParams
     );
@@ -70,7 +70,7 @@ export class AppNavigation {
   navigateToPage4Example = (navigator, navParams) => {
     this.navigate(
         navigator,
-        PAGE4EXAMPLE_VIEW_ROUTE.name,
+        PAGE4EXAMPLE_SCREEN_ROUTE.name,
         this.navigatedTo,
         navParams
     );
@@ -79,7 +79,7 @@ export class AppNavigation {
   navigateToPage4SubItemExample = (navigator, navParams) => {
     this.navigate(
         navigator,
-        PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name,
+        PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE.name,
         this.navigatedTo,
         navParams
     );
@@ -88,7 +88,7 @@ export class AppNavigation {
   // navigateToAppDevScratchPad = (navigator, navParams) => {
   //   this.navigate(
   //       navigator,
-  //       APP_DEV_MOCKS_VIEW_ROUTE.routeName,
+  //       APP_DEV_MOCKS_SCREEN_ROUTE.routeName,
   //       this.navigatedTo,
   //       navParams
   //   );

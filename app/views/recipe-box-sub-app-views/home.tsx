@@ -25,7 +25,9 @@ export function RecipeHome(props) {
     let {toastNotificationAlert} = recipeBoxStore;
 
     return (
-        <RN.ScrollView>
+        <RN.ScrollView
+            contentInsetAdjustmentBehavior={"automatic"}
+        >
 
             {/*//     <NavigationDrawer*/}
             {/*//     :drawer="drawer"*/}
