@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import {textValueChanged} from "../../util/data-collection-utils";
+import {textValueChanged} from "../../util/react-native-data-collection-utils";
 import {isEmptyString} from "../../util/util";
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";

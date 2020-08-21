@@ -49,3 +49,18 @@ export interface RecipeImage {
     image_url?: string,
     image_file?: object,
 }
+
+/**
+ * sd _ Kaybarax
+ * @param code
+ * @param name
+ * @returns {{code: *, name: *}}
+ * @constructor
+ */
+export function FoodGroupConsumer(code, name) {
+    return {
+        code: code,
+        name: name,
+    };
+}
+

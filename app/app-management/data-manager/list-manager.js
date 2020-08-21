@@ -4,6 +4,8 @@
 
 //your app-wide lists here
 
+import {FoodGroupConsumer} from './models-manager';
+
 export const SOs_and_Credits_List = [
   {
     person: 'Michel Weststrate',
@@ -48,4 +50,19 @@ export const SOs_and_Credits_List = [
       },
     ],
   }
+];
+
+/**
+ * sd _ Kaybarax
+ * @type {*[]}
+ */
+export const RecipeGroupsSuitable = [
+  FoodGroupConsumer('VEG', 'Vegan'),
+  FoodGroupConsumer('LCM', 'Breast feeding mothers'),
+  FoodGroupConsumer('LCTI', 'Lactose Intolerant'),
+  FoodGroupConsumer('NWME', 'Non White Meat Eaters'),
+  FoodGroupConsumer('NRME', 'Non Red Meat Eater'),
+  FoodGroupConsumer('HALAL', 'Muslims'),
+  FoodGroupConsumer('JWS', 'Jewish'),
+  FoodGroupConsumer('UND9', 'Kids Under 9 Years Old'),
 ];
