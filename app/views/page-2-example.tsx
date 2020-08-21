@@ -176,7 +176,7 @@ function Page2Example(props) {
 
                                 <Button
                                     title={'Continue to Page 3 Example...'}
-                                    // href={PAGE3EXAMPLE_SCREEN_ROUTE.routeName}
+                                    // href={PAGE3EXAMPLE_SCREEN_VIEW.routeName}
                                     onPress={_ => _continueToPage3()}
                                 />
                             </Text>

@@ -8,106 +8,73 @@
  */
 
 import React from "react";
-import RN, {View} from 'react-native';
-import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
+import RN from 'react-native';
 import RecipeDashboardItemCard from "./recipe-dashboard-item-card";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {isTrue} from "../../util/util";
+import {isEmptyArray, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
-import {AllViewsCN} from "../../theme/app-layout-styles-classnames";
+import {
+    AlignCenterContentCN,
+    AllViewsCN,
+    FlexColumnContainerCN,
+    FlexContainerChildItemFullWidthCN,
+    FlexFluidRowContainerCN
+} from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 
 export function RecipeHome(props) {
 
     let {recipeBoxStore} = props;
-    let {toastNotificationAlert} = recipeBoxStore;
+    let {toastNotificationAlert, recipes, action} = recipeBoxStore;
+
+    if (isEmptyArray(recipes)) {
+        return (
+            <NoRecipesDisplay/>
+        );
+    }
 
     return (
         <RN.ScrollView
             contentInsetAdjustmentBehavior={"automatic"}
         >
+            <RN.FlatList
+                data={recipes}
+                renderItem={recipe => <RecipeDashboardItemCard
+                    recipe={recipe} dashboardCard={true}/>}
+                keyExtractor={_ => makeId(16)}
+            />
 
-            {/*//     <NavigationDrawer*/}
-            {/*//     :drawer="drawer"*/}
-            {/*//     :activity="this"*/}
-            {/*// />*/}
+            {/*{*/}
+            {/*    (action === RECIPE_BOX_HOME_ACTIONS.VIEW_SINGLE_RECIPE) &&*/}
+            {/*    <RN.View*/}
+            {/*        style={[*/}
+            {/*            ...className(*/}
+            {/*                FlexFluidRowContainerCN,*/}
+            {/*                AlignCenterContentCN*/}
+            {/*            )*/}
+            {/*        ]}*/}
+            {/*    >*/}
+            {/*      <RN.View*/}
+            {/*          style={[*/}
+            {/*              ...className(*/}
+            {/*                  FlexContainerChildItemOneQuarterWidthCN,*/}
+            {/*              )*/}
+            {/*          ]}*/}
+            {/*      >*/}
+            {/*        <RecipeDashboardItemCard*/}
+            {/*        />*/}
 
-            {/*    <AppBar*/}
-            {/*    :drawer="drawer"*/}
-            {/*    :activity="this"*/}
-            {/*/>*/}
+            {/*      </RN.View>*/}
 
-            <BlankSpaceDivider height={70}/>
-
-            <RN.View
-                // class="flex-row-container"
-                // v-if="appStore.recipes.length === 0"
-            >
-                <RN.View
-                    // class="flex-container-child-item center-align-content"
-                >
-                    <RN.Text
-                        // h3
-                    >
-                        You don't have any recipes. From the menu, go to "Create/Edit Recipes" to create your recipes.
-                    </RN.Text>
-                </RN.View>
-            </RN.View>
-
-            <RN.View
-                // class="flex-fluid-row-container center-align-content"
-                // v-if="homepageStore.pageAction !== HOME_PAGE_ACTIONS.VIEW_SINGLE_RECIPE"
-            >
-                <RN.View
-                    // class="flex-container-child-item-one-quarter-width"
-                    // v-for="(recipe,i) in appStore.recipes"
-                    //        :key="i"
-                >
-                    <RecipeDashboardItemCard
-                        //        :recipe="recipe.recipe"
-                        //        :recipePhoto="recipe.dish_image"
-                        //        :dashboardCard="true"
-                        //        :activity="this"
-                    />
-
-                </RN.View>
-
-            </RN.View>
-
-            <RN.View
-                // class="flex-fluid-row-container center-align-content"
-                // v-if="homepageStore.pageAction === HOME_PAGE_ACTIONS.VIEW_SINGLE_RECIPE"
-            >
-                <RN.View
-                    // class="flex-container-child-item-one-quarter-width"
-                >
-                    <RecipeDashboardItemCard
-                        //            :recipe="homepageStore.viewRecipe"
-                        //            :recipePhoto="homepageStore.viewRecipePhoto"
-                        //            :dashboardCard="false"
-                        //            :activity="this"
-                    />
-
-                </RN.View>
-
-            </RN.View>
-
-            <RN.View
-                // style="height: 80px"
-            >&nbsp;</RN.View>
-
-            {/*// <AppFooter*/}
-            {/*// :activity="this"*/}
-            {/*// />*/}
+            {/*    </RN.View>*/}
+            {/*}*/}
 
             {
-                (
-                    displayFieldExpectationSatisfied('alert', toastNotificationAlert,
-                        expectationOfX => isTrue(expectationOfX))
-                ) &&
-                <View
+                (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
+                    expectationOfX => isTrue(expectationOfX))) &&
+                <RN.View
                     style={[
                         ...className(AllViewsCN),
                         {
@@ -118,9 +85,76 @@ export function RecipeHome(props) {
                   <AppNotificationToastAlert
                       dropDownProps={toastNotificationAlert}
                   />
-                </View>
+                </RN.View>
             }
 
+        </RN.ScrollView>
+    );
+
+}
+
+export function NoRecipesDisplay(props) {
+
+    let {navigation, navStore} = props;
+
+    return (
+        <RN.ScrollView
+            style={[
+                ...className(FlexColumnContainerCN)
+            ]}
+        >
+            <RN.View
+                style={[
+                    ...className(FlexContainerChildItemFullWidthCN)
+                ]}
+            >
+                <RN.View
+                    style={[
+                        ...className(FlexFluidRowContainerCN)
+                    ]}
+                >
+                    <RN.Text
+                        style={[
+                            ...className(
+                                FlexContainerChildItemFullWidthCN,
+                                AlignCenterContentCN
+                            ),
+                            {
+                                fontSize: 18,
+                                fontWeight: 'bold'
+                            }
+                        ]}
+                    >
+                        You don't have any recipes. {'\n'}
+                        From the menu, go to "Create/Edit Recipes" to create your recipes.
+                    </RN.Text>
+                </RN.View>
+            </RN.View>
+            <RN.View
+                style={[
+                    ...className(FlexContainerChildItemFullWidthCN)
+                ]}
+            >
+                <RN.View
+                    style={[
+                        ...className(FlexFluidRowContainerCN)
+                    ]}
+                >
+                    <RN.View
+                        style={[
+                            ...className(FlexContainerChildItemFullWidthCN)
+                        ]}
+                    >
+                        <RN.Button
+                            title={'Exit'}
+                            onPress={_ => {
+                                navigation.goBack()
+                            }}
+                            color={'red'}
+                        />
+                    </RN.View>
+                </RN.View>
+            </RN.View>
         </RN.ScrollView>
     );
 

@@ -10,15 +10,15 @@
 import React from "react";
 import {
     _404_VIEW,
-    APP_DEV_MOCKS_SCREEN_ROUTE,
-    MY_RECIPE_HOME_SCREEN_ROUTE,
-    MY_RECIPE_LOGIN_SCREEN_ROUTE,
-    MY_RECIPE_REQUESTS_SCREEN_ROUTE,
-    PAGE1EXAMPLE_SCREEN_ROUTE,
-    PAGE2EXAMPLE_SCREEN_ROUTE,
-    PAGE3EXAMPLE_SCREEN_ROUTE,
-    PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE,
-    PAGE4EXAMPLE_SCREEN_ROUTE
+    APP_DEV_MOCKS_SCREEN_VIEW,
+    MY_RECIPE_HOME_SCREEN_VIEW,
+    MY_RECIPE_LOGIN_SCREEN_VIEW,
+    MY_RECIPE_REQUESTS_SCREEN_VIEW,
+    PAGE1EXAMPLE_SCREEN_VIEW,
+    PAGE2EXAMPLE_SCREEN_VIEW,
+    PAGE3EXAMPLE_SCREEN_VIEW,
+    PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
+    PAGE4EXAMPLE_SCREEN_VIEW
 } from "./views-routes-declarations";
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
@@ -47,24 +47,24 @@ export default function AppWithRouting() {
 
     const defaultViewTabbedViewsRouteMap = [
         <Tab.Screen
-            name={PAGE1EXAMPLE_SCREEN_ROUTE.name}
-            component={PAGE1EXAMPLE_SCREEN_ROUTE.screen}
-            key={PAGE1EXAMPLE_SCREEN_ROUTE.name}
+            name={PAGE1EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE1EXAMPLE_SCREEN_VIEW.screen}
+            key={PAGE1EXAMPLE_SCREEN_VIEW.name}
         />,
         <Tab.Screen
-            name={PAGE2EXAMPLE_SCREEN_ROUTE.name}
-            component={PAGE2EXAMPLE_SCREEN_ROUTE.screen}
-            key={PAGE2EXAMPLE_SCREEN_ROUTE.name}
+            name={PAGE2EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE2EXAMPLE_SCREEN_VIEW.screen}
+            key={PAGE2EXAMPLE_SCREEN_VIEW.name}
         />,
         <Tab.Screen
-            name={PAGE3EXAMPLE_SCREEN_ROUTE.name}
-            component={PAGE3EXAMPLE_SCREEN_ROUTE.screen}
-            key={PAGE3EXAMPLE_SCREEN_ROUTE.name}
+            name={PAGE3EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE3EXAMPLE_SCREEN_VIEW.screen}
+            key={PAGE3EXAMPLE_SCREEN_VIEW.name}
         />,
         <Tab.Screen
-            name={PAGE4EXAMPLE_SCREEN_ROUTE.name}
-            component={PAGE4EXAMPLE_SCREEN_ROUTE.screen}
-            key={PAGE4EXAMPLE_SCREEN_ROUTE.name}
+            name={PAGE4EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE4EXAMPLE_SCREEN_VIEW.screen}
+            key={PAGE4EXAMPLE_SCREEN_VIEW.name}
         />,
     ];
 
@@ -76,6 +76,7 @@ export default function AppWithRouting() {
 
     const DefaultTabbedViewsWithDrawer = () => (
         <DefaultTabbedViewsDrawer.Navigator
+            // drawerContent={ props => {}}
             drawerType={WINDOW_DIMENSIONS.width >= 768 ? 'permanent' : 'front'}
         >
             <DefaultTabbedViewsDrawer.Screen
@@ -84,7 +85,7 @@ export default function AppWithRouting() {
                 key={makeId(16)}
             />
             <DefaultTabbedViewsDrawer.Screen
-                name={APP_DEV_MOCKS_SCREEN_ROUTE.name}
+                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
                 component={AppDevMocksWithRouting}
                 key={makeId(16)}
             />
@@ -104,9 +105,9 @@ export default function AppWithRouting() {
             key={makeId(16)}
         />,
         <AppStack.Screen
-            name={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE.name}
-            component={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE.screen}
-            key={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE.name}
+            name={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.screen}
+            key={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
         />,
         <AppStack.Screen
             name={_404_VIEW.name}
@@ -120,6 +121,7 @@ export default function AppWithRouting() {
 
     return (
         <AppStack.Navigator
+            children={appStackRouteMap}
             screenOptions={{
                 headerStyle: {
                     backgroundColor: '#f4511e',
@@ -130,9 +132,7 @@ export default function AppWithRouting() {
                 },
             }}
             headerMode={'screen'}
-        >
-            {appStackRouteMap}
-        </AppStack.Navigator>
+        />
     );
 
 }
@@ -144,13 +144,13 @@ export function RecipeBoxAppWithRouting() {
 
     const appTabsRouteMap = [
         <AppTabs.Screen
-            name={MY_RECIPE_HOME_SCREEN_ROUTE.name}
-            component={MY_RECIPE_HOME_SCREEN_ROUTE.screen}
+            name={MY_RECIPE_HOME_SCREEN_VIEW.name}
+            component={MY_RECIPE_HOME_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
         <AppTabs.Screen
-            name={MY_RECIPE_REQUESTS_SCREEN_ROUTE.name}
-            component={MY_RECIPE_REQUESTS_SCREEN_ROUTE.screen}
+            name={MY_RECIPE_REQUESTS_SCREEN_VIEW.name}
+            component={MY_RECIPE_REQUESTS_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
     ];
@@ -163,8 +163,8 @@ export function RecipeBoxAppWithRouting() {
 
     const appStackRouteMap = [
         <AppStack.Screen
-            name={MY_RECIPE_LOGIN_SCREEN_ROUTE.name}
-            component={MY_RECIPE_LOGIN_SCREEN_ROUTE.screen}
+            name={MY_RECIPE_LOGIN_SCREEN_VIEW.name}
+            component={MY_RECIPE_LOGIN_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
         <AppStack.Screen
@@ -184,17 +184,17 @@ export function AppDevMocksWithRouting() {
 
     const Stack = createStackNavigator();
     const AppDevMocks =
-        (inject('authStore', 'appStore')(observer(APP_DEV_MOCKS_SCREEN_ROUTE.screen)));
+        (inject('authStore', 'appStore')(observer(APP_DEV_MOCKS_SCREEN_VIEW.screen)));
 
     return (
         <Stack.Navigator
-            initialRouteName={APP_DEV_MOCKS_SCREEN_ROUTE.name}
+            initialRouteName={APP_DEV_MOCKS_SCREEN_VIEW.name}
             screenOptions={{
                 title: 'App Dev Scratch Pad'
             }}
         >
             <Stack.Screen
-                name={APP_DEV_MOCKS_SCREEN_ROUTE.name}
+                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
                 component={AppDevMocks}
             />
         </Stack.Navigator>

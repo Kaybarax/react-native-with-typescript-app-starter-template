@@ -29,7 +29,7 @@ function Page4Example(props) {
     } = props;
 
     const _viewAttributedPersonDetails = (person) => {
-        appNavigation.navigateToPage4SubItemExample(navigation, {item: person})
+        appNavigation.navigateToPage4SubItemExample(navigation, {item: person});
     };
 
     return (

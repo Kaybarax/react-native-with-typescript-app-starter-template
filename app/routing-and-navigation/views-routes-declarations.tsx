@@ -26,33 +26,33 @@ import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 
 ////declare the application views for routing
 //the default view on app bootstrap
-export const DEFAULT_SCREEN_ROUTE: ViewRoute = {
-    name: 'DEFAULT_SCREEN_ROUTE',
+export const DEFAULT_SCREEN_VIEW: ViewRoute = {
+    name: 'DEFAULT_SCREEN_VIEW',
     screen: Login
 };
 
 //and then the other views routes declarations
-export const PAGE1EXAMPLE_SCREEN_ROUTE: ViewRoute = {
+export const PAGE1EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'Page 1 Example',
     screen: Page1Example
 };
 
-export const PAGE2EXAMPLE_SCREEN_ROUTE: ViewRoute = {
+export const PAGE2EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'Page 2 Example',
     screen: Page2Example
 };
 
-export const PAGE3EXAMPLE_SCREEN_ROUTE: ViewRoute = {
+export const PAGE3EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'Page 3 Example',
     screen: Page3Example
 };
 
-export const PAGE4EXAMPLE_SCREEN_ROUTE: ViewRoute = {
+export const PAGE4EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'Page 4 Example',
     screen: Page4Example
 };
 
-export const PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE: ViewRoute = {
+export const PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'Page 4 SubItem Example',
     screen: Page4SubItemExample
 };
@@ -64,34 +64,34 @@ export const _404_VIEW: ViewRoute = {
 };
 
 // just added for your mocking of scenarios
-export const APP_DEV_MOCKS_SCREEN_ROUTE = {
+export const APP_DEV_MOCKS_SCREEN_VIEW = {
     name: 'App Dev Scratchpad',
     screen: AppDevScratchPad
 };
 
 //recipe box, example sub-application views
 
-export const MY_RECIPE_LOGIN_SCREEN_ROUTE: ViewRoute = {
+export const MY_RECIPE_LOGIN_SCREEN_VIEW: ViewRoute = {
     name: 'MY RECIPE LOGIN',
     screen: LoginActivity
 };
 
-export const MY_RECIPE_HOME_SCREEN_ROUTE: ViewRoute = {
+export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
     name: 'MY RECIPE HOME',
     screen: RecipeHomeActivity
 };
 
-export const MY_RECIPE_RECIPE_DETAILS_SCREEN_ROUTE: ViewRoute = {
+export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE DETAILS',
     screen: WithStoresHoc(RecipeDashboardItemCard,['recipeBoxStore'])
 };
 
-export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_ROUTE: ViewRoute = {
+export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {
     name: 'CREATE/EDIT RECIPE',
     screen: CreateEditRecipeFormActivity
 };
 
-export const MY_RECIPE_REQUESTS_SCREEN_ROUTE: ViewRoute = {
+export const MY_RECIPE_REQUESTS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE REQUESTS',
     screen: RecipeRequests
 };
@@ -121,7 +121,7 @@ export const MY_RECIPE_REQUESTS_SCREEN_ROUTE: ViewRoute = {
 //     //so that on return after authentication, the user can still be routed to the intended page
 //     authStore.setSignInRedirect(toState);
 //     //then sent the user to first get authenticated before access is allowed
-//     return Promise.reject(new RouterState(DEFAULT_SCREEN_ROUTE.routeName));
+//     return Promise.reject(new RouterState(DEFAULT_SCREEN_VIEW.routeName));
 //   }
 // };
 
@@ -143,12 +143,12 @@ export const MY_RECIPE_REQUESTS_SCREEN_ROUTE: ViewRoute = {
 //       });
 //
 //   if (isAuthenticated) {
-//     return Promise.reject(new RouterState(PAGE1EXAMPLE_SCREEN_ROUTE.routeName));
+//     return Promise.reject(new RouterState(PAGE1EXAMPLE_SCREEN_VIEW.routeName));
 //   } else {
 //     //grab the state/view/page that navigation towards was attempted,
 //     //so that on return after authentication, the user can still be routed to the intended page
 //     authStore.setSignInRedirect(toState);
 //     //then sent the user to first get authenticated before access is allowed
-//     return Promise.reject(new RouterState(DEFAULT_SCREEN_ROUTE.routeName));
+//     return Promise.reject(new RouterState(DEFAULT_SCREEN_VIEW.routeName));
 //   }
 // };

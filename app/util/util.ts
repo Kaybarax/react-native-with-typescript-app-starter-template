@@ -1,6 +1,11 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -187,7 +192,6 @@ export function objectAHasSameKeysAsObjectB(objA, objB) {
 
   for (let key in objA) {
     let keyInObjAExistsInObjB = true;
-
     if (!objectKeyExists(objB, key)) {
       keyInObjAExistsInObjB = false;
     }
@@ -286,12 +290,16 @@ export function isVoid(item) {
   }
 }
 
+/**
+ * sd _ Kaybarax
+ * @param length
+ */
 export function makeId(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
+  let result = '';
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
-  return '_' + result + '_';
+  return result;
 }

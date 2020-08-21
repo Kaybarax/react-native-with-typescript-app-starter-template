@@ -189,7 +189,7 @@ function Page3Example(props) {
                                 <Text>{'\n\n'}</Text>
 
                                 <Text
-                                // href={PAGE4EXAMPLE_SCREEN_ROUTE.routeName}
+                                // href={PAGE4EXAMPLE_SCREEN_VIEW.routeName}
                                 // onPress={e => _continueToPage4()}
                                 >
                                     On to the credits, S/O and wrap up ... Continue to Page 4 Example...

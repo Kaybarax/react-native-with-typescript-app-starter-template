@@ -14,7 +14,7 @@ import AppNotificationToastAlert
 import LoginForm from "../login-and-registration-views/login-form";
 import SignUpForm from "../login-and-registration-views/sign-up-form";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {LOGIN_PAGE_ACTIONS} from "../../stores/stores-data-store";
+import {LOGIN_PAGE_ACTIONS} from "../../stores/stores-actions-and-data";
 import {User} from "../../app-management/data-manager/models-manager";
 import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Loader from "../../shared-components-and-modules/loaders";

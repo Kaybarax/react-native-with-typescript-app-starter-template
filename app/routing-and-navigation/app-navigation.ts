@@ -1,14 +1,18 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
-import {isEmptyObject} from '../util/util';
+import {isEmptyObject, isEmptyString, isNullUndefined} from '../util/util';
 import {
-  PAGE1EXAMPLE_SCREEN_ROUTE,
-  PAGE2EXAMPLE_SCREEN_ROUTE,
-  PAGE3EXAMPLE_SCREEN_ROUTE,
-  PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE,
-  PAGE4EXAMPLE_SCREEN_ROUTE
+    PAGE1EXAMPLE_SCREEN_VIEW,
+    PAGE2EXAMPLE_SCREEN_VIEW,
+    PAGE3EXAMPLE_SCREEN_VIEW, PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
+    PAGE4EXAMPLE_SCREEN_VIEW
 } from "./views-routes-declarations";
 
 /**
@@ -21,78 +25,101 @@ import {
  */
 export class AppNavigation {
 
-  navigate = (navigator, to, from, navParams, goingBack = false) => {
-    this.navigatedFrom = from;
-    this.navigatedTo = to;
-    if (goingBack) {
-      navigator.goBack();
+    navigatedToParams = null;
+    navigatedTo = null;
+    navigatedFrom = null;
+
+    navigate = (navigator, navTo, navFrom: string | any = this.navigatedTo,
+                navParams: object | any = null, goingBack = false, navStore = null) => {
+
+        this.navigatedFrom = navFrom;
+        this.navigatedTo = navTo;
+
+        //trail navigation
+        if (!isEmptyString(this.navigatedFrom) && !isNullUndefined(navStore)) {
+            this.trailNavigation(goingBack, navStore);
+        }
+
+        //continue with navigation
+        if (goingBack) {
+            navigator.goBack();
+        }
+        if (!isEmptyObject(navParams)) {
+            this.navigatedToParams = navParams;
+            navigator.navigate(this.navigatedTo, navParams);
+        } else {
+            this.navigatedToParams = null;//clear any previous navigation params
+            navigator.navigate(this.navigatedTo);
+        }
+
+    };
+
+    trailNavigation = (goingBack, navStore) => {
+        let goTo = navStore.currentNavigationTrailIndex - 1;
+        if (goTo >= 0) {
+            navStore.currentNavigationTrailIndex = goTo;
+        }
+        if (goingBack) {
+            //remove whence come from
+            navStore.navigationTrail.splice((navStore.currentNavigationTrailIndex + 1), 1);
+        } else {
+            navStore.navigationTrail.push(this.navigatedTo);
+            navStore.currentNavigationTrailIndex = navStore.navigationTrail.length - 1;
+        }
     }
-    if (!isEmptyObject(navParams)) {
-      this.navigatedToParams = navParams;
-      navigator.navigate(this.navigatedTo, navParams);
-    } else {
-      this.navigatedToParams = null;//reset any previous navigation params
-      navigator.navigate(this.navigatedTo);
+
+    navigateBack(navigator, navParams, appNav) {
+        console.log('navigator, navParams, appNav \n',
+            navigator, navParams, appNav)
+        if (isNullUndefined(appNav.navigatedFrom)) {
+            return;
+        }
     }
-  };
 
-  navigatedToParams = null;
-  navigatedTo = null;
-  navigatedFrom = null;
+    navigateToHome = (navigator, navParams) => {
+        this.navigate(
+            navigator,
+            PAGE1EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
 
-  navigateToHome = (navigator, navParams) => {
-    this.navigate(
-        navigator,
-        PAGE1EXAMPLE_SCREEN_ROUTE.name,
-        this.navigatedTo,
-        navParams
-    );
-  }
+    navigateToPage2Example = (navigator, navParams) => {
+        this.navigate(
+            navigator,
+            PAGE2EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
 
-  navigateToPage2Example = (navigator, navParams) => {
-    this.navigate(
-        navigator,
-        PAGE2EXAMPLE_SCREEN_ROUTE.name,
-        this.navigatedTo,
-        navParams
-    );
-  }
+    navigateToPage3Example = (navigator, navParams) => {
+        this.navigate(
+            navigator,
+            PAGE3EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
 
-  navigateToPage3Example = (navigator, navParams) => {
-    this.navigate(
-        navigator,
-        PAGE3EXAMPLE_SCREEN_ROUTE.name,
-        this.navigatedTo,
-        navParams
-    );
-  }
+    navigateToPage4Example = (navigator, navParams) => {
+        this.navigate(
+            navigator,
+            PAGE4EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
 
-  navigateToPage4Example = (navigator, navParams) => {
-    this.navigate(
-        navigator,
-        PAGE4EXAMPLE_SCREEN_ROUTE.name,
-        this.navigatedTo,
-        navParams
-    );
-  }
-
-  navigateToPage4SubItemExample = (navigator, navParams) => {
-    this.navigate(
-        navigator,
-        PAGE4_SUB_ITEM_EXAMPLE_SCREEN_ROUTE.name,
-        this.navigatedTo,
-        navParams
-    );
-  }
-
-  // navigateToAppDevScratchPad = (navigator, navParams) => {
-  //   this.navigate(
-  //       navigator,
-  //       APP_DEV_MOCKS_SCREEN_ROUTE.routeName,
-  //       this.navigatedTo,
-  //       navParams
-  //   );
-  // }
+    navigateToPage4SubItemExample = (navigator, navParams) => {
+        this.navigate(
+            navigator,
+            PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
 
 }
 
