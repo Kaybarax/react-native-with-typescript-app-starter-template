@@ -68,10 +68,10 @@ export class AppNavigation {
         }
     }
 
-    navigateBack(navigator, navParams, appNav) {
+    navigateBack = (navigator, navStore, navParams = null) => {
         console.log('navigator, navParams, appNav \n',
-            navigator, navParams, appNav)
-        if (isNullUndefined(appNav.navigatedFrom)) {
+            navigator, navParams, navStore)
+        if (isNullUndefined(navStore?.navigatedFrom)) {
             return;
         }
     }
