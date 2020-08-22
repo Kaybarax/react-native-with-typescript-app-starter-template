@@ -76,7 +76,7 @@ export class AppNavigation {
         }
     }
 
-    navigateToHome = (navigator, navParams) => {
+    navigateToHome = (navigator, navParams = null) => {
         this.navigate(
             navigator,
             PAGE1EXAMPLE_SCREEN_VIEW.name,
@@ -85,7 +85,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage2Example = (navigator, navParams) => {
+    navigateToPage2Example = (navigator, navParams = null) => {
         this.navigate(
             navigator,
             PAGE2EXAMPLE_SCREEN_VIEW.name,
@@ -94,7 +94,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage3Example = (navigator, navParams) => {
+    navigateToPage3Example = (navigator, navParams = null) => {
         this.navigate(
             navigator,
             PAGE3EXAMPLE_SCREEN_VIEW.name,
@@ -103,7 +103,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage4Example = (navigator, navParams) => {
+    navigateToPage4Example = (navigator, navParams = null) => {
         this.navigate(
             navigator,
             PAGE4EXAMPLE_SCREEN_VIEW.name,
@@ -112,7 +112,16 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage4SubItemExample = (navigator, navParams) => {
+    navigateToPage4SubItemExample = (navigator, navParams = null) => {
+        this.navigate(
+            navigator,
+            PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
+
+    navigateToCreateEditRecipe = (navigator, navParams = null) => {
         this.navigate(
             navigator,
             PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,

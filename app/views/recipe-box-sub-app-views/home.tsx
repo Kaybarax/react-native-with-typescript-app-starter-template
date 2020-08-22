@@ -9,7 +9,7 @@
 
 import React from "react";
 import RN from 'react-native';
-import RecipeDashboardItemCard from "./recipe-dashboard-item-card";
+import RecipeItemCard from "./recipe-item-card";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
@@ -23,11 +23,12 @@ import {
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
+import appNavigation from "../../routing-and-navigation/app-navigation";
 
 export function RecipeHome(props) {
 
     let {recipeBoxStore} = props;
-    let {toastNotificationAlert, recipes, action} = recipeBoxStore;
+    let {toastNotificationAlert, recipes} = recipeBoxStore;
 
     if (isEmptyArray(recipes)) {
         return (
@@ -38,38 +39,18 @@ export function RecipeHome(props) {
     return (
         <RN.ScrollView
             contentInsetAdjustmentBehavior={"automatic"}
+            style={[
+                ...className(FlexColumnContainerCN)
+            ]}
         >
             <RN.FlatList
                 data={recipes}
-                renderItem={recipe => <RecipeDashboardItemCard
-                    recipe={recipe} dashboardCard={true}/>}
+                renderItem={recipe => <RecipeItemCard
+                    recipe={recipe}
+                    dashboardCard={true}
+                />}
                 keyExtractor={_ => makeId(16)}
             />
-
-            {/*{*/}
-            {/*    (action === RECIPE_BOX_HOME_ACTIONS.VIEW_SINGLE_RECIPE) &&*/}
-            {/*    <RN.View*/}
-            {/*        style={[*/}
-            {/*            ...className(*/}
-            {/*                FlexFluidRowContainerCN,*/}
-            {/*                AlignCenterContentCN*/}
-            {/*            )*/}
-            {/*        ]}*/}
-            {/*    >*/}
-            {/*      <RN.View*/}
-            {/*          style={[*/}
-            {/*              ...className(*/}
-            {/*                  FlexContainerChildItemOneQuarterWidthCN,*/}
-            {/*              )*/}
-            {/*          ]}*/}
-            {/*      >*/}
-            {/*        <RecipeDashboardItemCard*/}
-            {/*        />*/}
-
-            {/*      </RN.View>*/}
-
-            {/*    </RN.View>*/}
-            {/*}*/}
 
             {
                 (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
@@ -148,7 +129,7 @@ export function NoRecipesDisplay(props) {
                         <RN.Button
                             title={'Exit'}
                             onPress={_ => {
-                                navigation.goBack()
+                                appNavigation.navigateBack(navigation, null, navStore);
                             }}
                             color={'red'}
                         />
@@ -163,52 +144,3 @@ export function NoRecipesDisplay(props) {
 const RecipeHomeActivity = WithStoresHoc(RecipeHome,
     ['authStore', 'appStores', 'recipeBoxStore']);
 export default RecipeHomeActivity;
-
-
-// import AppBar from './shared-secured-views-activities-components/app-bar'
-// import NavigationDrawer from './shared-secured-views-activities-components/navigation-drawer'
-// import AppFooter from './shared-secured-views-activities-components/app-footer'
-// import {observer} from "mobx-vue";
-// import rootStore from "../../stores";
-// import RecipeDashboardItemCard from "./recipe-dashboard-item-card";
-// import {HOME_PAGE_ACTIONS} from '../../stores/stores-data-store';
-// import {editRecipeClick, viewRecipeFullDetailsClick} from "../../controllers/homepage-controller";
-// import AppNotificationToastAlert
-//     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
-// import {getAllRecipesForUser} from "../../controllers/app-controller";
-
-// const Home = observer({
-//     name: "home",
-//     props: {},
-//     computed: {
-//         HOME_PAGE_ACTIONS: () => HOME_PAGE_ACTIONS,
-//         viewRecipeFullDetailsClick: () => viewRecipeFullDetailsClick,
-//         editRecipeClick: () => editRecipeClick
-//     },
-//     components: {
-//         AppBar, NavigationDrawer,
-//         AppFooter,
-//         RecipeDashboardItemCard,
-//         AppNotificationToastAlert
-//     },
-//     data: () => ({
-//         appStores: rootStore.appStores,
-//         appStore: rootStore.appStores.app,
-//         authStore: rootStore.authStore,
-//         homepageStore: rootStore.appStores.homepage,
-//         toastNotificationAlert: rootStore.appStores.homepage.toastNotificationAlert,
-//         drawer: {drawer: null},
-//     }),
-//     methods: {},
-//     created() {
-//         this.$vuetify.theme.dark = this.appStore.darkMode;
-//     },
-//     mounted() {
-//         setTimeout(_ => getAllRecipesForUser(this, this.appStore.user.id), 1000);
-//     }
-// });
-
-//
-// <style scoped>
-//
-// </style>

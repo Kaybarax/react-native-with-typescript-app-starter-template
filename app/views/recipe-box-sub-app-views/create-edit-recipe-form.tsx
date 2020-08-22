@@ -15,12 +15,17 @@ import AppNotificationToastAlert
 import {Checkbox} from "../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {isEmptyArray, isEmptyString, isTrue, makeId} from "../../util/util";
+import {isBoolean, isEmptyArray, isEmptyString, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
+    AlignCenterContentCN,
+    AlignLeftFlexContainerContentCN,
+    AlignRightFlexContainerContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
-    FlexContainerChildItemFullWidthCN
+    FlexContainerChildItemFullWidthCN,
+    FlexContainerChildItemOneThirdWidthCN,
+    FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import {
@@ -50,16 +55,56 @@ export function CreateEditRecipeForm(props) {
     let {recipeBoxStore, recipe} = props;
     let {toastNotificationAlert, viewAction} = recipeBoxStore;
 
-    let recipeFormKeys = [];
-    let recipePhotos = [];
+    // let recipeFormKeys = [];
+    // let recipePhotos = [];
     let formValidityTree = {};
 
     const PhotoInput = props => (
-        <RN.TouchableOpacity>
+        <RN.TouchableOpacity
+            style={[
+                ...className(FlexContainerChildItemFullWidthCN)
+            ]}
+        >
             <RN.Image
+                style={[
+                    {
+                        width: '100%',
+                        height: '100%'
+                    }
+                ]}
                 source={require(props?.items.src)}
             />
+            <RN.Text>
+                <FontAwesomeIcon
+                    icon={faPlus}
+                    color={'teal'}
+                    size={30}
+                    style={{
+                        marginTop: 20
+                    }}
+                />
+            </RN.Text>
+            <RN.Text>
+                <FontAwesomeIcon
+                    icon={faMinus}
+                    color={'red'}
+                    size={30}
+                    style={{
+                        marginTop: 20
+                    }}
+                />
+            </RN.Text>
         </RN.TouchableOpacity>
+    );
+
+    const FormFieldIsRequiredMessage = props => (
+        <Text
+            style={[
+                {color: 'red'},
+                ...className(FlexContainerChildItemFullWidthCN,
+                    AlignLeftFlexContainerContentCN)
+            ]}
+        > {props?.message || '* This field is required.'}</Text>
     );
 
     return (
@@ -74,293 +119,427 @@ export function CreateEditRecipeForm(props) {
                     ...className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
-
                 <RN.View
-                    // fluid
+                    style={[
+                        ...className(FlexFluidRowContainerCN)
+                    ]}
                 >
-
                     <RN.View
-                        // width="400" class="mx-auto mt-5"
+                        style={[
+                            ...className(FlexContainerChildItemFullWidthCN)
+                        ]}
                     >
-                        <RN.View>
+                        <RN.View
+                            style={[
+                                ...className(FlexFluidRowContainerCN)
+                            ]}
+                        >
                             <RN.Text
-                                // h3
+                                style={[
+                                    ...className(FlexContainerChildItemFullWidthCN,
+                                        AlignCenterContentCN)
+                                ]}
                             >Create Recipe</RN.Text>
                         </RN.View>
-                        <RN.View>
-                            <RN.View>
-                                {
-                                    submit_pressed && isEmptyString(formValidityTree['name']) &&
-                                    <Text style={{color: 'red'}}> * This field is required.</Text>
-                                }
-                                <BlankSpaceDivider/>
-                                <AppTextInput
-                                    label="Name"
-                                    onTextChange={text => textValueChanged(recipe, text, 'name')}
-                                />
-
-                                {
-                                    submit_pressed && isEmptyString(formValidityTree['photos']) &&
-                                    <Text style={{color: 'red'}}> * This field is required.</Text>
-                                }
-                                <BlankSpaceDivider/>
-                                <RN.View>
+                        <RN.View
+                            style={[
+                                ...className(FlexFluidRowContainerCN)
+                            ]}
+                        >
+                            <RN.View
+                                style={[
+                                    ...className(FlexContainerChildItemFullWidthCN)
+                                ]}
+                            >
+                                <RN.View
+                                    style={[
+                                        ...className(FlexFluidRowContainerCN)
+                                    ]}
+                                >
                                     {
-                                        (_ => {
-                                            let photos: Array<Element> = []
-                                            for (let i = 0; i < 5; i++) {
-                                                photos.push(
-                                                    <PhotoInput
-                                                        items={{src: '../media/images/image.png'}}
-                                                        key={makeId(16)}
-                                                    />
-                                                );
-                                            }
-                                            return photos;
-                                        })()
+                                        submit_pressed && isEmptyString(formValidityTree['name']) &&
+                                        <FormFieldIsRequiredMessage/>
                                     }
-                                </RN.View>
-
-                                {
-                                    submit_pressed && isEmptyString(formValidityTree['is_vegetarian']) &&
-                                    <Text style={{color: 'red'}}> * This field is required.</Text>
-                                }
-                                <BlankSpaceDivider/>
-                                <Checkbox
-                                    // v-model="recipe.is_vegetarian"
-                                    // :label="`Is vegetarian`"
-                                    // v-on:change="check => {
-                                    //     checkboxItemValueChanged(recipe, 'is_vegetarian', check, true, false, this);
-                                    // }"
-                                    label={''}
-                                    onCheckBoxChange={check => {
-                                        checkboxItemValueChanged(recipe, check, 'is_vegetarian',
-                                            1, 0);
-                                    }}
-                                    model={recipe}
-                                    modelKey={'is_vegetarian'}
-                                />
-
-                                <RN.Text>Ingredients</RN.Text>
-                                {
-                                    submit_pressed && isEmptyString(formValidityTree['ingredients'][0]) &&
-                                    <Text style={{color: 'red'}}> * This field is required.</Text>
-                                }
-                                <BlankSpaceDivider/>
-                                {
-                                    !isEmptyArray(recipe.ingredients) &&
+                                    <BlankSpaceDivider/>
+                                    <AppTextInput
+                                        label="Name"
+                                        onTextChange={text => textValueChanged(recipe, text, 'name')}
+                                    />
+                                    {
+                                        submit_pressed && isEmptyArray(formValidityTree['recipe_photos']) &&
+                                        <FormFieldIsRequiredMessage message={'Please upload recipe photos!'}/>
+                                    }
+                                    <BlankSpaceDivider/>
                                     <RN.View
-                                    >
-                                        {
-                                            recipe.ingredients.map((item, i) => {
-                                                let ingredient = recipe.ingredients[i];
-                                                return (
-                                                    <RN.View
-                                                        key={makeId(16)}
-                                                    >
-                                                        {
-                                                            submit_pressed && isEmptyString(ingredient) &&
-                                                            <Text style={{color: 'red'}}> * This field is
-                                                              required.</Text>
-                                                        }
-                                                        <BlankSpaceDivider/>
-                                                        <AppTextInput
-                                                            label={`${'' + (i + 1) + '. '}`}
-                                                            onTextChange={
-                                                                text => {
-                                                                    textValueChanged({text: item}, text, 'text');
-                                                                    recipe.ingredients[i] = text;
-                                                                }
-                                                            }
-                                                            // v-bind:value="textValue({text:item}, 'text', this)"
-                                                        />
-                                                        <RN.View>
-                                                            {
-                                                                (i === (recipe.ingredients.length - 1)) &&
-                                                                <RN.TouchableOpacity
-                                                                    onPress={
-                                                                        _ => {
-                                                                            addIngredient(recipe);
-                                                                        }
-                                                                    }
-                                                                >
-                                                                  <RN.Text>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faPlus}
-                                                                        color={'green'}
-                                                                        size={30}
-                                                                        style={{
-                                                                            marginTop: 20
-                                                                        }}
-                                                                    />
-                                                                  </RN.Text>
-                                                                </RN.TouchableOpacity>
-                                                            }
-                                                            {
-                                                                (recipe.ingredients.length >= 2) &&
-                                                                <RN.TouchableOpacity
-                                                                    onPress={
-                                                                        _ => {
-                                                                            removeIngredient(recipe, i);
-                                                                        }
-                                                                    }
-                                                                >
-                                                                  <RN.Text>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faMinus}
-                                                                        color={'red'}
-                                                                        size={30}
-                                                                        style={{
-                                                                            marginTop: 20
-                                                                        }}
-                                                                    />
-                                                                  </RN.Text>
-                                                                </RN.TouchableOpacity>
-                                                            }
-                                                        </RN.View>
-                                                    </RN.View>
-                                                )
-                                            })
-                                        }
-
-                                    </RN.View>
-                                }
-
-                                <RN.Text>Preparation Instructions</RN.Text>
-                                {
-                                    submit_pressed && isEmptyString(formValidityTree['cooking_instructions'][0]) &&
-                                    <Text style={{color: 'red'}}> * This field is required.</Text>
-                                }
-                                {
-                                    !isEmptyArray(recipe.cooking_instructions) &&
-                                    <RN.View
-                                    >
-                                        {
-                                            recipe.cooking_instructions.map((item, i) => {
-                                                let cooking_instruction = recipe.cooking_instructions[i];
-                                                return (
-                                                    <RN.View
-                                                        key={makeId(16)}
-                                                    >
-                                                        {
-                                                            submit_pressed && isEmptyString(cooking_instruction) &&
-                                                            <Text style={{color: 'red'}}> * This field is
-                                                              required.</Text>
-                                                        }
-                                                        <BlankSpaceDivider/>
-                                                        <AppTextInput
-                                                            label={`${'' + (i + 1) + '. '}`}
-                                                            onTextChange={
-                                                                text => {
-                                                                    textValueChanged({text: item}, text, 'text');
-                                                                    recipe.cooking_instructions[i] = text;
-                                                                }
-                                                            }
-                                                            // v-bind:value="textValue({text:item}, 'text', this)"
-                                                        />
-                                                        <RN.View>
-                                                            {
-                                                                (i === (recipe.cooking_instructions.length - 1)) &&
-                                                                <RN.TouchableOpacity
-                                                                    onPress={
-                                                                        _ => {
-                                                                            addCookingInstruction(recipe);
-                                                                        }
-                                                                    }
-                                                                >
-                                                                  <RN.Text>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faPlus}
-                                                                        color={'green'}
-                                                                        size={30}
-                                                                        style={{
-                                                                            marginTop: 20
-                                                                        }}
-                                                                    />
-                                                                  </RN.Text>
-                                                                </RN.TouchableOpacity>
-                                                            }
-                                                            {
-                                                                (recipe.cooking_instructions.length >= 2) &&
-                                                                <RN.TouchableOpacity
-                                                                    onPress={
-                                                                        _ => {
-                                                                            removeCookingInstruction(recipe, i);
-                                                                        }
-                                                                    }
-                                                                >
-                                                                  <RN.Text>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faMinus}
-                                                                        color={'red'}
-                                                                        size={30}
-                                                                        style={{
-                                                                            marginTop: 20
-                                                                        }}
-                                                                    />
-                                                                  </RN.Text>
-                                                                </RN.TouchableOpacity>
-                                                            }
-                                                        </RN.View>
-                                                    </RN.View>
-                                                )
-                                            })
-                                        }
-
-                                    </RN.View>
-                                }
-
-                                <BlankSpaceDivider/>
-
-                                <RN.View>
-
-                                    <RN.Text>
-                                        Suitable for:
-                                    </RN.Text>
-
-                                    <Picker
-                                        mode="dropdown"
                                         style={[
-                                            {color: "grey", marginLeft: 20}
+                                            ...className(FlexContainerChildItemFullWidthCN)
                                         ]}
-                                        selectedValue={spinnerSelectedValue(recipe, -1, RecipeGroupsSuitable, "groups_suitable")}
-                                        onValueChange={value => spinnerOnValueChanged(recipe, value, "groups_suitable")}
                                     >
-                                        {generateSpinnerOptions(RecipeGroupsSuitable)}
-                                    </Picker>
-
-                                </RN.View>
-
-                                <RN.View>
-                                    {
-                                        (viewAction === null) &&
-                                        <RN.TouchableOpacity
-                                            onPress={
-                                                _ => submitRecipeClick(recipe, set_press_submit, formValidityTree)
-                                            }
+                                        <RN.View
+                                            style={[
+                                                ...className(FlexFluidRowContainerCN)
+                                            ]}
                                         >
-                                          <RN.Text>Save Recipe</RN.Text>
-                                        </RN.TouchableOpacity>
+                                            {
+                                                (_ => {
+                                                    let photos: Array<Element> = []
+                                                    for (let i = 0; i < 5; i++) {
+                                                        photos.push(
+                                                            <RN.View
+                                                                style={[
+                                                                    ...className(FlexContainerChildItemOneThirdWidthCN)
+                                                                ]}
+                                                            >
+                                                                <PhotoInput
+                                                                    items={{src: '../media/images/image.png'}}
+                                                                    key={makeId(16)}
+                                                                />
+                                                            </RN.View>
+                                                        );
+                                                    }
+                                                    return photos;
+                                                })()
+                                            }
+                                        </RN.View>
+                                    </RN.View>
+                                    {
+                                        submit_pressed && !isBoolean(formValidityTree['is_vegetarian']) &&
+                                        <FormFieldIsRequiredMessage/>
+                                    }
+                                    <BlankSpaceDivider/>
+                                    <RN.View
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN)
+                                        ]}
+                                    >
+                                        <Checkbox
+                                            label={'Is vegetarian'}
+                                            onCheckBoxChange={check => {
+                                                checkboxItemValueChanged(recipe, check, 'is_vegetarian',
+                                                    1, 0);
+                                            }}
+                                            model={recipe}
+                                            modelKey={'is_vegetarian'}
+                                        />
+                                    </RN.View>
+                                    <RN.Text
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN,
+                                                AlignLeftFlexContainerContentCN)
+                                        ]}
+                                    >Ingredients</RN.Text>
+                                    {
+                                        submit_pressed && isEmptyArray(recipe.ingredients) &&
+                                        <FormFieldIsRequiredMessage message={'Please provide ingredients!'}/>
+                                    }
+                                    <BlankSpaceDivider/>
+                                    {
+                                        !isEmptyArray(recipe.ingredients) &&
+                                        <RN.View
+                                            style={[
+                                                ...className(FlexContainerChildItemFullWidthCN)
+                                            ]}
+                                        >
+                                            {
+                                                recipe.ingredients.map((item, i) => {
+                                                    let ingredient = recipe.ingredients[i];
+                                                    return (
+                                                        <RN.View
+                                                            style={[
+                                                                ...className(FlexFluidRowContainerCN)
+                                                            ]}
+                                                            key={makeId(16)}
+                                                        >
+                                                            {
+                                                                submit_pressed && isEmptyString(ingredient) &&
+                                                                <FormFieldIsRequiredMessage/>
+                                                            }
+                                                            <BlankSpaceDivider/>
+                                                            <AppTextInput
+                                                                label={`${'' + (i + 1) + '. '}`}
+                                                                onTextChange={
+                                                                    text => {
+                                                                        textValueChanged({text: item}, text, 'text');
+                                                                        recipe.ingredients[i] = text;
+                                                                    }
+                                                                }
+                                                                // v-bind:value="textValue({text:item}, 'text', this)"
+                                                            />
+                                                            <RN.View
+                                                                style={[
+                                                                    ...className(FlexContainerChildItemFullWidthCN)
+                                                                ]}
+                                                            >
+                                                                <RN.View
+                                                                    style={[
+                                                                        ...className(FlexFluidRowContainerCN,
+                                                                            AlignRightFlexContainerContentCN)
+                                                                    ]}
+                                                                >
+                                                                    {
+                                                                        (i === (recipe.ingredients.length - 1)) &&
+                                                                        <RN.TouchableOpacity
+                                                                            onPress={
+                                                                                _ => {
+                                                                                    addIngredient(recipe);
+                                                                                }
+                                                                            }
+                                                                            style={[
+                                                                                {
+                                                                                    borderRadius: 50,
+                                                                                    backgroundColor: 'forestgreen'
+                                                                                },
+                                                                                ...className(AlignCenterContentCN),
+                                                                            ]}
+                                                                        >
+                                                                          <RN.Text>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faPlus}
+                                                                                color={'white'}
+                                                                                size={30}
+                                                                                style={{
+                                                                                    // marginTop: 20
+                                                                                }}
+                                                                            />
+                                                                          </RN.Text>
+                                                                        </RN.TouchableOpacity>
+                                                                    }
+                                                                    {
+                                                                        (recipe.ingredients.length >= 2) &&
+                                                                        <RN.TouchableOpacity
+                                                                            onPress={
+                                                                                _ => {
+                                                                                    removeIngredient(recipe, i);
+                                                                                }
+                                                                            }
+                                                                            style={[
+                                                                                {
+                                                                                    borderRadius: 50,
+                                                                                    backgroundColor: 'maroon'
+                                                                                },
+                                                                                ...className(AlignCenterContentCN)
+                                                                            ]}
+                                                                        >
+                                                                          <RN.Text>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faMinus}
+                                                                                color={'white'}
+                                                                                size={30}
+                                                                                style={{
+                                                                                    // marginTop: 20
+                                                                                }}
+                                                                            />
+                                                                          </RN.Text>
+                                                                        </RN.TouchableOpacity>
+                                                                    }
+                                                                </RN.View>
+                                                            </RN.View>
+                                                        </RN.View>
+                                                    )
+                                                })
+                                            }
+                                        </RN.View>
+                                    }
+                                    <RN.Text
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN,
+                                                AlignLeftFlexContainerContentCN)
+                                        ]}
+                                    >Preparation Instructions</RN.Text>
+                                    {
+                                        submit_pressed && isEmptyString(formValidityTree['cooking_instructions'][0]) &&
+                                        <FormFieldIsRequiredMessage/>
                                     }
                                     {
-                                        (viewAction !== null) &&
-                                        <RN.TouchableOpacity
-                                            onPress={
-                                                _ => updateRecipeClick(recipe, set_press_submit, formValidityTree)
-                                            }
+                                        !isEmptyArray(recipe.cooking_instructions) &&
+                                        <RN.View
+                                            style={[
+                                                ...className(FlexContainerChildItemFullWidthCN)
+                                            ]}
                                         >
-                                          <RN.Text>Update Recipe</RN.Text>
-                                        </RN.TouchableOpacity>
-                                    }
-                                </RN.View>
+                                            {
+                                                recipe.cooking_instructions.map((item, i) => {
+                                                    let cooking_instruction = recipe.cooking_instructions[i];
+                                                    return (
+                                                        <RN.View
+                                                            style={[
+                                                                ...className(FlexFluidRowContainerCN)
+                                                            ]}
+                                                            key={makeId(16)}
+                                                        >
+                                                            {
+                                                                submit_pressed && isEmptyString(cooking_instruction) &&
+                                                                <FormFieldIsRequiredMessage/>
+                                                            }
+                                                            <BlankSpaceDivider/>
+                                                            <AppTextInput
+                                                                label={`${'' + (i + 1) + '. '}`}
+                                                                onTextChange={
+                                                                    text => {
+                                                                        textValueChanged({text: item}, text, 'text');
+                                                                        recipe.cooking_instructions[i] = text;
+                                                                    }
+                                                                }
+                                                                // v-bind:value="textValue({text:item}, 'text', this)"
+                                                            />
+                                                            <RN.View
+                                                                style={[
+                                                                    ...className(FlexContainerChildItemFullWidthCN)
+                                                                ]}
+                                                            >
+                                                                {
+                                                                    (i === (recipe.cooking_instructions.length - 1)) &&
+                                                                    <RN.TouchableOpacity
+                                                                        onPress={
+                                                                            _ => {
+                                                                                addCookingInstruction(recipe);
+                                                                            }
+                                                                        }
+                                                                        style={[
+                                                                            {
+                                                                                borderRadius: 50,
+                                                                                backgroundColor: 'forestgreen'
+                                                                            },
+                                                                            ...className(AlignCenterContentCN),
+                                                                        ]}
+                                                                    >
+                                                                      <RN.Text>
+                                                                        <FontAwesomeIcon
+                                                                            icon={faPlus}
+                                                                            color={'white'}
+                                                                            size={30}
+                                                                            style={{
+                                                                                marginTop: 20
+                                                                            }}
+                                                                        />
+                                                                      </RN.Text>
+                                                                    </RN.TouchableOpacity>
+                                                                }
+                                                                {
+                                                                    (recipe.cooking_instructions.length >= 2) &&
+                                                                    <RN.TouchableOpacity
+                                                                        onPress={
+                                                                            _ => {
+                                                                                removeCookingInstruction(recipe, i);
+                                                                            }
+                                                                        }
+                                                                        style={[
+                                                                            {
+                                                                                borderRadius: 50,
+                                                                                backgroundColor: 'maroon'
+                                                                            },
+                                                                            ...className(AlignCenterContentCN),
 
+                                                                        ]}
+                                                                    >
+                                                                      <RN.Text>
+                                                                        <FontAwesomeIcon
+                                                                            icon={faMinus}
+                                                                            color={'white'}
+                                                                            size={30}
+                                                                            style={{
+                                                                                marginTop: 20
+                                                                            }}
+                                                                        />
+                                                                      </RN.Text>
+                                                                    </RN.TouchableOpacity>
+                                                                }
+                                                            </RN.View>
+                                                        </RN.View>
+                                                    )
+                                                })
+                                            }
+                                        </RN.View>
+                                    }
+                                    <BlankSpaceDivider/>
+                                    <RN.View
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN)
+                                        ]}
+                                    >
+                                        <RN.View
+                                            style={[
+                                                ...className(FlexFluidRowContainerCN)
+                                            ]}
+                                        >
+                                            <RN.Text
+                                                style={[
+                                                    ...className(FlexContainerChildItemFullWidthCN,
+                                                        AlignLeftFlexContainerContentCN)
+                                                ]}
+                                            >
+                                                Suitable for:
+                                            </RN.Text>
+                                            <RN.View
+                                                style={[
+                                                    ...className(FlexContainerChildItemFullWidthCN)
+                                                ]}
+                                            >
+                                                <Picker
+                                                    mode="dropdown"
+                                                    style={[
+                                                        {color: "grey", marginLeft: 20}
+                                                    ]}
+                                                    selectedValue={spinnerSelectedValue(recipe, -1,
+                                                        RecipeGroupsSuitable, "groups_suitable")}
+                                                    onValueChange={value => spinnerOnValueChanged(recipe, value, "groups_suitable")}
+                                                >
+                                                    {generateSpinnerOptions(RecipeGroupsSuitable)}
+                                                </Picker>
+                                            </RN.View>
+                                        </RN.View>
+                                    </RN.View>
+                                    <RN.View
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN)
+                                        ]}
+                                    >
+                                        <RN.View
+                                            style={[
+                                                ...className(FlexFluidRowContainerCN,
+                                                    AlignCenterContentCN)
+                                            ]}
+                                        >
+                                            {
+                                                (viewAction === null) &&
+                                                <RN.TouchableOpacity
+                                                    onPress={
+                                                        _ => submitRecipeClick(recipe, set_press_submit, formValidityTree)
+                                                    }
+                                                    style={[
+                                                        {
+                                                            width: '60%',
+                                                            backgroundColor: 'forestgreen'
+                                                        }
+                                                    ]}
+                                                >
+                                                  <RN.Text>Save Recipe</RN.Text>
+                                                </RN.TouchableOpacity>
+                                            }
+                                            {
+                                                (viewAction !== null) &&
+                                                <RN.TouchableOpacity
+                                                    onPress={
+                                                        _ => updateRecipeClick(recipe, set_press_submit, formValidityTree)
+                                                    }
+                                                    style={[
+                                                        {
+                                                            width: '60%',
+                                                            backgroundColor: 'forestgreen'
+                                                        }
+                                                    ]}
+                                                >
+                                                  <RN.Text>Update Recipe</RN.Text>
+                                                </RN.TouchableOpacity>
+                                            }
+                                        </RN.View>
+                                    </RN.View>
+                                </RN.View>
                             </RN.View>
                         </RN.View>
                     </RN.View>
-                    <BlankSpaceDivider/>
-
                 </RN.View>
-
+                <BlankSpaceDivider/>
                 {
                     (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
                         expectationOfX => isTrue(expectationOfX))) &&
@@ -377,9 +556,7 @@ export function CreateEditRecipeForm(props) {
                       />
                     </View>
                 }
-
             </RN.View>
-
         </RN.ScrollView>
     );
 }

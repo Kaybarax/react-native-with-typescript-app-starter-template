@@ -14,7 +14,7 @@ import AppNotificationToastAlert
 import LoginForm from "../login-and-registration-views/login-form";
 import SignUpForm from "../login-and-registration-views/sign-up-form";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {LOGIN_PAGE_ACTIONS} from "../../stores/stores-actions-and-data";
+import {AUTHENTICATION_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
 import {User} from "../../app-management/data-manager/models-manager";
 import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Loader from "../../shared-components-and-modules/loaders";
@@ -42,17 +42,17 @@ function Login(props) {
     } = props;
 
     const showLoginForm = () => {
-        login.pageAction = LOGIN_PAGE_ACTIONS.LOGIN;
+        login.pageAction = AUTHENTICATION_ACTIONS_ENUM.LOGIN;
     };
 
     const showSignUpForm = () => {
         let user: User = {id: makeId(32)};
         login.signUpForm.user = user;
-        login.pageAction = LOGIN_PAGE_ACTIONS.SIGN_UP;
+        login.pageAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
     };
 
     // const showResetPasswordForm = () => {
-    //     login.pageAction = LOGIN_PAGE_ACTIONS.RESET_PASSWORD;
+    //     login.pageAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
     // };
     const showResetPasswordForm = false;
 
@@ -61,14 +61,14 @@ function Login(props) {
             expectationOfX => isNullUndefined(expectationOfX))
         ||
         displayFieldExpectationSatisfied('pageAction', login,
-            expectationOfX => expectationOfX === LOGIN_PAGE_ACTIONS.LOGIN)
+            expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.LOGIN)
     );
 
     let showSignUp = displayFieldExpectationSatisfied('pageAction', login,
-        expectationOfX => expectationOfX === LOGIN_PAGE_ACTIONS.SIGN_UP);
+        expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.SIGN_UP);
 
     let showResetPassword = displayFieldExpectationSatisfied('pageAction', login,
-        expectationOfX => expectationOfX === LOGIN_PAGE_ACTIONS.RESET_PASSWORD);
+        expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
 
     // @ts-ignore
     return (

@@ -20,7 +20,7 @@ import {ViewRoute} from "./routing-and-navigation-utils";
 import LoginActivity from '../views/recipe-box-sub-app-views/login';
 import RecipeHomeActivity from "../views/recipe-box-sub-app-views/home";
 import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
-import RecipeDashboardItemCard from "../views/recipe-box-sub-app-views/recipe-dashboard-item-card";
+import RecipeItemCard from "../views/recipe-box-sub-app-views/recipe-item-card";
 import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/create-edit-recipe-form";
 import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 
@@ -83,7 +83,7 @@ export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
 
 export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE DETAILS',
-    screen: WithStoresHoc(RecipeDashboardItemCard,['recipeBoxStore'])
+    screen: WithStoresHoc(RecipeItemCard,['recipeBoxStore'])
 };
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {

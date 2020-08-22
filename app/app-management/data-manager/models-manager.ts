@@ -39,6 +39,7 @@ export interface Recipe {
     cooking_instructions?: Array<string>,
     groups_suitable?: Array<string>,
     date_created?: Date,
+    rating?: number,
     status_ref_key_key?: string,
     status_ref_key_value?: string,
 }
@@ -47,7 +48,7 @@ export interface RecipeImage {
     id: string,
     recipe_id?: string,
     image_url?: string,
-    image_file?: object,
+    image_file?: string,
 }
 
 /**

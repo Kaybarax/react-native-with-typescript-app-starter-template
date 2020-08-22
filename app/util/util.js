@@ -303,3 +303,67 @@ export function makeId(length) {
   }
   return result;
 }
+
+
+/**
+ * sd _ Kaybarax
+ * @param dateTime
+ * @returns {Date}
+ */
+export function utcToLocalDateTimeConverter(dateTime) {
+
+  //enforce that is datetime object
+  let utcDateTime = new Date('' + dateTime);
+
+  let localDateTime = new Date(utcDateTime.getTime() + utcDateTime.getTimezoneOffset() * 60 * 1000);
+
+  let offset = utcDateTime.getTimezoneOffset() / 60;
+  let hours = utcDateTime.getHours();
+
+  localDateTime.setHours(hours - offset);
+
+  return localDateTime;
+}
+
+/**
+ * sd _ Kaybarax
+ * @param dateTime
+ * @returns {string}
+ */
+export function localeTimeStringFormatFromDatetime(dateTime) {
+  return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
+}
+
+/**
+ * sd _ Kaybarax
+ * @param dateTime
+ * @param localeTimeFormat
+ * @returns {string}
+ */
+export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 'en-GB') {
+  let dateTimeObj = new Date(dateTime);//enforce that is datetime object
+  // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
+  let localeDateString;
+  localeDateString = dateTimeObj.toLocaleDateString();
+  //for US Time format orientation
+  if (localeTimeFormat === 'en-US') {
+    localeDateString = localeDateString.split("/").join("-");
+    localeDateString = localeDateString.split("-");
+    localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
+  }
+  // console.log(' ## localeDateStringFormat ## ', localeDateString);//log
+  return localeDateString;
+}
+
+/**
+ * sd _ Kaybarax
+ * @param dateTime
+ * @returns {string}
+ */
+export function localeTimeStringFormat(dateTime) {
+  let dateTimeObj = new Date('' + dateTime);//enforce that is datetime object
+  // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
+  let localeTimeString = dateTimeObj.toLocaleTimeString();
+  // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
+  return localeTimeString;
+}
