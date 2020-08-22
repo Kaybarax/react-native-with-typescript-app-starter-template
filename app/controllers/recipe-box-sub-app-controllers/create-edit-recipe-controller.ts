@@ -169,70 +169,70 @@ export function removeCookingInstruction(recipe, index, activity = null) {
 }
 
 export function saveRecipe(model, activity) {
-    // console.log('saveRecipe');
-
-    //save to indexedDb
-    let db = window.db;//get db;
-
-    // recipe to save
-    let recipe = toJS(model);
-
-    //get recipe photo file in binary
-    let reader = new FileReader();
-    reader.readAsBinaryString(recipe.dish_image);
-
-    reader.onload = function (e) {
-
-        let blob = e.target.result;
-        let blobData = {
-            recipe_id: recipe.id,
-            data: blob
-        };
-
-        let trans = db.transaction([
-            APP_INDEXED_DB_DATASTORES.RECIPES,
-            APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES
-        ], 'readwrite');
-
-        //complete save recipe photo request
-        let addPhotoReq = trans
-            .objectStore(APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES)
-            .add(blobData, recipe.id);
-
-        //then complete save recipe request
-        //it will cause confusion cuz files move over time and it's just file information
-        recipe.dish_image = null;
-        let addRecipeReq = trans
-            .objectStore(APP_INDEXED_DB_DATASTORES.RECIPES)
-            .add(recipe, recipe.id);
-
-        addPhotoReq.onerror = function (e) {
-            console.log('Error storing recipe photo');
-            console.error(e);
-        }
-
-        addRecipeReq.onerror = function (e) {
-            console.log('Error storing recipe');
-            console.error(e);
-        }
-
-        // Wait for the database transaction to complete
-        trans.oncomplete = function (e) {
-            console.log('Recipe stored');
-            toastNotificationCallback('succ', 'Recipe saved! Add Another', activity);
-            //ready next recipe creation
-            activity.appStore.selectedRecipe = null;
-            createRecipe(activity);
-            //update recipes for user
-            getAllRecipesForUser(activity, activity.appStore.user.id);
-            //some time for notification alert
-            setTimeout(_ => appNavigation.navigateToHome(activity.$router), 1500)
-        }
-        trans.onerror = function (e) {
-            console.log('Save data error code: ' + e.target.errorCode);
-            toastNotificationCallback('err', 'Failed to save recipe!', activity);
-        }
-    }
+    // // console.log('saveRecipe');
+    //
+    // //save to indexedDb
+    // let db = window.db;//get db;
+    //
+    // // recipe to save
+    // let recipe = toJS(model);
+    //
+    // //get recipe photo file in binary
+    // let reader = new FileReader();
+    // reader.readAsBinaryString(recipe.dish_image);
+    //
+    // reader.onload = function (e) {
+    //
+    //     let blob = e.target.result;
+    //     let blobData = {
+    //         recipe_id: recipe.id,
+    //         data: blob
+    //     };
+    //
+    //     let trans = db.transaction([
+    //         APP_INDEXED_DB_DATASTORES.RECIPES,
+    //         APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES
+    //     ], 'readwrite');
+    //
+    //     //complete save recipe photo request
+    //     let addPhotoReq = trans
+    //         .objectStore(APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES)
+    //         .add(blobData, recipe.id);
+    //
+    //     //then complete save recipe request
+    //     //it will cause confusion cuz files move over time and it's just file information
+    //     recipe.dish_image = null;
+    //     let addRecipeReq = trans
+    //         .objectStore(APP_INDEXED_DB_DATASTORES.RECIPES)
+    //         .add(recipe, recipe.id);
+    //
+    //     addPhotoReq.onerror = function (e) {
+    //         console.log('Error storing recipe photo');
+    //         console.error(e);
+    //     }
+    //
+    //     addRecipeReq.onerror = function (e) {
+    //         console.log('Error storing recipe');
+    //         console.error(e);
+    //     }
+    //
+    //     // Wait for the database transaction to complete
+    //     trans.oncomplete = function (e) {
+    //         console.log('Recipe stored');
+    //         toastNotificationCallback('succ', 'Recipe saved! Add Another', activity);
+    //         //ready next recipe creation
+    //         activity.appStore.selectedRecipe = null;
+    //         createRecipe(activity);
+    //         //update recipes for user
+    //         getAllRecipesForUser(activity, activity.appStore.user.id);
+    //         //some time for notification alert
+    //         setTimeout(_ => appNavigation.navigateToHome(activity.$router), 1500)
+    //     }
+    //     trans.onerror = function (e) {
+    //         console.log('Save data error code: ' + e.target.errorCode);
+    //         toastNotificationCallback('err', 'Failed to save recipe!', activity);
+    //     }
+    // }
 
 }
 
@@ -247,99 +247,82 @@ export function handleRecipeUpdate(recipe, activity) {
 export function updateRecipeImage(recipe, activity) {
 
     //get recipe photo file in binary
-    let reader = new FileReader();
-    reader.readAsBinaryString(recipe.dish_image);
-
-    reader.onload = function (e) {
-
-        let blob = e.target.result;
-        let blobData = {
-            recipe_id: recipe.id,
-            data: blob
-        };
-
-        //save to indexedDb
-        let db = window.db;//get db;
-
-        let trans = db.transaction([
-            APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES
-        ], 'readwrite');
-
-        //complete save recipe photo request
-        let putPhotoReq = trans
-            .objectStore(APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES)
-            .put(blobData, recipe.id);
-
-        putPhotoReq.onerror = function (e) {
-            console.log('Error updating recipe photo');
-            console.error(e);
-        }
-
-        // Wait for the database transaction to complete
-        trans.oncomplete = function (e) {
-            console.log('Updated recipe photo');
-            toastNotificationCallback('succ', 'Recipe photo updated', activity);
-        }
-        trans.onerror = function (e) {
-            console.log('Save data error code: ' + e.target.errorCode);
-            toastNotificationCallback('err', 'Failed to update recipe photo!', activity);
-        }
-    }
+    // let reader = new FileReader();
+    // reader.readAsBinaryString(recipe.dish_image);
+    //
+    // reader.onload = function (e) {
+    //
+    //     let blob = e.target.result;
+    //     let blobData = {
+    //         recipe_id: recipe.id,
+    //         data: blob
+    //     };
+    //
+    //     //save to indexedDb
+    //     let db = window.db;//get db;
+    //
+    //     let trans = db.transaction([
+    //         APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES
+    //     ], 'readwrite');
+    //
+    //     //complete save recipe photo request
+    //     let putPhotoReq = trans
+    //         .objectStore(APP_INDEXED_DB_DATASTORES.RECIPE_DISH_IMAGES)
+    //         .put(blobData, recipe.id);
+    //
+    //     putPhotoReq.onerror = function (e) {
+    //         console.log('Error updating recipe photo');
+    //         console.error(e);
+    //     }
+    //
+    //     // Wait for the database transaction to complete
+    //     trans.oncomplete = function (e) {
+    //         console.log('Updated recipe photo');
+    //         toastNotificationCallback('succ', 'Recipe photo updated', activity);
+    //     }
+    //     trans.onerror = function (e) {
+    //         console.log('Save data error code: ' + e.target.errorCode);
+    //         toastNotificationCallback('err', 'Failed to update recipe photo!', activity);
+    //     }
+    // }
 
 }
 
 export function updateRecipe(recipe, activity) {
 
-    let recipeItem = toJS(recipe);//because of mobx
-    //save to indexedDb
-    let db = window.db;//get db;
-    let trans = db.transaction([
-        APP_INDEXED_DB_DATASTORES.RECIPES
-    ], 'readwrite');
-
-    let putRecipeReq = trans
-        .objectStore(APP_INDEXED_DB_DATASTORES.RECIPES)
-        .put(recipeItem, recipe.id);
-
-    putRecipeReq.onerror = function (e) {
-        console.log('Error updating recipe');
-        console.error(e);
-    }
-
-    trans.oncomplete = function (e) {
-        console.log('Updated recipe');
-        toastNotificationCallback('succ', 'Recipe updated', activity);
-        //complete
-        activity.appStore.selectedRecipe = null;
-        createRecipe(activity);
-        //update recipes for user
-        // getAllRecipesForUser(activity, activity.appStore.user.id);
-        activity.appStore.recipes = [];
-        activity.appStore.userRecipesPhotos = [];
-        //some time for notification alert
-        setTimeout(_ => appNavigation.navigateToHome(activity.$router), 2000)
-        // setTimeout(_ => window.location.reload(), 2000)
-    }
-    trans.onerror = function (e) {
-        console.log('Save data error code: ' + e.target.errorCode);
-        toastNotificationCallback('err', 'Failed to update recipe!', activity);
-    }
-
-}
-
-
-/**
- * sd _ Kaybarax
- */
-export class CreateEditRecipeController {
-
-    submit_pressed = false;
-    set_press_submit = (value) => {
-        this.submit_pressed = value
-    }
-
-    recipeFormKeys = [];
-    recipeFormValidity = {};
-
+    // let recipeItem = toJS(recipe);//because of mobx
+    // //save to indexedDb
+    // let db = window.db;//get db;
+    // let trans = db.transaction([
+    //     APP_INDEXED_DB_DATASTORES.RECIPES
+    // ], 'readwrite');
+    //
+    // let putRecipeReq = trans
+    //     .objectStore(APP_INDEXED_DB_DATASTORES.RECIPES)
+    //     .put(recipeItem, recipe.id);
+    //
+    // putRecipeReq.onerror = function (e) {
+    //     console.log('Error updating recipe');
+    //     console.error(e);
+    // }
+    //
+    // trans.oncomplete = function (e) {
+    //     console.log('Updated recipe');
+    //     toastNotificationCallback('succ', 'Recipe updated', activity);
+    //     //complete
+    //     activity.appStore.selectedRecipe = null;
+    //     createRecipe(activity);
+    //     //update recipes for user
+    //     // getAllRecipesForUser(activity, activity.appStore.user.id);
+    //     activity.appStore.recipes = [];
+    //     activity.appStore.userRecipesPhotos = [];
+    //     //some time for notification alert
+    //     setTimeout(_ => appNavigation.navigateToHome(activity.$router), 2000)
+    //     // setTimeout(_ => window.location.reload(), 2000)
+    // }
+    // trans.onerror = function (e) {
+    //     console.log('Save data error code: ' + e.target.errorCode);
+    //     toastNotificationCallback('err', 'Failed to update recipe!', activity);
+    // }
 
 }

@@ -38,7 +38,7 @@ export interface Recipe {
     ingredients?: Array<string>,
     cooking_instructions?: Array<string>,
     groups_suitable?: Array<string>,
-    date_created?: Date,
+    date_created?: string,
     rating?: number,
     status_ref_key_key?: string,
     status_ref_key_value?: string,
