@@ -27,7 +27,7 @@ export function deepCloneObject(obj) {
   try {
     return {...obj};
   } catch (err) {
-    console.log("operation error")
+    console.log('operation error');
     return null;
   }
 }
@@ -151,8 +151,9 @@ export function isEmptyArray(array) {
  * @returns {*[]|any}
  */
 export function objectInstanceProvider(obj) {
-  if (isArrayDatatype(obj))
+  if (isArrayDatatype(obj)) {
     return [...obj];
+  }
   return deepCloneObject(obj);
 }
 
@@ -262,8 +263,9 @@ export async function getObjectFromAsyncStorage(key) {
 export function isEmptyObject(obj) {
   try {
     for (let key in obj) {
-      if (obj.hasOwnProperty(key))
+      if (obj.hasOwnProperty(key)) {
         return false;
+      }
     }
   } catch (e) {
     return true;
@@ -347,8 +349,8 @@ export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 
   localeDateString = dateTimeObj.toLocaleDateString();
   //for US Time format orientation
   if (localeTimeFormat === 'en-US') {
-    localeDateString = localeDateString.split("/").join("-");
-    localeDateString = localeDateString.split("-");
+    localeDateString = localeDateString.split('/').join('-');
+    localeDateString = localeDateString.split('-');
     localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
   }
   // console.log(' ## localeDateStringFormat ## ', localeDateString);//log

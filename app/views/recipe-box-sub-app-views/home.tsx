@@ -9,11 +9,11 @@
 
 import React from "react";
 import RN from 'react-native';
-import RecipeItemCard from "./recipe-item-card";
+import RecipeListItemCard from "./recipe-list-item-card";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {isEmptyArray, isTrue, makeId} from "../../util/util";
+import {deepCloneObject, isEmptyArray, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
@@ -24,17 +24,29 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import appNavigation from "../../routing-and-navigation/app-navigation";
+import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
+import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../../__tests__/test-data";
 
 export function RecipeHome(props) {
 
     let {recipeBoxStore} = props;
-    let {toastNotificationAlert, recipes} = recipeBoxStore;
+    let {
+        toastNotificationAlert,
+        // recipes
+    } = recipeBoxStore;
+
+    //use development test data for now
+    let recipes: Array<Recipe> | any = deepCloneObject(TEST_RECIPES);
+    let recipesPhotos: Array<RecipeImage> | any = deepCloneObject(TEST_RECIPES_PHOTOS);
 
     if (isEmptyArray(recipes)) {
         return (
             <NoRecipesDisplay/>
         );
     }
+
+    //inject needed appStore and recipeBoxStore
+    let RecipeListItem = WithStoresHoc(RecipeListItemCard,['recipeBoxStore','appStore']);
 
     return (
         <RN.ScrollView
@@ -45,8 +57,13 @@ export function RecipeHome(props) {
         >
             <RN.FlatList
                 data={recipes}
-                renderItem={recipe => <RecipeItemCard
-                    recipe={recipe}
+                renderItem={item => <RecipeListItem
+                    recipe={item}
+                    recipePhotos={_ => {
+                        let recipe: Recipe | any = item;
+                        return isEmptyArray(recipesPhotos) ? []
+                            : recipesPhotos?.filter(item => item.recipe_id === recipe.id);
+                    }}
                     dashboardCard={true}
                 />}
                 keyExtractor={_ => makeId(16)}

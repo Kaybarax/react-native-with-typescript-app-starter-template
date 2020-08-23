@@ -41,14 +41,15 @@ import {faLeaf} from "@fortawesome/free-solid-svg-icons";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 
-export default function RecipeItemCard(props) {
+export default function RecipeListItemCard(props) {
 
     let {
-        toastNotificationAlert, recipeImages,
-        dashboardCard, recipeItemCard, navigation, appStore: {navStore}
+        dashboardCard, recipeBoxStore,
+        navigation, appStore: {navStore},
+        recipeBoxStore: {viewAction, toastNotificationAlert}
     } = props;
     let recipe: Recipe = props.recipe;
-    let {viewAction} = recipeItemCard;
+    let recipePhotos: Array<RecipeImage> = props.recipePhotos;
 
     return (
         <RN.ScrollView
@@ -74,8 +75,8 @@ export default function RecipeItemCard(props) {
                         horizontal={true}
                     >
                         {
-                            !isEmptyArray(recipeImages) &&
-                            (recipeImages.map((item: RecipeImage) => {
+                            !isEmptyArray(recipePhotos) &&
+                            (recipePhotos.map((item: RecipeImage) => {
                                 return (
                                     <RN.Image
                                         source={
@@ -360,7 +361,7 @@ export default function RecipeItemCard(props) {
                         (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_RECIPE) &&
                         <RN.TouchableOpacity
                             onPress={_ => {
-                                recipeItemCard.viewAction = null;
+                                recipeBoxStore.viewAction = null;
                                 appNavigation.navigateBack(navigation, navStore)
                             }}
                             style={[

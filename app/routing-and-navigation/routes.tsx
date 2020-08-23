@@ -23,10 +23,10 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {createDrawerNavigator} from "@react-navigation/drawer";
-import {inject, observer} from "mobx-react";
 import {makeId} from "../util/util";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {WINDOW_DIMENSIONS} from "../../App";
+import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
 
 //expose names of internal routes, mostly as a result of nested routing,
 //for availability for calls globally
@@ -183,8 +183,7 @@ export function RecipeBoxAppWithRouting() {
 export function AppDevMocksWithRouting() {
 
     const Stack = createStackNavigator();
-    const AppDevMocks =
-        (inject('authStore', 'appStore')(observer(APP_DEV_MOCKS_SCREEN_VIEW.screen)));
+    const AppDevMocks = WithStoresHoc(APP_DEV_MOCKS_SCREEN_VIEW.screen, ['authStore', 'appStore']);
 
     return (
         <Stack.Navigator

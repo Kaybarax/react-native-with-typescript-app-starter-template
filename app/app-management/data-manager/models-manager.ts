@@ -64,4 +64,3 @@ export function FoodGroupConsumer(code, name) {
         name: name,
     };
 }
-

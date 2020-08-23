@@ -10,15 +10,20 @@
 import React from "react";
 import {inject, observer} from "mobx-react";
 
+/**
+ * sd _ Kaybarax
+ * @param Wrapped
+ * @param stores
+ * @constructor
+ */
 const WithStoresHoc = (Wrapped, stores: Array<string>) => {
 
     let WithStores = (inject(...stores)(observer(Wrapped)));
 
-    return (
-        <React.Fragment>
-            <WithStores/>
-        </React.Fragment>
-    );
+    return function (props) {
+        return <WithStores {...props}/>;
+    }
+
 }
 
 export default WithStoresHoc;
