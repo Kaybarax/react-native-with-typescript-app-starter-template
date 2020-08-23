@@ -1,5 +1,11 @@
 //key
 //sd - self described
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import {action, observable} from 'mobx';
 import {LoginStoreProvider} from './stores-providers';
@@ -19,12 +25,17 @@ import appNavigation from '../routing-and-navigation/app-navigation';
 export class AuthStore {
 
   constructor(rootStore) {
+    //if doing persistence of stores,
+    // init handle of persistence to local storage
+    // this.persistMyStoresToAsyncStorageOnEvent(this.stores);
+
     this.rootStore = rootStore;
   }
 
   rootStore;
 
-  //to assist with differentiation during storage to persistence media, if application uses several stores classes
+  //to assist with differentiation during storage to persistence media,
+  // if application uses several stores classes
   static namespace = 'AuthStore_' + MobX_StoreKey_Identifier_In_AsyncStorage;
 
   persistMyStoresToAsyncStorageOnEvent(myStores) {
@@ -32,7 +43,7 @@ export class AuthStore {
   }
 
   //NOTE: FOR SECURITY CONSIDERATION THIS STORE SHOULD NOT BE PERSISTED IN STORAGE
-  // BECAUSE IT HOLDS THE USER'S password
+  // BECAUSE IT MIGHT HOLD THE USER'S SENSITIVE INFORMATION SUCH AS password.
   @observable
   login = LoginStoreProvider.storeProvider(AuthStore.namespace);
 
@@ -46,7 +57,7 @@ export class AuthStore {
   };
 
   // collect for provision for offline storage either to localstorage, indexedDB or any other app-offline storage
-  // Every store that you add, MAKE SURE to add it also here
+  // Every store that you add, MAKE SURE to add it also here (except stores which should not be persisted)
   stores = [];
 
   /**

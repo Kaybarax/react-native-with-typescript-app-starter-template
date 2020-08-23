@@ -1,17 +1,25 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import {
-  getItemFromAsyncStorage, getObjectFromAsyncStorage,
+  getItemFromAsyncStorage,
+  getObjectFromAsyncStorage,
   isNullUndefined,
   objectAHasSameKeysAsObjectB,
-  objectKeyExists, removeItemToAsyncStorage,
+  objectKeyExists,
+  removeItemToAsyncStorage,
   storeItemToAsyncStorage,
   stringifyObject,
 } from '../util/util';
 import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Alert} from 'react-native';
 
 /**
  * sd _ Kaybarax
@@ -84,7 +92,7 @@ export async function persistStoresToAsyncStorage(stores) {
     }
   } catch (err) {
     console.log('persistStoresToAsyncStorage failure!!');
-    alert('Critical failure in persistence of your stores!!');
+    Alert.alert('Critical failure in persistence of your stores!!');
     //and stop persistence
     await clearAllPersistedStoresToAsyncStorage();
   }
@@ -124,7 +132,7 @@ export async function clearAllPersistedStoresToAsyncStorage() {
     }
   } catch (e) {
     console.log(
-        'Unable to export function clearAllPersistedStoresToAsyncStorage() {\n!!',
+        'clearAllPersistedStoresToAsyncStorage failed!!',
     );
   }
 }
@@ -144,25 +152,25 @@ export function getPersistedStoreKey(namespaceProvider, assignedName) {
  * @param stores
  */
 export function persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents(stores) {
-  window.addEventListener('mouseup', async () => {
-    // console.log("PERSIST on mouseup registered")
-    await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  });
-  window.addEventListener('mousemove', async () => {
-    // console.log("PERSIST on mousedown registered")
-    await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  });
-  window.addEventListener('keyup', async () => {
-    // console.log("PERSIST on keyup registered")
-    await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  });
+  // window.addEventListener('mouseup', async () => {
+  //   // console.log("PERSIST on mouseup registered")
+  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
+  // });
+  // window.addEventListener('mousemove', async () => {
+  //   // console.log("PERSIST on mousedown registered")
+  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
+  // });
+  // window.addEventListener('keyup', async () => {
+  //   // console.log("PERSIST on keyup registered")
+  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
+  // });
 }
 
 /**
  * sd _ by Kaybarax
  */
 export function unregisterPersistenceEventListeners() {
-  window.removeEventListener('mouseup', persistStoreUpdatesAsyncStorageOnEvent);
-  window.removeEventListener('mousemove', persistStoreUpdatesAsyncStorageOnEvent);
-  window.removeEventListener('keyup', persistStoreUpdatesAsyncStorageOnEvent);
+  // window.removeEventListener('mouseup', persistStoreUpdatesAsyncStorageOnEvent);
+  // window.removeEventListener('mousemove', persistStoreUpdatesAsyncStorageOnEvent);
+  // window.removeEventListener('keyup', persistStoreUpdatesAsyncStorageOnEvent);
 }

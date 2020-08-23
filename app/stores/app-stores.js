@@ -1,12 +1,14 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import {observable} from 'mobx';
-import {
-  persistedStoreFromAsyncStorage,
-  persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents,
-} from './store-utils';
+import {persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents} from './store-utils';
 import {
   AppStoreProvider,
   Page1ExampleStoreProvider,
@@ -22,7 +24,8 @@ import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-dat
 export default class AppStores {
 
   constructor() {
-    //init handle of persistence to local storage
+    //if doing persistence of stores,
+    // init handle of persistence to local storage
     // this.persistMyStoresToAsyncStorageOnEvent(this.stores);
   }
 
@@ -30,7 +33,8 @@ export default class AppStores {
     persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents(myStores);
   }
 
-  //to assist with differentiation during storage to persistence media, if application uses several stores classes
+  //to assist with differentiation during storage to persistence media,
+  // if application uses several stores classes
   static namespace = 'AppStores_' + MobX_StoreKey_Identifier_In_AsyncStorage;
 
   @observable
