@@ -72,7 +72,8 @@ export function CreateEditRecipeForm(props) {
                         height: '100%'
                     }
                 ]}
-                source={require(props?.items.src)}
+                // source={require(props?.items.src)}
+                source={require('../../media/images/image.png')}
             />
             <RN.Text>
                 <FontAwesomeIcon

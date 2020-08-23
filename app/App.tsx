@@ -1,8 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
+ * Initially generated with the TypeScript template
  * https://github.com/react-native-community/react-native-template-typescript
  *
  * @format
@@ -17,18 +14,16 @@
  */
 
 import React from 'react';
-import RN, {useWindowDimensions,} from 'react-native';
+import RN from 'react-native';
 
 import {Provider} from 'mobx-react';
-import AppEntry from './app/app-entry';
-import rootStore from './app/stores';
+import AppEntry from './app-entry';
+import rootStore from './stores/index';
 
 declare const global: { HermesInternal: null | {} };
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
-
-export const WINDOW_DIMENSIONS = useWindowDimensions();
 
 const App = () => {
 

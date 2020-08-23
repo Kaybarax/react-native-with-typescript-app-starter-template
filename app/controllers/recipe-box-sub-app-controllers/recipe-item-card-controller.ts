@@ -20,7 +20,7 @@ import appNavigation from "../../routing-and-navigation/app-navigation";
 export function viewRecipeFullDetailsClick(recipe, viewRecipePhoto, recipeBoxStore, activity = null) {
     recipeBoxStore.viewRecipe = recipe;
     recipeBoxStore.viewRecipePhoto = viewRecipePhoto;
-    recipeBoxStore.pageAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_SINGLE_RECIPE
+    recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_SINGLE_RECIPE
 }
 
 /**

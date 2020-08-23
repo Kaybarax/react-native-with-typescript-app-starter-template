@@ -25,7 +25,7 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {makeId} from "../util/util";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {WINDOW_DIMENSIONS} from "../../App";
+import {SCREEN_WIDTH} from "../App";
 import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
 
 //expose names of internal routes, mostly as a result of nested routing,
@@ -77,7 +77,7 @@ export default function AppWithRouting() {
     const DefaultTabbedViewsWithDrawer = () => (
         <DefaultTabbedViewsDrawer.Navigator
             // drawerContent={ props => {}}
-            drawerType={WINDOW_DIMENSIONS.width >= 768 ? 'permanent' : 'front'}
+            drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
         >
             <DefaultTabbedViewsDrawer.Screen
                 name={InternalRoutes.RNAST_HOME}
@@ -194,7 +194,8 @@ export function AppDevMocksWithRouting() {
         >
             <Stack.Screen
                 name={APP_DEV_MOCKS_SCREEN_VIEW.name}
-                component={AppDevMocks}
+                // component={AppDevMocks}
+                component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
             />
         </Stack.Navigator>
     );

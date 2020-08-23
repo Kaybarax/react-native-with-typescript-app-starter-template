@@ -71,7 +71,7 @@ export function LoginActivitySchema(namespace, name) {
     password: null,
     confirmPassword: null,
   };
-  schema.pageAction = null;
+  schema.viewAction = null;
   schema.toastNotificationAlert = objectInstanceProvider(toastNotificationAlertProps);
   // console.log('LoginActivitySchema:: ', this.storeSchema)
   return this.storeSchema;

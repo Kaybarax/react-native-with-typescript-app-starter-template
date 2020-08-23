@@ -25,7 +25,7 @@ import {
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
-import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../../__tests__/test-data";
+import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../app-management/test-data";
 
 export function RecipeHome(props) {
 

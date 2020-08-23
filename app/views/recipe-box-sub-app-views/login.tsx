@@ -42,32 +42,32 @@ function Login(props) {
     } = props;
 
     const showLoginForm = () => {
-        login.pageAction = AUTHENTICATION_ACTIONS_ENUM.LOGIN;
+        login.viewAction = AUTHENTICATION_ACTIONS_ENUM.LOGIN;
     };
 
     const showSignUpForm = () => {
         let user: User = {id: makeId(32)};
         login.signUpForm.user = user;
-        login.pageAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
+        login.viewAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
     };
 
     // const showResetPasswordForm = () => {
-    //     login.pageAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
+    //     login.viewAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
     // };
     const showResetPasswordForm = false;
 
     let showLogin = (
-        displayFieldExpectationSatisfied('pageAction', login,
+        displayFieldExpectationSatisfied('viewAction', login,
             expectationOfX => isNullUndefined(expectationOfX))
         ||
-        displayFieldExpectationSatisfied('pageAction', login,
+        displayFieldExpectationSatisfied('viewAction', login,
             expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.LOGIN)
     );
 
-    let showSignUp = displayFieldExpectationSatisfied('pageAction', login,
+    let showSignUp = displayFieldExpectationSatisfied('viewAction', login,
         expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.SIGN_UP);
 
-    let showResetPassword = displayFieldExpectationSatisfied('pageAction', login,
+    let showResetPassword = displayFieldExpectationSatisfied('viewAction', login,
         expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
 
     // @ts-ignore

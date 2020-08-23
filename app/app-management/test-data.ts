@@ -1,5 +1,5 @@
-import {Recipe, RecipeImage} from "../app/app-management/data-manager/models-manager";
-import {RecipeGroupsSuitable} from "../app/app-management/data-manager/list-manager";
+import {Recipe, RecipeImage} from "./data-manager/models-manager";
+import {RecipeGroupsSuitable} from "./data-manager/list-manager";
 
 export const TEST_RECIPES: Array<Recipe> = [
     {

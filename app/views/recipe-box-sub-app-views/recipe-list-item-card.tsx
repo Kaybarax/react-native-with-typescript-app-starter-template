@@ -81,7 +81,8 @@ export default function RecipeListItemCard(props) {
                                     <RN.Image
                                         source={
                                             !isEmptyString(item?.image_url) ?
-                                                require('' + item.image_url) : (
+                                                // require('' + item.image_url) : (
+                                                require('../../media/images/image.png') : (
                                                     !isEmptyString(item?.image_file) ?
                                                         'data:image/jpeg;base64,' + item.image_file :
                                                         null
