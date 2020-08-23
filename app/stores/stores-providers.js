@@ -19,7 +19,7 @@ import {
   PAGE3EXAMPLE_STORE_NAME,
   Page3ExampleActivitySchema,
   PAGE4EXAMPLE_STORE_NAME,
-  Page4ExampleActivitySchema,
+  Page4ExampleActivitySchema, RECIPE_BOX_STORE_NAME, RecipeBoxActivitySchema,
 } from './store-schemas';
 import {getPersistedStoreKey} from './store-utils';
 import {getObjectFromAsyncStorage} from '../util/util';
@@ -75,5 +75,14 @@ export const Page4ExampleStoreProvider = {
   currentStoreObjectStructure: getObjectFromAsyncStorage(PAGE4EXAMPLE_STORE_NAME).then(item => item ||
       new Page4ExampleActivitySchema(null, PAGE4EXAMPLE_STORE_NAME)).catch(err => {
     return new Page4ExampleActivitySchema(null, PAGE4EXAMPLE_STORE_NAME);
+  }),
+};
+
+export const RecipeBoxStoreProvider = {
+  storeKey: (namespace) => getPersistedStoreKey(namespace, RECIPE_BOX_STORE_NAME),
+  storeProvider: (namespace) => new RecipeBoxActivitySchema(namespace, RECIPE_BOX_STORE_NAME),
+  currentStoreObjectStructure: getObjectFromAsyncStorage(RECIPE_BOX_STORE_NAME).then(item => item ||
+      new RecipeBoxActivitySchema(null, RECIPE_BOX_STORE_NAME)).catch(err => {
+    return new RecipeBoxActivitySchema(null, RECIPE_BOX_STORE_NAME);
   }),
 };

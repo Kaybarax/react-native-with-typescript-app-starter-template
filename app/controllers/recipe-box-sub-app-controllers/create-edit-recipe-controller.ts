@@ -10,7 +10,7 @@
 import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isStringDatatype} from "../../util/util";
 import {toJS} from "mobx";
 // import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
-import {toastNotificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
+import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {createRecipe, getAllRecipesForUser} from "./recipe-box-controller";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 
@@ -219,7 +219,7 @@ export function saveRecipe(model, activity) {
     //     // Wait for the database transaction to complete
     //     trans.oncomplete = function (e) {
     //         console.log('Recipe stored');
-    //         toastNotificationCallback('succ', 'Recipe saved! Add Another', activity);
+    //         notificationCallback('succ', 'Recipe saved! Add Another', activity);
     //         //ready next recipe creation
     //         activity.appStore.selectedRecipe = null;
     //         createRecipe(activity);
@@ -230,7 +230,7 @@ export function saveRecipe(model, activity) {
     //     }
     //     trans.onerror = function (e) {
     //         console.log('Save data error code: ' + e.target.errorCode);
-    //         toastNotificationCallback('err', 'Failed to save recipe!', activity);
+    //         notificationCallback('err', 'Failed to save recipe!', activity);
     //     }
     // }
 
@@ -278,11 +278,11 @@ export function updateRecipeImage(recipe, activity) {
     //     // Wait for the database transaction to complete
     //     trans.oncomplete = function (e) {
     //         console.log('Updated recipe photo');
-    //         toastNotificationCallback('succ', 'Recipe photo updated', activity);
+    //         notificationCallback('succ', 'Recipe photo updated', activity);
     //     }
     //     trans.onerror = function (e) {
     //         console.log('Save data error code: ' + e.target.errorCode);
-    //         toastNotificationCallback('err', 'Failed to update recipe photo!', activity);
+    //         notificationCallback('err', 'Failed to update recipe photo!', activity);
     //     }
     // }
 
@@ -308,7 +308,7 @@ export function updateRecipe(recipe, activity) {
     //
     // trans.oncomplete = function (e) {
     //     console.log('Updated recipe');
-    //     toastNotificationCallback('succ', 'Recipe updated', activity);
+    //     notificationCallback('succ', 'Recipe updated', activity);
     //     //complete
     //     activity.appStore.selectedRecipe = null;
     //     createRecipe(activity);
@@ -322,7 +322,7 @@ export function updateRecipe(recipe, activity) {
     // }
     // trans.onerror = function (e) {
     //     console.log('Save data error code: ' + e.target.errorCode);
-    //     toastNotificationCallback('err', 'Failed to update recipe!', activity);
+    //     notificationCallback('err', 'Failed to update recipe!', activity);
     // }
 
 }

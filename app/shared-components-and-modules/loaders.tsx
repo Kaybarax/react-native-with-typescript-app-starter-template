@@ -1,7 +1,19 @@
+//key
+//sd - self described
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
+
 import React from "react";
 import PropTypes from 'prop-types';
 import OrientationLoadingOverlay from "react-native-orientation-loading-overlay";
 import {StyleSheet, Text, View} from "react-native";
+import {toJS} from "mobx";
+import {TIME_OUT} from "../app-config";
+import {isTrue} from "../util/util";
 
 export default class Loader extends React.Component {
     constructor(props) {
@@ -56,3 +68,20 @@ const styles = StyleSheet.create({
         backgroundColor: "#F5FCFF"
     }
 });
+
+/**
+ * sd _ Kaybarax
+ * @param loaderActivity
+ */
+export function invokeLoader(loaderActivity) {
+    // console.log('loaderActivity:', toJS(loaderActivity));
+    //if was earlier running, stop to start over
+    if (isTrue(loaderActivity.loading)) {
+        loaderActivity.loading = false;
+    }
+    //then continue
+    loaderActivity.loading = true;
+    setTimeout(_ => {
+        loaderActivity.loading = false;
+    }, TIME_OUT || 3000);
+}

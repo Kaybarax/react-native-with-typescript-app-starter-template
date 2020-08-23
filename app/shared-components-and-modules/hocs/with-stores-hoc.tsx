@@ -20,11 +20,11 @@ const WithStoresHoc = (Wrapped, stores: Array<string>) => {
 
     let WithStores = (inject(...stores)(observer(Wrapped)));
 
-    // return function (props) {
-    //     return <WithStores {...props}/>;
-    // }
-
-    return (<WithStores/>);
+    return function () {
+        return (
+            <WithStores/>
+        );
+    }
 
 }
 

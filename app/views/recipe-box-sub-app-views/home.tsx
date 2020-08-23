@@ -31,7 +31,7 @@ export function RecipeHome(props) {
 
     let {recipeBoxStore} = props;
     let {
-        toastNotificationAlert,
+        notificationAlert,
         // recipes
     } = recipeBoxStore;
 
@@ -70,7 +70,7 @@ export function RecipeHome(props) {
             />
 
             {
-                (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
+                (displayFieldExpectationSatisfied('alert', notificationAlert,
                     expectationOfX => isTrue(expectationOfX))) &&
                 <RN.View
                     style={[
@@ -81,7 +81,7 @@ export function RecipeHome(props) {
                     ]}
                 >
                   <AppNotificationToastAlert
-                      dropDownProps={toastNotificationAlert}
+                      dropDownProps={notificationAlert}
                   />
                 </RN.View>
             }

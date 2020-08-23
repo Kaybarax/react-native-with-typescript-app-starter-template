@@ -8,28 +8,28 @@
  */
 
 import React from "react";
-import { textValueChanged } from "../../util/react-native-data-collection-utils";
-import { isEmptyString } from "../../util/util";
-import RN, { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {textValueChanged} from "../../util/react-native-data-collection-utils";
+import {isEmptyString} from "../../util/util";
+import RN, {ScrollView, Text, TouchableOpacity} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
-import { SCREEN_HEIGHT } from "../../App";
+import {SCREEN_HEIGHT} from "../../App";
 import {
     AlignCenterContentCN,
+    AlignRightFlexContainerContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
-    FlexFluidRowContainerCN,
-    AlignLeftFlexContainerContentCN,
-    AlignRightFlexContainerContentCN
+    FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import { handleLogin } from "../../controllers/login-controller";
+import {handleLogin} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
-import { RegistrationButtonTextCN, UnderlinedTextCN } from "../../theme/app-text-styles-classnames";
-import { BlankSpaceDivider } from "../../shared-components-and-modules/shared-components";
+import {RegistrationButtonTextCN, UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
+import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
+import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 
 export default function LoginForm(props) {
 
-    let { loginModel, toastNotificationAlert, appStore, authStore, navigation } = props;
+    let {loginModel, login, notificationAlert, appStore, authStore, navigation} = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
 
@@ -62,7 +62,7 @@ export default function LoginForm(props) {
         >
             {
                 submit_pressed && isEmptyString(loginModel.username_or_email) &&
-                <Text style={{ color: 'red' }}> * This field is required.</Text>
+                <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
@@ -72,7 +72,7 @@ export default function LoginForm(props) {
             <BlankSpaceDivider/>
             {
                 submit_pressed && isEmptyString(loginModel.password) &&
-                <Text style={{ color: 'red' }}> * This field is required.</Text>
+                <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
@@ -96,7 +96,7 @@ export default function LoginForm(props) {
                     if (!isValidFormData()) {
                         return;
                     }
-                    handleLogin(loginModel, toastNotificationAlert, appStore, authStore, navigation);
+                    handleLogin(loginModel, notificationAlert, appStore, authStore, navigation);
                 }}
             >
                 <Text
@@ -120,6 +120,8 @@ export default function LoginForm(props) {
                 ]}
                 onPress={_ => {
                     //todo: will be done
+                    notificationCallback('info', 'I can leave this one to you mate! Cheers!',
+                        notificationAlert);
                 }}
             >
                 <Text
@@ -133,15 +135,15 @@ export default function LoginForm(props) {
                     ]}
                 >
                     <RN.Text
-                            style={[
-                                {
-                                    color: 'teal'
-                                },
-                                ...className(UnderlinedTextCN)
-                            ]}
-                        >
-                            Forgot password?&nbsp;
-                        </RN.Text>
+                        style={[
+                            {
+                                color: 'teal'
+                            },
+                            ...className(UnderlinedTextCN)
+                        ]}
+                    >
+                        Forgot password?&nbsp;
+                    </RN.Text>
                 </Text>
             </TouchableOpacity>
 

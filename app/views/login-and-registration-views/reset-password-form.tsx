@@ -10,7 +10,7 @@
 //
 // export default function ResetPasswordForm(props) {
 //
-//   let {resetPasswordModel, toastNotificationAlert} = props;
+//   let {resetPasswordModel, notificationAlert} = props;
 //
 //   // const useStyles = makeStyles((theme) => ({
 //   //   root: {
@@ -52,7 +52,7 @@
 //               // color="primary" type={'submit'}
 //               onPress={e => {
 //                 // e.preventDefault();
-//                 handleResetPassword(toastNotificationAlert);
+//                 handleResetPassword(notificationAlert);
 //               }}
 //           />
 //         </View>

@@ -37,7 +37,7 @@ function Login(props) {
         appStores: {app},
         authStore: {
             login,
-            login: {toastNotificationAlert}
+            login: {notificationAlert}
         },
     } = props;
 
@@ -222,7 +222,8 @@ function Login(props) {
                             >
                               <LoginForm
                                   loginModel={login.loginForm}
-                                  toastNotificationAlert={toastNotificationAlert}
+                                  login={login}
+                                  notificationAlert={notificationAlert}
                                   appStore={app}
                                   authStore={authStore}
                                   navigation={navigation}
@@ -254,7 +255,7 @@ function Login(props) {
                             >
                               <SignUpForm
                                   signUpModel={login.signUpForm}
-                                  toastNotificationAlert={toastNotificationAlert}
+                                  notificationAlert={notificationAlert}
                                   showLoginForm={showLoginForm}
                                   appStore={app}
                               />
@@ -271,20 +272,20 @@ function Login(props) {
                 }
 
                 {
-                    (
-                        displayFieldExpectationSatisfied('alert', toastNotificationAlert,
-                            expectationOfX => isTrue(expectationOfX))
-                    ) &&
+                    (displayFieldExpectationSatisfied('alert', notificationAlert,
+                        expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
                             ...className(AllViewsCN),
                             {
-                                position: 'absolute', bottom: 0
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%'
                             }
                         ]}
                     >
                       <AppNotificationToastAlert
-                          dropDownProps={toastNotificationAlert}
+                          dropDownProps={notificationAlert}
                       />
                     </View>
                 }

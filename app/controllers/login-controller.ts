@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {toastNotificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
+import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 import {toJS} from 'mobx';
 import {APP_SQLITE_DATABASE} from '../app-management/data-manager/declarations';
 import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
@@ -19,9 +19,9 @@ import {isEmptyString, isNullUndefined} from "../util/util";
  * sd _ Kaybarax
  * @param signUpModel
  * @param appStore
- * @param toastNotificationAlert
+ * @param notificationAlert
  */
-export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
+export function handleSignUp(signUpModel, appStore, notificationAlert) {
 
     let userSaved;
     let userCredentialsSaved = false;
@@ -40,13 +40,13 @@ export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
     };
 
     try {
-        let yieldedUserCredentials = createPasswordHash(signUpModel.password, userCredentials, toastNotificationAlert);
+        let yieldedUserCredentials = createPasswordHash(signUpModel.password, userCredentials, notificationAlert);
         let {password_hash, salt}: UserCredentials = yieldedUserCredentials.next().value;
         if (isEmptyString(password_hash) || isNullUndefined(salt)) {
-            toastNotificationCallback(
+            notificationCallback(
                 'err',
                 'Sign up failed',
-                toastNotificationAlert,
+                notificationAlert,
             );
             return;
         }
@@ -58,10 +58,10 @@ export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
         appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
         userCredentialsSaved = true;
 
-        toastNotificationCallback(
+        notificationCallback(
             'succ',
             'User signed up',
-            toastNotificationAlert,
+            notificationAlert,
         );
 
     } catch (err) {
@@ -70,10 +70,10 @@ export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
             //todo: rollback
         }
 
-        toastNotificationCallback(
+        notificationCallback(
             'err',
             'User sign up failed',
-            toastNotificationAlert,
+            notificationAlert,
         );
         return;
     }
@@ -83,17 +83,17 @@ export function handleSignUp(signUpModel, appStore, toastNotificationAlert) {
 /**
  * sd _ Kaybarax
  * @param loginForm
- * @param toastNotificationAlert
+ * @param notificationAlert
  * @param appStore
  * @param authStore
  * @param navigation
  */
-export function handleLogin(loginForm, toastNotificationAlert, appStore, authStore, navigation) {
+export function handleLogin(loginForm, notificationAlert, appStore, authStore, navigation) {
 
-    toastNotificationCallback(
+    notificationCallback(
         'info',
         'Signup Functionality upcoming',
-        toastNotificationAlert,
+        notificationAlert,
     );
 
     // let db = window.db;//get db;
@@ -107,7 +107,7 @@ export function handleLogin(loginForm, toastNotificationAlert, appStore, authSto
     // // If we get an error
     // req.onerror = function (event) {
     //   console.log('error getting users ', event.target.errorCode);
-    //   toastNotificationCallback('err', 'Cannot query users', toastNotificationAlert);
+    //   notificationCallback('err', 'Cannot query users', notificationAlert);
     // }
     //
     // let users = [];
@@ -119,11 +119,11 @@ export function handleLogin(loginForm, toastNotificationAlert, appStore, authSto
     //   let user = users.find(item => item.usernameOrEmail === loginForm.usernameOrEmail &&
     //       item.password === loginForm.password);
     //   if (isNullUndefined(user)) {
-    //     toastNotificationCallback('err', 'User not found', toastNotificationAlert);
+    //     notificationCallback('err', 'User not found', notificationAlert);
     //     return;
     //   }
     //   appStore.user = deepCloneObject(user);
-    //   toastNotificationCallback('succ', 'Login success', toastNotificationAlert);
+    //   notificationCallback('succ', 'Login success', notificationAlert);
     //   //to allow notification display
     //   setTimeout(_ => authStore.handleLogin(), 2000)
     // }
@@ -132,15 +132,15 @@ export function handleLogin(loginForm, toastNotificationAlert, appStore, authSto
 
 /**
  * sd _ Kaybarax
- * @param toastNotificationAlert
+ * @param notificationAlert
  */
-export function handleResetPassword(toastNotificationAlert) {
+export function handleResetPassword(notificationAlert) {
     // todo: ... your logic ... you get the drill by now
 
-    toastNotificationCallback(
+    notificationCallback(
         'succ',
         'I will leave this one for you))',
-        toastNotificationAlert,
+        notificationAlert,
     );
-    // toastNotificationCallback('info', 'You can play around with this!)', toastNotificationAlert)
+    // notificationCallback('info', 'You can play around with this!)', notificationAlert)
 }

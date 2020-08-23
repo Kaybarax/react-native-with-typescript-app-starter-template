@@ -8,42 +8,42 @@
  */
 
 import {DeviceEventEmitter} from 'react-native';
-import {toastNotificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
+import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 import {AppIntentsModule} from './custom-native-modules';
 
-export function openWebPageIntent(url, toastNotificationAlert) {
+export function openWebPageIntent(url, notificationAlert) {
 
   DeviceEventEmitter.addListener('password_hash_result',
-      (eventResult) => openWebPageIntentListener(eventResult, toastNotificationAlert));
+      (eventResult) => openWebPageIntentListener(eventResult, notificationAlert));
 
   AppIntentsModule.openWebPageIntent(url,
-      (message) => openWebPageIntentCallback(message, toastNotificationAlert));
+      (message) => openWebPageIntentCallback(message, notificationAlert));
 }
 
 export function openWebPageIntentListener(passwordToValidate, hash, salt) {
   // TODO: will be done
 }
 
-export function openWebPageIntentCallback(message, toastNotificationAlert) {
+export function openWebPageIntentCallback(message, notificationAlert) {
   if (message === 'SUCCESS') {
-    toastNotificationCallback(
+    notificationCallback(
         'succ',
         'Validate password success',
-        toastNotificationAlert,
+        notificationAlert,
     );
   } else if (message === 'FAILURE') {
-    toastNotificationCallback(
+    notificationCallback(
         'warn',
         'Password failed validation',
-        toastNotificationAlert,
+        notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);
   } else {
-    toastNotificationCallback(
+    notificationCallback(
         'err',
         'Cannot perform password validation',
-        toastNotificationAlert,
+        notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);

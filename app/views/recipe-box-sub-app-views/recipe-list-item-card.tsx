@@ -46,7 +46,7 @@ export default function RecipeListItemCard(props) {
     let {
         dashboardCard, recipeBoxStore,
         navigation, appStore: {navStore},
-        recipeBoxStore: {viewAction, toastNotificationAlert}
+        recipeBoxStore: {viewAction, notificationAlert}
     } = props;
     let recipe: Recipe = props.recipe;
     let recipePhotos: Array<RecipeImage> = props.recipePhotos;
@@ -404,7 +404,7 @@ export default function RecipeListItemCard(props) {
                 </RN.View>
 
                 {
-                    (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
+                    (displayFieldExpectationSatisfied('alert', notificationAlert,
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
@@ -415,7 +415,7 @@ export default function RecipeListItemCard(props) {
                         ]}
                     >
                       <AppNotificationToastAlert
-                          dropDownProps={toastNotificationAlert}
+                          dropDownProps={notificationAlert}
                       />
                     </View>
                 }

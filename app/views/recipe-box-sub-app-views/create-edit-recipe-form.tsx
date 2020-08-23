@@ -53,7 +53,7 @@ export function CreateEditRecipeForm(props) {
     let [submit_pressed, set_press_submit] = React.useState(false);
 
     let {recipeBoxStore, recipe} = props;
-    let {toastNotificationAlert, viewAction} = recipeBoxStore;
+    let {notificationAlert, viewAction} = recipeBoxStore;
 
     // let recipeFormKeys = [];
     // let recipePhotos = [];
@@ -542,7 +542,7 @@ export function CreateEditRecipeForm(props) {
                 </RN.View>
                 <BlankSpaceDivider/>
                 {
-                    (displayFieldExpectationSatisfied('alert', toastNotificationAlert,
+                    (displayFieldExpectationSatisfied('alert', notificationAlert,
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
@@ -553,7 +553,7 @@ export function CreateEditRecipeForm(props) {
                         ]}
                     >
                       <AppNotificationToastAlert
-                          dropDownProps={toastNotificationAlert}
+                          dropDownProps={notificationAlert}
                       />
                     </View>
                 }

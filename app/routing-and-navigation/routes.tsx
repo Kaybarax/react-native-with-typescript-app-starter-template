@@ -194,8 +194,7 @@ export function AppDevMocksWithRouting() {
         >
             <Stack.Screen
                 name={APP_DEV_MOCKS_SCREEN_VIEW.name}
-                // component={AppDevMocks}
-                component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
+                component={AppDevMocks}
             />
         </Stack.Navigator>
     );

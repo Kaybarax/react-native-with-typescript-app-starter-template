@@ -10,98 +10,98 @@
 import { DeviceEventEmitter } from 'react-native';
 import { AppSecurityModule } from './custom-native-modules';
 import { isEmptyString, isNullUndefined } from '../util/util';
-import { toastNotificationCallback } from '../shared-components-and-modules/notification-center/notifications-controller';
+import { notificationCallback } from '../shared-components-and-modules/notification-center/notifications-controller';
 
-export function* createPasswordHash(passwordText, userCredentials, toastNotificationAlert) {
+export function* createPasswordHash(passwordText, userCredentials, notificationAlert) {
 
   console.log('createPasswordHash');
 
   AppSecurityModule.createPasswordHash(passwordText,
-    (message) => createPasswordHashCallback(message, toastNotificationAlert));
+    (message) => createPasswordHashCallback(message, notificationAlert));
 
   yield userCredentials;
 
 }
 
-export function createPasswordHashCallback(resp, userCredentials, toastNotificationAlert) {
+export function createPasswordHashCallback(resp, userCredentials, notificationAlert) {
 
   console.log('createPasswordHashCallback resp', resp);
   return;
 
   if (isNullUndefined(resp)) {
-    toastNotificationCallback(
+    notificationCallback(
       'err',
       'Cannot perform password hash',
-      toastNotificationAlert,
+      notificationAlert,
     );
     return;
   }
 
   if (resp.message === 'SUCCESS') {
-    toastNotificationCallback(
+    notificationCallback(
       'succ',
       'Password hashed',
-      toastNotificationAlert,
+      notificationAlert,
     );
 
     userCredentials.password_hash = resp.passwordHash;
     userCredentials.salt = resp.passwordSalt;
 
   } else if (resp.message === 'FAILURE') {
-    toastNotificationCallback(
+    notificationCallback(
       'warn',
       'Password hash failed',
-      toastNotificationAlert,
+      notificationAlert,
     );
   }
 
 }
 
-export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, toastNotificationAlert) {
+export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, notificationAlert) {
 
   DeviceEventEmitter.addListener('password_hash_result',
-    (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, toastNotificationAlert));
+    (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, notificationAlert));
 
   AppSecurityModule.validatePasswordWithHashAndSalt(
     passwordToValidate, hash, salt,
-    (message) => validatePasswordWithHashAndSaltCallback(message, toastNotificationAlert));
+    (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert));
 
 }
 
-export function validatePasswordWithHashAndSaltListener(eventResult, toastNotificationAlert) {
+export function validatePasswordWithHashAndSaltListener(eventResult, notificationAlert) {
 
   if (isEmptyString(eventResult['passwordValidationPassed'])) {
-    toastNotificationCallback(
+    notificationCallback(
       'err',
       'Validate Password Indeterminate Result',
-      toastNotificationAlert,
+      notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result');
   } else {
     if (eventResult['passwordValidationPassed'] === 'true') {
-      toastNotificationCallback(
+      notificationCallback(
         'succ',
         'Correct password',
-        toastNotificationAlert,
+        notificationAlert,
       );
       // todo: what to do next??? -->>> probably login user
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     } else if (eventResult['passwordValidationPassed'] === 'false') {
-      toastNotificationCallback(
+      notificationCallback(
         'warn',
         'Incorrect password',
-        toastNotificationAlert,
+        notificationAlert,
       );
       // todo: what to do next???
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     } else {
-      toastNotificationCallback(
+      notificationCallback(
         'err',
         'Validate Password Indeterminate Result',
-        toastNotificationAlert,
+        notificationAlert,
       );
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
@@ -110,26 +110,26 @@ export function validatePasswordWithHashAndSaltListener(eventResult, toastNotifi
 
 }
 
-export function validatePasswordWithHashAndSaltCallback(message, toastNotificationAlert) {
+export function validatePasswordWithHashAndSaltCallback(message, notificationAlert) {
   if (message === 'SUCCESS') {
-    toastNotificationCallback(
+    notificationCallback(
       'succ',
       'Validate password success',
-      toastNotificationAlert,
+      notificationAlert,
     );
   } else if (message === 'FAILURE') {
-    toastNotificationCallback(
+    notificationCallback(
       'warn',
       'Password failed validation',
-      toastNotificationAlert,
+      notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);
   } else {
-    toastNotificationCallback(
+    notificationCallback(
       'err',
       'Cannot perform password validation',
-      toastNotificationAlert,
+      notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);

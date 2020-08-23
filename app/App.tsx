@@ -15,7 +15,7 @@
 
 import React from 'react';
 import RN from 'react-native';
-
+import 'mobx-react-lite/batchingForReactNative';
 import {Provider} from 'mobx-react';
 import AppEntry from './app-entry';
 import rootStore from './stores/index';

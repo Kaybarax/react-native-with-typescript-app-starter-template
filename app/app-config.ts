@@ -8,6 +8,7 @@
  */
 
 //some sample stuff to guide you. you can remove them if you don't need them.
+export const TIME_OUT = 5000;
 export const AUTHENTICATION_CHOICE = {
     AWS_COGNITO: 'AWS_COGNITO',
     GOOGLE_SIGN_IN: 'GOOGLE_SIGN_IN',

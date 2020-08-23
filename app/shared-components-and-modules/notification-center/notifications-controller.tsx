@@ -15,97 +15,91 @@ import {Alert} from "react-native";
  * Utility function to handle the custom display of messages.
  * @param notificationType
  * @param message
- * @param toastNotificationAlert
+ * @param notificationAlert
  * @param position
  * @param duration
  */
-export function toastNotificationCallback(
+export function notificationCallback(
     notificationType,
     message,
-    toastNotificationAlert,
+    notificationAlert,
     position = -100,
     duration = 3500,
 ) {
 
-  if (isNullUndefined(toastNotificationAlert)) {
-    // console.log('Toast Notification not Specified');
-    Alert.alert('Alert Error?');
-    return;
-  }
+    if (isNullUndefined(notificationAlert)) {
+        // console.log('Toast Notification not Specified');
+        Alert.alert('Alert Error!');
+        return;
+    }
 
-  let typeOfNotification = 'info';//default to this
-  let typeOfNotificationMessage = 'You have not specifiedMessage';//default to this
+    let typeOfNotification = 'custom';//default to this
+    let typeOfNotificationMessage = 'Undefined message';//default to this
 
-  toastNotificationAlert.alert = true;
-  toastNotificationAlert.position = position;
-  toastNotificationAlert.duration = duration;
-  toastNotificationAlert.message = !isEmptyString(message) ? message : typeOfNotificationMessage;
-  toastNotificationAlert.type = notificationType || typeOfNotification;
-  setTimeout(() => {
-    toastNotificationAlert.alert = false;
-    toastNotificationAlert.message = null;
-  }, toastNotificationAlert.duration);
+    notificationAlert.alert = true;
+    notificationAlert.position = position;
+    notificationAlert.duration = duration;
+    notificationAlert.message = !isEmptyString(message) ? message : typeOfNotificationMessage;
+    notificationAlert.type = notificationType || typeOfNotification;
+    setTimeout(() => {
+        notificationAlert.alert = false;
+        notificationAlert.message = null;
+    }, notificationAlert.duration);
 
 }
 
-export interface ToastNotificationAlertProps {
-  alert: boolean,
-  message: string,
-  type: string,
-  duration?: number,
-  position?: number,
-  activity?: object,
+export interface NotificationAlertProps {
+    alert: boolean,
+    message: string,
+    type: string,
+    duration?: number,
+    position?: number,
+    activity?: object,
 }
 
 /**
  * sd _ Kaybarax
  * @type {{duration: number, activity: null, alert: boolean, position: string, message: null, type: null}}
  */
-export const toastNotificationAlertProps : ToastNotificationAlertProps = {
-  alert: false,
-  message: '',
-  type: '',
-  duration: 3500,
-  position: -100,
-  activity: undefined,
+export const notificationAlertProps: NotificationAlertProps = {
+    alert: false,
+    message: '',
+    type: '',
+    duration: 3500,
+    position: -100,
+    activity: undefined,
 };
 
 export interface DropDownNotificationProps {
-  closeInterval: 4200,
-  startDelta: -100,
-  warnColor: "#FFC300",
-  infoColor: "#5BC0DE",
-  // showCancel={true},
-  messageNumOfLines: 4,
-  tapToCloseEnabled: true,
-  replaceEnabled: true,
-  updateStatusBar: false,
-  zIndex: 1000000,
-  titleStyle: {
-    fontSize: 17,
-    textAlign: "left",
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "transparent"
-  }
+    closeInterval: number,
+    startDelta: number,
+    warnColor: string,
+    infoColor: string,
+    showCancel?: boolean,
+    messageNumOfLines: number,
+    tapToCloseEnabled: boolean,
+    replaceEnabled: boolean,
+    updateStatusBar: boolean,
+    zIndex: number,
+    titleStyle?: object
 }
 
-export const dropDownNotificationAlertProps = {
-  closeInterval: 4200,
-  startDelta: -100,
-  warnColor: "#FFC300",
-  infoColor: "#5BC0DE",
-  // showCancel={true},
-  messageNumOfLines: 4,
-  tapToCloseEnabled: true,
-  replaceEnabled: true,
-  updateStatusBar: false,
-  zIndex: 1000000,
-  titleStyle: {
-    fontSize: 17,
-    textAlign: "left",
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "transparent"
-  }
+export const DropDownNotificationAlertDefaultProps: DropDownNotificationProps = {
+    closeInterval: 3500,
+    startDelta: -100,
+    warnColor: "#FFC300",
+    infoColor: "#5BC0DE",
+    showCancel: true,
+    messageNumOfLines: 4,
+    tapToCloseEnabled: false,
+    replaceEnabled: true,
+    updateStatusBar: false,
+    zIndex: 1000000,
+    titleStyle: {
+        fontSize: 17,
+        textAlign: "left",
+        fontWeight: "bold",
+        color: "#fff",
+        backgroundColor: "transparent"
+    }
 };

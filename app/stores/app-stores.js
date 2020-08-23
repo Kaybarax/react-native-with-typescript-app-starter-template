@@ -14,7 +14,7 @@ import {
   Page1ExampleStoreProvider,
   Page2ExampleStoreProvider,
   Page3ExampleStoreProvider,
-  Page4ExampleStoreProvider,
+  Page4ExampleStoreProvider, RecipeBoxStoreProvider,
 } from './stores-providers';
 import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
 
@@ -51,6 +51,9 @@ export default class AppStores {
 
   @observable
   page4Example = Page4ExampleStoreProvider.storeProvider(AppStores.namespace);
+
+  @observable
+  recipeBoxStore = RecipeBoxStoreProvider.storeProvider(AppStores.namespace);
 
   // collect for provision for offline storage to such as AsyncStorogae
   // Every store that you add, MAKE SURE to add it also here

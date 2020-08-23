@@ -4,7 +4,7 @@
 import {isNullUndefined, makeId, objectKeyExists} from "../../util/util";
 import {Recipe} from "../../app-management/data-manager/models-manager";
 // import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
-import {toastNotificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
+import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {toJS} from "mobx";
 
 /**
@@ -53,7 +53,7 @@ export function getAllRecipesForUser(activity, userId) {
     // // If we get an error
     // recipesRequest.onerror = function (event) {
     //     console.log('error getting recipes ', event.target.errorCode);
-    //     toastNotificationCallback('err', 'Cannot query recipes', activity);
+    //     notificationCallback('err', 'Cannot query recipes', activity);
     // }
     //
     // let myRecipes = [];
@@ -70,7 +70,7 @@ export function getAllRecipesForUser(activity, userId) {
     //
     //     recipeImagesRequest.onerror = function (event) {
     //         console.log('error getting recipe images ', event.target.errorCode);
-    //         toastNotificationCallback('err', 'Cannot query recipe images', activity);
+    //         notificationCallback('err', 'Cannot query recipe images', activity);
     //     }
     //
     //     recipeImagesRequest.onsuccess = function (event) {
@@ -128,7 +128,7 @@ export function deleteRecipe(recipe, activity) {
     //
     // trans.oncomplete = function (e) {
     //     console.log('Deleted recipe');
-    //     toastNotificationCallback('succ', 'Recipe deleted', activity);
+    //     notificationCallback('succ', 'Recipe deleted', activity);
     //     //complete
     //     getAllRecipesForUser(activity, activity.appStore.user.id);
     //     //some time for notification alert
@@ -136,7 +136,7 @@ export function deleteRecipe(recipe, activity) {
     // }
     // trans.onerror = function (e) {
     //     console.log('IndexedDb error code: ' + e.target.errorCode);
-    //     toastNotificationCallback('err', 'Failed to delete recipe!', activity);
+    //     notificationCallback('err', 'Failed to delete recipe!', activity);
     // }
 
 }

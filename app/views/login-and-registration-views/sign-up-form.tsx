@@ -26,7 +26,7 @@ import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
 
 export default function SignUpForm(props) {
 
-    let {signUpModel, toastNotificationAlert, showLoginForm, appStore} = props;
+    let {signUpModel, notificationAlert, showLoginForm, appStore} = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
 
@@ -137,7 +137,7 @@ export default function SignUpForm(props) {
                     }
                     signUpModel.user.status_ref_key_key = "STATUS";
                     signUpModel.user.status_ref_key_value = "ACT";
-                    handleSignUp(signUpModel, appStore, toastNotificationAlert);
+                    handleSignUp(signUpModel, appStore, notificationAlert);
                     //ready for next user
                     //some time to allow the alert to display
                     // setTimeout(_ => showLoginForm(), 1500);
