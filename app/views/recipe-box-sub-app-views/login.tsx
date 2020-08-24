@@ -28,8 +28,11 @@ import {
 import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from '../../theme/app-text-styles-classnames';
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
+import {toJS} from "mobx";
 
 function Login(props) {
+
+    console.log('props at login:', toJS(props));
 
     const {
         navigation,
@@ -221,7 +224,6 @@ function Login(props) {
                                 ]}
                             >
                               <LoginForm
-                                  loginModel={login.loginForm}
                                   login={login}
                                   notificationAlert={notificationAlert}
                                   appStore={app}

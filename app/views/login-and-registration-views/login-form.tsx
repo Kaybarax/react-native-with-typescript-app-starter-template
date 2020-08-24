@@ -26,10 +26,14 @@ import className from "../../util/react-native-based-utils";
 import {RegistrationButtonTextCN, UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
+import appNavigation from "../../routing-and-navigation/app-navigation";
 
 export default function LoginForm(props) {
 
-    let {loginModel, login, notificationAlert, appStore, authStore, navigation} = props;
+    let {login, notificationAlert, appStore, authStore, navigation} = props;
+    let {navStore} = appStore;
+    let loginModel = login.loginForm;
+    // console.log('navigation at login-form:', navigation);
 
     let [submit_pressed, set_press_submit] = React.useState(false);
 
@@ -122,6 +126,9 @@ export default function LoginForm(props) {
                     //todo: will be done
                     notificationCallback('info', 'I can leave this one to you mate! Cheers!',
                         notificationAlert);
+
+                    //test access to recipe box app
+                    appNavigation.loginToRecipeBox(navigation, null, navStore);
                 }}
             >
                 <Text

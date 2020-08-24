@@ -14,6 +14,8 @@ import {
     PAGE3EXAMPLE_SCREEN_VIEW, PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
     PAGE4EXAMPLE_SCREEN_VIEW
 } from "./views-routes-declarations";
+import {InternalRoutes} from "./routes";
+import {toJS} from "mobx";
 
 /**
  * sd _ Kaybarax
@@ -36,7 +38,7 @@ export class AppNavigation {
         this.navigatedTo = navTo;
 
         //trail navigation
-        if (!isEmptyString(this.navigatedFrom) && !isNullUndefined(navStore)) {
+        if (!isNullUndefined(navStore)) {
             this.trailNavigation(goingBack, navStore);
         }
 
@@ -119,6 +121,20 @@ export class AppNavigation {
             this.navigatedTo,
             navParams
         );
+    }
+
+    loginToRecipeBox = (navigator, navParams = null, navStore = null) => {
+        console.log('\nnavigator', navigator);
+        console.log('\nnavParams', navParams);
+        this.navigate(
+            navigator,
+            InternalRoutes.MY_RECIPE_TABBING,
+            this.navigatedTo,
+            navParams,
+            false,
+            navStore
+        );
+        console.log('\nnavStore', toJS(navStore));
     }
 
     navigateToCreateEditRecipe = (navigator, navParams = null) => {

@@ -84,8 +84,6 @@ export default class AppNotificationToastAlert
 
         let {duration, position} = this.props.dropDownProps;
 
-        // this._fireAlert();
-
         return (
             <RN.View>
                 <DropdownAlert

@@ -13,7 +13,6 @@ import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-comp
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
 import {
     isEmptyArray,
-    isEmptyString,
     isFalse,
     isTrue,
     localeDateStringFormatFromDatetime,
@@ -40,16 +39,20 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faLeaf} from "@fortawesome/free-solid-svg-icons";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
 import appNavigation from "../../routing-and-navigation/app-navigation";
+import {toJS} from "mobx";
 
 export default function RecipeListItemCard(props) {
 
+    console.log('PROPS AT RecipeListItemCard:', toJS(props));
+
     let {
         dashboardCard, recipeBoxStore,
-        navigation, appStore: {navStore},
+        navigation, appStore: {navStore}, recipeDetails,
         recipeBoxStore: {viewAction, notificationAlert}
     } = props;
-    let recipe: Recipe = props.recipe;
-    let recipePhotos: Array<RecipeImage> = props.recipePhotos;
+
+    let recipe: Recipe = recipeDetails.item.recipe;
+    let recipePhotos: Array<RecipeImage> = recipeDetails.item.recipePhotos;
 
     return (
         <RN.ScrollView
@@ -74,31 +77,31 @@ export default function RecipeListItemCard(props) {
                     <RN.ScrollView
                         horizontal={true}
                     >
-                        {
-                            !isEmptyArray(recipePhotos) &&
-                            (recipePhotos.map((item: RecipeImage) => {
-                                return (
-                                    <RN.Image
-                                        source={
-                                            !isEmptyString(item?.image_url) ?
-                                                // require('' + item.image_url) : (
-                                                require('../../media/images/image.png') : (
-                                                    !isEmptyString(item?.image_file) ?
-                                                        'data:image/jpeg;base64,' + item.image_file :
-                                                        null
-                                                )
-                                        }
-                                        style={[
-                                            {
-                                                width: '100%',
-                                                height: '100%',
-                                            }
-                                        ]}
-                                        key={makeId(16)}
-                                    />
-                                );
-                            }))
-                        }
+                        {/*{*/}
+                        {/*    !isEmptyArray(recipePhotos) &&*/}
+                        {/*    (recipePhotos.map((item: RecipeImage) => {*/}
+                        {/*        return (*/}
+                        {/*            <RN.Image*/}
+                        {/*                source={*/}
+                        {/*                    !isEmptyString(item?.image_url) ?*/}
+                        {/*                        // require('' + item.image_url) : (*/}
+                        {/*                        require('../../media/images/image.png') : (*/}
+                        {/*                            !isEmptyString(item?.image_file) ?*/}
+                        {/*                                'data:image/jpeg;base64,' + item.image_file :*/}
+                        {/*                                null*/}
+                        {/*                        )*/}
+                        {/*                }*/}
+                        {/*                style={[*/}
+                        {/*                    {*/}
+                        {/*                        width: '100%',*/}
+                        {/*                        height: '100%',*/}
+                        {/*                    }*/}
+                        {/*                ]}*/}
+                        {/*                key={makeId(16)}*/}
+                        {/*            />*/}
+                        {/*        );*/}
+                        {/*    }))*/}
+                        {/*}*/}
                     </RN.ScrollView>
 
                 </RN.View>
@@ -152,9 +155,9 @@ export default function RecipeListItemCard(props) {
                                 style={{
                                     // marginTop: 20
                                 }}
-                            />
+                            />&nbsp;
+                            Vegetarian
                           </RN.Text>
-                          Vegetarian
                         </RN.View>
                     }
 
@@ -410,7 +413,9 @@ export default function RecipeListItemCard(props) {
                         style={[
                             ...className(AllViewsCN),
                             {
-                                position: 'absolute', bottom: 0
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%'
                             }
                         ]}
                     >

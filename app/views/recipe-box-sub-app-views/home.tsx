@@ -13,7 +13,7 @@ import RecipeListItemCard from "./recipe-list-item-card";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {deepCloneObject, isEmptyArray, isTrue, makeId} from "../../util/util";
+import {isEmptyArray, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
@@ -26,18 +26,35 @@ import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-
 import appNavigation from "../../routing-and-navigation/app-navigation";
 import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
 import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../app-management/test-data";
+import {toJS} from "mobx";
 
 export function RecipeHome(props) {
 
-    let {recipeBoxStore} = props;
+    console.log('props at RecipeHome:', toJS(props));
+
+    let {appStores: {recipeBoxStore}} = props;
     let {
         notificationAlert,
         // recipes
     } = recipeBoxStore;
 
     //use development test data for now
-    let recipes: Array<Recipe> | any = deepCloneObject(TEST_RECIPES);
-    let recipesPhotos: Array<RecipeImage> | any = deepCloneObject(TEST_RECIPES_PHOTOS);
+    // let recipes: Array<Recipe> | any = [...TEST_RECIPES];
+    let recipes = TEST_RECIPES.map(item => {
+        let recipe = {};
+        let recipePhotos: Array<RecipeImage> = [];
+        for (let item1 of TEST_RECIPES_PHOTOS) {
+            if (item.id === item1.recipe_id) {
+                recipePhotos.push(item1);
+            }
+        }
+        recipe['recipe'] = item;
+        recipe['recipePhotos'] = recipePhotos;
+        return recipe;
+    });
+    let recipesPhotos: Array<RecipeImage> | any = [...TEST_RECIPES_PHOTOS];
+
+    console.log('recipes!',);
 
     if (isEmptyArray(recipes)) {
         return (
@@ -46,11 +63,11 @@ export function RecipeHome(props) {
     }
 
     //inject needed appStore and recipeBoxStore
-    let RecipeListItem = WithStoresHoc(RecipeListItemCard,['recipeBoxStore','appStore']);
+    let RecipeListItem = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
     return (
-        <RN.ScrollView
-            contentInsetAdjustmentBehavior={"automatic"}
+        <RN.View
+            // contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 ...className(FlexColumnContainerCN)
             ]}
@@ -58,12 +75,7 @@ export function RecipeHome(props) {
             <RN.FlatList
                 data={recipes}
                 renderItem={item => <RecipeListItem
-                    recipe={item}
-                    recipePhotos={_ => {
-                        let recipe: Recipe | any = item;
-                        return isEmptyArray(recipesPhotos) ? []
-                            : recipesPhotos?.filter(item => item.recipe_id === recipe.id);
-                    }}
+                    recipeDetails={item}
                     dashboardCard={true}
                 />}
                 keyExtractor={_ => makeId(16)}
@@ -76,7 +88,9 @@ export function RecipeHome(props) {
                     style={[
                         ...className(AllViewsCN),
                         {
-                            position: 'absolute', bottom: 0
+                            position: 'absolute',
+                            top: 0,
+                            width: '100%'
                         }
                     ]}
                 >
@@ -86,7 +100,7 @@ export function RecipeHome(props) {
                 </RN.View>
             }
 
-        </RN.ScrollView>
+        </RN.View>
     );
 
 }
@@ -159,5 +173,5 @@ export function NoRecipesDisplay(props) {
 }
 
 const RecipeHomeActivity = WithStoresHoc(RecipeHome,
-    ['authStore', 'appStores', 'recipeBoxStore']);
+    ['authStore', 'appStores']);
 export default RecipeHomeActivity;

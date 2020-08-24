@@ -62,6 +62,7 @@ const App = () => {
             appStores={rootStore.appStores}
             appStore={rootStore.appStores.app}
             authStore={rootStore.authStore}
+            recipeBoxStore={rootStore.appStores.recipeBoxStore}
         >
             <AppEntry/>
         </Provider>

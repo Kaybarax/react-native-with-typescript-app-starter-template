@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import Login from "../views/recipe-box-sub-app-views/login";
 import Page1Example from "../views/page-1-example";
 import Page2Example from "../views/page-2-example";
 import Page3Example from "../views/page-3-example";
@@ -28,7 +27,7 @@ import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 //the default view on app bootstrap
 export const DEFAULT_SCREEN_VIEW: ViewRoute = {
     name: 'DEFAULT_SCREEN_VIEW',
-    screen: Login
+    screen: Page1Example
 };
 
 //and then the other views routes declarations
@@ -66,7 +65,7 @@ export const _404_VIEW: ViewRoute = {
 // just added for your mocking of scenarios
 export const APP_DEV_MOCKS_SCREEN_VIEW = {
     name: 'App Dev Scratchpad',
-    screen: AppDevScratchPad
+    screen: WithStoresHoc(AppDevScratchPad, ['authStore', 'appStores'])
 };
 
 //recipe box, example sub-application views

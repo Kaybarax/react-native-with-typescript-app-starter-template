@@ -548,7 +548,9 @@ export function CreateEditRecipeForm(props) {
                         style={[
                             ...className(AllViewsCN),
                             {
-                                position: 'absolute', bottom: 0
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%'
                             }
                         ]}
                     >
