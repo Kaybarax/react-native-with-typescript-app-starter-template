@@ -12,15 +12,18 @@ import appNavigation from "../../routing-and-navigation/app-navigation";
 
 /**
  * sd _ Kaybarax
+ * @param recipeDetails
+ * @param navigation
+ * @param navStore
  * @param activity
- * @param recipe
- * @param viewRecipePhoto
  * @param recipeBoxStore
  */
-export function viewRecipeFullDetailsClick(recipe, viewRecipePhoto, recipeBoxStore, activity = null) {
-    recipeBoxStore.viewRecipe = recipe;
-    recipeBoxStore.viewRecipePhoto = viewRecipePhoto;
+export function viewRecipeFullDetailsClick(recipeDetails, recipeBoxStore,
+                                           navigation, navStore, activity = null) {
+    recipeBoxStore.selectedRecipe = recipeDetails.recipe;
+    recipeBoxStore.selectedRecipePhotos = recipeDetails.recipePhotos;
     recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_SINGLE_RECIPE
+    appNavigation.navigateToRecipeDetails(navigation, recipeDetails, navStore);
 }
 
 /**

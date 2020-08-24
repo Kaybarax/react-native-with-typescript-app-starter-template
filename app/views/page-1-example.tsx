@@ -13,7 +13,7 @@ import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Text} from "react-native";
 import {
     AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN,
+    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -82,7 +82,7 @@ function Page1Example(props) {
                                 style={[
                                     ...className([
                                         FlexContainerChildItemFullWidthCN,
-                                        AlignLeftFlexContainerContentCN
+                                        AlignLeftTextCN
                                     ])
                                 ]}
                             >

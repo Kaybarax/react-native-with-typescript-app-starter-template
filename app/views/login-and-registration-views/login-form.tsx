@@ -124,8 +124,8 @@ export default function LoginForm(props) {
                 ]}
                 onPress={_ => {
                     //todo: will be done
-                    notificationCallback('info', 'I can leave this one to you mate! Cheers!',
-                        notificationAlert);
+                    // notificationCallback('info', 'I can leave this one to you mate! Cheers!',
+                    //     notificationAlert);
 
                     //test access to recipe box app
                     appNavigation.loginToRecipeBox(navigation, null, navStore);

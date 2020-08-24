@@ -24,15 +24,18 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import appNavigation from "../../routing-and-navigation/app-navigation";
-import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
+import {RecipeImage} from "../../app-management/data-manager/models-manager";
 import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../app-management/test-data";
 import {toJS} from "mobx";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 
 export function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
-    let {appStores: {recipeBoxStore}} = props;
+    let {appStores: {recipeBoxStore}, navigation} = props;
     let {
         notificationAlert,
         // recipes
@@ -52,7 +55,6 @@ export function RecipeHome(props) {
         recipe['recipePhotos'] = recipePhotos;
         return recipe;
     });
-    let recipesPhotos: Array<RecipeImage> | any = [...TEST_RECIPES_PHOTOS];
 
     console.log('recipes!',);
 
@@ -72,14 +74,60 @@ export function RecipeHome(props) {
                 ...className(FlexColumnContainerCN)
             ]}
         >
-            <RN.FlatList
-                data={recipes}
-                renderItem={item => <RecipeListItem
-                    recipeDetails={item}
-                    dashboardCard={true}
-                />}
-                keyExtractor={_ => makeId(16)}
-            />
+            <RN.View
+                style={[
+                    ...className(FlexContainerChildItemFullWidthCN)
+                ]}
+            >
+                <RN.FlatList
+                    data={recipes}
+                    renderItem={(item: any) => <RecipeListItem
+                        recipe={item.item.recipe}
+                        recipePhotos={item.item.recipePhotos}
+                        // recipeDetails={item}
+                        navigation={navigation}
+                    />}
+                    keyExtractor={_ => makeId(16)}
+                />
+            </RN.View>
+
+            <BlankSpaceDivider height={150}/>
+
+            <RN.TouchableHighlight
+                style={[
+                    {
+                        borderRadius: 50,
+                        backgroundColor: 'teal',
+                        position: 'absolute',
+                        bottom: 10,
+                        height: 80,
+                        width: 80,
+                        right: 20,
+                    }
+                ]}
+                onPress={_ => {
+                }}
+            >
+                <RN.Text
+                    style={[
+                        {
+                            position: 'absolute',
+                            top: 24,
+                            right: 25,
+                        }
+                    ]}
+                >
+                    <FontAwesomeIcon
+                        icon={faPlus}
+                        color={'white'}
+                        size={30}
+                        style={{
+                            // position: 'absolute',
+                            // top: 50,
+                        }}
+                    />
+                </RN.Text>
+            </RN.TouchableHighlight>
 
             {
                 (displayFieldExpectationSatisfied('alert', notificationAlert,

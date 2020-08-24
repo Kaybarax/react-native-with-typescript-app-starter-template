@@ -10,9 +10,9 @@
 import React from "react";
 import {
     _404_VIEW,
-    APP_DEV_MOCKS_SCREEN_VIEW,
+    APP_DEV_MOCKS_SCREEN_VIEW, MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_HOME_SCREEN_VIEW,
-    MY_RECIPE_LOGIN_SCREEN_VIEW,
+    MY_RECIPE_LOGIN_SCREEN_VIEW, MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
     MY_RECIPE_REQUESTS_SCREEN_VIEW,
     PAGE1EXAMPLE_SCREEN_VIEW,
     PAGE2EXAMPLE_SCREEN_VIEW,
@@ -31,7 +31,7 @@ import {SCREEN_WIDTH} from "../App";
 //for availability for calls globally
 export const InternalRoutes = {
     RNAST_HOME: 'RNAST_HOME',
-    MY_RECIPE_TABBING: 'MY_RECIPE_TABBING',
+    MY_RECIPE_TABBING: 'MY_RECIPES_TABBING',
 };
 
 /**
@@ -130,7 +130,7 @@ export default function AppWithRouting() {
                     fontWeight: 'bold',
                 },
             }}
-            headerMode={'screen'}
+            headerMode={'none'}
         />
     );
 
@@ -169,6 +169,16 @@ export function RecipeBoxAppWithRouting() {
         <AppStack.Screen
             name={InternalRoutes.MY_RECIPE_TABBING}
             component={AppTabbing}
+            key={makeId(16)}
+        />,
+        <AppStack.Screen
+            name={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name}
+            component={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <AppStack.Screen
+            name={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name}
+            component={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
     ];

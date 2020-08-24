@@ -19,9 +19,9 @@ import {ViewRoute} from "./routing-and-navigation-utils";
 import LoginActivity from '../views/recipe-box-sub-app-views/login';
 import RecipeHomeActivity from "../views/recipe-box-sub-app-views/home";
 import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
-import RecipeListItemCard from "../views/recipe-box-sub-app-views/recipe-list-item-card";
 import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/create-edit-recipe-form";
 import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
+import RecipeDetails from "../views/recipe-box-sub-app-views/recipe-details";
 
 ////declare the application views for routing
 //the default view on app bootstrap
@@ -81,7 +81,7 @@ export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
 
 export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE DETAILS',
-    screen: WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore'])
+    screen: WithStoresHoc(RecipeDetails, ['recipeBoxStore', 'appStore'])
 };
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {

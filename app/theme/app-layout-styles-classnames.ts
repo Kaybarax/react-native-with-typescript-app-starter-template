@@ -9,9 +9,9 @@
 
 //this one for aid during dev to see your content borders
 export const AllViewsCN = {
-  // borderStyle: 'solid',
-  // borderWidth: 1,
-  // borderColor: '#152939',
+  borderStyle: 'solid',
+  borderWidth: 1,
+  borderColor: '#152939',
 };
 
 //containers
@@ -108,11 +108,23 @@ export const AlignCenterContentCN = {
 
 export const AlignRightFlexContainerContentCN = {
   alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+};
+
+export const AlignRightTextCN = {
   textAlign: 'right',
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
 };
 
 export const AlignLeftFlexContainerContentCN = {
-  justifyContent: 'center',
   alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+};
+
+export const AlignLeftTextCN = {
+  textAlign: 'left',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
 };
 // end flex container content alignments

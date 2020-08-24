@@ -9,6 +9,7 @@
 
 import {isEmptyObject, isEmptyString, isNullUndefined} from '../util/util';
 import {
+    MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
     PAGE1EXAMPLE_SCREEN_VIEW,
     PAGE2EXAMPLE_SCREEN_VIEW,
     PAGE3EXAMPLE_SCREEN_VIEW, PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
@@ -129,6 +130,21 @@ export class AppNavigation {
         this.navigate(
             navigator,
             InternalRoutes.MY_RECIPE_TABBING,
+            this.navigatedTo,
+            navParams,
+            false,
+            navStore
+        );
+        console.log('\nnavStore', toJS(navStore));
+    }
+
+    navigateToRecipeDetails = (navigator, navParams: object | any = null, navStore = null) => {
+        console.log('\nnavigateToRecipeDetails\n\n');
+        console.log('\nnavigator', navigator);
+        console.log('\nnavParams', navParams);
+        this.navigate(
+            navigator,
+            MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name,
             this.navigatedTo,
             navParams,
             false,

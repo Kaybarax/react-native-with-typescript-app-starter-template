@@ -11,16 +11,10 @@ import React from "react";
 import RN, {View} from 'react-native';
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {
-    isEmptyArray,
-    isFalse,
-    isTrue,
-    localeDateStringFormatFromDatetime,
-    localeTimeStringFormatFromDatetime,
-    makeId
-} from "../../util/util";
+import {isEmptyArray, isEmptyString, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
+    AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     AlignRightFlexContainerContentCN,
     AllViewsCN,
@@ -37,22 +31,22 @@ import {Recipe, RecipeImage} from "../../app-management/data-manager/models-mana
 import StarRatings from "../../shared-components-and-modules/form-controls/star-ratings";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faLeaf} from "@fortawesome/free-solid-svg-icons";
-import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
-import appNavigation from "../../routing-and-navigation/app-navigation";
 import {toJS} from "mobx";
+import {SCREEN_HEIGHT} from "../../App";
+import {viewRecipeFullDetailsClick} from "../../controllers/recipe-box-sub-app-controllers/recipe-item-card-controller";
 
 export default function RecipeListItemCard(props) {
 
     console.log('PROPS AT RecipeListItemCard:', toJS(props));
 
     let {
-        dashboardCard, recipeBoxStore,
-        navigation, appStore: {navStore}, recipeDetails,
-        recipeBoxStore: {viewAction, notificationAlert}
+        recipeBoxStore, navigation, appStore: {navStore},
+        recipe, recipePhotos, recipeBoxStore: {notificationAlert}
     } = props;
 
-    let recipe: Recipe = recipeDetails.item.recipe;
-    let recipePhotos: Array<RecipeImage> = recipeDetails.item.recipePhotos;
+    // let recipe: Recipe = recipeDetails.item.recipe;
+    // let recipePhotos: Array<RecipeImage> = recipeDetails.item.recipePhotos;
+    console.log('!!! recipePhotos !!!:', recipePhotos);
 
     return (
         <RN.ScrollView
@@ -76,32 +70,53 @@ export default function RecipeListItemCard(props) {
 
                     <RN.ScrollView
                         horizontal={true}
+                        style={[
+                            ...className(FlexColumnContainerCN,
+                                AllViewsCN
+                            ),
+                            {
+                                // height: SCREEN_HEIGHT * 0.2
+                            }
+                        ]}
                     >
-                        {/*{*/}
-                        {/*    !isEmptyArray(recipePhotos) &&*/}
-                        {/*    (recipePhotos.map((item: RecipeImage) => {*/}
-                        {/*        return (*/}
-                        {/*            <RN.Image*/}
-                        {/*                source={*/}
-                        {/*                    !isEmptyString(item?.image_url) ?*/}
-                        {/*                        // require('' + item.image_url) : (*/}
-                        {/*                        require('../../media/images/image.png') : (*/}
-                        {/*                            !isEmptyString(item?.image_file) ?*/}
-                        {/*                                'data:image/jpeg;base64,' + item.image_file :*/}
-                        {/*                                null*/}
-                        {/*                        )*/}
-                        {/*                }*/}
-                        {/*                style={[*/}
-                        {/*                    {*/}
-                        {/*                        width: '100%',*/}
-                        {/*                        height: '100%',*/}
-                        {/*                    }*/}
-                        {/*                ]}*/}
-                        {/*                key={makeId(16)}*/}
-                        {/*            />*/}
-                        {/*        );*/}
-                        {/*    }))*/}
-                        {/*}*/}
+                        {
+                            !isEmptyArray(recipePhotos) &&
+                            (recipePhotos.map((item: RecipeImage) => {
+                                console.log('We have recipe photos');
+                                return (
+                                    <RN.View
+                                        style={[
+                                            ...className(FlexContainerChildItemFullWidthCN,
+                                                AllViewsCN),
+                                            {
+                                                height: SCREEN_HEIGHT * 0.21
+                                            }
+                                        ]}
+                                        key={makeId(16)}
+                                    >
+                                        <RN.Image
+                                            source={
+                                                !isEmptyString(item.image_url) ?
+                                                    // require('' + item.image_url) : (
+                                                    require('../../media/images/image.png') : (
+                                                        !isEmptyString(item.image_file) ?
+                                                            'data:image/jpeg;base64,' + item.image_file :
+                                                            require('../../media/images/image.png')
+                                                    )
+                                            }
+                                            style={[
+                                                {
+                                                    width: '100%',
+                                                    // width: SCREEN_WIDTH * 0.8,
+                                                    height: SCREEN_HEIGHT * 0.2,
+                                                    // height: '100%',
+                                                }
+                                            ]}
+                                        />
+                                    </RN.View>
+                                );
+                            }))
+                        }
                     </RN.ScrollView>
 
                 </RN.View>
@@ -163,247 +178,76 @@ export default function RecipeListItemCard(props) {
 
                 </RN.View>
 
-                <RN.View
-                    style={[
-                        ...className(FlexFluidRowContainerCN)
-                    ]}
-                >
-
-                    {
-                        isFalse(dashboardCard) &&
-                        <RN.View
-                            style={[
-                                ...className(FlexContainerChildItemFullWidthCN)
-                            ]}
-                        >
-
-                          <RN.View
-                              style={[
-                                  ...className(FlexFluidRowContainerCN)
-                              ]}
-                          >
-
-                            <RN.Text
-                                style={[
-                                    ...className(FlexContainerChildItemFullWidthCN,
-                                        AlignLeftFlexContainerContentCN)
-                                ]}
-                            >
-                              Created on:&nbsp;{`${localeDateStringFormatFromDatetime(recipe.date_created)} 
-                                ${localeTimeStringFormatFromDatetime(recipe.date_created)}`}
-                            </RN.Text>
-
-                            <BlankSpaceDivider/>
-
-                            <RN.View
-                                style={[
-                                    ...className(FlexContainerChildItemFullWidthCN)
-                                ]}
-                            >
-
-                              <RN.View
-                                  style={[
-                                      ...className(FlexFluidRowContainerCN)
-                                  ]}
-                              >
-
-                                <RN.Text
-                                    style={[
-                                        ...className(FlexContainerChildItemFullWidthCN)
-                                    ]}
-                                >
-                                  Ingredients
-                                </RN.Text>
-
-                                <RN.View
-                                    style={[
-                                        ...className(FlexContainerChildItemFullWidthCN)
-                                    ]}
-                                    // class="styled-ul"
-                                >
-                                  <RN.FlatList
-                                      data={recipe.ingredients}
-                                      renderItem={item => {
-                                          return (
-                                              <RN.Text
-                                              >
-                                                  &nbsp;{item}
-                                              </RN.Text>
-                                          );
-                                      }}
-                                      keyExtractor={item => makeId(16)}
-                                  />
-                                </RN.View>
-
-                              </RN.View>
-
-                            </RN.View>
-
-                            <RN.View
-                                style={[
-                                    ...className(FlexContainerChildItemFullWidthCN)
-                                ]}
-                            >
-
-                              <RN.View
-                                  style={[
-                                      ...className(FlexFluidRowContainerCN)
-                                  ]}
-                              >
-
-                                <RN.Text
-                                    style={[
-                                        ...className(FlexContainerChildItemFullWidthCN)
-                                    ]}
-                                >
-                                  Cooking Instructions
-                                </RN.Text>
-
-                                <RN.View
-                                    style={[
-                                        ...className(FlexContainerChildItemFullWidthCN)
-                                    ]}
-                                    // class="styled-ul"
-                                >
-                                  <RN.FlatList
-                                      data={recipe.cooking_instructions}
-                                      renderItem={item => {
-                                          return (
-                                              <RN.Text
-                                              >
-                                                  &nbsp;{item}
-                                              </RN.Text>
-                                          );
-                                      }}
-                                      keyExtractor={item => makeId(16)}
-                                  />
-                                </RN.View>
-
-                              </RN.View>
-
-                            </RN.View>
-
-                              {
-                                  !isEmptyArray(recipe.groups_suitable) &&
-                                  <RN.View
-                                      style={[
-                                          ...className(FlexContainerChildItemFullWidthCN)
-                                      ]}
-                                  >
-
-                                    <RN.View
-                                        style={[
-                                            ...className(FlexFluidRowContainerCN)
-                                        ]}
-                                    >
-
-                                      <RN.Text
-                                          style={[
-                                              ...className(FlexContainerChildItemFullWidthCN)
-                                          ]}
-                                      >
-                                        Okay for
-                                      </RN.Text>
-
-                                      <RN.View
-                                          style={[
-                                              ...className(FlexContainerChildItemFullWidthCN)
-                                          ]}
-                                      >
-                                        <RN.FlatList
-                                            data={recipe.groups_suitable}
-                                            renderItem={item => {
-                                                return (
-                                                    <RN.Text
-                                                    >
-                                                        {item}
-                                                    </RN.Text>
-                                                );
-                                            }}
-                                            keyExtractor={item => makeId(16)}
-                                        />
-                                      </RN.View>
-
-                                    </RN.View>
-
-                                  </RN.View>
-
-                              }
-
-                          </RN.View>
-
-                        </RN.View>
-
-                    }
-
-                </RN.View>
-
                 <BlankSpaceDivider/>
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        ...className(FlexFluidRowContainerCN,
+                            AllViewsCN)
                     ]}
                 >
-
-                    {
-                        (viewAction !== RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_RECIPE) &&
-                        <RN.TouchableOpacity
-                            onPress={_ => {
-                                // viewRecipeFullDetailsClick(recipe, recipePhoto);
-                            }}
-                            style={[
-                                ...className(FlexContainerChildItemNoGrowCN,
-                                    FlexContainerChildItemOneThirdWidthCN)
-                            ]}
-                        >
-                          <RN.Text>Details</RN.Text>
-                        </RN.TouchableOpacity>
-                    }
-
-                    {
-                        (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_RECIPE) &&
-                        <RN.TouchableOpacity
-                            onPress={_ => {
-                                recipeBoxStore.viewAction = null;
-                                appNavigation.navigateBack(navigation, navStore)
-                            }}
-                            style={[
-                                ...className(FlexContainerChildItemNoGrowCN,
-                                    FlexContainerChildItemOneThirdWidthCN)
-                            ]}
-                        >
-                          <RN.Text>Back</RN.Text>
-                        </RN.TouchableOpacity>
-                    }
-
-                    <RN.TouchableOpacity
-                        onPress={_ => {
-                            // editRecipeClick(this, recipe);
-                        }}
+                    <RN.View
                         style={[
-                            ...className(FlexContainerChildItemNoGrowCN,
-                                FlexContainerChildItemOneThirdWidthCN)
+                            ...className(FlexContainerChildItemFullWidthCN,
+                                AllViewsCN)
                         ]}
                     >
-                        <RN.Text>Edit</RN.Text>
-                    </RN.TouchableOpacity>
-
-                    {
-                        (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_RECIPE) &&
-                        <RN.TouchableOpacity
-                            onPress={_ => {
-                                // deleteRecipe(recipe, this);
-                            }}
+                        <RN.View
                             style={[
-                                ...className(FlexContainerChildItemNoGrowCN,
-                                    FlexContainerChildItemOneThirdWidthCN)
+                                ...className(FlexFluidRowContainerCN,
+                                    AlignRightFlexContainerContentCN,
+                                    AllViewsCN)
                             ]}
                         >
-                          <RN.Text>Delete</RN.Text>
-                        </RN.TouchableOpacity>
-                    }
 
+                            <RN.TouchableOpacity
+                                onPress={_ => {
+                                    // viewRecipeFullDetailsClick({
+                                    //         recipe, recipePhotos
+                                    //     }, recipeBoxStore,
+                                    //     navigation, navStore);
+                                    viewRecipeFullDetailsClick({
+                                            recipe, recipePhotos
+                                        }, recipeBoxStore,
+                                        navigation, navStore);
+                                }}
+                                style={[
+                                    ...className(FlexContainerChildItemNoGrowCN,
+                                        FlexContainerChildItemOneThirdWidthCN,
+                                        AllViewsCN,
+                                        AlignCenterContentCN),
+                                    {
+                                        backgroundColor: 'teal'
+                                    }
+                                ]}
+                            >
+                                <RN.Text
+                                    style={[
+                                        ...className(AllViewsCN),
+                                        {
+                                            color: 'white',
+                                            backgroundColor: 'maroon'
+                                        }
+                                    ]}>Details</RN.Text>
+                            </RN.TouchableOpacity>
+
+
+                            <RN.TouchableOpacity
+                                onPress={_ => {
+                                    // editRecipeClick(this, recipe);
+                                }}
+                                style={[
+                                    ...className(FlexContainerChildItemNoGrowCN,
+                                        FlexContainerChildItemOneThirdWidthCN,
+                                        AllViewsCN,
+                                        AlignCenterContentCN)
+                                ]}
+                            >
+                                <RN.Text>Edit</RN.Text>
+                            </RN.TouchableOpacity>
+
+                        </RN.View>
+                    </RN.View>
                 </RN.View>
 
                 {
