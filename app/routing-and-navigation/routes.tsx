@@ -32,6 +32,7 @@ import {SCREEN_WIDTH} from "../App";
 export const InternalRoutes = {
     RNAST_HOME: 'RNAST_HOME',
     MY_RECIPE_TABBING: 'MY_RECIPES_TABBING',
+    MY_APP_SIDEBAR: 'MY_APP_SIDEBAR',
 };
 
 /**
@@ -67,33 +68,36 @@ export default function AppWithRouting() {
         />,
     ];
 
-    const DefaultViewTabbedViewsRouteMap = () => (
+    const DefaultViewTabbedViews = () => (
         <Tab.Navigator
             children={defaultViewTabbedViewsRouteMap}
         />
     );
 
+    const defaultTabbedViewsWithDrawerRouteMap = [
+        <DefaultTabbedViewsDrawer.Screen
+            name={InternalRoutes.RNAST_HOME}
+            component={DefaultViewTabbedViews}
+            key={makeId(16)}
+        />,
+        <DefaultTabbedViewsDrawer.Screen
+            name={InternalRoutes.MY_APP_SIDEBAR}
+            component={AppDevMocksWithRouting}
+            key={makeId(16)}
+        />,
+        <DefaultTabbedViewsDrawer.Screen
+            name={'My Recipe Sub-app'}
+            component={RecipeBoxAppWithRouting}
+            key={makeId(16)}
+        />
+    ];
+
     const DefaultTabbedViewsWithDrawer = () => (
         <DefaultTabbedViewsDrawer.Navigator
+            children={defaultTabbedViewsWithDrawerRouteMap}
             // drawerContent={ props => {}}
             drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
-        >
-            <DefaultTabbedViewsDrawer.Screen
-                name={InternalRoutes.RNAST_HOME}
-                component={DefaultViewTabbedViewsRouteMap}
-                key={makeId(16)}
-            />
-            <DefaultTabbedViewsDrawer.Screen
-                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
-                component={AppDevMocksWithRouting}
-                key={makeId(16)}
-            />
-            <DefaultTabbedViewsDrawer.Screen
-                name={'My Recipe Sub-app'}
-                component={RecipeBoxAppWithRouting}
-                key={makeId(16)}
-            />
-        </DefaultTabbedViewsDrawer.Navigator>
+        />
     );
 
 

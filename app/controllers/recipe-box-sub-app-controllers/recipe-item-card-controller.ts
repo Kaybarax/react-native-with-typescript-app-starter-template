@@ -23,7 +23,7 @@ export function viewRecipeFullDetailsClick(recipeDetails, recipeBoxStore,
     recipeBoxStore.selectedRecipe = recipeDetails.recipe;
     recipeBoxStore.selectedRecipePhotos = recipeDetails.recipePhotos;
     recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_SINGLE_RECIPE
-    appNavigation.navigateToRecipeDetails(navigation, recipeDetails, navStore);
+    appNavigation.navigateToRecipeDetails(navigation, recipeDetails);
 }
 
 /**

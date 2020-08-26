@@ -31,18 +31,18 @@ export default class AppDevScratchPad extends Component {
             <SafeComponentWrapper>
                 <RN.ScrollView
                     style={[
-                        ...className(FlexColumnContainerCN, AllViewsCN)
+                        className(FlexColumnContainerCN, AllViewsCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexFluidRowContainerCN,
+                            className(FlexFluidRowContainerCN,
                                 AllViewsCN)
                         ]}
                     >
                         <RN.View
                             style={[
-                                ...className(
+                                className(
                                     FlexContainerChildItemFullWidthCN,
                                     AllViewsCN
                                 )
@@ -51,7 +51,7 @@ export default class AppDevScratchPad extends Component {
                             <RN.Text
                                 // h5
                                 style={[
-                                    ...className(
+                                    className(
                                         FlexFluidRowContainerCN,
                                         AlignCenterContentCN, AllViewsCN
                                     )
@@ -64,7 +64,7 @@ export default class AppDevScratchPad extends Component {
 
                     <RN.View
                         style={[
-                            ...className(
+                            className(
                                 FlexContainerChildItemFullWidthCN,
                                 AllViewsCN,
                                 { paddingTop: 10 }
@@ -74,7 +74,7 @@ export default class AppDevScratchPad extends Component {
                         <RN.Button
                             title={'Go Home'}
                             // style={[
-                            //     ...className()
+                            //     className()
                             // ]}
                             onPress={_ => {
                                 // window.location.href = '/';
@@ -83,7 +83,7 @@ export default class AppDevScratchPad extends Component {
                         <BlankSpaceDivider />
                         <RN.View
                             style={[
-                                ...className(
+                                className(
                                     FlexFluidRowContainerCN,
                                     AllViewsCN
                                 )
@@ -92,7 +92,7 @@ export default class AppDevScratchPad extends Component {
                             <RN.View
                                 // form
                                 style={[
-                                    ...className(
+                                    className(
                                         FlexContainerChildItemFullWidthCN,
                                         AllViewsCN
                                     )
@@ -100,7 +100,7 @@ export default class AppDevScratchPad extends Component {
                             >
                                 <RN.Text
                                     style={[
-                                        ...className(
+                                        className(
                                             FlexFluidRowContainerCN,
                                             AlignCenterContentCN, AllViewsCN
                                         )
@@ -112,7 +112,7 @@ export default class AppDevScratchPad extends Component {
                                 <RN.Button
                                     title={'Upload a file'}
                                     // style={[
-                                    //     ...className()
+                                    //     className()
                                     // ]}
                                     onPress={_ => {
                                         // window.location.href = '/';
@@ -122,7 +122,7 @@ export default class AppDevScratchPad extends Component {
                                 <RN.Button
                                     title={'Submit file upload'}
                                     // style={[
-                                    //     ...className()
+                                    //     className()
                                     // ]}
                                     onPress={_ => {
                                         // window.location.href = '/';
@@ -133,7 +133,7 @@ export default class AppDevScratchPad extends Component {
                             <RN.View
                                 // form
                                 style={[
-                                    ...className(
+                                    className(
                                         FlexContainerChildItemFullWidthCN,
                                         AllViewsCN
                                     )
@@ -141,7 +141,7 @@ export default class AppDevScratchPad extends Component {
                             >
                                 <RN.Text
                                     style={[
-                                        ...className(
+                                        className(
                                             FlexFluidRowContainerCN,
                                             AlignCenterContentCN, AllViewsCN
                                         )
@@ -153,7 +153,7 @@ export default class AppDevScratchPad extends Component {
                                 <RN.Button
                                     title={'Call password hash native module'}
                                     // style={[
-                                    //     ...className()
+                                    //     className()
                                     // ]}
                                     onPress={_ => {
 

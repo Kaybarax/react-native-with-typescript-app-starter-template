@@ -38,23 +38,23 @@ function Page4SubItemExample(props) {
             <RN.ScrollView
                 contentInsetAdjustmentBehavior={"automatic"}
                 style={[
-                    ...className(FlexColumnContainerCN)
+                    className(FlexColumnContainerCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexContainerChildItemFullWidthCN)
+                        className(FlexContainerChildItemFullWidthCN)
                     ]}
                 >
 
                     <RN.View
                         style={[
-                            ...className(FlexFluidRowContainerCN)
+                            className(FlexFluidRowContainerCN)
                         ]}
                     >
                         <Text
                             style={[
-                                ...className(FlexContainerChildItemFullWidthCN,
+                                className(FlexContainerChildItemFullWidthCN,
                                     AlignCenterContentCN)
                             ]}
                             // h5
@@ -65,17 +65,17 @@ function Page4SubItemExample(props) {
 
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <RN.View
                             style={[
-                                ...className(FlexFluidRowContainerCN)
+                                className(FlexFluidRowContainerCN)
                             ]}
                         >
                             <RN.TouchableOpacity
                                 style={[
-                                    ...className(FlexContainerChildItemFullWidthCN)
+                                    className(FlexContainerChildItemFullWidthCN)
                                 ]}
                                 onPress={_ => {
                                     // appNavigation.navigateToPage4Example(navigation, null);
@@ -83,7 +83,7 @@ function Page4SubItemExample(props) {
                             >
                                 <Text
                                     style={[
-                                        ...className(AlignCenterContentCN),
+                                        className(AlignCenterContentCN),
                                         {width: '100%'}
                                     ]}
                                 >
@@ -102,25 +102,25 @@ function Page4SubItemExample(props) {
         <RN.ScrollView
             contentInsetAdjustmentBehavior={"automatic"}
             style={[
-                ...className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN)
             ]}
         >
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                     // className={'flex-row-container'}
                 >
                     <Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignCenterContentCN)
                         ]}
                         // h5
@@ -133,17 +133,17 @@ function Page4SubItemExample(props) {
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <Image
@@ -155,17 +155,17 @@ function Page4SubItemExample(props) {
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
                         // h4
@@ -178,7 +178,7 @@ function Page4SubItemExample(props) {
                             return (
                                 <RN.Text
                                     style={[
-                                        ...className(FlexContainerChildItemFullWidthCN,
+                                        className(FlexContainerChildItemFullWidthCN,
                                             AlignLeftFlexContainerContentCN)
                                     ]}
                                     key={makeId(8)}
@@ -190,7 +190,7 @@ function Page4SubItemExample(props) {
                     }
                     <Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >
@@ -198,7 +198,7 @@ function Page4SubItemExample(props) {
                     </Text>
                     <Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >
@@ -209,17 +209,17 @@ function Page4SubItemExample(props) {
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <Image
@@ -232,12 +232,12 @@ function Page4SubItemExample(props) {
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.TouchableOpacity
                     style={[
-                        ...className(FlexContainerChildItemFullWidthCN)
+                        className(FlexContainerChildItemFullWidthCN)
                     ]}
                     onPress={_ => {
                         // appNavigation.navigateToPage4Example(navigation, null);
@@ -248,7 +248,7 @@ function Page4SubItemExample(props) {
                             {
                                 width: '100%'
                             },
-                            ...className(AlignCenterContentCN)
+                            className(AlignCenterContentCN)
                         ]}
                         // className="button is-info"
                     >

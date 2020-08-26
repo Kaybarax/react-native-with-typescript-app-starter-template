@@ -19,6 +19,7 @@ import 'mobx-react-lite/batchingForReactNative';
 import {Provider} from 'mobx-react';
 import AppEntry from './app-entry';
 import rootStore from './stores/index';
+import appNavigation from "./routing-and-navigation/app-navigation";
 
 declare const global: { HermesInternal: null | {} };
 
@@ -26,6 +27,10 @@ export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
 
 const App = () => {
+
+    // @ts-ignore
+    // pass navStore reference to appNavigation
+    appNavigation.navStore = rootStore.appStores.app.navStore;
 
     //disable throwing of inconsequential warnings
     // console.disableYellowBox = true;

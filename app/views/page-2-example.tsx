@@ -34,22 +34,22 @@ function Page2Example(props) {
         <RN.ScrollView
             contentInsetAdjustmentBehavior={"automatic"}
             style={[
-                ...className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN)
             ]}
         >
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}>
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignCenterContentCN)
                         ]}
                     >
@@ -60,28 +60,28 @@ function Page2Example(props) {
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN,
+                        className(FlexFluidRowContainerCN,
                         )
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <RN.View
                             style={[
-                                ...className(FlexFluidRowContainerCN)
+                                className(FlexFluidRowContainerCN)
                             ]}
                         >
                             <Text
                                 style={[
-                                    ...className([
+                                    className([
                                         FlexContainerChildItemFullWidthCN,
                                         AlignLeftFlexContainerContentCN
                                     ])

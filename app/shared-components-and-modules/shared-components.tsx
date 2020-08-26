@@ -13,6 +13,20 @@ export function BlankSpaceDivider(props) {
     );
 }
 
+export function Spacer(props) {
+    let {spaces} = props;
+    return (
+        <RN.Text
+            style={{
+                // height: height || 10,
+                // width: '100%'
+            }}
+        >
+            &nbsp;
+        </RN.Text>
+    );
+}
+
 export function LineDivider(props) {
     let {height, backgroundColor} = props;
     return (

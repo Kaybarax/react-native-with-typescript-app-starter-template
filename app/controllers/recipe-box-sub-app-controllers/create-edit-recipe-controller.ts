@@ -154,6 +154,7 @@ export const updateRecipeClick = (model, set_press_submit,
 
 export function addIngredient(recipe, activity = null) {
     recipe.ingredients.push('');
+    console.log('addIngredient', toJS(recipe));
 }
 
 export function removeIngredient(recipe, index, activity = null) {

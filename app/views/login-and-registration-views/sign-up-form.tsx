@@ -68,7 +68,7 @@ export default function SignUpForm(props) {
     return (
         <ScrollView
             style={[
-                ...className(AllViewsCN,
+                className(AllViewsCN,
                     FlexColumnContainerCN),
             ]}
         >
@@ -122,7 +122,7 @@ export default function SignUpForm(props) {
             <View style={{height: 10}}/>
             <TouchableOpacity
                 style={[
-                    ...className(AllViewsCN,
+                    className(AllViewsCN,
                         FlexFluidRowContainerCN),
                     {
                         backgroundColor: 'orange',
@@ -145,7 +145,7 @@ export default function SignUpForm(props) {
             >
                 <Text
                     style={[
-                        ...className(AllViewsCN,
+                        className(AllViewsCN,
                             FlexContainerChildItemFullWidthCN,
                             AlignCenterContentCN,
                             RegistrationButtonTextCN),

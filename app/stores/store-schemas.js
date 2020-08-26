@@ -156,7 +156,7 @@ export function Page4ExampleActivitySchema(namespace, name) {
 export function RecipeBoxActivitySchema(namespace, name) {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
-  schema.todo = null;
+  schema.selectedRecipe = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log("RecipeBoxActivitySchema::", this.storeSchema)
   return this.storeSchema;

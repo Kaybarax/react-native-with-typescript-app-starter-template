@@ -9,16 +9,17 @@
 
 import 'react-native-gesture-handler';
 import React from 'react';
-import RN, { SafeAreaView, StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import AppWithRouting from "./routing-and-navigation/routes";
+import RN, {SafeAreaView, StatusBar} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import AppWithRouting, {RecipeBoxAppWithRouting} from "./routing-and-navigation/routes";
 
 function AppEntry() {
 
     return (
         <NavigationContainer>
-            <StatusBar barStyle="dark-content" />
-            <AppWithRouting />
+            <StatusBar barStyle="dark-content"/>
+            {/*<AppWithRouting />*/}
+            <RecipeBoxAppWithRouting/>
         </NavigationContainer>
     );
 }

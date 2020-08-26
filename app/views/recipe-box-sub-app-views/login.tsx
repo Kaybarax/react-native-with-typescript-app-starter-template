@@ -93,39 +93,39 @@ function Login(props) {
             <ScrollView
                 contentInsetAdjustmentBehavior={"automatic"}
                 style={[
-                    ...className(AllViewsCN,
+                    className(AllViewsCN,
                         FlexColumnContainerCN),
                     {backgroundColor: 'transparent'}
                 ]}
             >
                 <View
                     style={[
-                        ...className(AllViewsCN,
+                        className(AllViewsCN,
                             FlexContainerChildItemFullWidthCN),
                     ]}
                 >
                     <View
                         style={[
-                            ...className(AllViewsCN,
+                            className(AllViewsCN,
                                 FlexFluidRowContainerCN),
                         ]}
                     >
                         <View
                             style={[
-                                ...className(AllViewsCN,
+                                className(AllViewsCN,
                                     FlexContainerChildItemFullWidthCN),
                             ]}
                         >
                             <View
                                 style={[
-                                    ...className(AllViewsCN,
+                                    className(AllViewsCN,
                                         FlexFluidRowContainerCN),
                                 ]}
                             >
 
                                 <TouchableOpacity
                                     style={[
-                                        ...className(
+                                        className(
                                             AllViewsCN,
                                             FlexContainerChildItemFullWidthCN
                                         ),
@@ -140,7 +140,7 @@ function Login(props) {
                                 >
                                     <Text
                                         style={[
-                                            ...className(AllViewsCN,
+                                            className(AllViewsCN,
                                                 AlignCenterContentCN),
                                             {
                                                 fontSize: 18,
@@ -160,7 +160,7 @@ function Login(props) {
                                               Don't have an account?&nbsp;
                                               <RN.Text
                                                   style={[
-                                                      ...className(UnderlinedTextCN),
+                                                      className(UnderlinedTextCN),
                                                       {
                                                           color: 'maroon'
                                                       }
@@ -181,7 +181,7 @@ function Login(props) {
                                               Already have an account?&nbsp;
                                               <RN.Text
                                                   style={[
-                                                      ...className(UnderlinedTextCN),
+                                                      className(UnderlinedTextCN),
                                                       {
                                                           color: 'maroon'
                                                       }
@@ -195,7 +195,7 @@ function Login(props) {
 
                                 <View
                                     style={[
-                                        ...className(AllViewsCN),
+                                        className(AllViewsCN),
                                         {height: 10}
                                     ]}
                                 />
@@ -207,19 +207,19 @@ function Login(props) {
                         showLogin &&
                         <View
                             style={[
-                                ...className(AllViewsCN,
+                                className(AllViewsCN,
                                     FlexContainerChildItemFullWidthCN),
                             ]}
                         >
                           <View
                               style={[
-                                  ...className(AllViewsCN,
+                                  className(AllViewsCN,
                                       FlexFluidRowContainerCN),
                               ]}
                           >
                             <View
                                 style={[
-                                    ...className(AllViewsCN,
+                                    className(AllViewsCN,
                                         FlexContainerChildItemFullWidthCN),
                                 ]}
                             >
@@ -239,19 +239,19 @@ function Login(props) {
                         showSignUp &&
                         <View
                             style={[
-                                ...className(AllViewsCN,
+                                className(AllViewsCN,
                                     FlexContainerChildItemFullWidthCN),
                             ]}
                         >
                           <View
                               style={[
-                                  ...className(AllViewsCN,
+                                  className(AllViewsCN,
                                       FlexFluidRowContainerCN),
                               ]}
                           >
                             <View
                                 style={[
-                                    ...className(AllViewsCN,
+                                    className(AllViewsCN,
                                         FlexContainerChildItemFullWidthCN),
                                 ]}
                             >
@@ -278,7 +278,7 @@ function Login(props) {
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
-                            ...className(AllViewsCN),
+                            className(AllViewsCN),
                             {
                                 position: 'absolute',
                                 top: 0,

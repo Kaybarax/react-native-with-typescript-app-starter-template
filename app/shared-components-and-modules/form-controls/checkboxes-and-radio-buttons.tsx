@@ -8,9 +8,15 @@
  */
 
 import React from "react";
-import {Text} from "react-native";
+import RN from "react-native";
 import CheckBox from '@react-native-community/checkbox';
 import RadioForm from 'react-native-simple-radio-button';
+import className from "../../util/react-native-based-utils";
+import {
+    AlignLeftFlexContainerContentCN,
+    FlexContainerChildItemFullWidthCN,
+    FlexFluidRowContainerCN
+} from "../../theme/app-layout-styles-classnames";
 
 export function Radiobutton(props) {
     let {
@@ -34,25 +40,46 @@ export function Radiobutton(props) {
 }
 
 export function Checkbox(props) {
+
     let {
         label, onCheckBoxChange,
-        model, modelKey
     } = props;
 
-    const [toggleCheckBox, setToggleCheckBox] = React.useState(false);
+    const [checkBoxValue, changeCheckBoxValue] = React.useState(false);
+
+    let handleSetToggleCheckBox = value => {
+        changeCheckBoxValue(value);
+        onCheckBoxChange(value);
+    };
 
     return (
-        <React.Fragment>
+        <RN.View
+            style={[
+                className(FlexFluidRowContainerCN,
+                    AlignLeftFlexContainerContentCN)
+            ]}
+        >
             <CheckBox
                 disabled={false}
-                value={toggleCheckBox}
+                value={checkBoxValue}
                 onValueChange={(value) => {
-                    setToggleCheckBox(value);
-                    onCheckBoxChange(model, modelKey, value);
+                    handleSetToggleCheckBox(value);
                 }}
             />
-            <Text>{label}</Text>
-        </React.Fragment>
+            <RN.TouchableOpacity
+                style={[
+                    {
+                        marginTop: 5
+                    }
+                ]}
+                onPress={_ => {
+                    handleSetToggleCheckBox(!checkBoxValue);
+                }}
+            >
+                <RN.Text
+                >{label}</RN.Text>
+            </RN.TouchableOpacity>
+        </RN.View>
     );
 
 }

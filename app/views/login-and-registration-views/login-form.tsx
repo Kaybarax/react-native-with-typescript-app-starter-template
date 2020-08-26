@@ -60,7 +60,7 @@ export default function LoginForm(props) {
     return (
         <ScrollView
             style={[
-                ...className(AllViewsCN,
+                className(AllViewsCN,
                     FlexColumnContainerCN),
             ]}
         >
@@ -87,7 +87,7 @@ export default function LoginForm(props) {
             <BlankSpaceDivider/>
             <TouchableOpacity
                 style={[
-                    ...className(AllViewsCN,
+                    className(AllViewsCN,
                         FlexFluidRowContainerCN),
                     {
                         backgroundColor: 'orange',
@@ -105,7 +105,7 @@ export default function LoginForm(props) {
             >
                 <Text
                     style={[
-                        ...className(AllViewsCN,
+                        className(AllViewsCN,
                             FlexContainerChildItemFullWidthCN,
                             AlignCenterContentCN,
                             RegistrationButtonTextCN)
@@ -117,7 +117,7 @@ export default function LoginForm(props) {
             <BlankSpaceDivider height={25}/>
             <TouchableOpacity
                 style={[
-                    ...className(
+                    className(
                         AllViewsCN,
                         FlexContainerChildItemFullWidthCN
                     ),
@@ -128,12 +128,12 @@ export default function LoginForm(props) {
                     //     notificationAlert);
 
                     //test access to recipe box app
-                    appNavigation.loginToRecipeBox(navigation, null, navStore);
+                    appNavigation.loginToRecipeBox(navigation, null);
                 }}
             >
                 <Text
                     style={[
-                        ...className(AllViewsCN,
+                        className(AllViewsCN,
                             AlignRightFlexContainerContentCN),
                         {
                             fontSize: 18,
@@ -146,7 +146,7 @@ export default function LoginForm(props) {
                             {
                                 color: 'teal'
                             },
-                            ...className(UnderlinedTextCN)
+                            className(UnderlinedTextCN)
                         ]}
                     >
                         Forgot password?&nbsp;

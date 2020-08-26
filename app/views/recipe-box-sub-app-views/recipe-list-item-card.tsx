@@ -51,27 +51,27 @@ export default function RecipeListItemCard(props) {
     return (
         <RN.ScrollView
             style={[
-                ...className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN)
             ]}
             contentInsetAdjustmentBehavior={"automatic"}
         >
 
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
 
                     <RN.ScrollView
                         horizontal={true}
                         style={[
-                            ...className(FlexColumnContainerCN,
+                            className(FlexColumnContainerCN,
                                 AllViewsCN
                             ),
                             {
@@ -86,7 +86,7 @@ export default function RecipeListItemCard(props) {
                                 return (
                                     <RN.View
                                         style={[
-                                            ...className(FlexContainerChildItemFullWidthCN,
+                                            className(FlexContainerChildItemFullWidthCN,
                                                 AllViewsCN),
                                             {
                                                 height: SCREEN_HEIGHT * 0.21
@@ -123,12 +123,12 @@ export default function RecipeListItemCard(props) {
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.Text
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >{recipe.name}</RN.Text>
@@ -136,13 +136,13 @@ export default function RecipeListItemCard(props) {
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
 
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemOneHalfWidthCN,
+                            className(FlexContainerChildItemOneHalfWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >
@@ -158,7 +158,7 @@ export default function RecipeListItemCard(props) {
                         isTrue(recipe.is_vegetarian) &&
                         <RN.View
                             style={[
-                                ...className(FlexContainerChildItemOneHalfWidthCN,
+                                className(FlexContainerChildItemOneHalfWidthCN,
                                     AlignRightFlexContainerContentCN)
                             ]}
                         >
@@ -182,19 +182,19 @@ export default function RecipeListItemCard(props) {
 
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN,
+                        className(FlexFluidRowContainerCN,
                             AllViewsCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN,
+                            className(FlexContainerChildItemFullWidthCN,
                                 AllViewsCN)
                         ]}
                     >
                         <RN.View
                             style={[
-                                ...className(FlexFluidRowContainerCN,
+                                className(FlexFluidRowContainerCN,
                                     AlignRightFlexContainerContentCN,
                                     AllViewsCN)
                             ]}
@@ -212,7 +212,7 @@ export default function RecipeListItemCard(props) {
                                         navigation, navStore);
                                 }}
                                 style={[
-                                    ...className(FlexContainerChildItemNoGrowCN,
+                                    className(FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
                                         AllViewsCN,
                                         AlignCenterContentCN),
@@ -223,7 +223,7 @@ export default function RecipeListItemCard(props) {
                             >
                                 <RN.Text
                                     style={[
-                                        ...className(AllViewsCN),
+                                        className(AllViewsCN),
                                         {
                                             color: 'white',
                                             backgroundColor: 'maroon'
@@ -237,7 +237,7 @@ export default function RecipeListItemCard(props) {
                                     // editRecipeClick(this, recipe);
                                 }}
                                 style={[
-                                    ...className(FlexContainerChildItemNoGrowCN,
+                                    className(FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
                                         AllViewsCN,
                                         AlignCenterContentCN)
@@ -255,7 +255,7 @@ export default function RecipeListItemCard(props) {
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
-                            ...className(AllViewsCN),
+                            className(AllViewsCN),
                             {
                                 position: 'absolute',
                                 top: 0,

@@ -51,6 +51,7 @@ export function isEmptyString(value) {
 /**
  * sd _ Kaybarax
  * @param item
+ * @returns {boolean}
  */
 export function isNullUndefined(item) {
   try {
@@ -368,4 +369,18 @@ export function localeTimeStringFormat(dateTime) {
   let localeTimeString = dateTimeObj.toLocaleTimeString();
   // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
   return localeTimeString;
+}
+
+/**
+ * sd
+ * @param numbersArray
+ * @returns {number}
+ * by kevinbarasa
+ */
+export function numberItem(numbersArray) {
+  let num = 1;
+  if (numbersArray.length > 0)
+    num = (numbersArray[numbersArray.length - 1] + 1);
+  numbersArray.push(num);
+  return num;
 }

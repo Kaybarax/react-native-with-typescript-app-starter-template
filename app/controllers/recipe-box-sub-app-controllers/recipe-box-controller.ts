@@ -19,6 +19,9 @@ export function createRecipe(recipeBoxStore, activity = null) {
     recipe.cooking_instructions = [''];//add first initial entry
     recipe.status_ref_key_key = 'STATUS';//set status
     recipe.status_ref_key_value = 'ACT';//set status
+    recipe.is_vegetarian = false;
+    recipe.is_vegan = false;
+    recipe.rating = 0;
     recipeBoxStore.selectedRecipe = recipe;
 }
 

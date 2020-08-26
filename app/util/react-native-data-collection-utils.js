@@ -7,10 +7,11 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from "react";
-import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, objectKeyExists,} from './util';
-import {enforceReactNaturalStateUpdateBehavior} from "./react-native-based-utils";
+import React from 'react';
+import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, makeId, objectKeyExists} from './util';
+import {enforceReactNaturalStateUpdateBehavior} from './react-native-based-utils';
 import {Picker} from '@react-native-community/picker';
+import {toJS} from 'mobx';
 
 //TEXT-INPUTS
 /**
@@ -20,15 +21,19 @@ import {Picker} from '@react-native-community/picker';
  * @returns {*}
  */
 export function textValue(model, key) {
-    let feedBack = null;
-    if (isNullUndefined(model)) {
-        console.log('No model');
-        return feedBack;
-    }
-    //model must have key
-    if (!objectKeyExists(model, key)) return feedBack;
-    if (isNullUndefined(model[key])) return feedBack;
-    return model[key];
+  let feedBack = null;
+  if (isNullUndefined(model)) {
+    console.log('No model');
+    return feedBack;
+  }
+  //model must have key
+  if (!objectKeyExists(model, key)) {
+    return feedBack;
+  }
+  if (isNullUndefined(model[key])) {
+    return feedBack;
+  }
+  return model[key];
 }
 
 /**
@@ -40,16 +45,18 @@ export function textValue(model, key) {
  * @returns {*}
  */
 export function textValueChanged(model, text, key, activity = null) {
-    let feedBack = null;
-    if (isNullUndefined(model)) {
-        console.log('No model');
-        return feedBack;
-    }
-    //model must have key
-    if (!objectKeyExists(model, key)) return feedBack;
-    model[key] = text;
-    !isNullUndefined(activity) &&
-    enforceReactNaturalStateUpdateBehavior(activity);
+  let feedBack = null;
+  if (isNullUndefined(model)) {
+    console.log('No model');
+    return feedBack;
+  }
+  //model must have key
+  if (!objectKeyExists(model, key)) {
+    return feedBack;
+  }
+  model[key] = text;
+  !isNullUndefined(activity) &&
+  enforceReactNaturalStateUpdateBehavior(activity);
 }
 
 //END
@@ -62,17 +69,23 @@ export function textValueChanged(model, text, key, activity = null) {
  * @returns {boolean}
  */
 export function checkboxItemChecked(model, key) {
-    let isChecked = false;
-    if (isNullUndefined(model)) {
-        console.log('No model');
-        return isChecked;
-    }
-    //model must have key
-    if (!objectKeyExists(model, key)) return isChecked;
-    if (isBoolean(model[key]) && !model[key]) return isChecked;
-    if (isNullUndefined(model[key])) return isChecked;
-    isChecked = true;
+  let isChecked = false;
+  if (isNullUndefined(model)) {
+    console.log('No model');
     return isChecked;
+  }
+  //model must have key
+  if (!objectKeyExists(model, key)) {
+    return isChecked;
+  }
+  if (isBoolean(model[key]) && !model[key]) {
+    return isChecked;
+  }
+  if (isNullUndefined(model[key])) {
+    return isChecked;
+  }
+  isChecked = true;
+  return isChecked;
 }
 
 /**
@@ -87,23 +100,26 @@ export function checkboxItemChecked(model, key) {
  */
 export function checkboxItemValueChanged(model, checkedTrue, key,
                                          trueValue, falseValue, activity = null) {
-    let feedback = null;
-    if (isNullUndefined(model)) {
-        console.log('No model');
-        return feedback;
-    }
-    //model must have key
-    if (!objectKeyExists(model, key)) return feedback;
-    if (checkedTrue) {
-        // noinspection EqualityComparisonWithCoercionJS
-        model[key] = trueValue;
-    } else {
-        // noinspection EqualityComparisonWithCoercionJS
-        model[key] = falseValue;
-    }
-    !isNullUndefined(activity) &&
-    enforceReactNaturalStateUpdateBehavior(activity);
-    return model[key];
+  console.log('key-> ', key,'\tof model->', toJS(model), '\tcheckedTrue-> ', toJS(checkedTrue));
+  let feedback = null;
+  if (isNullUndefined(model)) {
+    console.log('No model');
+    return feedback;
+  }
+  //model must have key
+  if (!objectKeyExists(model, key)) {
+    return feedback;
+  }
+  if (checkedTrue) {
+    // noinspection EqualityComparisonWithCoercionJS
+    model[key] = trueValue;
+  } else {
+    // noinspection EqualityComparisonWithCoercionJS
+    model[key] = falseValue;
+  }
+  !isNullUndefined(activity) &&
+  enforceReactNaturalStateUpdateBehavior(activity);
+  return model[key];
 }
 
 /**
@@ -114,18 +130,18 @@ export function checkboxItemValueChanged(model, checkedTrue, key,
  * @returns {boolean}
  */
 export function radioButtonSelected(val, key, model) {
-    if (isNullUndefined(model)) {
-        return false;
-    }
-    if (!objectKeyExists(model, key)) {
-        console.log('Option not found',);
-        return false;
-    }
-    if (isNullUndefined(model[key])) {
-        return false;
-    }
-    // noinspection EqualityComparisonWithCoercionJS
-    return model[key] == val;
+  if (isNullUndefined(model)) {
+    return false;
+  }
+  if (!objectKeyExists(model, key)) {
+    console.log('Option not found');
+    return false;
+  }
+  if (isNullUndefined(model[key])) {
+    return false;
+  }
+  // noinspection EqualityComparisonWithCoercionJS
+  return model[key] == val;
 }
 
 /**
@@ -138,29 +154,29 @@ export function radioButtonSelected(val, key, model) {
  * @returns {*}
  */
 export function radioButtonValueChanged(checkedTrue, value, key, model, activity) {
-    let feedback = null;
-    if (isNullUndefined(model)) {
-        console.log('No model');
-        return feedback;
-    }
-    //model must have key
-    if (!objectKeyExists(model, key)) {
-        console.log('Add extra data to the model, not allowed here!');
-        return;
-    }
-    if (checkedTrue) {
-        // noinspection EqualityComparisonWithCoercionJS
-        if (model[key] != value) {
-            model[key] = value;
-            feedback = value;
-        }
-    } else {
-        // noinspection EqualityComparisonWithCoercionJS
-        model[key] = null;
-    }
-    !isNullUndefined(activity) &&
-    enforceReactNaturalStateUpdateBehavior(activity);
+  let feedback = null;
+  if (isNullUndefined(model)) {
+    console.log('No model');
     return feedback;
+  }
+  //model must have key
+  if (!objectKeyExists(model, key)) {
+    console.log('Add extra data to the model, not allowed here!');
+    return;
+  }
+  if (checkedTrue) {
+    // noinspection EqualityComparisonWithCoercionJS
+    if (model[key] != value) {
+      model[key] = value;
+      feedback = value;
+    }
+  } else {
+    // noinspection EqualityComparisonWithCoercionJS
+    model[key] = null;
+  }
+  !isNullUndefined(activity) &&
+  enforceReactNaturalStateUpdateBehavior(activity);
+  return feedback;
 }
 
 //END
@@ -180,18 +196,18 @@ export function spinnerSelectedValue(
     spinnerItemsArray,
     key,
 ) {
-    // noinspection EqualityComparisonWithCoercionJS
-    return isNullUndefined(model) || isEmptyArray(spinnerItemsArray)
-        ? null
-        : isNullUndefined(
-            spinnerItemsArray.find((item) => item.value == spinnerDefaultValue),
-        )
-            ? null
-            : !objectKeyExists(model, key)
-                ? spinnerDefaultValue
-                : isNullUndefined(spinnerItemsArray.find((item) => item.value == model[key]))
-                    ? spinnerDefaultValue
-                    : model[key];
+  // noinspection EqualityComparisonWithCoercionJS
+  return isNullUndefined(model) || isEmptyArray(spinnerItemsArray)
+      ? null
+      : isNullUndefined(
+          spinnerItemsArray.find((item) => item.value == spinnerDefaultValue),
+      )
+          ? null
+          : !objectKeyExists(model, key)
+              ? spinnerDefaultValue
+              : isNullUndefined(spinnerItemsArray.find((item) => item.value == model[key]))
+                  ? spinnerDefaultValue
+                  : model[key];
 }
 
 /**
@@ -202,13 +218,21 @@ export function spinnerSelectedValue(
  * @param activity
  */
 export function spinnerOnValueChanged(model, val, key, activity = null) {
-    if (isNullUndefined(model)) return;
-    if (isEmptyString(key)) return;
-    if (isNullUndefined(val)) return;
-    if (!objectKeyExists(model, key)) return;
-    model[key] = val;
-    !isNullUndefined(activity) &&
-    enforceReactNaturalStateUpdateBehavior(activity);
+  if (isNullUndefined(model)) {
+    return;
+  }
+  if (isEmptyString(key)) {
+    return;
+  }
+  if (isNullUndefined(val)) {
+    return;
+  }
+  if (!objectKeyExists(model, key)) {
+    return;
+  }
+  model[key] = val;
+  !isNullUndefined(activity) &&
+  enforceReactNaturalStateUpdateBehavior(activity);
 }
 
 /**
@@ -217,21 +241,21 @@ export function spinnerOnValueChanged(model, val, key, activity = null) {
  * @returns {[]}
  */
 export function generateSpinnerOptions(itemsArray) {
-    let spinnerOptions = [];
-    !isEmptyArray(itemsArray) && (
-        (_ => (
-            spinnerOptions = itemsArray.map(item => {
-                return (
-                    <Picker.Item
-                        label={item.text || item.label}
-                        value={item.value}
-                        key={item.value}
-                    />
-                );
-            })
-        ))()
-    );
-    return spinnerOptions;
+  let spinnerOptions = [];
+  !isEmptyArray(itemsArray) && (
+      (_ => (
+          spinnerOptions = itemsArray.map(item => {
+            return (
+                <Picker.Item
+                    label={item.text || item.label}
+                    value={item.value}
+                    key={item.value || makeId(16)}
+                />
+            );
+          })
+      ))()
+  );
+  return spinnerOptions;
 }
 
 //END

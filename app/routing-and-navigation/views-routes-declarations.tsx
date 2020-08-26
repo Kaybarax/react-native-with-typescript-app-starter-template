@@ -85,7 +85,7 @@ export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
 };
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {
-    name: 'CREATE/EDIT RECIPE',
+    name: 'CREATE-EDIT RECIPE',
     screen: CreateEditRecipeFormActivity
 };
 

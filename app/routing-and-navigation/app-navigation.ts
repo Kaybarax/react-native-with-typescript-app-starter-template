@@ -7,12 +7,14 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isEmptyObject, isEmptyString, isNullUndefined} from '../util/util';
+import {isEmptyObject, isNullUndefined} from '../util/util';
 import {
+    MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
     PAGE1EXAMPLE_SCREEN_VIEW,
     PAGE2EXAMPLE_SCREEN_VIEW,
-    PAGE3EXAMPLE_SCREEN_VIEW, PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
+    PAGE3EXAMPLE_SCREEN_VIEW,
+    PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
     PAGE4EXAMPLE_SCREEN_VIEW
 } from "./views-routes-declarations";
 import {InternalRoutes} from "./routes";
@@ -31,16 +33,17 @@ export class AppNavigation {
     navigatedToParams = null;
     navigatedTo = null;
     navigatedFrom = null;
+    navStore = null;
 
     navigate = (navigator, navTo, navFrom: string | any = this.navigatedTo,
-                navParams: object | any = null, goingBack = false, navStore = null) => {
+                navParams: object | any = null, goingBack = false) => {
 
         this.navigatedFrom = navFrom;
         this.navigatedTo = navTo;
 
         //trail navigation
-        if (!isNullUndefined(navStore)) {
-            this.trailNavigation(goingBack, navStore);
+        if (!isNullUndefined(this.navStore)) {
+            this.trailNavigation(goingBack, this.navStore);
         }
 
         //continue with navigation
@@ -124,21 +127,19 @@ export class AppNavigation {
         );
     }
 
-    loginToRecipeBox = (navigator, navParams = null, navStore = null) => {
+    loginToRecipeBox = (navigator, navParams = null) => {
         console.log('\nnavigator', navigator);
         console.log('\nnavParams', navParams);
         this.navigate(
             navigator,
             InternalRoutes.MY_RECIPE_TABBING,
             this.navigatedTo,
-            navParams,
-            false,
-            navStore
+            navParams
         );
-        console.log('\nnavStore', toJS(navStore));
+        console.log('\nnavStore', toJS(this.navStore));
     }
 
-    navigateToRecipeDetails = (navigator, navParams: object | any = null, navStore = null) => {
+    navigateToRecipeDetails = (navigator, navParams: object | any = null) => {
         console.log('\nnavigateToRecipeDetails\n\n');
         console.log('\nnavigator', navigator);
         console.log('\nnavParams', navParams);
@@ -146,17 +147,15 @@ export class AppNavigation {
             navigator,
             MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name,
             this.navigatedTo,
-            navParams,
-            false,
-            navStore
+            navParams
         );
-        console.log('\nnavStore', toJS(navStore));
+        console.log('\nnavStore', toJS(this.navStore));
     }
 
-    navigateToCreateEditRecipe = (navigator, navParams = null) => {
+    navigateToCreateEditRecipe = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,
+            MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name,
             this.navigatedTo,
             navParams
         );

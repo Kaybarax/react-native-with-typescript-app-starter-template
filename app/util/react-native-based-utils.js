@@ -2,7 +2,7 @@
 //sd - self described
 //@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
 
-import {isNullUndefined} from "./util";
+import {isEmptyArray, isNullUndefined} from './util';
 
 /**
  * sd _ Kaybarax
@@ -17,15 +17,19 @@ export function enforceReactNaturalStateUpdateBehavior(self) {
     console.log('State update failed');
     return;
   }
-  if (typeof self.state !== 'object')
+  if (typeof self.state !== 'object') {
     self.state = {updated: false};
+  }
   self.setState({updated: true});
 }
 
 /**
  * sd _ Kaybarax
  * @param classNames
+ * @returns {*[]}
  */
 export default function className(...classNames) {
+  if (!isEmptyArray(classNames)) {
     return [...classNames];
+  }
 }

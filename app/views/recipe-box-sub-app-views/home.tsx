@@ -13,7 +13,7 @@ import RecipeListItemCard from "./recipe-list-item-card";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {isEmptyArray, isTrue, makeId} from "../../util/util";
+import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
@@ -30,12 +30,14 @@ import {toJS} from "mobx";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
+import {createRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
+import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 
 export function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
-    let {appStores: {recipeBoxStore}, navigation} = props;
+    let {appStores: {recipeBoxStore}, navigation, appStores} = props;
     let {
         notificationAlert,
         // recipes
@@ -71,12 +73,12 @@ export function RecipeHome(props) {
         <RN.View
             // contentInsetAdjustmentBehavior={"automatic"}
             style={[
-                ...className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN)
             ]}
         >
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.FlatList
@@ -84,7 +86,6 @@ export function RecipeHome(props) {
                     renderItem={(item: any) => <RecipeListItem
                         recipe={item.item.recipe}
                         recipePhotos={item.item.recipePhotos}
-                        // recipeDetails={item}
                         navigation={navigation}
                     />}
                     keyExtractor={_ => makeId(16)}
@@ -93,7 +94,7 @@ export function RecipeHome(props) {
 
             <BlankSpaceDivider height={150}/>
 
-            <RN.TouchableHighlight
+            <RN.TouchableOpacity
                 style={[
                     {
                         borderRadius: 50,
@@ -106,6 +107,15 @@ export function RecipeHome(props) {
                     }
                 ]}
                 onPress={_ => {
+                    //clear former
+                    recipeBoxStore.selectedRecipe = null;
+                    //create new
+                    createRecipe(recipeBoxStore);
+                    if (isNullUndefined(recipeBoxStore.selectedRecipe)) {
+                        notificationCallback('warn', 'Failed to create new recipe', notificationAlert);
+                        return;
+                    }
+                    appNavigation.navigateToCreateEditRecipe(navigation, {recipe: recipeBoxStore.selectedRecipe})
                 }}
             >
                 <RN.Text
@@ -121,20 +131,16 @@ export function RecipeHome(props) {
                         icon={faPlus}
                         color={'white'}
                         size={30}
-                        style={{
-                            // position: 'absolute',
-                            // top: 50,
-                        }}
                     />
                 </RN.Text>
-            </RN.TouchableHighlight>
+            </RN.TouchableOpacity>
 
             {
                 (displayFieldExpectationSatisfied('alert', notificationAlert,
                     expectationOfX => isTrue(expectationOfX))) &&
                 <RN.View
                     style={[
-                        ...className(AllViewsCN),
+                        className(AllViewsCN),
                         {
                             position: 'absolute',
                             top: 0,
@@ -160,22 +166,22 @@ export function NoRecipesDisplay(props) {
     return (
         <RN.ScrollView
             style={[
-                ...className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN)
             ]}
         >
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.Text
                         style={[
-                            ...className(
+                            className(
                                 FlexContainerChildItemFullWidthCN,
                                 AlignCenterContentCN
                             ),
@@ -192,17 +198,17 @@ export function NoRecipesDisplay(props) {
             </RN.View>
             <RN.View
                 style={[
-                    ...className(FlexContainerChildItemFullWidthCN)
+                    className(FlexContainerChildItemFullWidthCN)
                 ]}
             >
                 <RN.View
                     style={[
-                        ...className(FlexFluidRowContainerCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            ...className(FlexContainerChildItemFullWidthCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <RN.Button

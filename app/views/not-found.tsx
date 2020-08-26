@@ -26,29 +26,29 @@ export default class NotFound extends Component {
                 <ScrollView
                     contentInsetAdjustmentBehavior={"automatic"}
                     style={[
-                        ...className(FlexColumnContainerCN),
+                        className(FlexColumnContainerCN),
                     ]}
                 >
                     <View
                         style={[
-                            ...className(FlexFluidRowContainerCN)
+                            className(FlexFluidRowContainerCN)
                         ]}
                     >
                         <View
                             style={[
-                                ...className(
+                                className(
                                     FlexContainerChildItemFullWidthCN,
                                 )
                             ]}
                         >
                             <View
                                 style={[
-                                    ...className(FlexFluidRowContainerCN)
+                                    className(FlexFluidRowContainerCN)
                                 ]}
                             >
                                 <Text
                                     style={[
-                                        ...className(FlexContainerChildItemFullWidthCN,
+                                        className(FlexContainerChildItemFullWidthCN,
                                             AlignCenterContentCN)
                                     ]}
                                 >
@@ -58,7 +58,7 @@ export default class NotFound extends Component {
                         </View>
                         <View
                             style={[
-                                ...className(
+                                className(
                                     FlexContainerChildItemFullWidthCN,
                                     {
                                         paddingTop: 10
@@ -68,7 +68,7 @@ export default class NotFound extends Component {
                         >
                             <View
                                 style={[
-                                    ...className()
+                                    className()
                                 ]}
                             >
                                 <Button
@@ -81,7 +81,7 @@ export default class NotFound extends Component {
                         </View>
                         <View
                             style={[
-                                ...className(
+                                className(
                                     FlexContainerChildItemFullWidthCN,
                                     {
                                         paddingTop: 10
@@ -91,12 +91,12 @@ export default class NotFound extends Component {
                         >
                             <View
                                 style={[
-                                    ...className(FlexFluidRowContainerCN)
+                                    className(FlexFluidRowContainerCN)
                                 ]}
                             >
                                 <View
                                     style={[
-                                        ...className(
+                                        className(
                                             FlexContainerChildItemFullWidthCN,
                                             {
                                                 paddingTop: 10
