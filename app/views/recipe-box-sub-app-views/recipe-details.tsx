@@ -389,6 +389,7 @@ export default function RecipeDetails(props) {
                         >
 
                             <RN.TouchableOpacity
+                                activeOpacity={.2}
                                 onPress={_ => {
                                     recipeBoxStore.viewAction = null;
                                     appNavigation.navigateBack(navigation, navStore)
@@ -404,6 +405,7 @@ export default function RecipeDetails(props) {
                             </RN.TouchableOpacity>
 
                             <RN.TouchableOpacity
+                                activeOpacity={.2}
                                 onPress={_ => {
                                     // editRecipeClick(this, recipe);
                                 }}
@@ -418,6 +420,7 @@ export default function RecipeDetails(props) {
                             </RN.TouchableOpacity>
 
                             <RN.TouchableOpacity
+                                activeOpacity={.2}
                                 onPress={_ => {
                                     // deleteRecipe(recipe, this);
                                 }}

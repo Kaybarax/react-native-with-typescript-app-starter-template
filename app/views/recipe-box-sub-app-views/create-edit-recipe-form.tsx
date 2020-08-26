@@ -20,21 +20,13 @@ import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
-    AlignRightFlexContainerContentCN,
     AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
-    FlexContainerChildItemOneThirdWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
-import {
-    checkboxItemValueChanged,
-    generateSpinnerOptions,
-    spinnerOnValueChanged,
-    spinnerSelectedValue,
-    textValueChanged
-} from "../../util/react-native-data-collection-utils";
+import {checkboxItemValueChanged, textValueChanged} from "../../util/react-native-data-collection-utils";
 import {
     addCookingInstruction,
     addIngredient,
@@ -46,9 +38,9 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {RecipeGroupsSuitable} from "../../app-management/data-manager/list-manager";
-import {Picker} from "@react-native-community/picker";
 import {RecipeImage} from "../../app-management/data-manager/models-manager";
 import {toJS} from "mobx";
+import RnMultiSelectKaybarax from "../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
 
 export function CreateEditRecipeForm(props) {
 
@@ -58,6 +50,7 @@ export function CreateEditRecipeForm(props) {
     let {notificationAlert, viewAction} = recipeBoxStore;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
+    let [selectItems, toggleMultiselectDropdown] = React.useState(false);
 
     //for holding the recipe photos
     let recipePhotos: RecipeImage = {
@@ -71,6 +64,7 @@ export function CreateEditRecipeForm(props) {
 
     const PhotoInput = props => (
         <RN.TouchableOpacity
+            activeOpacity={.2}
             style={[
                 className(FlexContainerChildItemFullWidthCN)
             ]}
@@ -356,6 +350,7 @@ export function CreateEditRecipeForm(props) {
                                                                     {
                                                                         (i === (recipe.ingredients.length - 1)) &&
                                                                         <RN.TouchableOpacity
+                                                                            activeOpacity={.2}
                                                                             onPress={
                                                                                 _ => {
                                                                                     addIngredient(recipe);
@@ -390,6 +385,7 @@ export function CreateEditRecipeForm(props) {
                                                                     {
                                                                         (recipe.ingredients.length >= 2) &&
                                                                         <RN.TouchableOpacity
+                                                                            activeOpacity={.2}
                                                                             onPress={
                                                                                 _ => {
                                                                                     removeIngredient(recipe, i);
@@ -486,13 +482,17 @@ export function CreateEditRecipeForm(props) {
                                                             <RN.View
                                                                 style={[
                                                                     className(FlexContainerChildItemFullWidthCN,
-                                                                        AlignRightFlexContainerContentCN)
+                                                                        AlignLeftFlexContainerContentCN),
+                                                                    {
+                                                                        flexDirection: 'row-reverse'
+                                                                    }
                                                                 ]}
                                                             >
 
                                                                 {
                                                                     (i === (recipe.cooking_instructions.length - 1)) &&
                                                                     <RN.TouchableOpacity
+                                                                        activeOpacity={.2}
                                                                         onPress={
                                                                             _ => {
                                                                                 addCookingInstruction(recipe);
@@ -507,7 +507,10 @@ export function CreateEditRecipeForm(props) {
                                                                         ]}
                                                                     >
                                                                       <RN.Text
-                                                                          style={[]}>
+                                                                          style={[
+                                                                              {padding: 5}
+                                                                          ]}
+                                                                      >
                                                                         <FontAwesomeIcon
                                                                             icon={faPlus}
                                                                             color={'white'}
@@ -517,9 +520,12 @@ export function CreateEditRecipeForm(props) {
                                                                     </RN.TouchableOpacity>
                                                                 }
 
+                                                                <Spacer/>
+
                                                                 {
                                                                     (recipe.cooking_instructions.length >= 2) &&
                                                                     <RN.TouchableOpacity
+                                                                        activeOpacity={.2}
                                                                         onPress={
                                                                             _ => {
                                                                                 removeCookingInstruction(recipe, i);
@@ -534,7 +540,10 @@ export function CreateEditRecipeForm(props) {
                                                                         ]}
                                                                     >
                                                                       <RN.Text
-                                                                          style={[]}>
+                                                                          style={[
+                                                                              {padding: 5}
+                                                                          ]}
+                                                                      >
                                                                         <FontAwesomeIcon
                                                                             icon={faMinus}
                                                                             color={'white'}
@@ -580,17 +589,45 @@ export function CreateEditRecipeForm(props) {
                                                     className(FlexContainerChildItemFullWidthCN)
                                                 ]}
                                             >
-                                                <Picker
-                                                    mode="dropdown"
-                                                    style={[
-                                                        {color: "grey", marginLeft: 20}
-                                                    ]}
-                                                    selectedValue={spinnerSelectedValue(recipe, -1,
-                                                        RecipeGroupsSuitable, "groups_suitable")}
-                                                    onValueChange={value => spinnerOnValueChanged(recipe, value, "groups_suitable")}
-                                                >
-                                                    {/*{generateSpinnerOptions(RecipeGroupsSuitable)}*/}
-                                                </Picker>
+
+                                                <RnMultiSelectKaybarax
+                                                    style={{zIndex: 100000000}}
+                                                    itemsList={
+                                                        isEmptyArray(recipe['groups_suitable']) ?
+                                                            [...RecipeGroupsSuitable] :
+                                                            [...(RecipeGroupsSuitable.filter(item =>
+                                                                !recipe['groups_suitable'].includes(item.value)))]
+                                                    }
+                                                    selectedItems={recipe['groups_suitable']}
+                                                    onItemSelected={value => {
+
+                                                        console.log('WAS SELECTED', value);
+
+                                                        isEmptyArray(recipe['groups_suitable']) &&
+                                                        (recipe['groups_suitable'] = []);//ensure array
+                                                        //if was there, remove it first
+                                                        let idx = recipe['groups_suitable'].indexOf(value);
+                                                        if (idx != -1) {
+                                                            //already the
+                                                            return;
+                                                        }
+                                                        recipe['groups_suitable'].push(value);
+
+                                                    }}
+                                                    onItemRemoved={value => {
+
+                                                        isEmptyArray(recipe['groups_suitable']) &&
+                                                        (recipe['groups_suitable'] = []);//ensure array
+                                                        let idx = recipe['groups_suitable'].indexOf(value);
+                                                        (idx != -1) && recipe['groups_suitable'].splice(idx, 1);
+
+                                                    }}
+                                                    selectItems={selectItems}
+                                                    initDropdown={(value)=>{
+                                                        toggleMultiselectDropdown(value);
+                                                    }}
+                                                />
+
                                             </RN.View>
 
                                         </RN.View>
@@ -613,6 +650,7 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 (viewAction === null) &&
                                                 <RN.TouchableOpacity
+                                                    activeOpacity={.2}
                                                     onPress={
                                                         _ => submitRecipeClick(recipe, set_press_submit, formValidityTree)
                                                     }
@@ -630,6 +668,7 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 (viewAction !== null) &&
                                                 <RN.TouchableOpacity
+                                                    activeOpacity={.2}
                                                     onPress={
                                                         _ => updateRecipeClick(recipe, set_press_submit, formValidityTree)
                                                     }

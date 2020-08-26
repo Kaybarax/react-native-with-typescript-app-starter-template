@@ -12,11 +12,7 @@ import RN from "react-native";
 import CheckBox from '@react-native-community/checkbox';
 import RadioForm from 'react-native-simple-radio-button';
 import className from "../../util/react-native-based-utils";
-import {
-    AlignLeftFlexContainerContentCN,
-    FlexContainerChildItemFullWidthCN,
-    FlexFluidRowContainerCN
-} from "../../theme/app-layout-styles-classnames";
+import {AlignLeftFlexContainerContentCN, FlexFluidRowContainerCN} from "../../theme/app-layout-styles-classnames";
 
 export function Radiobutton(props) {
     let {
@@ -67,6 +63,7 @@ export function Checkbox(props) {
                 }}
             />
             <RN.TouchableOpacity
+                activeOpacity={.2}
                 style={[
                     {
                         marginTop: 5

@@ -100,7 +100,7 @@ export function checkboxItemChecked(model, key) {
  */
 export function checkboxItemValueChanged(model, checkedTrue, key,
                                          trueValue, falseValue, activity = null) {
-  console.log('key-> ', key,'\tof model->', toJS(model), '\tcheckedTrue-> ', toJS(checkedTrue));
+  console.log('key-> ', key, '\tof model->', toJS(model), '\tcheckedTrue-> ', toJS(checkedTrue));
   let feedback = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -198,15 +198,15 @@ export function spinnerSelectedValue(
 ) {
   // noinspection EqualityComparisonWithCoercionJS
   return isNullUndefined(model) || isEmptyArray(spinnerItemsArray)
-      ? null
+      ? spinnerDefaultValue || null
       : isNullUndefined(
           spinnerItemsArray.find((item) => item.value == spinnerDefaultValue),
       )
-          ? null
+          ? spinnerDefaultValue || null
           : !objectKeyExists(model, key)
               ? spinnerDefaultValue
               : isNullUndefined(spinnerItemsArray.find((item) => item.value == model[key]))
-                  ? spinnerDefaultValue
+                  ? spinnerDefaultValue || null
                   : model[key];
 }
 

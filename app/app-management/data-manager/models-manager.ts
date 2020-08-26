@@ -60,7 +60,7 @@ export interface RecipeImage {
  */
 export function FoodGroupConsumer(code, name) {
     return {
-        code: code,
-        name: name,
+        value: code,
+        label: name,
     };
 }

@@ -124,6 +124,7 @@ function Login(props) {
                             >
 
                                 <TouchableOpacity
+                                    activeOpacity={.2}
                                     style={[
                                         className(
                                             AllViewsCN,

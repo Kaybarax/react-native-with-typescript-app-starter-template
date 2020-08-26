@@ -10,7 +10,7 @@
 import React from "react";
 import {textValueChanged} from "../../util/react-native-data-collection-utils";
 import {isEmptyString} from "../../util/util";
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../App";
 import {
@@ -121,6 +121,7 @@ export default function SignUpForm(props) {
             }
             <View style={{height: 10}}/>
             <TouchableOpacity
+                activeOpacity={.2}
                 style={[
                     className(AllViewsCN,
                         FlexFluidRowContainerCN),

@@ -94,7 +94,6 @@ export const FlexContainerChildItemOneThirdWidthCN = {
 
 export const FlexContainerChildItemWidthCN = (width) => ({
   flexBasis: width,
-  width: width,
   padding: 2,
 });
 // end flex container children

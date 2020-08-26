@@ -74,6 +74,7 @@ function Page4SubItemExample(props) {
                             ]}
                         >
                             <RN.TouchableOpacity
+                                activeOpacity={.2}
                                 style={[
                                     className(FlexContainerChildItemFullWidthCN)
                                 ]}
@@ -236,6 +237,7 @@ function Page4SubItemExample(props) {
                 ]}
             >
                 <RN.TouchableOpacity
+                    activeOpacity={.2}
                     style={[
                         className(FlexContainerChildItemFullWidthCN)
                     ]}
