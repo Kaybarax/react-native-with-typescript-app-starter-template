@@ -17,7 +17,6 @@ import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -140,7 +139,6 @@ export function RecipeHome(props) {
                     expectationOfX => isTrue(expectationOfX))) &&
                 <RN.View
                     style={[
-                        className(AllViewsCN),
                         {
                             position: 'absolute',
                             top: 0,

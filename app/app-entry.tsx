@@ -9,7 +9,7 @@
 
 import 'react-native-gesture-handler';
 import React from 'react';
-import RN, {SafeAreaView, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AppWithRouting, {RecipeBoxAppWithRouting} from "./routing-and-navigation/routes";
 

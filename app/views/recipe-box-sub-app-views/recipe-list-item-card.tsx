@@ -17,7 +17,6 @@ import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     AlignRightFlexContainerContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemNoGrowCN,
@@ -71,8 +70,8 @@ export default function RecipeListItemCard(props) {
                     <RN.ScrollView
                         horizontal={true}
                         style={[
-                            className(FlexColumnContainerCN,
-                                AllViewsCN
+                            className(
+                                FlexColumnContainerCN
                             ),
                             {
                                 // height: SCREEN_HEIGHT * 0.2
@@ -86,8 +85,9 @@ export default function RecipeListItemCard(props) {
                                 return (
                                     <RN.View
                                         style={[
-                                            className(FlexContainerChildItemFullWidthCN,
-                                                AllViewsCN),
+                                            className(
+                                                FlexContainerChildItemFullWidthCN,
+                                            ),
                                             {
                                                 height: SCREEN_HEIGHT * 0.21
                                             }
@@ -182,21 +182,20 @@ export default function RecipeListItemCard(props) {
 
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN,
-                            AllViewsCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.View
                         style={[
                             className(FlexContainerChildItemFullWidthCN,
-                                AllViewsCN)
+                                )
                         ]}
                     >
                         <RN.View
                             style={[
                                 className(FlexFluidRowContainerCN,
                                     AlignRightFlexContainerContentCN,
-                                    AllViewsCN)
+                                    )
                             ]}
                         >
 
@@ -215,7 +214,6 @@ export default function RecipeListItemCard(props) {
                                 style={[
                                     className(FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AllViewsCN,
                                         AlignCenterContentCN),
                                     {
                                         backgroundColor: 'teal'
@@ -224,7 +222,6 @@ export default function RecipeListItemCard(props) {
                             >
                                 <RN.Text
                                     style={[
-                                        className(AllViewsCN),
                                         {
                                             color: 'white',
                                             backgroundColor: 'maroon'
@@ -241,7 +238,6 @@ export default function RecipeListItemCard(props) {
                                 style={[
                                     className(FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AllViewsCN,
                                         AlignCenterContentCN)
                                 ]}
                             >
@@ -257,7 +253,6 @@ export default function RecipeListItemCard(props) {
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
-                            className(AllViewsCN),
                             {
                                 position: 'absolute',
                                 top: 0,

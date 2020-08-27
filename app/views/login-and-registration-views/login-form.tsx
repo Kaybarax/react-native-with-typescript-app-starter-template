@@ -16,7 +16,6 @@ import {SCREEN_HEIGHT} from "../../App";
 import {
     AlignCenterContentCN,
     AlignRightFlexContainerContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -60,7 +59,7 @@ export default function LoginForm(props) {
     return (
         <ScrollView
             style={[
-                className(AllViewsCN,
+                className(
                     FlexColumnContainerCN),
             ]}
         >
@@ -88,7 +87,7 @@ export default function LoginForm(props) {
             <TouchableOpacity
                 activeOpacity={.2}
                 style={[
-                    className(AllViewsCN,
+                    className(
                         FlexFluidRowContainerCN),
                     {
                         backgroundColor: 'orange',
@@ -106,7 +105,7 @@ export default function LoginForm(props) {
             >
                 <Text
                     style={[
-                        className(AllViewsCN,
+                        className(
                             FlexContainerChildItemFullWidthCN,
                             AlignCenterContentCN,
                             RegistrationButtonTextCN)
@@ -120,7 +119,6 @@ export default function LoginForm(props) {
                 activeOpacity={.2}
                 style={[
                     className(
-                        AllViewsCN,
                         FlexContainerChildItemFullWidthCN
                     ),
                 ]}
@@ -135,7 +133,7 @@ export default function LoginForm(props) {
             >
                 <Text
                     style={[
-                        className(AllViewsCN,
+                        className(
                             AlignRightFlexContainerContentCN),
                         {
                             fontSize: 18,

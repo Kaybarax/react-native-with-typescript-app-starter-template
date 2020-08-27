@@ -14,7 +14,6 @@ import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
     AlignRightFlexContainerContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemNoGrowCN,
@@ -86,7 +85,6 @@ export default function RecipeDetails(props) {
                         horizontal={true}
                         style={[
                             className(FlexColumnContainerCN,
-                                AllViewsCN
                             ),
                         ]}
                     >
@@ -97,8 +95,7 @@ export default function RecipeDetails(props) {
                                 return (
                                     <RN.View
                                         style={[
-                                            className(FlexContainerChildItemFullWidthCN,
-                                                AllViewsCN),
+                                            className(FlexContainerChildItemFullWidthCN),
                                             {
                                                 height: SCREEN_HEIGHT * 0.21
                                             }
@@ -191,22 +188,19 @@ export default function RecipeDetails(props) {
 
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN,
-                            AllViewsCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
 
                     <RN.View
                         style={[
-                            className(FlexContainerChildItemFullWidthCN,
-                                AllViewsCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
 
                         <RN.View
                             style={[
-                                className(FlexFluidRowContainerCN,
-                                    AllViewsCN)
+                                className(FlexFluidRowContainerCN)
                             ]}
                         >
 
@@ -370,21 +364,18 @@ export default function RecipeDetails(props) {
 
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN,
-                            AllViewsCN)
+                        className(FlexFluidRowContainerCN)
                     ]}
                 >
                     <RN.View
                         style={[
-                            className(FlexContainerChildItemFullWidthCN,
-                                AllViewsCN)
+                            className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
                         <RN.View
                             style={[
                                 className(FlexFluidRowContainerCN,
-                                    AlignRightFlexContainerContentCN,
-                                    AllViewsCN)
+                                    AlignRightFlexContainerContentCN)
                             ]}
                         >
 
@@ -395,10 +386,11 @@ export default function RecipeDetails(props) {
                                     appNavigation.navigateBack(navigation, navStore)
                                 }}
                                 style={[
-                                    className(FlexContainerChildItemNoGrowCN,
+                                    className(
+                                        FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AllViewsCN,
-                                        AlignCenterContentCN)
+                                        AlignCenterContentCN
+                                    )
                                 ]}
                             >
                                 <RN.Text>Back</RN.Text>
@@ -410,10 +402,11 @@ export default function RecipeDetails(props) {
                                     // editRecipeClick(this, recipe);
                                 }}
                                 style={[
-                                    className(FlexContainerChildItemNoGrowCN,
+                                    className(
+                                        FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AllViewsCN,
-                                        AlignCenterContentCN)
+                                        AlignCenterContentCN
+                                    )
                                 ]}
                             >
                                 <RN.Text>Edit</RN.Text>
@@ -425,10 +418,11 @@ export default function RecipeDetails(props) {
                                     // deleteRecipe(recipe, this);
                                 }}
                                 style={[
-                                    className(FlexContainerChildItemNoGrowCN,
+                                    className(
+                                        FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AllViewsCN,
-                                        AlignCenterContentCN)
+                                        AlignCenterContentCN
+                                    )
                                 ]}
                             >
                                 <RN.Text>Delete</RN.Text>
@@ -443,7 +437,6 @@ export default function RecipeDetails(props) {
                         expectationOfX => isTrue(expectationOfX))) &&
                     <View
                         style={[
-                            className(AllViewsCN),
                             {
                                 position: 'absolute',
                                 top: 0,

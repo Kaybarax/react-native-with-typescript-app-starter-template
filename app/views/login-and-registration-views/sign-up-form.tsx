@@ -15,7 +15,6 @@ import AppTextInput from "../../shared-components-and-modules/form-controls/app-
 import {SCREEN_HEIGHT} from "../../App";
 import {
     AlignCenterContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -68,7 +67,7 @@ export default function SignUpForm(props) {
     return (
         <ScrollView
             style={[
-                className(AllViewsCN,
+                className(
                     FlexColumnContainerCN),
             ]}
         >
@@ -123,7 +122,7 @@ export default function SignUpForm(props) {
             <TouchableOpacity
                 activeOpacity={.2}
                 style={[
-                    className(AllViewsCN,
+                    className(
                         FlexFluidRowContainerCN),
                     {
                         backgroundColor: 'orange',
@@ -146,7 +145,7 @@ export default function SignUpForm(props) {
             >
                 <Text
                     style={[
-                        className(AllViewsCN,
+                        className(
                             FlexContainerChildItemFullWidthCN,
                             AlignCenterContentCN,
                             RegistrationButtonTextCN),

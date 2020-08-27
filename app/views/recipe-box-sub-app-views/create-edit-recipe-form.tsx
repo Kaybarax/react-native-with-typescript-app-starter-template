@@ -20,10 +20,10 @@ import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
     AlignLeftFlexContainerContentCN,
-    AllViewsCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
-    FlexFluidRowContainerCN
+    FlexFluidRowContainerCN,
+    FlexRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import {checkboxItemValueChanged, textValueChanged} from "../../util/react-native-data-collection-utils";
@@ -45,12 +45,13 @@ import RnMultiSelectKaybarax from "../../shared-components-and-modules/form-cont
 export function CreateEditRecipeForm(props) {
 
     console.log('props at CreateEditRecipeForm:', toJS(props));
+    console.log('CreateEditRecipeForm rn count!');
 
     let {recipeBoxStore, route: {params: {recipe}}} = props;
     let {notificationAlert, viewAction} = recipeBoxStore;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
-    let [selectItems, toggleMultiselectDropdown] = React.useState(false);
+    let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
 
     //for holding the recipe photos
     let recipePhotos: RecipeImage = {
@@ -112,8 +113,6 @@ export function CreateEditRecipeForm(props) {
             ]}
         > {props?.message || '* This field is required.'}</RN.Text>
     );
-
-    // return <React.Fragment></React.Fragment>
 
     return (
         <RN.ScrollView
@@ -622,9 +621,9 @@ export function CreateEditRecipeForm(props) {
                                                         (idx != -1) && recipe['groups_suitable'].splice(idx, 1);
 
                                                     }}
-                                                    selectItems={selectItems}
-                                                    initDropdown={(value)=>{
-                                                        toggleMultiselectDropdown(value);
+                                                    multiSelectDialogIsOpen={multiSelectDialogIsOpen}
+                                                    toggleOpenMultiSelectDialog={(value) => {
+                                                        toggleOpenMultiSelectDialog(value);
                                                     }}
                                                 />
 
@@ -704,7 +703,7 @@ export function CreateEditRecipeForm(props) {
                         expectationOfX => isTrue(expectationOfX))) &&
                     <RN.View
                         style={[
-                            className(AllViewsCN),
+                            className(FlexRowContainerCN),
                             {
                                 position: 'absolute',
                                 top: 0,

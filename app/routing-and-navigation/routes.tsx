@@ -120,7 +120,7 @@ export default function AppWithRouting() {
     ];
 
     //uncomment to run dev mocks only
-    // return <AppDevMocksWithRouting/>;
+    return <AppDevMocksWithRouting/>;
 
     return (
         <AppStack.Navigator

@@ -8,7 +8,7 @@
  */
 
 //this one for aid during dev to see your content borders
-export const AllViewsCN = {
+export const BlockPartitionsDisplayCN = {
   borderStyle: 'solid',
   borderWidth: 1,
   borderColor: '#152939',
@@ -22,6 +22,7 @@ export const FlexRowContainerCN = {
   flexDirection: 'row',
   padding: 3,
   width: '100%',
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexFluidRowContainerCN = {
@@ -31,6 +32,7 @@ export const FlexFluidRowContainerCN = {
   flexWrap: 'wrap',
   padding: 3,
   width: '100%',
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexColumnContainerCN = {
@@ -39,6 +41,7 @@ export const FlexColumnContainerCN = {
   flexDirection: 'column',
   padding: 3,
   width: '100%',
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexFluidColumnContainerCN = {
@@ -48,6 +51,7 @@ export const FlexFluidColumnContainerCN = {
   flexWrap: 'wrap',
   padding: 3,
   width: '100%',
+  ...BlockPartitionsDisplayCN
 };
 // end flex containers
 
@@ -55,46 +59,55 @@ export const FlexFluidColumnContainerCN = {
 export const FlexContainerChildrenGapCN = {
   flex: 1,
   margin: 2, // and that, will result in a 4 points dimensions gap
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemCN = {
   padding: 2,
   flexGrow: 1,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemNoGrowCN = {
   padding: 2,
   flexGrow: 0,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemFullWidthCN = {
   flexBasis: '100%',
   padding: 2,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemThreeQuartersWidthCN = {
   flexBasis: '75%',
   padding: 2,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemOneHalfWidthCN = {
   flexBasis: '50%',
   padding: 2,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemOneQuarterWidthCN = {
   flexBasis: '25%',
   padding: 2,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemOneThirdWidthCN = {
   flexBasis: '33.33%',
   padding: 2,
+  ...BlockPartitionsDisplayCN
 };
 
 export const FlexContainerChildItemWidthCN = (width) => ({
   flexBasis: width,
   padding: 2,
+  ...BlockPartitionsDisplayCN
 });
 // end flex container children
 
@@ -103,27 +116,32 @@ export const AlignCenterContentCN = {
   justifyContent: 'center',
   alignItems: 'center',
   textAlign: 'center',
+  ...BlockPartitionsDisplayCN
 };
 
 export const AlignRightFlexContainerContentCN = {
   alignItems: 'flex-end',
   justifyContent: 'flex-end',
+  ...BlockPartitionsDisplayCN
 };
 
 export const AlignRightTextCN = {
   textAlign: 'right',
   alignItems: 'flex-end',
   justifyContent: 'flex-end',
+  ...BlockPartitionsDisplayCN
 };
 
 export const AlignLeftFlexContainerContentCN = {
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
+  ...BlockPartitionsDisplayCN
 };
 
 export const AlignLeftTextCN = {
   textAlign: 'left',
   alignItems: 'flex-start',
   justifyContent: 'flex-start',
+  ...BlockPartitionsDisplayCN
 };
 // end flex container content alignments
