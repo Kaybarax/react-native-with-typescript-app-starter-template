@@ -31,6 +31,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 import {createRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
+import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
 
 export function RecipeHome(props) {
 
@@ -108,13 +109,22 @@ export function RecipeHome(props) {
                 onPress={_ => {
                     //clear former
                     recipeBoxStore.selectedRecipe = null;
+                    recipeBoxStore.selectedRecipePhotos = [];
                     //create new
                     createRecipe(recipeBoxStore);
-                    if (isNullUndefined(recipeBoxStore.selectedRecipe)) {
+                    if (
+                        isNullUndefined(recipeBoxStore.selectedRecipe) ||
+                        isEmptyArray(recipeBoxStore.selectedRecipePhotos)
+                    ) {
                         notificationCallback('warn', 'Failed to create new recipe', notificationAlert);
                         return;
                     }
-                    appNavigation.navigateToCreateEditRecipe(navigation, {recipe: recipeBoxStore.selectedRecipe})
+                    recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE;
+                    appNavigation.navigateToCreateEditRecipe(navigation,
+                        {
+                            recipe: recipeBoxStore.selectedRecipe,
+                            recipePhotos: recipeBoxStore.selectedRecipePhotos,
+                        });
                 }}
             >
                 <RN.Text

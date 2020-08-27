@@ -2,7 +2,7 @@
 //sd - self described
 
 import {isNullUndefined, makeId, objectKeyExists} from "../../util/util";
-import {Recipe} from "../../app-management/data-manager/models-manager";
+import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
 // import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {toJS} from "mobx";
@@ -13,6 +13,7 @@ import {toJS} from "mobx";
  * @param activity
  */
 export function createRecipe(recipeBoxStore, activity = null) {
+    //the recipe
     let recipe: Recipe = {id: makeId(32)};
     recipe.date_created = (new Date()).toISOString();
     recipe.ingredients = [''];//add first initial entry
@@ -23,7 +24,19 @@ export function createRecipe(recipeBoxStore, activity = null) {
     recipe.is_vegetarian = false;
     recipe.is_vegan = false;
     recipe.rating = 0;
+    //the photos
+    let recipePhotos: Array<RecipeImage> = [];
+    for (let i = 0; i < 5; i++) {
+        let recipePhoto: RecipeImage = {
+            id: makeId(32),
+            recipe_id: recipe.id,
+            image_url: '',
+            image_file: ''
+        };
+        recipePhotos.push(recipePhoto);
+    }
     recipeBoxStore.selectedRecipe = recipe;
+    recipeBoxStore.selectedRecipePhotos = recipePhotos;
 }
 
 /**

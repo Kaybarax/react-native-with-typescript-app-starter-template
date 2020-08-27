@@ -5,16 +5,18 @@ import {faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
+    AlignLeftFlexContainerContentCN,
     AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import {Spacer} from "../shared-components";
 import {isEmptyArray, isEmptyString, isNullUndefined, isTrue, makeId} from "../../util/util";
 import {toJS} from "mobx";
 import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
+import {SCREEN_HEIGHT} from "../../App";
+import {BlankSpaceDivider} from "../shared-components";
 
 export default function RnMultiSelectKaybarax(props) {
 
@@ -81,7 +83,8 @@ export default function RnMultiSelectKaybarax(props) {
             style={[
                 className(FlexColumnContainerCN),
                 {
-                    backgroundColor: 'teal',
+                    backgroundColor: SEASHELLS_COLOR,
+                    borderRadius: 15,
                 }
             ]}
         >
@@ -123,29 +126,124 @@ export default function RnMultiSelectKaybarax(props) {
                             )
                         ]}
                     >
-
-                        <RN.TouchableOpacity
-                            activeOpacity={.2}
-                            style={[
-                                className(
-                                    FlexContainerChildItemFullWidthCN
-                                )
-                            ]}
-                            onPress={openMultiSelectDialog}
-                        >
-                            <RN.Text
+                        {
+                            !isEmptyArray(state.selectedItems) &&
+                            <RN.View
                                 style={[
-                                    {
-                                        color: "#808A9D",
-                                        fontSize: 14,
-                                        paddingTop: 10
-                                    },
-                                    className(AlignLeftTextCN)
+                                    className(
+                                        FlexContainerChildItemFullWidthCN
+                                    )
                                 ]}
                             >
+
+                              <RN.View
+                                  style={[
+                                      className(
+                                          FlexFluidRowContainerCN
+                                      )
+                                  ]}
+                              >
+
+                                <RN.View
+                                    style={[
+                                        className(
+                                            FlexContainerChildItemFullWidthCN,
+                                            AlignLeftFlexContainerContentCN,
+                                        )
+                                    ]}
+                                    key={makeId(16)}
+                                >
+
+                                  <RN.View
+                                      style={[
+                                          className(
+                                              FlexFluidRowContainerCN
+                                          )
+                                      ]}
+                                  >
+
+                                    <RN.View
+                                        style={[
+                                            {
+                                                backgroundColor: "#FFFFFF",
+                                                borderTopLeftRadius: 15,
+                                                borderBottomLeftRadius: 15,
+                                            },
+                                        ]}
+                                    >
+                                      <RN.Text
+                                          style={{
+                                              color: "#929fb2",
+                                              fontSize: 14,
+                                              textAlign: "center",
+                                              paddingTop: 5,
+                                              paddingLeft: 5,
+                                              paddingBottom: 5,
+                                          }}
+                                      >
+                                          {state.selectedItems[0].text || state.selectedItems[0].label}
+                                      </RN.Text>
+                                    </RN.View>
+
+                                    <RN.TouchableOpacity
+                                        activeOpacity={.2}
+                                        style={[
+                                            {
+                                                backgroundColor: "#FFFFFF",
+                                                borderTopRightRadius: 15,
+                                                borderBottomRightRadius: 15,
+                                            }
+                                        ]}
+                                        onPress={onItemRemoved.bind(null, state.selectedItems[0].value)}
+                                    >
+                                      <RN.Text
+                                          style={[
+                                              {
+                                                  padding: 2
+                                              }
+                                          ]}
+                                      >
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            color={'#E0E0E0'}
+                                            size={30}
+                                        />
+                                      </RN.Text>
+                                    </RN.TouchableOpacity>
+
+                                  </RN.View>
+                                </RN.View>
+
+                              </RN.View>
+
+                            </RN.View>
+                        }
+
+                        {
+                            isEmptyArray(state.selectedItems) &&
+                            <RN.TouchableOpacity
+                                activeOpacity={.2}
+                                style={[
+                                    className(
+                                        FlexContainerChildItemFullWidthCN
+                                    )
+                                ]}
+                                onPress={openMultiSelectDialog}
+                            >
+                              <RN.Text
+                                  style={[
+                                      {
+                                          color: "#808A9D",
+                                          fontSize: 16,
+                                          paddingTop: 10
+                                      },
+                                      className(AlignLeftTextCN)
+                                  ]}
+                              >
                                 Select
-                            </RN.Text>
-                        </RN.TouchableOpacity>
+                              </RN.Text>
+                            </RN.TouchableOpacity>
+                        }
 
                     </RN.View>
 
@@ -161,49 +259,29 @@ export default function RnMultiSelectKaybarax(props) {
                             style={[
                                 className(FlexColumnContainerCN),
                                 {
-                                    backgroundColor: "#fff",
+                                    backgroundColor: SEASHELLS_COLOR,
                                     padding: 2,
                                     elevation: 5,
-                                    zIndex: (props["zIndez"] || 1000000)
+                                    zIndex: (props["zIndez"] || 1000000),
+                                    height: SCREEN_HEIGHT
                                 }
                             ]}
                         >
 
                             <RN.ScrollView
-                                style={[]}
+                                style={[
+                                    className(
+                                        FlexContainerChildItemFullWidthCN
+                                    )
+                                ]}
                             >
-
-                                <RN.TouchableOpacity
-                                    style={[
-                                        {
-                                            padding: 5,
-                                            backgroundColor: "#FFFFFF"
-                                        }
-                                    ]}
-                                    activeOpacity={.2}
-                                    onPress={closeDropdown}
-                                >
-                                    <RN.Text
-                                        style={[
-                                            {
-                                                color: "#929fb2",
-                                                // fontFamily: "OpenSans-Regular",
-                                                fontSize: 14,
-                                                paddingTop: 5
-                                            },
-                                            className(AlignLeftTextCN)
-                                        ]}
-                                    >
-                                        EXIT SELECTION
-                                    </RN.Text>
-                                </RN.TouchableOpacity>
 
                                 {
                                     isTrue(state.multiSelectDialogIsOpen) &&
                                     !isEmptyArray(state.itemsList) && (
                                         state.itemsList.map((item, i) => {
                                             console.log('state.multiSelectDialogIsOpen ', item)
-                                            let boundOnPress = onItemSelected;
+                                            let boundOnPress = onItemSelected.bind(null, item.value);
                                             return (
                                                 <RN.TouchableOpacity
                                                     style={[
@@ -212,16 +290,16 @@ export default function RnMultiSelectKaybarax(props) {
                                                             backgroundColor: `${(i % 2) === 0 ? "#FFFFFF" : "#ADBECF"}`
                                                         }
                                                     ]}
-                                                    activeOpacity={.5}
-                                                    onPress={boundOnPress.bind(null, item.value)}
+                                                    activeOpacity={.2}
+                                                    onPress={boundOnPress}
                                                     key={makeId(16)}
                                                 >
                                                     <RN.Text
                                                         style={[
                                                             {
                                                                 color: "#929fb2",
-                                                                // fontFamily: "OpenSans-Regular",
-                                                                fontSize: 14,
+                                                                fontSize: 15,
+                                                                fontWeight: 'bold',
                                                                 paddingTop: 10
                                                             },
                                                             className(AlignLeftTextCN)
@@ -237,6 +315,72 @@ export default function RnMultiSelectKaybarax(props) {
                                 }
 
                             </RN.ScrollView>
+
+                            <RN.View
+                                style={[
+                                    className(
+                                        FlexContainerChildItemFullWidthCN
+                                    ),
+                                    {
+                                        position: 'absolute',
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                    }
+                                ]}
+                            >
+
+                                {
+                                    isTrue(state.multiSelectDialogIsOpen) &&
+                                    isEmptyArray(state.itemsList) &&
+                                    <RN.View>
+                                      <RN.Text
+                                          style={[
+                                              className(
+                                                  AlignCenterContentCN
+                                              ),
+                                              {
+
+                                                  color: "#929fb2",
+                                                  fontSize: 15,
+                                                  fontWeight: 'bold',
+                                                  paddingTop: 10
+                                              }
+                                          ]}
+                                      >
+                                        No options to select!
+                                      </RN.Text>
+                                      <BlankSpaceDivider/>
+                                    </RN.View>
+                                }
+
+                                <RN.TouchableOpacity
+                                    style={[
+                                        {
+                                            padding: 5,
+                                            backgroundColor: 'maroon',
+                                            borderRadius: 15,
+                                        }
+                                    ]}
+                                    activeOpacity={.2}
+                                    onPress={closeDropdown}
+                                >
+                                    <RN.Text
+                                        style={[
+                                            {
+                                                color: "white",
+                                                fontSize: 15,
+                                                fontWeight: 'bold',
+                                                paddingTop: 5
+                                            },
+                                            className(AlignCenterContentCN)
+                                        ]}
+                                    >
+                                        EXIT SELECTION
+                                    </RN.Text>
+                                </RN.TouchableOpacity>
+
+                            </RN.View>
 
                         </RN.View>
 
@@ -275,121 +419,111 @@ export default function RnMultiSelectKaybarax(props) {
 
             </RN.TouchableOpacity>
 
-            <RN.View
-                style={[
-                    className(
-                        FlexContainerChildItemFullWidthCN
-                    )
-                ]}
-            >
-
+            {
+                !isEmptyArray(state.selectedItems) &&
                 <RN.View
                     style={[
                         className(
-                            FlexFluidRowContainerCN
-                        )
+                            FlexContainerChildItemFullWidthCN
+                        ),
                     ]}
                 >
 
-                    <RN.View
-                        style={[
-                            className(
-                                FlexContainerChildItemFullWidthCN
-                            )
-                        ]}
-                    >
+                  <RN.View
+                      style={[
+                          className(
+                              FlexFluidRowContainerCN
+                          )
+                      ]}
+                  >
 
-                        {
-                            !isEmptyArray(state.selectedItems)
-                            && (
-                                state.selectedItems.map(item => {
-                                    let boundOnClearItem = onItemRemoved;
-                                    return (
-                                        <RN.ScrollView
-                                            style={[
-                                                className(FlexFluidRowContainerCN)
-                                            ]}
-                                            key={makeId(16)}
-                                        >
+                      {
+                          (state.selectedItems.map((item, i) => {
+                                  if (i === 0) {
+                                      return null;
+                                  }
+                                  let boundOnClearItem = onItemRemoved.bind(null, item.value);
+                                  return (
+                                      <RN.View
+                                          style={[
+                                              className(
+                                                  FlexContainerChildItemFullWidthCN,
+                                                  AlignLeftFlexContainerContentCN,
+                                              )
+                                          ]}
+                                          key={makeId(16)}
+                                      >
 
-                                            <Spacer/>
+                                          <RN.View
+                                              style={[
+                                                  className(
+                                                      FlexFluidRowContainerCN
+                                                  )
+                                              ]}
+                                          >
 
-                                            <RN.TouchableOpacity
-                                                activeOpacity={.2}
-                                                style={{
-                                                    backgroundColor: "#FFFFFF",
-                                                    borderTopLeftRadius: 15,
-                                                    borderBottomLeftRadius: 15,
-                                                }}
-                                                onPress={openMultiSelectDialog}
-                                            >
-                                                <RN.Text
-                                                    style={{
-                                                        color: "#929fb2",
-                                                        // fontFamily: "OpenSans-Regular",
-                                                        fontSize: 14,
-                                                        textAlign: "center",
-                                                        paddingTop: 5,
-                                                        paddingLeft: 5,
-                                                        paddingBottom: 5,
-                                                    }}
-                                                >
-                                                    {item.label || item.text}
-                                                </RN.Text>
-                                            </RN.TouchableOpacity>
+                                              <RN.View
+                                                  style={[
+                                                      {
+                                                          backgroundColor: "#FFFFFF",
+                                                          borderTopLeftRadius: 15,
+                                                          borderBottomLeftRadius: 15,
+                                                      },
+                                                  ]}
+                                              >
+                                                  <RN.Text
+                                                      style={{
+                                                          color: "#929fb2",
+                                                          fontSize: 14,
+                                                          textAlign: "center",
+                                                          paddingTop: 5,
+                                                          paddingLeft: 5,
+                                                          paddingBottom: 5,
+                                                      }}
+                                                  >
+                                                      {item.label || item.text}
+                                                  </RN.Text>
+                                              </RN.View>
 
-                                            <RN.TouchableOpacity
-                                                activeOpacity={.2}
-                                                style={[
-                                                    {
-                                                        backgroundColor: "#FFFFFF",
-                                                        borderTopRightRadius: 15,
-                                                        borderBottomRightRadius: 15,
-                                                    }
-                                                ]}
-                                                onPress={boundOnClearItem.bind(null, item.value)}
-                                            >
-                                                <RN.Text
-                                                    style={[
-                                                        {
-                                                            padding: 2
-                                                        }
-                                                    ]}
-                                                >
-                                                    {/*<Spacer/>*/}
-                                                    <FontAwesomeIcon
-                                                        icon={faTimes}
-                                                        color={'#E0E0E0'}
-                                                        size={30}
-                                                    />
-                                                </RN.Text>
-                                            </RN.TouchableOpacity>
+                                              <RN.TouchableOpacity
+                                                  activeOpacity={.2}
+                                                  style={[
+                                                      {
+                                                          backgroundColor: "#FFFFFF",
+                                                          borderTopRightRadius: 15,
+                                                          borderBottomRightRadius: 15,
+                                                      }
+                                                  ]}
+                                                  onPress={boundOnClearItem}
+                                              >
+                                                  <RN.Text
+                                                      style={[
+                                                          {
+                                                              padding: 2
+                                                          }
+                                                      ]}
+                                                  >
+                                                      <FontAwesomeIcon
+                                                          icon={faTimes}
+                                                          color={'#E0E0E0'}
+                                                          size={30}
+                                                      />
+                                                  </RN.Text>
+                                              </RN.TouchableOpacity>
 
-                                        </RN.ScrollView>
-                                    );
-                                })
-                            )
-                        }
+                                          </RN.View>
+                                      </RN.View>
+                                  );
+                              })
+                          )
+                      }
 
-                    </RN.View>
+                  </RN.View>
 
                 </RN.View>
-
-            </RN.View>
+            }
 
         </RN.ScrollView>
     );
 
-}
-
-/**
- * Helps with on-screen logging of json data
- * @param commentary
- * @param data
- */
-function jsonAlertLog(commentary, data) {
-    if (isEmptyString(commentary))
-        Alert.alert('Data', JSON.stringify(data));
-    else
-        Alert.alert('Data' + commentary, JSON.stringify(data));
 }

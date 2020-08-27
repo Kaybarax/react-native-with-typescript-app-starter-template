@@ -47,8 +47,8 @@ export interface Recipe {
 export interface RecipeImage {
     id: string,
     recipe_id?: string,
-    image_url?: string,
-    image_file?: string,
+    image_url: string,
+    image_file: string,
 }
 
 /**
