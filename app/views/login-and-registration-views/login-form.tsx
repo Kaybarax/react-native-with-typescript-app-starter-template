@@ -70,7 +70,7 @@ export default function LoginForm(props) {
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Username/Email"
-                onTextChange={text => textValueChanged(loginModel, text, 'username_or_email', null)}
+                onChangeText={text => textValueChanged(loginModel, text, 'username_or_email', null)}
             />
             <BlankSpaceDivider/>
             {
@@ -80,7 +80,7 @@ export default function LoginForm(props) {
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Password"
-                onTextChange={text => textValueChanged(loginModel, text, 'password', null)}
+                onChangeText={text => textValueChanged(loginModel, text, 'password', null)}
                 secureTextEntry={true}
             />
             <BlankSpaceDivider/>

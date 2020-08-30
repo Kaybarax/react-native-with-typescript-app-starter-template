@@ -16,13 +16,15 @@ import appNavigation from "../../routing-and-navigation/app-navigation";
 
 export const isValidRecipeFormData = (
     model, onUpdate = false,
-    set_press_submit, recipeFormValidity
+    set_press_submit, formValidityTree
 ) => {
 
     let recipeFormKeys: any = [];//clear
     recipeFormKeys = Object.keys(model);
+
+    //assume all valid at beginning
     for (let key of recipeFormKeys) {
-        recipeFormValidity['' + key] = true;
+        formValidityTree['' + key] = true;
     }
 
     let validForm = true;
@@ -35,8 +37,8 @@ export const isValidRecipeFormData = (
         (!isEmptyArray(model['cooking_instructions']) && model['cooking_instructions'].includes(''))
     ) {
         console.log('cooking_instructions')
-        recipeFormValidity.cooking_instructions = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['cooking_instructions'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -48,8 +50,8 @@ export const isValidRecipeFormData = (
         (!isEmptyArray(model['ingredients']) && model['ingredients'].includes(''))
     ) {
         console.log('ingredients')
-        recipeFormValidity.ingredients = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['ingredients'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -60,8 +62,8 @@ export const isValidRecipeFormData = (
             (!isNullUndefined(model['dish_image']) && !isStringDatatype(model['dish_image']['name']))
         ) {
             console.log('dish_image', toJS(model['dish_image']))
-            recipeFormValidity.dish_image = false;
-            console.log('recipeFormValidity', recipeFormValidity);
+            formValidityTree['dish_image'] = false;
+            console.log('formValidityTree', formValidityTree);
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -73,8 +75,8 @@ export const isValidRecipeFormData = (
             (!isNullUndefined(model['dish_image']) && !isStringDatatype(model['dish_image']['name']))
         ) {
             console.log('dish_image', toJS(model['dish_image']))
-            recipeFormValidity.dish_image = false;
-            console.log('recipeFormValidity', recipeFormValidity);
+            formValidityTree['dish_image'] = false;
+            console.log('formValidityTree', formValidityTree);
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -83,8 +85,8 @@ export const isValidRecipeFormData = (
 
     if (isEmptyString(model['date_created'])) {
         console.log('date_created')
-        recipeFormValidity.date_created = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['date_created'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -92,8 +94,8 @@ export const isValidRecipeFormData = (
 
     if (!isBoolean(model['is_vegetarian'])) {
         console.log('is_vegetarian')
-        recipeFormValidity.is_vegetarian = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['is_vegetarian'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -101,8 +103,8 @@ export const isValidRecipeFormData = (
 
     if (isEmptyString(model['name'])) {
         console.log('name')
-        recipeFormValidity.name = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['name'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -112,8 +114,8 @@ export const isValidRecipeFormData = (
         isEmptyString(model['status'])
     ) {
         console.log('status')
-        recipeFormValidity.status = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['status'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -121,8 +123,8 @@ export const isValidRecipeFormData = (
 
     if (isEmptyString(model['user_id'])) {
         console.log('user_id')
-        recipeFormValidity.user_id = false;
-        console.log('recipeFormValidity', recipeFormValidity);
+        formValidityTree['user_id'] = false;
+        console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
@@ -135,18 +137,19 @@ export const isValidRecipeFormData = (
 };
 
 export const submitRecipeClick = (model, set_press_submit,
-                                  recipeFormValidity, activity = null) => {
-    // console.log('submitClick');
-    if (!isValidRecipeFormData(model, false, set_press_submit, recipeFormValidity)) {
+                                  formValidityTree, activity = null) => {
+    console.log('submitClick');
+    let {recipe, recipePhotos} = model;
+    if (!isValidRecipeFormData(recipe, false, set_press_submit, formValidityTree)) {
         return;
     }
     saveRecipe(model, activity);
 };
 
 export const updateRecipeClick = (model, set_press_submit,
-                                  recipeFormValidity, activity = null) => {
+                                  formValidityTree, activity = null) => {
     // console.log('updateClick');
-    if (!isValidRecipeFormData(model, true, set_press_submit, recipeFormValidity)) {
+    if (!isValidRecipeFormData(model, true, set_press_submit, formValidityTree)) {
         return;
     }
     handleRecipeUpdate(model, activity);

@@ -9,41 +9,49 @@
 
 import React from "react";
 import RN, {Alert} from 'react-native';
-import {BlankSpaceDivider, Spacer} from "../../shared-components-and-modules/shared-components";
+import {BlankSpaceDivider, Spacer} from "../../../shared-components-and-modules/shared-components";
 import AppNotificationToastAlert
-    from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
-import {Checkbox} from "../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons";
-import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
-import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
-import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isTrue, makeId} from "../../util/util";
-import className from "../../util/react-native-based-utils";
+    from "../../../shared-components-and-modules/notification-center/app-notification-toast-alert";
+import {Checkbox} from "../../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons";
+import AppTextInput from "../../../shared-components-and-modules/form-controls/app-text-input";
+import {displayFieldExpectationSatisfied} from "../../../controllers/app-controller";
+import {isBoolean, isEmptyArray, isEmptyString, isTrue, makeId} from "../../../util/util";
+import className, {showToast} from "../../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN, AlignRightFlexContainerContentCN,
+    AlignLeftFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemOneThirdWidthCN,
     FlexFluidRowContainerCN,
     FlexRowContainerCN
-} from "../../theme/app-layout-styles-classnames";
-import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
-import {checkboxItemValueChanged, textValueChanged} from "../../util/react-native-data-collection-utils";
+} from "../../../theme/app-layout-styles-classnames";
+import WithStoresHoc from "../../../shared-components-and-modules/hocs/with-stores-hoc";
+import {checkboxItemValueChanged, textValueChanged} from "../../../util/react-native-data-collection-utils";
 import {
     addCookingInstruction,
     addIngredient,
     removeCookingInstruction,
     removeIngredient,
+    submitRecipeClick,
     updateRecipeClick
-} from "../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
+} from "../../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faMinus, faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {RecipeGroupsSuitable} from "../../app-management/data-manager/list-manager";
-import {RecipeImage} from "../../app-management/data-manager/models-manager";
+import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {RecipeGroupsSuitable} from "../../../app-management/data-manager/list-manager";
+import {RecipeImage} from "../../../app-management/data-manager/models-manager";
 import {toJS} from "mobx";
-import RnMultiSelectKaybarax from "../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
-import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
-import {FORESTGREEN_COLOR} from "../../theme/app-theme";
-import {SCREEN_HEIGHT} from "../../App";
+import RnMultiSelectKaybarax from "../../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
+import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../../stores/actions-and-stores-data";
+import {FORESTGREEN_COLOR} from "../../../theme/app-theme";
+import ReactNativeCameraModule
+    from "../../../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module";
+import {
+    CAMERA_PERMISSION,
+    requestPermission
+} from "../../../shared-components-and-modules/camera-photo-capture-module/camera-capture-util";
+import PhotoInput from "./recipe-photo-input";
+import {NUMBER_OF_RECIPE_PHOTOS} from "../../../app-config";
 
 export function CreateEditRecipeForm(props) {
 
@@ -62,137 +70,90 @@ export function CreateEditRecipeForm(props) {
     let [submit_pressed, set_press_submit] = React.useState(false);
     let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
 
+    //camera-photo-capture-stuff
+    let [cameraModuleProps, updateCameraModule] = React.useState({
+        //basic props
+        cameraFlashOn: false,
+        cameraLaunched: false,
+        backCamera: true,
+        imagePreview: null,
+        acceptPhoto: false,
+        //extra props for this use case, because I am capturing
+        //several photos identified by their assigned numbers,
+        //and other parameters as needed
+        photoFor: 0,
+    });
+    let [photoCaptureModuleTrigger, InvokePhotoCaptureModuleTrigger] = React.useState(1);
 
-    // let recipeFormKeys = [];
-    // let recipePhotos = [];
-    let formValidityTree = {};
+    let updateCameraModuleProps = (props) => {
+        updateCameraModule(props);
+        photoCaptureModuleTrigger += 1;
+        InvokePhotoCaptureModuleTrigger(photoCaptureModuleTrigger);
+    };
 
-    let photoPlaceholder = '../../media/images/image.png';
+    let setCapturedImage = (photo) => {
+        if (isEmptyArray(recipePhotos)) {
+            let photo: RecipeImage = {
+                id: makeId(32),
+                recipe_id: recipe.id,
+                // @ts-ignore
+                image_file: photo.base64,
+                image_url: '',
+            }
+            recipePhotos.push(photo);
+        } else {
+            recipePhotos[cameraModuleProps.photoFor] = {
+                id: makeId(32),
+                recipe_id: recipe.id,
+                // @ts-ignore
+                image_file: photo.base64,
+                image_url: '',
+            };
+        }
+    };
 
-    function PhotoInput(props) {
+    let showCameraModal = (photoFor: number) => {
 
-        let {photoIndex} = props;
+        requestPermission(CAMERA_PERMISSION, 'Application needs access to the camera',
+            'Application needs access to the camera to take person photo.')
+            .then((accessGranted) => {
+                    if (accessGranted) {
+                        cameraModuleProps.cameraLaunched = true;
+                        cameraModuleProps.imagePreview = null;
+                        cameraModuleProps.photoFor = photoFor;
+                        updateCameraModuleProps(cameraModuleProps);
+                        console.log('showCameraModal cameraModuleProps', cameraModuleProps)
+                    } else {
+                        showToast('Camera Permissions have been denied', 'short');
+                    }
+                },
+            );
 
-        let photo = (
-            isEmptyArray(recipePhotos) ?
-                '' :
-                (
-                    isNullUndefined(recipePhotos[photoIndex]) ?
-                        '' :
-                        (
-                            isEmptyString(recipePhotos[photoIndex].image_file) ?
-                                '' :
-                                ("data:image/jpeg;base64," + recipePhotos[photoIndex].image_file)
-                        )
-                )
-        );
+    };
+    let removePhoto = (photoFor: number) => {
+        let photo: RecipeImage = {
+            id: makeId(32),
+            recipe_id: recipe.id,
+            image_file: '',
+            image_url: '',
+        }
+        cameraModuleProps.imagePreview = null;
+        cameraModuleProps.photoFor = 0;
+        updateCameraModuleProps(cameraModuleProps);
+        recipePhotos[photoFor] = photo;
+    };
+    //end
 
-        return (
-            <RN.View
-                style={[
-                    className(
-                        FlexContainerChildItemFullWidthCN
-                    )
-                ]}
-            >
-
-                {/*<RN.View*/}
-                {/*    style={[*/}
-                {/*        className(*/}
-                {/*            FlexFluidRowContainerCN*/}
-                {/*        )*/}
-                {/*    ]}*/}
-                {/*>*/}
-
-                {/*</RN.View>*/}
-
-                <RN.View
-                    style={[
-                        className(
-                            FlexFluidRowContainerCN,
-                        )
-                    ]}
-                >
-
-                    <RN.View
-                        style={[
-                            className(FlexContainerChildItemFullWidthCN)
-                        ]}
-                    >
-
-                        <RN.View
-                            style={[
-                                className(FlexFluidRowContainerCN,
-                                    // AlignRightFlexContainerContentCN,
-                                )
-                            ]}
-                        >
-
-                            <RN.View
-                                style={[
-                                    className(FlexContainerChildItemFullWidthCN),
-                                    {
-                                        height: SCREEN_HEIGHT * 0.15
-                                    }
-                                ]}
-                            >
-                                <RN.Image
-                                    style={[
-                                        {
-                                            width: '100%',
-                                            height: '100%'
-                                        }
-                                    ]}
-                                    source={
-                                        !isEmptyString(photo) ?
-                                            {
-                                                isStatic: true,
-                                                uri: photo
-                                            } :
-                                            require(photoPlaceholder)
-                                    }
-                                />
-                            </RN.View>
-
-                            <RN.TouchableOpacity
-                                activeOpacity={.2}
-                                style={[
-                                    {
-                                        borderRadius: 50,
-                                        backgroundColor: 'forestgreen',
-                                        position:'absolute',
-                                        right:-10,
-                                        bottom:-10,
-                                    },
-                                    className(AlignCenterContentCN),
-                                ]}
-                            >
-
-                                <RN.Text
-                                    style={[
-                                        {
-                                            padding: 5
-                                        }
-                                    ]}
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faPlus}
-                                        color={'white'}
-                                        size={30}
-                                    />
-                                </RN.Text>
-
-                            </RN.TouchableOpacity>
-
-                        </RN.View>
-
-                    </RN.View>
-
-                </RN.View>
-
-            </RN.View>
-        );
+    let ingredients: any = [];
+    if (!isEmptyArray(recipe.ingredients)) {
+        for (let ing of recipe.ingredients) {
+            ingredients.push({txt: ing});
+        }
+    } else {
+        ingredients.push({txt: ''});
     }
+
+    let formValidityTree = {};
 
     const FormFieldIsRequiredMessage = props => (
         <RN.Text
@@ -201,7 +162,9 @@ export function CreateEditRecipeForm(props) {
                 className(FlexContainerChildItemFullWidthCN,
                     AlignLeftFlexContainerContentCN)
             ]}
-        > {props?.message || '* This field is required.'}</RN.Text>
+        >
+            {props?.message || '* This field is required.'}
+        </RN.Text>
     );
 
     return (
@@ -277,7 +240,10 @@ export function CreateEditRecipeForm(props) {
 
                                         <AppTextInput
                                             label="Name"
-                                            onTextChange={text => textValueChanged(recipe, text, 'name')}
+                                            onChangeText={text => {
+                                                console.log('TEXT IS CHANGING', text);
+                                                textValueChanged(recipe, text, 'name');
+                                            }}
                                         />
 
                                     </RN.View>
@@ -302,7 +268,7 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 (_ => {
                                                     let photos: Array<Element> = []
-                                                    for (let i = 0; i < 5; i++) {
+                                                    for (let i = 0; i < NUMBER_OF_RECIPE_PHOTOS; i++) {
                                                         photos.push(
                                                             <RN.View
                                                                 style={[
@@ -311,12 +277,15 @@ export function CreateEditRecipeForm(props) {
                                                                 key={makeId(16)}
                                                             >
                                                                 <PhotoInput
-                                                                    items={{src: '../media/images/image.png'}}
                                                                     photoIndex={i}
+                                                                    recipePhotos={recipePhotos}
+                                                                    removePhoto={removePhoto}
+                                                                    showCameraModal={showCameraModal}
                                                                 />
                                                             </RN.View>
                                                         );
                                                     }
+                                                    // console.log('RR Photos count: ', photos.length);
                                                     return photos;
                                                 })()
                                             }
@@ -386,7 +355,8 @@ export function CreateEditRecipeForm(props) {
                                         >
                                             {
                                                 recipe.ingredients?.map((item, i) => {
-                                                    let ingredient = recipe.ingredients?.[i];
+                                                    let ingredient = recipe.ingredients[i];
+                                                    let tempModel = {txt: null};
                                                     return (
                                                         <RN.View
                                                             style={[
@@ -409,12 +379,11 @@ export function CreateEditRecipeForm(props) {
 
                                                                 <AppTextInput
                                                                     label={`${'' + (i + 1) + '. '}`}
-                                                                    onTextChange={
+                                                                    value={recipe.ingredients[i]}
+                                                                    onChangeText={
                                                                         text => {
-                                                                            textValueChanged({text: item}, text, 'text');
-                                                                            if (recipe.ingredients) {
-                                                                                recipe.ingredients[i] = text;
-                                                                            }
+                                                                            textValueChanged(ingredients[i], text, 'txt');
+                                                                            recipe.ingredients[i] = ingredients[i].txt;
                                                                         }
                                                                     }
                                                                 />
@@ -560,10 +529,10 @@ export function CreateEditRecipeForm(props) {
 
                                                                 <AppTextInput
                                                                     label={`${'' + (i + 1) + '. '}`}
-                                                                    onTextChange={
+                                                                    value={recipe.cooking_instructions[i]}
+                                                                    onChangeText={
                                                                         text => {
                                                                             textValueChanged({text: item}, text, 'text');
-                                                                            // @ts-ignore
                                                                             recipe.cooking_instructions[i] = text;
                                                                         }
                                                                     }
@@ -697,10 +666,10 @@ export function CreateEditRecipeForm(props) {
 
                                                         isEmptyArray(recipe['groups_suitable']) &&
                                                         (recipe['groups_suitable'] = []);//ensure array
-                                                        //if was there, remove it first
+                                                        //if was there, do nothing
                                                         let idx = recipe['groups_suitable'].indexOf(value);
                                                         if (idx != -1) {
-                                                            //already the
+                                                            //already there
                                                             return;
                                                         }
                                                         recipe['groups_suitable'].push(value);
@@ -746,18 +715,18 @@ export function CreateEditRecipeForm(props) {
                                                     onPress={
                                                         _ => {
                                                             Alert.alert('Confirm!',
-                                                                'Confirm Save Recipe?',
+                                                                'Confirm Submit?',
                                                                 [
                                                                     {
                                                                         text: 'Submit',
                                                                         onPress: () => {
-                                                                            // submitRecipeClick(recipe, set_press_submit, formValidityTree);
+                                                                            submitRecipeClick({recipe, recipePhotos},
+                                                                                set_press_submit, formValidityTree);
                                                                         }
                                                                     },
                                                                     {
                                                                         text: 'Cancel',
                                                                         onPress: () => {
-                                                                            // submitRecipeClick(recipe, set_press_submit, formValidityTree);
                                                                         }
                                                                     },
                                                                 ]);
@@ -838,6 +807,19 @@ export function CreateEditRecipeForm(props) {
                 }
 
             </RN.View>
+
+            <ReactNativeCameraModule
+                setCapturedImage={photo => {
+                    console.log('base64StringPhoto: ', photo);
+                    setCapturedImage(photo);
+                }}
+                hideCameraModal={_ => {
+                    cameraModuleProps.cameraLaunched = false;
+                    updateCameraModuleProps(cameraModuleProps)
+                }}
+                cameraModuleProps={cameraModuleProps}
+                updateCameraModuleProps={updateCameraModuleProps}
+            />
 
         </RN.ScrollView>
     );

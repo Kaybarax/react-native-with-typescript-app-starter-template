@@ -16,10 +16,17 @@ import {
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
-import className from "../util/react-native-based-utils";
+import className, {showToast} from "../util/react-native-based-utils";
 import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
 import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
 import {makeId} from '../util/util';
+import ReactNativeCameraModule
+    from "../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module";
+import {FORESTGREEN_COLOR} from "../theme/app-theme";
+import {
+    CAMERA_PERMISSION,
+    requestPermission
+} from "../shared-components-and-modules/camera-photo-capture-module/camera-capture-util";
 import RnMultiSelectKaybarax from "../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
 
 export default function AppDevScratchPad(props) {
@@ -27,6 +34,21 @@ export default function AppDevScratchPad(props) {
     console.log('Comp props: ', props);
 
     let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
+    //for testing react native photo capture module
+    let [cameraModuleProps, updateCameraModule] = React.useState({
+        cameraFlashOn: false,
+        cameraLaunched: false,
+        backCamera: true,
+        imagePreview: null,
+        acceptPhoto: false,
+    });
+    let [photoCaptureModuleTrigger, InvokePhotoCaptureModuleTrigger] = React.useState(1);
+
+    let updateCameraModuleProps = (props) => {
+        updateCameraModule(props);
+        photoCaptureModuleTrigger += 1;
+        InvokePhotoCaptureModuleTrigger(photoCaptureModuleTrigger);
+    };
 
     return (
         <SafeComponentWrapper>
@@ -39,31 +61,24 @@ export default function AppDevScratchPad(props) {
 
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN)
+                        className(
+                            FlexContainerChildItemFullWidthCN
+                        )
                     ]}
                 >
-
-                    <RN.View
+                    <RN.Text
+                        // h5
                         style={[
                             className(
-                                FlexContainerChildItemFullWidthCN
+                                FlexFluidRowContainerCN,
+                                AlignCenterContentCN,
                             )
                         ]}
                     >
-                        <RN.Text
-                            // h5
-                            style={[
-                                className(
-                                    FlexFluidRowContainerCN,
-                                    AlignCenterContentCN,
-                                )
-                            ]}
-                        >
-                            MOCK STUFF AWAY TO YOUR HEARTS DESIRE!!
-                        </RN.Text>
-                    </RN.View>
-
+                        MOCK STUFF AWAY TO YOUR HEARTS DESIRE!!
+                    </RN.Text>
                 </RN.View>
+
 
                 <RN.View
                     style={[
@@ -181,6 +196,7 @@ export default function AppDevScratchPad(props) {
                         )
                     ]}
                 >
+
                     <RN.Text>Test Multi select component</RN.Text>
 
                     <RnMultiSelectKaybarax
@@ -207,8 +223,78 @@ export default function AppDevScratchPad(props) {
 
                 </RN.View>
 
+                <RN.View
+                    style={[
+                        className(
+                            FlexContainerChildItemFullWidthCN
+                        )
+                    ]}
+                >
+
+                    <RN.View
+                        style={[
+                            className(FlexFluidRowContainerCN)
+                        ]}
+                    >
+
+                        <RN.TouchableOpacity
+                            activeOpacity={.2}
+                            style={[
+                                className(FlexContainerChildItemFullWidthCN),
+                                {
+                                    backgroundColor: FORESTGREEN_COLOR
+                                }
+                            ]}
+                            onPress={_ => {
+
+                                requestPermission(CAMERA_PERMISSION, 'Application needs access to the camera',
+                                    'Application needs access to the camera to take person photo.')
+                                    .then((accessGranted) => {
+                                            if (accessGranted) {
+                                                cameraModuleProps.cameraLaunched = true;
+                                                cameraModuleProps.imagePreview = null;
+                                                updateCameraModuleProps(cameraModuleProps)
+                                            } else {
+                                                showToast('Camera Permissions have been denied', 'short');
+                                            }
+                                        },
+                                    );
+                            }}
+                        >
+                            <RN.Text style={[
+                                {
+                                    color: 'white',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                },
+                                className(AlignCenterContentCN)
+                            ]}>Test Camera Photo Capture</RN.Text>
+                        </RN.TouchableOpacity>
+
+                        <RN.View
+                            style={[
+                                className(FlexContainerChildItemFullWidthCN),
+                            ]}
+                        >
+                            <ReactNativeCameraModule
+                                setCapturedImage={base64StringPhoto => {
+                                    console.log('base64StringPhoto: ', base64StringPhoto);
+                                }}
+                                hideCameraModal={_ => {
+                                    cameraModuleProps.cameraLaunched = false;
+                                    updateCameraModuleProps(cameraModuleProps)
+                                }}
+                                cameraModuleProps={cameraModuleProps}
+                                updateCameraModuleProps={updateCameraModuleProps}
+                            />
+                        </RN.View>
+
+                    </RN.View>
+
+                </RN.View>
 
             </RN.ScrollView>
+
         </SafeComponentWrapper>
     );
 }

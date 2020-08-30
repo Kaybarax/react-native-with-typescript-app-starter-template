@@ -34,8 +34,10 @@
     "bcrypt": "^5.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.2",
+    "react-native-camera": "^3.37.0",
     "react-native-dropdownalert": "^4.3.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-material-textfield": "^0.16.1",
@@ -64,8 +66,8 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
-    "react-test-renderer": "16.13.1",
     "prettier": "^2.0.4",
+    "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"
   },
   "jest": {

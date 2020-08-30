@@ -11,15 +11,15 @@ import React from "react";
 import {StyleSheet, Text, TextInput, View} from "react-native";
 
 const AppTextInput = (props) => {
-    let {onTextChange, label, value, secureTextEntry} = props;
+    let {onChangeText, label, value, secureTextEntry, autoCorrect} = props;
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{`${label}`}</Text>
             <TextInput
                 style={styles.input}
                 value={value}
-                onChangeText={onTextChange}
-                autoCorrect={false}
+                onChangeText={onChangeText}
+                autoCorrect={autoCorrect || false}
                 secureTextEntry={secureTextEntry || false}
             />
         </View>

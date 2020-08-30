@@ -20,7 +20,7 @@ export const FlexRowContainerCN = {
   display: 'flex',
   flex: 1,
   flexDirection: 'row',
-  padding: 3,
+  padding: 2,
   width: '100%',
   ...BlockPartitionsDisplayCN
 };
@@ -30,7 +30,7 @@ export const FlexFluidRowContainerCN = {
   flex: 1,
   flexDirection: 'row',
   flexWrap: 'wrap',
-  padding: 3,
+  padding: 2,
   width: '100%',
   ...BlockPartitionsDisplayCN
 };
@@ -39,7 +39,7 @@ export const FlexColumnContainerCN = {
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  padding: 3,
+  padding: 2,
   width: '100%',
   ...BlockPartitionsDisplayCN
 };
@@ -49,7 +49,7 @@ export const FlexFluidColumnContainerCN = {
   flex: 1,
   flexDirection: 'column',
   flexWrap: 'wrap',
-  padding: 3,
+  padding: 2,
   width: '100%',
   ...BlockPartitionsDisplayCN
 };
@@ -115,7 +115,6 @@ export const FlexContainerChildItemWidthCN = (width) => ({
 export const AlignCenterContentCN = {
   justifyContent: 'center',
   alignItems: 'center',
-  textAlign: 'center',
   ...BlockPartitionsDisplayCN
 };
 
@@ -129,6 +128,13 @@ export const AlignRightTextCN = {
   textAlign: 'right',
   alignItems: 'flex-end',
   justifyContent: 'flex-end',
+  ...BlockPartitionsDisplayCN
+};
+
+export const AlignCenterTextCN = {
+  textAlign: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
   ...BlockPartitionsDisplayCN
 };
 

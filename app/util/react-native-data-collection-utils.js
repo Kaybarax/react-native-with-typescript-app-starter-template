@@ -45,6 +45,9 @@ export function textValue(model, key) {
  * @returns {*}
  */
 export function textValueChanged(model, text, key, activity = null) {
+  console.log('textValueChanged model -> ', toJS(model), text, key);
+  console.log('\ntextValueChanged text -> ', text);
+  console.log('\ntextValueChanged key -> ', key);
   let feedBack = null;
   if (isNullUndefined(model)) {
     console.log('No model');

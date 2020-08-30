@@ -78,7 +78,7 @@ export default function SignUpForm(props) {
             <View style={{height: 10}}/>
             <AppTextInput
                 label="Name"
-                onTextChange={value => textValueChanged(signUpModel.user, value, 'name', null)}
+                onChangeText={value => textValueChanged(signUpModel.user, value, 'name', null)}
             />
             <View style={{height: 10}}/>
             {
@@ -88,7 +88,7 @@ export default function SignUpForm(props) {
             <View style={{height: 10}}/>
             <AppTextInput
                 label="Username/Email"
-                onTextChange={value => textValueChanged(signUpModel.user, value, 'username_or_email', null)}
+                onChangeText={value => textValueChanged(signUpModel.user, value, 'username_or_email', null)}
             />
             <View style={{height: 10}}/>
             {
@@ -99,7 +99,7 @@ export default function SignUpForm(props) {
             <AppTextInput
                 secureTextEntry={true}
                 label="Password"
-                onTextChange={value => textValueChanged(signUpModel.user, value, 'password', null)}
+                onChangeText={value => textValueChanged(signUpModel.user, value, 'password', null)}
             />
             <View style={{height: 10}}/>
             {
@@ -110,7 +110,7 @@ export default function SignUpForm(props) {
             <AppTextInput
                 secureTextEntry={true}
                 label="Confirm Password"
-                onTextChange={value => textValueChanged(signUpModel, value, 'confirm_password', null)}
+                onChangeText={value => textValueChanged(signUpModel, value, 'confirm_password', null)}
             />
             <View style={{height: 10}}/>
             {

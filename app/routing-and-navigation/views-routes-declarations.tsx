@@ -19,7 +19,7 @@ import {ViewRoute} from "./routing-and-navigation-utils";
 import LoginActivity from '../views/recipe-box-sub-app-views/login';
 import RecipeHomeActivity from "../views/recipe-box-sub-app-views/home";
 import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
-import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/create-edit-recipe-form";
+import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/create-edit-recipe/create-edit-recipe-form";
 import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 import RecipeDetails from "../views/recipe-box-sub-app-views/recipe-details";
 

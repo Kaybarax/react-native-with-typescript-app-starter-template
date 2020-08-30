@@ -32,8 +32,6 @@ export default function RnMultiSelectKaybarax(props) {
         let itemsList = state.itemsList;
         let selectedItems = state.selectedItems;
         let item = itemsList.find(item => item.value === value);
-        console.log('onItemSelected itemsList', itemsList);
-        console.log('onItemSelected selectedItems', selectedItems);
         isEmptyArray(selectedItems) && (selectedItems = []);
         if (!isNullUndefined(item)) {
             selectedItems.push(item);
@@ -42,8 +40,6 @@ export default function RnMultiSelectKaybarax(props) {
         }
         state.selectedItems = [...selectedItems];
         state.itemsList = [...itemsList];
-        console.log('onItemSelected itemsList END!', state.itemsList);
-        console.log('onItemSelected selectedItems END!', state.selectedItems);
         //update parent first
         props.onItemSelected(value);
         //after parent has re-rendered child, update child

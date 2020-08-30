@@ -6,6 +6,7 @@ import {Recipe, RecipeImage} from "../../app-management/data-manager/models-mana
 // import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {toJS} from "mobx";
+import {NUMBER_OF_RECIPE_PHOTOS} from "../../app-config";
 
 /**
  * sd _ Kaybarax
@@ -21,12 +22,13 @@ export function createRecipe(recipeBoxStore, activity = null) {
     recipe.status_ref_key_key = 'STATUS';//set status
     recipe.status_ref_key_value = 'ACT';//set status
     recipe.groups_suitable = [];
+    recipe.name = '';
     recipe.is_vegetarian = false;
     recipe.is_vegan = false;
     recipe.rating = 0;
     //the photos
     let recipePhotos: Array<RecipeImage> = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < NUMBER_OF_RECIPE_PHOTOS; i++) {
         let recipePhoto: RecipeImage = {
             id: makeId(32),
             recipe_id: recipe.id,

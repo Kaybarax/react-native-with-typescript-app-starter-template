@@ -375,7 +375,7 @@ export function localeTimeStringFormat(dateTime) {
  * sd
  * @param numbersArray
  * @returns {number}
- * by kevinbarasa
+ * by Kaybarax
  */
 export function numberItem(numbersArray) {
   let num = 1;
