@@ -19,7 +19,7 @@ import {isBoolean, isEmptyArray, isEmptyString, isTrue, makeId} from "../../../u
 import className, {showToast} from "../../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN,
+    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemOneThirdWidthCN,
@@ -233,7 +233,7 @@ export function CreateEditRecipeForm(props) {
                                     >
 
                                         {
-                                            submit_pressed && isEmptyString(formValidityTree['name']) &&
+                                            submit_pressed && !formValidityTree['name'] &&
                                             <FormFieldIsRequiredMessage/>
                                         }
                                         <BlankSpaceDivider/>
@@ -249,8 +249,8 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && isEmptyArray(formValidityTree['recipe_photos']) &&
-                                        <FormFieldIsRequiredMessage message={'Please upload recipe photos!'}/>
+                                        submit_pressed && !formValidityTree['recipe_photos'] &&
+                                        <FormFieldIsRequiredMessage message={'Please upload one or more recipe photos!'}/>
                                     }
                                     <BlankSpaceDivider/>
 
@@ -294,7 +294,7 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && !isBoolean(formValidityTree['is_vegetarian']) &&
+                                        submit_pressed && !formValidityTree['is_vegetarian'] &&
                                         <FormFieldIsRequiredMessage/>
                                     }
                                     <BlankSpaceDivider/>
@@ -314,7 +314,7 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && !isBoolean(formValidityTree['is_vegan']) &&
+                                        submit_pressed && formValidityTree['is_vegan'] &&
                                         <FormFieldIsRequiredMessage/>
                                     }
                                     <BlankSpaceDivider/>
@@ -333,10 +333,6 @@ export function CreateEditRecipeForm(props) {
                                         />
                                     </RN.View>
 
-                                    {
-                                        submit_pressed && isEmptyArray(recipe.ingredients) &&
-                                        <FormFieldIsRequiredMessage message={'Please provide ingredients!'}/>
-                                    }
                                     <BlankSpaceDivider/>
 
                                     <RN.Text
@@ -483,17 +479,16 @@ export function CreateEditRecipeForm(props) {
                                         </RN.View>
                                     }
 
+                                    <BlankSpaceDivider/>
+
                                     <RN.Text
                                         style={[
-                                            className(FlexContainerChildItemFullWidthCN,
-                                                AlignLeftFlexContainerContentCN)
+                                            className(
+                                                FlexContainerChildItemFullWidthCN,
+                                                AlignLeftTextCN
+                                            )
                                         ]}
                                     >Preparation Instructions</RN.Text>
-
-                                    {
-                                        submit_pressed && isEmptyString(formValidityTree['cooking_instructions'][0]) &&
-                                        <FormFieldIsRequiredMessage/>
-                                    }
 
                                     {
                                         !isEmptyArray(recipe.cooking_instructions) &&

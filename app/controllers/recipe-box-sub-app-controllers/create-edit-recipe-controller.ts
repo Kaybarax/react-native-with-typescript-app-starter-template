@@ -7,20 +7,16 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isStringDatatype} from "../../util/util";
+import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isNumberType} from "../../util/util";
 import {toJS} from "mobx";
-// import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
-import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
-import {createRecipe, getAllRecipesForUser} from "./recipe-box-controller";
-import appNavigation from "../../routing-and-navigation/app-navigation";
+import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
 
-export const isValidRecipeFormData = (
-    model, onUpdate = false,
-    set_press_submit, formValidityTree
-) => {
+export const isValidRecipeFormData = (data, onUpdate = false, set_press_submit, formValidityTree) => {
+
+    let {recipe, recipePhotos}: { recipe: Recipe, recipePhotos: Array<RecipeImage> } = data;
 
     let recipeFormKeys: any = [];//clear
-    recipeFormKeys = Object.keys(model);
+    recipeFormKeys = Object.keys(recipe);
 
     //assume all valid at beginning
     for (let key of recipeFormKeys) {
@@ -31,10 +27,11 @@ export const isValidRecipeFormData = (
     //assume not pressed
     set_press_submit(false);
 
+    //check recipe form validity
     if (
-        isEmptyArray(model['cooking_instructions'])
+        isEmptyArray(recipe['cooking_instructions'])
         ||
-        (!isEmptyArray(model['cooking_instructions']) && model['cooking_instructions'].includes(''))
+        (!isEmptyArray(recipe['cooking_instructions']) && recipe['cooking_instructions']?.includes(''))
     ) {
         console.log('cooking_instructions')
         formValidityTree['cooking_instructions'] = false;
@@ -45,9 +42,9 @@ export const isValidRecipeFormData = (
     }
 
     if (
-        isEmptyArray(model['ingredients'])
+        isEmptyArray(recipe['ingredients'])
         ||
-        (!isEmptyArray(model['ingredients']) && model['ingredients'].includes(''))
+        (!isEmptyArray(recipe['ingredients']) && recipe['ingredients']?.includes(''))
     ) {
         console.log('ingredients')
         formValidityTree['ingredients'] = false;
@@ -57,33 +54,36 @@ export const isValidRecipeFormData = (
         return validForm;
     }
 
-    if (onUpdate) {
-        if (
-            (!isNullUndefined(model['dish_image']) && !isStringDatatype(model['dish_image']['name']))
-        ) {
-            console.log('dish_image', toJS(model['dish_image']))
-            formValidityTree['dish_image'] = false;
-            console.log('formValidityTree', formValidityTree);
-            validForm = false;
-            set_press_submit(true);
-            return validForm;
-        }
-    } else {
-        if (
-            isNullUndefined(model['dish_image'])
-            ||
-            (!isNullUndefined(model['dish_image']) && !isStringDatatype(model['dish_image']['name']))
-        ) {
-            console.log('dish_image', toJS(model['dish_image']))
-            formValidityTree['dish_image'] = false;
-            console.log('formValidityTree', formValidityTree);
-            validForm = false;
-            set_press_submit(true);
-            return validForm;
-        }
+    if (!isEmptyArray(recipe['groups_suitable']) && recipe['groups_suitable']?.includes('')) {
+        console.log('ingredients')
+        formValidityTree['groups_suitable'] = false;
+        console.log('formValidityTree', formValidityTree);
+        validForm = false;
+        set_press_submit(true);
+        return validForm;
     }
 
-    if (isEmptyString(model['date_created'])) {
+    //recipe photo
+    if (
+        (
+            isEmptyArray(recipePhotos) ||
+            (
+                !isEmptyArray(recipePhotos) &&
+                !isNullUndefined(recipePhotos.find(item =>
+                    isEmptyString(item.image_url) && isEmptyString(item.image_file))
+                )
+            )
+        )
+    ) {
+        console.log('recipePhotos', toJS(recipePhotos))
+        formValidityTree['recipePhotos'] = false;
+        console.log('formValidityTree', formValidityTree);
+        validForm = false;
+        set_press_submit(true);
+        return validForm;
+    }
+
+    if (isEmptyString(recipe['date_created'])) {
         console.log('date_created')
         formValidityTree['date_created'] = false;
         console.log('formValidityTree', formValidityTree);
@@ -92,7 +92,8 @@ export const isValidRecipeFormData = (
         return validForm;
     }
 
-    if (!isBoolean(model['is_vegetarian'])) {
+    if (!isBoolean(recipe['is_vegetarian']) ||
+        (recipe['is_vegetarian'] !== 1 && recipe['is_vegetarian'] !== 0)) {
         console.log('is_vegetarian')
         formValidityTree['is_vegetarian'] = false;
         console.log('formValidityTree', formValidityTree);
@@ -101,7 +102,17 @@ export const isValidRecipeFormData = (
         return validForm;
     }
 
-    if (isEmptyString(model['name'])) {
+    if (!isBoolean(recipe['is_vegan']) ||
+        (recipe['is_vegan'] !== 0 && recipe['is_vegan'] !== 1)) {
+        console.log('is_vegan')
+        formValidityTree['is_vegan'] = false;
+        console.log('formValidityTree', formValidityTree);
+        validForm = false;
+        set_press_submit(true);
+        return validForm;
+    }
+
+    if (isEmptyString(recipe['name'])) {
         console.log('name')
         formValidityTree['name'] = false;
         console.log('formValidityTree', formValidityTree);
@@ -110,49 +121,53 @@ export const isValidRecipeFormData = (
         return validForm;
     }
 
-    if (
-        isEmptyString(model['status'])
-    ) {
-        console.log('status')
-        formValidityTree['status'] = false;
+    if (isEmptyString(recipe['status_ref_key_key'])) {
+        console.log('status_ref_key_key')
+        formValidityTree['status_ref_key_key'] = false;
         console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
     }
 
-    if (isEmptyString(model['user_id'])) {
-        console.log('user_id')
-        formValidityTree['user_id'] = false;
+    if (isEmptyString(recipe['status_ref_key_value'])) {
+        console.log('status_ref_key_value')
+        formValidityTree['status_ref_key_value'] = false;
         console.log('formValidityTree', formValidityTree);
         validForm = false;
         set_press_submit(true);
         return validForm;
     }
 
-    console.log('validForm::', validForm);
+    if (!isNumberType(recipe['rating'])) {
+        console.log('rating')
+        formValidityTree['rating'] = false;
+        console.log('formValidityTree', formValidityTree);
+        validForm = false;
+        set_press_submit(true);
+        return validForm;
+    }
+
+    console.log('recipe validForm::', validForm);
 
     return validForm;
 
 };
 
-export const submitRecipeClick = (model, set_press_submit,
-                                  formValidityTree, activity = null) => {
+export const submitRecipeClick = (formData, set_press_submit, formValidityTree, activity = null) => {
     console.log('submitClick');
-    let {recipe, recipePhotos} = model;
-    if (!isValidRecipeFormData(recipe, false, set_press_submit, formValidityTree)) {
+    if (!isValidRecipeFormData(formData, false, set_press_submit, formValidityTree)) {
         return;
     }
-    saveRecipe(model, activity);
+    saveRecipe(formData, activity);
 };
 
-export const updateRecipeClick = (model, set_press_submit,
-                                  formValidityTree, activity = null) => {
-    // console.log('updateClick');
-    if (!isValidRecipeFormData(model, true, set_press_submit, formValidityTree)) {
+export const updateRecipeClick = (formData, set_press_submit, formValidityTree, activity = null) => {
+    console.log('updateClick');
+    if (!isValidRecipeFormData(formData, true, set_press_submit, formValidityTree)) {
         return;
     }
-    handleRecipeUpdate(model, activity);
+    handleRecipeUpdate(formData, activity);
 };
 
 export function addIngredient(recipe, activity = null) {

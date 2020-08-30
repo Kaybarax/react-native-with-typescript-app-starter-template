@@ -33,8 +33,8 @@ export interface UserCredentials {
 export interface Recipe {
     id: string,
     name?: string,
-    is_vegetarian?: boolean,
-    is_vegan?: boolean,
+    is_vegetarian?: false | true | 0 | 1,
+    is_vegan?: false | true | 0 | 1,
     ingredients?: Array<string>,
     cooking_instructions?: Array<string>,
     groups_suitable?: Array<string>,
