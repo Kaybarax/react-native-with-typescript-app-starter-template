@@ -152,10 +152,7 @@ export default function SignUpForm(props) {
                     }
                     signUpModel.user.status_ref_key_key = "STATUS";
                     signUpModel.user.status_ref_key_value = "ACT";
-                    handleSignUp(signUpModel, appStore, notificationAlert);
-                    //ready for next user
-                    //some time to allow the alert to display
-                    // setTimeout(_ => showLoginForm(), 1500);
+                    handleSignUp(signUpModel, appStore, notificationAlert, showLoginForm);
                 }}
             >
                 <Text

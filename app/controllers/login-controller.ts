@@ -16,14 +16,16 @@ import {createPasswordHash} from '../android-custom-native-modules/app-security-
 import {isEmptyString} from "../util/util";
 import {showToast} from "../util/react-native-based-utils";
 import {TIME_OUT} from "../app-config";
+import {invokeLoader} from "../shared-components-and-modules/loaders";
 
 /**
  * sd _ Kaybarax
  * @param signUpModel
  * @param appStore
  * @param notificationAlert
+ * @param showLoginForm
  */
-export function handleSignUp(signUpModel, appStore, notificationAlert) {
+export function handleSignUp(signUpModel, appStore, notificationAlert, showLoginForm) {
 
     console.log('handleSignUp');
     console.log('signUpModel:', toJS(signUpModel));
@@ -46,6 +48,8 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
         done: false,
     };
 
+    invokeLoader(appStore);
+
     createPasswordHash(signUpModel.password, userCredentials, notificationAlert, listener)
         .then((credentials: UserCredentials) => {
 
@@ -67,6 +71,8 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
             }, 1000);
 
             function work(credentials) {
+
+                invokeLoader(appStore);
 
                 console.log('credentials password_hash', credentials.password_hash);
                 console.log('credentials salt', credentials.salt);
@@ -107,6 +113,9 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
 
                 //save user credentials
                 function executeAddCredentials() {
+
+                    invokeLoader(appStore);
+
                     saveUserCredentials(userCredentials, notificationAlert);
 
                     let timer = TIME_OUT;
@@ -115,11 +124,14 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
                             if (appSQLiteDb.transactionSuccess) {
                                 clearInterval(saveCredentialsListener);
                                 showToast('User credentials added!');
+                                //ready for next user
+                                //allowing the alert to display
                                 notificationCallback(
                                     'succ',
                                     'User signed up',
                                     notificationAlert,
                                 );
+                                setTimeout(_ => showLoginForm(), 1500);
                             }
                         } else {
                             if (!appSQLiteDb.transactionSuccess) {

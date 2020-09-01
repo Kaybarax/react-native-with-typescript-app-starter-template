@@ -11,6 +11,7 @@ import {DeviceEventEmitter} from 'react-native';
 import {AppSecurityModule} from './custom-native-modules';
 import {isEmptyString, isNullUndefined} from '../util/util';
 import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
+import {showToast} from '../util/react-native-based-utils';
 
 
 /**
@@ -26,13 +27,13 @@ export async function createPasswordHash(passwordText, userCredentials, notifica
   console.log('createPasswordHash');
 
   await AppSecurityModule.createPasswordHash(passwordText,
-       (response) => createPasswordHashCallback(response, userCredentials, notificationAlert, callbackResListener));
+      (response) => createPasswordHashCallback(response, userCredentials, notificationAlert, callbackResListener));
 
   return userCredentials;
 
 }
 
-export function createPasswordHashCallback(resp, userCredentials, notificationAlert, callbackResListener ) {
+export function createPasswordHashCallback(resp, userCredentials, notificationAlert, callbackResListener) {
 
   console.log('createPasswordHashCallback');
   console.log('RES', resp);
@@ -49,11 +50,7 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
 
   if (resp.message === 'SUCCESS') {
 
-    notificationCallback(
-        'succ',
-        'Password hashed',
-        notificationAlert,
-    );
+    showToast('Password hashed');
 
     userCredentials.password_hash = resp.passwordHash;
     userCredentials.salt = resp.passwordSalt;

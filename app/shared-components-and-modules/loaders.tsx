@@ -71,17 +71,17 @@ const styles = StyleSheet.create({
 
 /**
  * sd _ Kaybarax
- * @param loaderActivity
+ * @param loaderActivityStore
  */
-export function invokeLoader(loaderActivity) {
+export function invokeLoader(loaderActivityStore) {
     // console.log('loaderActivity:', toJS(loaderActivity));
     //if was earlier running, stop to start over
-    if (isTrue(loaderActivity.loading)) {
-        loaderActivity.loading = false;
+    if (isTrue(loaderActivityStore.loading)) {
+        loaderActivityStore.loading = false;
     }
     //then continue
-    loaderActivity.loading = true;
+    loaderActivityStore.loading = true;
     setTimeout(_ => {
-        loaderActivity.loading = false;
-    }, TIME_OUT || 3000);
+        loaderActivityStore.loading = false;
+    }, TIME_OUT || 3500);
 }
