@@ -25,7 +25,7 @@ class AppSQLiteDb {
     this.dbLoadedAndInitialized = false;
     this.transactionSuccess = false;
     this.appDatabase = APP_SQLITE_DATABASE.DATABASES.APP_DB;
-    this.updateProgress('Starting SQLite');
+    this.updateProgress('Load and bootstrap app database...');
   }
 
   updateProgress = (text) => {
@@ -115,48 +115,6 @@ class AppSQLiteDb {
     if (this.dbLoadedAndInitialized) {
       console.log('## DATABASE INITIALIZED AND LOADED ##');
     }
-
-  };
-
-  _initDatabase = (db) => {
-
-    console.log('$$ dbLoadedAndInitialized_0 $$', this.dbLoadedAndInitialized);
-    db.executeSql('SELECT 1 FROM Version LIMIT 1', [],
-        () => { //on success
-          this.updateProgress('Database is ready ... executing query ...');
-          console.log('$$ dbLoadedAndInitialized_1 $$', this.dbLoadedAndInitialized);
-          db.transaction(
-              this.runInitialQueriesAndLoadInitialData,
-              this.errorCB,
-              () => {//on success
-                this.updateProgress('Processing completed');
-                this.dbLoadedAndInitialized = true;
-                console.log('$$ dbLoadedAndInitialized_2 $$', this.dbLoadedAndInitialized);
-              });
-        },
-        (error) => { //on error
-          console.log('received version error:', error);
-          this.updateProgress('Database not yet ready ... populating data');
-          console.log('$$ dbLoadedAndInitialized_4 $$', this.dbLoadedAndInitialized);
-          db.transaction(
-              this.populateDB,
-              this.errorCB,
-              () => {//on success
-                this.updateProgress('Database populated ... executing query ...');
-                console.log('$$ dbLoadedAndInitialized_5 $$', this.dbLoadedAndInitialized);
-                db.transaction(
-                    this.runInitialQueriesAndLoadInitialData,
-                    this.errorCB,
-                    () => {//on success
-                      console.log('Transaction is now finished');
-                      this.updateProgress('Processing completed');
-                      this.dbLoadedAndInitialized = true;
-                      console.log('$$ dbLoadedAndInitialized_6 $$', this.dbLoadedAndInitialized);
-                      this.closeDatabase();
-                    });
-              });
-        });
-    console.log('$$ dbLoadedAndInitialized_7 $$', this.dbLoadedAndInitialized);
 
   };
 

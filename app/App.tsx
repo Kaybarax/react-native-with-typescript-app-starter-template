@@ -22,6 +22,9 @@ import rootStore from './stores/index';
 import appNavigation from "./routing-and-navigation/app-navigation";
 import {appSQLiteDb} from "./app-management/data-manager/embeddedDb-manager";
 import Loader from "./shared-components-and-modules/loaders";
+import NotFound from "./views/not-found";
+import className from "./util/react-native-based-utils";
+import {FlexColumnContainerCN} from "./theme/app-layout-styles-classnames";
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
@@ -59,9 +62,16 @@ const App = () => {
 
     if (!dbLoaded) {
         return (
-            <React.Fragment>
+            <RN.ScrollView
+                style={[
+                    className(
+                        FlexColumnContainerCN
+                    )
+                ]}
+            >
+                <NotFound/>
                 <Loader message={appSQLiteDb.latestProgressUpdate}/>
-            </React.Fragment>
+            </RN.ScrollView>
         )
     }
 

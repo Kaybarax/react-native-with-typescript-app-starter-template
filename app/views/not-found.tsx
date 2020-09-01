@@ -9,24 +9,31 @@
 
 import React, {Component} from 'react';
 import SafeComponentWrapper from '../safe-component-wrapper';
-import RN, {Button, Image, ScrollView, Text, View} from "react-native";
+import {Button, ImageBackground, Text, View} from "react-native";
 import {
-    AlignCenterContentCN,
+    AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
+import {SCREEN_HEIGHT} from "../App";
+import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
+import {SEASHELLS_COLOR} from "../theme/app-theme";
 
 export default class NotFound extends Component {
-
     render() {
         return (
             <SafeComponentWrapper>
-                <ScrollView
-                    contentInsetAdjustmentBehavior={"automatic"}
+                <ImageBackground
+                    source={require('../media/images/page-not-found.jpg')}
                     style={[
-                        className(FlexColumnContainerCN),
+                        className(
+                            FlexColumnContainerCN
+                        ),
+                        {
+                            height: SCREEN_HEIGHT,
+                        }
                     ]}
                 >
                     <View
@@ -43,81 +50,49 @@ export default class NotFound extends Component {
                         >
                             <View
                                 style={[
-                                    className(FlexFluidRowContainerCN)
-                                ]}
-                            >
-                                <Text
-                                    style={[
-                                        className(FlexContainerChildItemFullWidthCN,
-                                            AlignCenterContentCN)
-                                    ]}
-                                >
-                                    Oops! View, Not Found
-                                </Text>
-                            </View>
-                        </View>
-                        <View
-                            style={[
-                                className(
-                                    FlexContainerChildItemFullWidthCN,
+                                    className(FlexFluidRowContainerCN),
                                     {
-                                        paddingTop: 10
-                                    },
-                                )
-                            ]}
-                        >
-                            <View
-                                style={[
-                                    className()
-                                ]}
-                            >
-                                <Button
-                                    title={'Return'}
-                                    onPress={() => {
-                                        //
-                                    }}
-                                />
-                            </View>
-                        </View>
-                        <View
-                            style={[
-                                className(
-                                    FlexContainerChildItemFullWidthCN,
-                                    {
-                                        paddingTop: 10
-                                    },
-                                )
-                            ]}
-                        >
-                            <View
-                                style={[
-                                    className(FlexFluidRowContainerCN)
+                                        marginTop: SCREEN_HEIGHT * 0.8,
+                                    }
                                 ]}
                             >
                                 <View
                                     style={[
                                         className(
-                                            FlexContainerChildItemFullWidthCN,
-                                            {
-                                                paddingTop: 10
-                                            },
-                                        )
+                                            FlexContainerChildItemFullWidthCN
+                                        ),
+                                        {
+                                            backgroundColor: SEASHELLS_COLOR,
+                                            borderRadius: 10,
+                                            padding: 5,
+                                        }
                                     ]}
                                 >
-                                    <Image
-                                        source={require('../media/images/_404_.png')}
+                                    <Text
                                         style={[
+                                            className(
+                                                AlignCenterTextCN
+                                            ),
                                             {
-                                                width: '100%',
-                                                height: '100%',
+                                                color: 'black',
+                                                fontSize: 24,
                                             }
                                         ]}
+                                    >
+                                        Oops! View, Not Found!
+                                    </Text>
+                                    <BlankSpaceDivider/>
+                                    <Button
+                                        title={'Return'}
+                                        onPress={() => {
+                                            //
+                                        }}
                                     />
                                 </View>
                             </View>
                         </View>
                     </View>
-                </ScrollView>
+                </ImageBackground>
             </SafeComponentWrapper>
         );
     }

@@ -16,7 +16,7 @@ export const APP_SQLITE_DATABASE = {
     DB_REFERENCE: null,
     DATABASES: {
         APP_DB: {
-            name: 'RNTSAST_E.db',
+            name: 'RNTSAST_G.db',
             tables: {
                 USER: {
                     name: 'USER',
