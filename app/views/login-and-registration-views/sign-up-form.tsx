@@ -10,11 +10,11 @@
 import React from "react";
 import {textValueChanged} from "../../util/react-native-data-collection-utils";
 import {isEmptyString} from "../../util/util";
-import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../App";
 import {
-    AlignCenterContentCN, AlignCenterTextCN,
+    AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -22,6 +22,7 @@ import {
 import {handleSignUp} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
 import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
+import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 
 export default function SignUpForm(props) {
 
@@ -39,12 +40,17 @@ export default function SignUpForm(props) {
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel.user['username_or_email'])) {
+        if (isEmptyString(signUpModel.user['email'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel.user['password'])) {
+        if (isEmptyString(signUpModel.user['username'])) {
+            validForm = false;
+            set_press_submit(true);
+            return validForm;
+        }
+        if (isEmptyString(signUpModel['password'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -54,7 +60,7 @@ export default function SignUpForm(props) {
             set_press_submit(true);
             return validForm;
         }
-        if (signUpModel.user['password'] !== signUpModel['confirm_password']) {
+        if (signUpModel['password'] !== signUpModel['confirm_password']) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -75,50 +81,59 @@ export default function SignUpForm(props) {
                 submit_pressed && isEmptyString(signUpModel.user.name) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <AppTextInput
                 label="Name"
                 onChangeText={value => textValueChanged(signUpModel.user, value, 'name', null)}
             />
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(signUpModel.user.username_or_email) &&
+                submit_pressed && isEmptyString(signUpModel.user.username) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <AppTextInput
-                label="Username/Email"
-                onChangeText={value => textValueChanged(signUpModel.user, value, 'username_or_email', null)}
+                label="Username"
+                onChangeText={value => textValueChanged(signUpModel.user, value, 'username', null)}
             />
-            <View style={{height: 10}}/>
             {
-                submit_pressed && isEmptyString(signUpModel.user.password) &&
+                submit_pressed && isEmptyString(signUpModel.user.email) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
+            <AppTextInput
+                label="Email"
+                onChangeText={value => textValueChanged(signUpModel.user, value, 'email', null)}
+            />
+            <BlankSpaceDivider/>
+            {
+                submit_pressed && isEmptyString(signUpModel.password) &&
+                <Text style={{color: 'red'}}> * This field is required.</Text>
+            }
+            <BlankSpaceDivider/>
             <AppTextInput
                 secureTextEntry={true}
                 label="Password"
-                onChangeText={value => textValueChanged(signUpModel.user, value, 'password', null)}
+                onChangeText={value => textValueChanged(signUpModel, value, 'password', null)}
             />
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             {
                 submit_pressed && isEmptyString(signUpModel.confirm_password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <AppTextInput
                 secureTextEntry={true}
                 label="Confirm Password"
                 onChangeText={value => textValueChanged(signUpModel, value, 'confirm_password', null)}
             />
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             {
                 submit_pressed &&
-                (signUpModel.user.password !== signUpModel.confirm_password) &&
+                (signUpModel.password !== signUpModel.confirm_password) &&
                 <Text style={{color: 'red'}}>Passwords do not match.</Text>
             }
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <TouchableOpacity
                 activeOpacity={.2}
                 style={[
@@ -152,7 +167,7 @@ export default function SignUpForm(props) {
                     ]}
                 >Sign Up</Text>
             </TouchableOpacity>
-            <View style={{height: 10}}/>
+            <BlankSpaceDivider/>
             <Text>Your sign up data is stored locally in SQLite Storage</Text>
         </ScrollView>
     );

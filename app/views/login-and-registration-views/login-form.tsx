@@ -14,7 +14,7 @@ import RN, {ScrollView, Text, TouchableOpacity} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../App";
 import {
-    AlignCenterContentCN, AlignCenterTextCN,
+    AlignCenterTextCN,
     AlignRightFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
@@ -24,7 +24,6 @@ import {handleLogin} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
 import {RegistrationButtonTextCN, UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
-import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 
 export default function LoginForm(props) {
@@ -32,7 +31,6 @@ export default function LoginForm(props) {
     let {login, notificationAlert, appStore, authStore, navigation} = props;
     let {navStore} = appStore;
     let loginModel = login.loginForm;
-    // console.log('navigation at login-form:', navigation);
 
     let [submit_pressed, set_press_submit] = React.useState(false);
 

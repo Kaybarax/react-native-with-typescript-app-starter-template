@@ -9,12 +9,19 @@
 
 import React from "react";
 import {StyleSheet, Text, TextInput, View} from "react-native";
+import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
 
 const AppTextInput = (props) => {
     let {onChangeText, label, value, secureTextEntry, autoCorrect} = props;
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>{`${label}`}</Text>
+        <View style={[
+            styles.container,
+        ]}>
+            <Text
+                style={[
+                    styles.label,
+                ]}
+            >{`${label}`}</Text>
             <TextInput
                 style={styles.input}
                 value={value}
@@ -30,7 +37,10 @@ export default AppTextInput;
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: MAIN_BG_COLOR,
+        padding: 4,
+        borderRadius: 10,
     },
     input: {
         fontSize: 13,
@@ -38,14 +48,16 @@ const styles = StyleSheet.create({
         height: 42,
         borderWidth: 1,
         borderColor: '#f5f5f5',
-        borderRadius: 18,
+        borderRadius: 15,
         padding: 10,
-        backgroundColor: 'seashell'
+        backgroundColor: SEASHELLS_COLOR
     },
     label: {
         fontSize: 12,
         fontWeight: 'bold',
-        marginRight: 8
+        marginRight: 8,
+        marginLeft: 8,
+        color: 'black'
     },
     error: {
         fontSize: 12,

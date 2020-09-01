@@ -22,7 +22,7 @@ import {Alert} from "react-native";
 export function notificationCallback(
     notificationType,
     message,
-    notificationAlert,
+    notificationAlert: NotificationAlertProps,
     position = -100,
     duration = 3500,
 ) {
@@ -36,14 +36,14 @@ export function notificationCallback(
     let typeOfNotification = 'custom';//default to this
     let typeOfNotificationMessage = 'Undefined message';//default to this
 
-    notificationAlert.alert = true;
     notificationAlert.position = position;
     notificationAlert.duration = duration;
     notificationAlert.message = !isEmptyString(message) ? message : typeOfNotificationMessage;
-    notificationAlert.type = notificationType || typeOfNotification;
+    notificationAlert.type = !isEmptyString(notificationType) ? notificationType : typeOfNotification;
+    notificationAlert.alert = true;
     setTimeout(() => {
         notificationAlert.alert = false;
-        notificationAlert.message = null;
+        notificationAlert.message = '';
     }, notificationAlert.duration);
 
 }

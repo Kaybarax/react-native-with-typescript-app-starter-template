@@ -9,11 +9,13 @@
 
 import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 import {toJS} from 'mobx';
-import {APP_SQLITE_DATABASE} from '../app-management/data-manager/declarations';
+import {APP_SQLITE_DATABASE} from '../app-management/data-manager/db-config';
 import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
 import {User, UserCredentials} from '../app-management/data-manager/models-manager';
 import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
-import {isEmptyString, isNullUndefined} from "../util/util";
+import {isEmptyString} from "../util/util";
+import {showToast} from "../util/react-native-based-utils";
+import {TIME_OUT} from "../app-config";
 
 /**
  * sd _ Kaybarax
@@ -23,64 +25,123 @@ import {isEmptyString, isNullUndefined} from "../util/util";
  */
 export function handleSignUp(signUpModel, appStore, notificationAlert) {
 
-    let userSaved;
-    let userCredentialsSaved = false;
+    console.log('handleSignUp');
+    console.log('signUpModel:', toJS(signUpModel));
+    // return;
 
     //save to sqlitedb
 
     let user: User = toJS(signUpModel.user);
+
+    console.log('user', user);
 
     // generate user password salt and hash
     let userCredentials: UserCredentials = {
         username: user.id,
         salt: undefined
     };
+    console.log('userCredentials 1', userCredentials);
 
-    try {
+    let listener = {
+        done: false,
+    };
 
-        let yieldedUserCredentials = createPasswordHash(signUpModel.password, userCredentials, notificationAlert);
-        let {password_hash, salt}: UserCredentials = yieldedUserCredentials.next().value;
-        if (isEmptyString(password_hash) || isNullUndefined(salt)) {
-            notificationCallback(
-                'err',
-                'Sign up failed',
-                notificationAlert,
-            );
-            return;
-        }
+    createPasswordHash(signUpModel.password, userCredentials, notificationAlert, listener)
+        .then((credentials: UserCredentials) => {
 
-        userSaved = saveUser(user, notificationAlert);
-        if (!userSaved) {
-            return;
-        }
-        userCredentialsSaved = saveUserCredentials(userCredentials, notificationAlert);
-        if (!userCredentialsSaved) {
+            console.log('credentials', credentials);
 
-            notificationCallback(
-                'err',
-                'User sign up failed on credentials',
-                notificationAlert,
-            );
+            let timer = TIME_OUT;
+            let listenerInterval = setInterval(_ => {
+                if (timer >= 0) {
+                    if (listener.done) {
+                        clearInterval(listenerInterval);
+                        work(credentials);
+                    }
+                } else {
+                    if (!listener.done) {
+                        clearInterval(listenerInterval);
+                    }
+                }
+                timer -= 1000;
+            }, 1000);
 
-        }
+            function work(credentials) {
 
-    } catch (err) {
+                console.log('credentials password_hash', credentials.password_hash);
+                console.log('credentials salt', credentials.salt);
 
-        notificationCallback(
-            'err',
-            'User sign up failed',
-            notificationAlert,
-        );
-        return;
+                if (isEmptyString(credentials.password_hash) || isEmptyString(credentials.salt)) {
+                    notificationCallback(
+                        'err',
+                        'Sign up failed',
+                        notificationAlert,
+                    );
+                    return;
+                }
 
-    }
+                //save user
+                saveUser(user, notificationAlert);
+
+                let timer = TIME_OUT;
+                let userSavedInterval = setInterval(_ => {
+                    if (timer >= 0) {
+                        if (appSQLiteDb.transactionSuccess) {
+                            clearInterval(userSavedInterval);
+                            showToast('User added!');
+                            executeAddCredentials();
+                        }
+                    } else {
+                        if (!appSQLiteDb.transactionSuccess) {
+                            clearInterval(userSavedInterval);
+                            showToast('Failed to add User!');
+                            notificationCallback(
+                                'err',
+                                'User sign up failed',
+                                notificationAlert,
+                            );
+                        }
+                    }
+                    timer -= 1000;
+                }, 1000);
+
+                //save user credentials
+                function executeAddCredentials() {
+                    saveUserCredentials(userCredentials, notificationAlert);
+
+                    let timer = TIME_OUT;
+                    let saveCredentialsListener = setInterval(_ => {
+                        if (timer >= 0) {
+                            if (appSQLiteDb.transactionSuccess) {
+                                clearInterval(saveCredentialsListener);
+                                showToast('User credentials added!');
+                                notificationCallback(
+                                    'succ',
+                                    'User signed up',
+                                    notificationAlert,
+                                );
+                            }
+                        } else {
+                            if (!appSQLiteDb.transactionSuccess) {
+                                clearInterval(saveCredentialsListener);
+                                showToast('Failed to add user credentials!');
+                            }
+                        }
+                        timer -= 1000;
+                    }, 1000);
+
+                }
+
+            }
+
+        }).catch(err => {
+        console.log('createPasswordHash err', err);
+    });
 
 }
 
 export function saveUser(user: User, notificationAlert) {
     console.log('saveUser');
-
-    let saved = false;
 
     //save to sqlitedb
 
@@ -91,7 +152,7 @@ export function saveUser(user: User, notificationAlert) {
     try {
 
         appSQLiteDb.addUserStmt(db, user);
-        saved = appSQLiteDb.transactionSuccess;
+        // saved = appSQLiteDb.transactionSuccess;
 
         notificationCallback(
             'succ',
@@ -109,14 +170,12 @@ export function saveUser(user: User, notificationAlert) {
 
     }
 
-    return saved;
+    // return saved;
 
 }
 
 export function saveUserCredentials(userCredentials: UserCredentials, notificationAlert) {
     console.log('saveUserCredentials');
-
-    let saved = false;
 
     //save to sqlitedb
 
@@ -127,7 +186,6 @@ export function saveUserCredentials(userCredentials: UserCredentials, notificati
     try {
 
         appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
-        saved = appSQLiteDb.transactionSuccess;
 
         notificationCallback(
             'succ',
@@ -144,8 +202,6 @@ export function saveUserCredentials(userCredentials: UserCredentials, notificati
         );
 
     }
-
-    return saved;
 
 }
 

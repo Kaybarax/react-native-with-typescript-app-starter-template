@@ -69,7 +69,8 @@ export function LoginActivitySchema(namespace, name) {
   };
   schema.signUpForm = {
     user: null,
-    confirmPassword: null,
+    password: null,
+    confirm_password: null,
   };
   schema.resetPasswordForm = {
     usernameOrEmail: null,

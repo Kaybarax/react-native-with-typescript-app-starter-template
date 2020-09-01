@@ -19,7 +19,8 @@ import {User} from "../../app-management/data-manager/models-manager";
 import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Loader from "../../shared-components-and-modules/loaders";
 import {
-    AlignCenterContentCN, AlignCenterTextCN,
+    AlignCenterContentCN,
+    AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -28,7 +29,6 @@ import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from '../../theme/app-text-styles-classnames';
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import {toJS} from "mobx";
-import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 
 function Login(props) {
 
@@ -50,6 +50,9 @@ function Login(props) {
 
     const showSignUpForm = () => {
         let user: User = {id: makeId(32)};
+        user.name = '';
+        user.email = '';
+        user.username = '';
         login.signUpForm.user = user;
         login.viewAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
     };

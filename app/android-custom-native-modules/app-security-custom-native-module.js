@@ -12,23 +12,33 @@ import {AppSecurityModule} from './custom-native-modules';
 import {isEmptyString, isNullUndefined} from '../util/util';
 import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 
-export function* createPasswordHash(passwordText, userCredentials, notificationAlert) {
+
+/**
+ *
+ * @param passwordText
+ * @param userCredentials
+ * @param notificationAlert
+ * @param callbackResListener
+ * @returns {Promise<*>}
+ */
+export async function createPasswordHash(passwordText, userCredentials, notificationAlert, callbackResListener) {
 
   console.log('createPasswordHash');
 
-  AppSecurityModule.createPasswordHash(passwordText,
-      (message) => createPasswordHashCallback(message, notificationAlert));
+  await AppSecurityModule.createPasswordHash(passwordText,
+       (response) => createPasswordHashCallback(response, userCredentials, notificationAlert, callbackResListener));
 
-  yield userCredentials;
+  return userCredentials;
 
 }
 
-export function createPasswordHashCallback(resp, userCredentials, notificationAlert) {
+export function createPasswordHashCallback(resp, userCredentials, notificationAlert, callbackResListener ) {
 
-  console.log('createPasswordHashCallback resp', resp);
-  // return;
+  console.log('createPasswordHashCallback');
+  console.log('RES', resp);
 
   if (isNullUndefined(resp)) {
+    callbackResListener.done = true;
     notificationCallback(
         'err',
         'Cannot perform password hash',
@@ -38,6 +48,7 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
   }
 
   if (resp.message === 'SUCCESS') {
+
     notificationCallback(
         'succ',
         'Password hashed',
@@ -47,12 +58,18 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
     userCredentials.password_hash = resp.passwordHash;
     userCredentials.salt = resp.passwordSalt;
 
+    callbackResListener.done = true;
+
   } else if (resp.message === 'FAILURE') {
+
+    callbackResListener.done = true;
+
     notificationCallback(
         'warn',
         'Password hash failed',
         notificationAlert,
     );
+
   }
 
 }

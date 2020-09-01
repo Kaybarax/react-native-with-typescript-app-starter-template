@@ -8,7 +8,7 @@
  */
 
 import SQLite from 'react-native-sqlite-storage';
-import {APP_SQLITE_DATABASE} from './declarations';
+import {APP_SQLITE_DATABASE} from './db-config';
 import {stringifyObject} from '../../util/util';
 
 SQLite.DEBUG(true);
@@ -177,7 +177,7 @@ class AppSQLiteDb {
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS USER_CREDENTIALS (
         username VARCHAR(16),
         password_hash VARCHAR(128),
-        salt blob, --varbinary(24)
+        salt TEXT, --varbinary(24)
         PRIMARY KEY (username),
         FOREIGN KEY ( username ) REFERENCES USER ( username )
       );`,
@@ -194,7 +194,7 @@ class AppSQLiteDb {
         ingredients TEXT,
         cooking_instructions TEXT,
         groups_suitable TEXT,
-        date_created datetime,
+        date_created TEXT,
         status_ref_key_key VARCHAR(20),
         status_ref_key_value INTEGER,
         PRIMARY KEY (id),
@@ -209,7 +209,7 @@ class AppSQLiteDb {
         id VARCHAR(32) NOT NULL,
         recipe_id VARCHAR(32) NOT NULL,
         image_url VARCHAR(257),
-        image_file BLOB,
+        image_file TEXT,
         PRIMARY KEY (id ),
         FOREIGN KEY ( recipe_id ) REFERENCES RECIPE ( id )
       );`,

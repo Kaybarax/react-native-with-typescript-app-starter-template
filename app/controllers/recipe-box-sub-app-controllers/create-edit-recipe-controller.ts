@@ -11,7 +11,7 @@ import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isNumberType} f
 import {toJS} from "mobx";
 import {Recipe, RecipeImage, UserRecipe} from "../../app-management/data-manager/models-manager";
 import {showToast} from "../../util/react-native-based-utils";
-import {APP_SQLITE_DATABASE} from "../../app-management/data-manager/declarations";
+import {APP_SQLITE_DATABASE} from "../../app-management/data-manager/db-config";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {appSQLiteDb} from "../../app-management/data-manager/embeddedDb-manager";
 
