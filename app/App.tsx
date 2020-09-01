@@ -20,8 +20,8 @@ import {Provider} from 'mobx-react';
 import AppEntry from './app-entry';
 import rootStore from './stores/index';
 import appNavigation from "./routing-and-navigation/app-navigation";
-
-declare const global: { HermesInternal: null | {} };
+import {appSQLiteDb} from "./app-management/data-manager/embeddedDb-manager";
+import Loader from "./shared-components-and-modules/loaders";
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
@@ -39,28 +39,31 @@ const App = () => {
     //hide all react warnings in production
     // console.warn = console.error = console.log = function (message) {};
 
-    // let [dbLoaded, loadDb] = React.useState(appSQLiteDb.dbLoadedAndInitialized);
+    let [dbLoaded, loadDb] = React.useState(false);
 
-    // React.useEffect(() => {
-    //     //init embedded app db
-    //     appSQLiteDb.loadAndInitDB();
-    //     // while (!appSQLiteDb.dbLoadedAndInitialized) {
-    //     //     if (appSQLiteDb.dbLoadedAndInitialized) {
-    //     //         loadDb(true);
-    //     //     }
-    //     // }
-    //     if (appSQLiteDb.dbLoadedAndInitialized) {
-    //         loadDb(true);
-    //     }
-    // });
+    React.useEffect(() => {
 
-    // if (!dbLoaded) {
-    //     return (
-    //         <React.Fragment>
-    //             <Loader message={appSQLiteDb.latestProgressUpdate}/>
-    //         </React.Fragment>
-    //     )
-    // }
+        console.log('appSQLiteDb.dbLoadedAndInitialized :::: ', appSQLiteDb.dbLoadedAndInitialized);
+        //init embedded app db
+        appSQLiteDb.loadAndInitDB();
+        let checkDbLoad = setInterval(_ => {
+
+            if (appSQLiteDb.dbLoadedAndInitialized) {
+                loadDb(true);
+                clearInterval(checkDbLoad);
+            }
+
+        }, 1000);
+
+    });
+
+    if (!dbLoaded) {
+        return (
+            <React.Fragment>
+                <Loader message={appSQLiteDb.latestProgressUpdate}/>
+            </React.Fragment>
+        )
+    }
 
     return (
         <Provider
@@ -74,11 +77,5 @@ const App = () => {
     );
 
 };
-
-// {global.HermesInternal == null ? null : (
-//     <View style={styles.engine}>
-//         <Text style={styles.footer}>Engine: Hermes</Text>
-//     </View>
-// )}
 
 export default App;

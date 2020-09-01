@@ -16,7 +16,7 @@ export const APP_SQLITE_DATABASE = {
     DB_REFERENCE: null,
     DATABASES: {
         APP_DB: {
-            name: 'RNTSAST.db',
+            name: 'RNTSAST_E.db',
             tables: {
                 USER: {
                     name: 'USER',
@@ -42,7 +42,9 @@ export const APP_SQLITE_DATABASE = {
                 RECIPE_IMAGE: {
                     name: 'RECIPE_IMAGE',
                     schema() {
-                        let schema: RecipeImage = {id: makeId(32)};
+                        let schema: RecipeImage = {
+                            id: makeId(32), image_file: '', image_url: '',
+                        };
                         return schema;
                     },
                 },
