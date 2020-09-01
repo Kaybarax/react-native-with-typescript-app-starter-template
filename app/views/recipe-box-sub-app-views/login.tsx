@@ -19,7 +19,7 @@ import {User} from "../../app-management/data-manager/models-manager";
 import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Loader from "../../shared-components-and-modules/loaders";
 import {
-    AlignCenterContentCN,
+    AlignCenterContentCN, AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -28,6 +28,7 @@ import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from '../../theme/app-text-styles-classnames';
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import {toJS} from "mobx";
+import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 
 function Login(props) {
 
@@ -126,7 +127,8 @@ function Login(props) {
                                     activeOpacity={.2}
                                     style={[
                                         className(
-                                            FlexContainerChildItemFullWidthCN
+                                            FlexContainerChildItemFullWidthCN,
+                                            AlignCenterContentCN
                                         ),
                                     ]}
                                     onPress={_ => {
@@ -139,8 +141,6 @@ function Login(props) {
                                 >
                                     <Text
                                         style={[
-                                            className(
-                                                AlignCenterContentCN),
                                             {
                                                 fontSize: 18,
                                                 padding: 5
@@ -172,6 +172,9 @@ function Login(props) {
                                             showSignUp &&
                                             <RN.Text
                                                 style={[
+                                                    className(
+                                                        AlignCenterTextCN
+                                                    ),
                                                     {
                                                         color: 'teal'
                                                     }
@@ -192,11 +195,6 @@ function Login(props) {
                                     </Text>
                                 </TouchableOpacity>
 
-                                <View
-                                    style={[
-                                        {height: 10}
-                                    ]}
-                                />
                             </View>
                         </View>
                     </View>

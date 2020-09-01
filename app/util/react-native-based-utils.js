@@ -41,7 +41,7 @@ export default function className(...classNames) {
  * @param message - text to display
  * @param toastDuration - short (default), long
  */
-export function showToast(message, toastDuration) {
+export function showToast(message, toastDuration = 'short') {
   let duration = toastDuration === "long" ? ToastAndroid.LONG : ToastAndroid.SHORT;
   ToastAndroid.show(message, duration);
 }

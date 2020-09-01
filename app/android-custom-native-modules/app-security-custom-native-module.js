@@ -7,17 +7,17 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import { DeviceEventEmitter } from 'react-native';
-import { AppSecurityModule } from './custom-native-modules';
-import { isEmptyString, isNullUndefined } from '../util/util';
-import { notificationCallback } from '../shared-components-and-modules/notification-center/notifications-controller';
+import {DeviceEventEmitter} from 'react-native';
+import {AppSecurityModule} from './custom-native-modules';
+import {isEmptyString, isNullUndefined} from '../util/util';
+import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 
 export function* createPasswordHash(passwordText, userCredentials, notificationAlert) {
 
   console.log('createPasswordHash');
 
   AppSecurityModule.createPasswordHash(passwordText,
-    (message) => createPasswordHashCallback(message, notificationAlert));
+      (message) => createPasswordHashCallback(message, notificationAlert));
 
   yield userCredentials;
 
@@ -26,22 +26,22 @@ export function* createPasswordHash(passwordText, userCredentials, notificationA
 export function createPasswordHashCallback(resp, userCredentials, notificationAlert) {
 
   console.log('createPasswordHashCallback resp', resp);
-  return;
+  // return;
 
   if (isNullUndefined(resp)) {
     notificationCallback(
-      'err',
-      'Cannot perform password hash',
-      notificationAlert,
+        'err',
+        'Cannot perform password hash',
+        notificationAlert,
     );
     return;
   }
 
   if (resp.message === 'SUCCESS') {
     notificationCallback(
-      'succ',
-      'Password hashed',
-      notificationAlert,
+        'succ',
+        'Password hashed',
+        notificationAlert,
     );
 
     userCredentials.password_hash = resp.passwordHash;
@@ -49,9 +49,9 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
 
   } else if (resp.message === 'FAILURE') {
     notificationCallback(
-      'warn',
-      'Password hash failed',
-      notificationAlert,
+        'warn',
+        'Password hash failed',
+        notificationAlert,
     );
   }
 
@@ -60,11 +60,11 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
 export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, notificationAlert) {
 
   DeviceEventEmitter.addListener('password_hash_result',
-    (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, notificationAlert));
+      (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, notificationAlert));
 
   AppSecurityModule.validatePasswordWithHashAndSalt(
-    passwordToValidate, hash, salt,
-    (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert));
+      passwordToValidate, hash, salt,
+      (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert));
 
 }
 
@@ -72,36 +72,36 @@ export function validatePasswordWithHashAndSaltListener(eventResult, notificatio
 
   if (isEmptyString(eventResult['passwordValidationPassed'])) {
     notificationCallback(
-      'err',
-      'Validate Password Indeterminate Result',
-      notificationAlert,
+        'err',
+        'Validate Password Indeterminate Result',
+        notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result');
   } else {
     if (eventResult['passwordValidationPassed'] === 'true') {
       notificationCallback(
-        'succ',
-        'Correct password',
-        notificationAlert,
+          'succ',
+          'Correct password',
+          notificationAlert,
       );
       // todo: what to do next??? -->>> probably login user
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     } else if (eventResult['passwordValidationPassed'] === 'false') {
       notificationCallback(
-        'warn',
-        'Incorrect password',
-        notificationAlert,
+          'warn',
+          'Incorrect password',
+          notificationAlert,
       );
       // todo: what to do next???
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     } else {
       notificationCallback(
-        'err',
-        'Validate Password Indeterminate Result',
-        notificationAlert,
+          'err',
+          'Validate Password Indeterminate Result',
+          notificationAlert,
       );
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
@@ -113,23 +113,23 @@ export function validatePasswordWithHashAndSaltListener(eventResult, notificatio
 export function validatePasswordWithHashAndSaltCallback(message, notificationAlert) {
   if (message === 'SUCCESS') {
     notificationCallback(
-      'succ',
-      'Validate password success',
-      notificationAlert,
+        'succ',
+        'Validate password success',
+        notificationAlert,
     );
   } else if (message === 'FAILURE') {
     notificationCallback(
-      'warn',
-      'Password failed validation',
-      notificationAlert,
+        'warn',
+        'Password failed validation',
+        notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);
   } else {
     notificationCallback(
-      'err',
-      'Cannot perform password validation',
-      notificationAlert,
+        'err',
+        'Cannot perform password validation',
+        notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);

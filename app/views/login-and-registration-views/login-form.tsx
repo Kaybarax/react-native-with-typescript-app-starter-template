@@ -14,7 +14,7 @@ import RN, {ScrollView, Text, TouchableOpacity} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../App";
 import {
-    AlignCenterContentCN,
+    AlignCenterContentCN, AlignCenterTextCN,
     AlignRightFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
@@ -88,7 +88,8 @@ export default function LoginForm(props) {
                 activeOpacity={.2}
                 style={[
                     className(
-                        FlexFluidRowContainerCN),
+                        FlexFluidRowContainerCN,
+                    ),
                     {
                         backgroundColor: 'orange',
                         height: 0.06 * SCREEN_HEIGHT,
@@ -107,8 +108,9 @@ export default function LoginForm(props) {
                     style={[
                         className(
                             FlexContainerChildItemFullWidthCN,
-                            AlignCenterContentCN,
-                            RegistrationButtonTextCN)
+                            AlignCenterTextCN,
+                            RegistrationButtonTextCN
+                        )
                     ]}
                 >
                     Login
@@ -119,7 +121,8 @@ export default function LoginForm(props) {
                 activeOpacity={.2}
                 style={[
                     className(
-                        FlexContainerChildItemFullWidthCN
+                        FlexContainerChildItemFullWidthCN,
+                        AlignRightFlexContainerContentCN
                     ),
                 ]}
                 onPress={_ => {
@@ -133,8 +136,6 @@ export default function LoginForm(props) {
             >
                 <Text
                     style={[
-                        className(
-                            AlignRightFlexContainerContentCN),
                         {
                             fontSize: 18,
                             padding: 5

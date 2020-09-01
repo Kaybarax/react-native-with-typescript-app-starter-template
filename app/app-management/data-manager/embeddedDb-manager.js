@@ -23,6 +23,7 @@ class AppSQLiteDb {
     this.progress = [];
     this.latestProgressUpdate = 'Initializing app db...';
     this.dbLoadedAndInitialized = false;
+    this.transactionSuccess = false;
     this.appDatabase = APP_SQLITE_DATABASE.DATABASES.APP_DB;
     this.updateProgress('Starting SQLite');
   }
@@ -36,12 +37,14 @@ class AppSQLiteDb {
   errorCB = (err) => {
     console.log('error: ', err);
     this.updateProgress('Error: ' + (err.message || err));
-    return false;
+    this.transactionSuccess = false;
+    return this.transactionSuccess;
   };
 
   successCB = () => {
     console.log('SQL executed ...');
-    return true;
+    this.transactionSuccess = true;
+    return this.transactionSuccess;
   };
 
   openCB = () => {
@@ -156,6 +159,24 @@ class AppSQLiteDb {
 
   populateDB = (dbtx) => {
 
+    //db bootstrap tables creation
+    this.runInitialTablesCreation(dbtx);
+
+    //db bootstrap inserts
+    this.runInitialInserts(dbtx);
+
+    //json data insert examples
+    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
+    //                 VALUES ("Sylvester Stallone", 2, 4, '{"known": true}')`, []);
+    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
+    //                 VALUES ("Donald Trump", 2, 4, '{"known": true, "impeached": true}')`, []);
+
+    console.log('All SQL stmts done');
+
+  };
+
+  runInitialTablesCreation = (dtbx) => {
+
     this.updateProgress('Executing stmts');
 
     dbtx.executeSql('DROP TABLE IF EXISTS Version;');
@@ -218,7 +239,19 @@ class AppSQLiteDb {
         FOREIGN KEY ( recipe_id ) REFERENCES RECIPE ( id );`,
         [], this.successCB, this.errorCB);
 
-    //db bootstrap inserts
+    dbtx.executeSql('DROP TABLE IF EXISTS USER_RECIPE;');
+    dbtx.executeSql(`CREATE TABLE IF NOT EXISTS USER_RECIPE (
+        user_id VARCHAR(32) NOT NULL,
+        recipe_id VARCHAR(32) NOT NULL,
+        PRIMARY KEY (user_id, recipe_id),
+        FOREIGN KEY ( user_id ) REFERENCES USER ( id ),
+        FOREIGN KEY ( recipe_id ) REFERENCES RECIPE ( id );`,
+        [], this.successCB, this.errorCB);
+
+  };
+
+  runInitialInserts = (dtbx) => {
+
     this.updateProgress('Executing INSERT stmts');
 
     dbtx.executeSql(`INSERT INTO APP_REF_KEYS (key, label, value) 
@@ -231,15 +264,9 @@ class AppSQLiteDb {
                   VALUES ("Status", "Deleted", "DEL")`,
         []);
 
-    //json data insert examples
-    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
-    //                 VALUES ("Sylvester Stallone", 2, 4, '{"known": true}')`, []);
-    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
-    //                 VALUES ("Donald Trump", 2, 4, '{"known": true, "impeached": true}')`, []);
-
-    console.log('All SQL stmts done');
-
   };
+
+  runInitial
 
   addAppRefKeyStmt(dbtx, data) {
     let {
@@ -286,6 +313,13 @@ class AppSQLiteDb {
                     VALUES ("${id}", "${name}", "${is_vegetarian}", "${is_vegan}", "${ingredients}",
                             "${cooking_instructions}", "${groups_suitable}", "${date_created}", 
                             "${status_ref_key_key}", "${status_ref_key_value}")`,
+        [], this.successCB, this.errorCB);
+  }
+
+  addUserRecipeStmt(dbtx, data) {
+    let {user_id, recipe_id} = data;
+    dbtx.executeSql(`INSERT INTO USER_RECIPE (user_id, recipe_id)
+                    VALUES ("${user_id}", "${recipe_id}")`,
         [], this.successCB, this.errorCB);
   }
 

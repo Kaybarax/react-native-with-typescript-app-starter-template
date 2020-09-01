@@ -23,8 +23,8 @@ export function createRecipe(recipeBoxStore, activity = null) {
     recipe.status_ref_key_value = 'ACT';//set status
     recipe.groups_suitable = [];
     recipe.name = '';
-    recipe.is_vegetarian = false;
-    recipe.is_vegan = false;
+    recipe.is_vegetarian = 0;
+    recipe.is_vegan = 0;
     recipe.rating = 0;
     //the photos
     let recipePhotos: Array<RecipeImage> = [];

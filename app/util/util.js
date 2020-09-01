@@ -55,7 +55,7 @@ export function isEmptyString(value) {
  */
 export function isNumberType(value) {
   try {
-    return typeof value !== 'number';
+    return typeof value === 'number';
   } catch (err) {
     return false;
   }
@@ -276,11 +276,9 @@ export async function getObjectFromAsyncStorage(key) {
  */
 export function isEmptyObject(obj) {
   try {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        return false;
-      }
-    }
+    let keys = Object.keys(obj);
+    return isEmptyArray(keys);
+
   } catch (e) {
     return true;
   }

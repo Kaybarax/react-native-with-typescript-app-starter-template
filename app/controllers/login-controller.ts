@@ -28,18 +28,16 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
 
     //save to sqlitedb
 
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-
-    // Put the data into the db
     let user: User = toJS(signUpModel.user);
 
-    // get user password salt and hash
+    // generate user password salt and hash
     let userCredentials: UserCredentials = {
         username: user.id,
         salt: undefined
     };
 
     try {
+
         let yieldedUserCredentials = createPasswordHash(signUpModel.password, userCredentials, notificationAlert);
         let {password_hash, salt}: UserCredentials = yieldedUserCredentials.next().value;
         if (isEmptyString(password_hash) || isNullUndefined(salt)) {
@@ -51,24 +49,22 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
             return;
         }
 
-        //put user in db
-        userSaved = appSQLiteDb.addUserStmt(db, user);
-        // userSaved = true;
-        //put user credentials in db
-        appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
-        userCredentialsSaved = true;
+        userSaved = saveUser(user, notificationAlert);
+        if (!userSaved) {
+            return;
+        }
+        userCredentialsSaved = saveUserCredentials(userCredentials, notificationAlert);
+        if (!userCredentialsSaved) {
 
-        notificationCallback(
-            'succ',
-            'User signed up',
-            notificationAlert,
-        );
+            notificationCallback(
+                'err',
+                'User sign up failed on credentials',
+                notificationAlert,
+            );
+
+        }
 
     } catch (err) {
-
-        if (!userSaved) {
-            //todo: rollback
-        }
 
         notificationCallback(
             'err',
@@ -76,7 +72,80 @@ export function handleSignUp(signUpModel, appStore, notificationAlert) {
             notificationAlert,
         );
         return;
+
     }
+
+}
+
+export function saveUser(user: User, notificationAlert) {
+    console.log('saveUser');
+
+    let saved = false;
+
+    //save to sqlitedb
+
+    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
+    appSQLiteDb.transactionSuccess = false;
+
+    //put in db
+    try {
+
+        appSQLiteDb.addUserStmt(db, user);
+        saved = appSQLiteDb.transactionSuccess;
+
+        notificationCallback(
+            'succ',
+            'User saved',
+            notificationAlert,
+        );
+
+    } catch (err) {
+
+        notificationCallback(
+            'err',
+            'Save user failed',
+            notificationAlert,
+        );
+
+    }
+
+    return saved;
+
+}
+
+export function saveUserCredentials(userCredentials: UserCredentials, notificationAlert) {
+    console.log('saveUserCredentials');
+
+    let saved = false;
+
+    //save to sqlitedb
+
+    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
+    appSQLiteDb.transactionSuccess = false;
+
+    //put in db
+    try {
+
+        appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
+        saved = appSQLiteDb.transactionSuccess;
+
+        notificationCallback(
+            'succ',
+            'User Credentials saved',
+            notificationAlert,
+        );
+
+    } catch (err) {
+
+        notificationCallback(
+            'err',
+            'Save user credentials failed',
+            notificationAlert,
+        );
+
+    }
+
+    return saved;
 
 }
 
@@ -96,38 +165,6 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
         notificationAlert,
     );
 
-    // let db = window.db;//get db;
-    // // Set up an object store and transaction
-    // let tx = db.transaction([APP_SQLITE_DATABASE.USERS], 'readonly');
-    // let store = tx.objectStore(APP_SQLITE_DATABASE.USERS);
-    //
-    // // Set up a request to get all users
-    // let req = store.getAll();
-    //
-    // // If we get an error
-    // req.onerror = function (event) {
-    //   console.log('error getting users ', event.target.errorCode);
-    //   notificationCallback('err', 'Cannot query users', notificationAlert);
-    // }
-    //
-    // let users = [];
-    // // onsuccess handler
-    // req.onsuccess = function (event) {
-    //
-    //   users = event.target.result;
-    //
-    //   let user = users.find(item => item.usernameOrEmail === loginForm.usernameOrEmail &&
-    //       item.password === loginForm.password);
-    //   if (isNullUndefined(user)) {
-    //     notificationCallback('err', 'User not found', notificationAlert);
-    //     return;
-    //   }
-    //   appStore.user = deepCloneObject(user);
-    //   notificationCallback('succ', 'Login success', notificationAlert);
-    //   //to allow notification display
-    //   setTimeout(_ => authStore.handleLogin(), 2000)
-    // }
-
 }
 
 /**
@@ -136,11 +173,9 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
  */
 export function handleResetPassword(notificationAlert) {
     // todo: ... your logic ... you get the drill by now
-
     notificationCallback(
         'succ',
         'I will leave this one for you))',
         notificationAlert,
     );
-    // notificationCallback('info', 'You can play around with this!)', notificationAlert)
 }

@@ -14,7 +14,7 @@ import RN, {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
 import {SCREEN_HEIGHT} from "../../App";
 import {
-    AlignCenterContentCN,
+    AlignCenterContentCN, AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -147,7 +147,7 @@ export default function SignUpForm(props) {
                     style={[
                         className(
                             FlexContainerChildItemFullWidthCN,
-                            AlignCenterContentCN,
+                            AlignCenterTextCN,
                             RegistrationButtonTextCN),
                     ]}
                 >Sign Up</Text>

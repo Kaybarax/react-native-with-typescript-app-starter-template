@@ -157,6 +157,7 @@ export function RecipeBoxActivitySchema(namespace, name) {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.selectedRecipe = null;
+  schema.recipeFormValidityTree = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log("RecipeBoxActivitySchema::", this.storeSchema)
   return this.storeSchema;

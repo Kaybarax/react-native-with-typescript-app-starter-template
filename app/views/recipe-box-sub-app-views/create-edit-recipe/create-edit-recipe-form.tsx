@@ -15,11 +15,12 @@ import AppNotificationToastAlert
 import {Checkbox} from "../../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons";
 import AppTextInput from "../../../shared-components-and-modules/form-controls/app-text-input";
 import {displayFieldExpectationSatisfied} from "../../../controllers/app-controller";
-import {isBoolean, isEmptyArray, isEmptyString, isTrue, makeId} from "../../../util/util";
+import {isEmptyArray, isEmptyObject, isEmptyString, isFalse, isTrue, makeId} from "../../../util/util";
 import className, {showToast} from "../../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
+    AlignLeftFlexContainerContentCN,
+    AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexContainerChildItemOneThirdWidthCN,
@@ -31,6 +32,7 @@ import {checkboxItemValueChanged, textValueChanged} from "../../../util/react-na
 import {
     addCookingInstruction,
     addIngredient,
+    isValidRecipeFormData,
     removeCookingInstruction,
     removeIngredient,
     submitRecipeClick,
@@ -65,12 +67,15 @@ export function CreateEditRecipeForm(props) {
         }
     } = props;
     let {recipe, recipePhotos}: { recipe: any, recipePhotos: Array<RecipeImage> } = params;
-    let {notificationAlert, viewAction} = recipeBoxStore;
+    let {
+        notificationAlert,
+        viewAction,
+    } = recipeBoxStore;
 
-    let [submit_pressed, set_press_submit] = React.useState(false);
+    let [submitPressed, setSubmitPressed] = React.useState(false);
+    let [recipeFormValidityTree, updateFormValidityTree] = React.useState({});
     let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
-
-    //camera-photo-capture-stuff
+    //camera-photo-capture state
     let [cameraModuleProps, updateCameraModule] = React.useState({
         //basic props
         cameraFlashOn: false,
@@ -78,9 +83,8 @@ export function CreateEditRecipeForm(props) {
         backCamera: true,
         imagePreview: null,
         acceptPhoto: false,
-        //extra props for this use case, because I am capturing
-        //several photos identified by their assigned numbers,
-        //and other parameters as needed
+        //extra props for this use case, because I am capturing, several photos
+        // identified by their assigned numbers, and other parameters as needed
         photoFor: 0,
     });
     let [photoCaptureModuleTrigger, InvokePhotoCaptureModuleTrigger] = React.useState(1);
@@ -130,6 +134,7 @@ export function CreateEditRecipeForm(props) {
             );
 
     };
+
     let removePhoto = (photoFor: number) => {
         let photo: RecipeImage = {
             id: makeId(32),
@@ -153,7 +158,33 @@ export function CreateEditRecipeForm(props) {
         ingredients.push({txt: ''});
     }
 
-    let formValidityTree = {};
+    let setupFormValidation = () => {
+
+        //reset if it had data
+        recipeFormValidityTree = {};
+
+        let recipeFormKeys = Object.keys(recipe);
+        console.log('recipeFormKeys:', recipeFormKeys);
+
+        //assume all valid at beginning
+        for (let key of recipeFormKeys) {
+            recipeFormValidityTree['' + key] = true;
+        }
+        recipeFormValidityTree['recipePhotos'] = true;
+
+        updateFormValidityTree(recipeFormValidityTree);
+        console.log('empty obj recipeFormValidityTree:', isEmptyObject(recipeFormValidityTree));
+
+    }
+
+    //for initial
+    React.useEffect(() => {
+        setupFormValidation();
+        console.log('recipeFormValidityTree at CreateEditRecipeForm:', recipeFormValidityTree);
+        console.log('VALIDITY CALLED:', submitPressed);
+        console.log('NAME VALIDITY:', recipeFormValidityTree['name']);
+    }, []);
+
 
     const FormFieldIsRequiredMessage = props => (
         <RN.Text
@@ -233,10 +264,12 @@ export function CreateEditRecipeForm(props) {
                                     >
 
                                         {
-                                            submit_pressed && !formValidityTree['name'] &&
-                                            <FormFieldIsRequiredMessage/>
+                                            submitPressed && !recipeFormValidityTree['name'] &&
+                                            <React.Fragment>
+                                              <FormFieldIsRequiredMessage/>
+                                              <BlankSpaceDivider/>
+                                            </React.Fragment>
                                         }
-                                        <BlankSpaceDivider/>
 
                                         <AppTextInput
                                             label="Name"
@@ -249,10 +282,13 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && !formValidityTree['recipe_photos'] &&
-                                        <FormFieldIsRequiredMessage message={'Please upload one or more recipe photos!'}/>
+                                        submitPressed && !recipeFormValidityTree['recipePhotos'] &&
+                                        <React.Fragment>
+                                          <FormFieldIsRequiredMessage
+                                              message={'Please upload one or more recipe photos!'}/>
+                                          <BlankSpaceDivider/>
+                                        </React.Fragment>
                                     }
-                                    <BlankSpaceDivider/>
 
                                     <RN.View
                                         style={[
@@ -294,10 +330,12 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && !formValidityTree['is_vegetarian'] &&
-                                        <FormFieldIsRequiredMessage/>
+                                        submitPressed && !recipeFormValidityTree['is_vegetarian'] &&
+                                        <React.Fragment>
+                                          <FormFieldIsRequiredMessage/>
+                                          <BlankSpaceDivider/>
+                                        </React.Fragment>
                                     }
-                                    <BlankSpaceDivider/>
 
                                     <RN.View
                                         style={[
@@ -314,10 +352,12 @@ export function CreateEditRecipeForm(props) {
                                     </RN.View>
 
                                     {
-                                        submit_pressed && formValidityTree['is_vegan'] &&
-                                        <FormFieldIsRequiredMessage/>
+                                        submitPressed && !recipeFormValidityTree['is_vegan'] &&
+                                        <React.Fragment>
+                                          <FormFieldIsRequiredMessage/>
+                                          <BlankSpaceDivider/>
+                                        </React.Fragment>
                                     }
-                                    <BlankSpaceDivider/>
 
                                     <RN.View
                                         style={[
@@ -333,7 +373,13 @@ export function CreateEditRecipeForm(props) {
                                         />
                                     </RN.View>
 
-                                    <BlankSpaceDivider/>
+                                    {
+                                        submitPressed && isEmptyArray(recipe['ingredients']) &&
+                                        <React.Fragment>
+                                          <FormFieldIsRequiredMessage message={'Please fill out ingredients'}/>
+                                          <BlankSpaceDivider/>
+                                        </React.Fragment>
+                                    }
 
                                     <RN.Text
                                         style={[
@@ -352,7 +398,6 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 recipe.ingredients?.map((item, i) => {
                                                     let ingredient = recipe.ingredients[i];
-                                                    let tempModel = {txt: null};
                                                     return (
                                                         <RN.View
                                                             style={[
@@ -368,10 +413,12 @@ export function CreateEditRecipeForm(props) {
                                                             >
 
                                                                 {
-                                                                    submit_pressed && isEmptyString(ingredient) &&
-                                                                    <FormFieldIsRequiredMessage/>
+                                                                    submitPressed && isEmptyString(ingredient) &&
+                                                                    <React.Fragment>
+                                                                      <FormFieldIsRequiredMessage/>
+                                                                      <BlankSpaceDivider/>
+                                                                    </React.Fragment>
                                                                 }
-                                                                <BlankSpaceDivider/>
 
                                                                 <AppTextInput
                                                                     label={`${'' + (i + 1) + '. '}`}
@@ -479,7 +526,14 @@ export function CreateEditRecipeForm(props) {
                                         </RN.View>
                                     }
 
-                                    <BlankSpaceDivider/>
+                                    {
+                                        submitPressed && isEmptyArray(recipe['cooking_instructions']) &&
+                                        <React.Fragment>
+                                          <FormFieldIsRequiredMessage
+                                              message={'Please fill out preparation instructions'}/>
+                                          <BlankSpaceDivider/>
+                                        </React.Fragment>
+                                    }
 
                                     <RN.Text
                                         style={[
@@ -517,10 +571,12 @@ export function CreateEditRecipeForm(props) {
                                                             >
 
                                                                 {
-                                                                    submit_pressed && isEmptyString(cooking_instruction) &&
-                                                                    <FormFieldIsRequiredMessage/>
+                                                                    submitPressed && isEmptyString(cooking_instruction) &&
+                                                                    <React.Fragment>
+                                                                      <FormFieldIsRequiredMessage/>
+                                                                      <BlankSpaceDivider/>
+                                                                    </React.Fragment>
                                                                 }
-                                                                <BlankSpaceDivider/>
 
                                                                 <AppTextInput
                                                                     label={`${'' + (i + 1) + '. '}`}
@@ -637,7 +693,7 @@ export function CreateEditRecipeForm(props) {
                                                         AlignLeftFlexContainerContentCN)
                                                 ]}
                                             >
-                                                Suitable for:
+                                                Okay for
                                             </RN.Text>
 
                                             <RN.View
@@ -715,13 +771,58 @@ export function CreateEditRecipeForm(props) {
                                                                     {
                                                                         text: 'Submit',
                                                                         onPress: () => {
-                                                                            submitRecipeClick({recipe, recipePhotos},
-                                                                                set_press_submit, formValidityTree);
+
+                                                                            let formData = {
+                                                                                recipe,
+                                                                                recipePhotos
+                                                                            };
+
+                                                                            //reset, just in case
+                                                                            setSubmitPressed(false);
+
+                                                                            //check that validation is setup
+
+                                                                            setupFormValidation();
+
+                                                                            if (!isEmptyObject(recipeFormValidityTree)) {
+
+                                                                                if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
+                                                                                    setSubmitPressed(true);
+                                                                                    updateFormValidityTree(recipeFormValidityTree);
+                                                                                    console.log('submitPressed', submitPressed)
+                                                                                    console.log('NEW recipeFormValidityTree', recipeFormValidityTree)
+                                                                                    console.log('formData recipe', toJS(formData.recipe))
+                                                                                    console.log('formData recipePhotos', toJS(formData.recipePhotos))
+                                                                                    return;
+                                                                                }
+
+                                                                                let yieldedSubmitRecipeClick = submitRecipeClick(formData, notificationAlert);
+                                                                                let saveRecipeSuccess = yieldedSubmitRecipeClick.next().value;
+                                                                                console.log('saveRecipeSuccess', saveRecipeSuccess);
+                                                                                if (isFalse(saveRecipeSuccess)) {
+                                                                                    return;
+                                                                                }
+                                                                                let saveRecipePhotosSuccess = yieldedSubmitRecipeClick.next().value;
+                                                                                console.log('saveRecipePhotosSuccess', saveRecipePhotosSuccess);
+                                                                                if (isFalse(saveRecipePhotosSuccess)) {
+                                                                                    return;
+                                                                                }
+                                                                                let saveUserRecipeSuccess = yieldedSubmitRecipeClick.next().value;
+                                                                                console.log('saveUserRecipeSuccess', saveUserRecipeSuccess);
+                                                                                if (isFalse(saveUserRecipeSuccess)) {
+                                                                                    return;
+                                                                                }
+
+                                                                            } else {
+                                                                                Alert.alert('', 'Form validation delayed!');
+                                                                            }
+
                                                                         }
                                                                     },
                                                                     {
                                                                         text: 'Cancel',
                                                                         onPress: () => {
+                                                                            //do nothing
                                                                         }
                                                                     },
                                                                 ]);
@@ -752,9 +853,9 @@ export function CreateEditRecipeForm(props) {
                                                 (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE) &&
                                                 <RN.TouchableOpacity
                                                     activeOpacity={.2}
-                                                    onPress={
-                                                        _ => updateRecipeClick(recipe, set_press_submit, formValidityTree)
-                                                    }
+                                                    onPress={_ => {
+                                                        updateRecipeClick(recipe, null, recipeFormValidityTree, updateFormValidityTree)
+                                                    }}
                                                     style={[
                                                         {
                                                             width: '60%',

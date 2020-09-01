@@ -51,6 +51,11 @@ export interface RecipeImage {
     image_file: string,
 }
 
+export interface UserRecipe {
+    user_id: string,
+    recipe_id?: string,
+}
+
 /**
  * sd _ Kaybarax
  * @param code
