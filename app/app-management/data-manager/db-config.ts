@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {Recipe, RecipeImage, User, UserCredentials} from './models-manager';
+import {AppRefKeys, Recipe, RecipeImage, User, UserCredentials, UserRecipe} from './models-manager';
 import {makeId} from "../../util/util";
 
 export const APP_SQLITE_DATABASE = {
@@ -16,8 +16,23 @@ export const APP_SQLITE_DATABASE = {
     DB_REFERENCE: null,
     DATABASES: {
         APP_DB: {
-            name: 'RNTSAST_I.db',
+            name: 'RNTSAST_AA.db',
             tables: {
+                Version: {
+                    name: 'Version',
+                    get schema() {
+                        return {};
+                    },
+                },
+                APP_REF_KEYS: {
+                    name: 'APP_REF_KEYS',
+                    get schema() {
+                        let schema: AppRefKeys = {
+                            key: '', label: '', value: ''
+                        };
+                        return schema;
+                    },
+                },
                 USER: {
                     name: 'USER',
                     get schema() {
@@ -44,6 +59,16 @@ export const APP_SQLITE_DATABASE = {
                     schema() {
                         let schema: RecipeImage = {
                             id: makeId(32), image_file: '', image_url: '',
+                        };
+                        return schema;
+                    },
+                },
+                USER_RECIPE: {
+                    name: 'USER_RECIPE',
+                    schema() {
+                        let schema: UserRecipe = {
+                            user_id: makeId(32),
+                            recipe_id: makeId(32),
                         };
                         return schema;
                     },

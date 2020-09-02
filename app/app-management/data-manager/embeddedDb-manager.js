@@ -9,7 +9,7 @@
 
 import SQLite from 'react-native-sqlite-storage';
 import {APP_SQLITE_DATABASE} from './db-config';
-import {stringifyObject} from '../../util/util';
+import {isNullUndefined, stringifyObject} from '../../util/util';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -24,7 +24,14 @@ class AppSQLiteDb {
     this.latestProgressUpdate = 'Initializing app db...';
     this.dbLoadedAndInitialized = false;
     this.transactionSuccess = false;
+    this.queryResults = [];
+    this.usersQueryResults = [];
+    this.usersCredentialsQueryResults = [];
+    this.recipesQueryResults = [];
+    this.recipesPhotosQueryResults = [];
+    this.usersRecipesQueryResults = [];
     this.appDatabase = APP_SQLITE_DATABASE.DATABASES.APP_DB;
+    this.appDatabaseTables = APP_SQLITE_DATABASE.DATABASES.APP_DB.tables;
     this.updateProgress('Load and bootstrap app database...');
   }
 
@@ -75,7 +82,7 @@ class AppSQLiteDb {
     this.updateProgress('Database integrity check');
 
     this.updateProgress('Check if db already setup');
-    db.executeSql('SELECT 1 FROM Version LIMIT 1', [],
+    db.executeSql('SELECT 1 FROM ' + this.appDatabaseTables.Version.name + ' LIMIT 1', [],
         () => { //on success
           this.updateProgress('Database is ready ... executing test query ...');
           db.transaction(
@@ -96,7 +103,6 @@ class AppSQLiteDb {
               () => {//on success
                 this.updateProgress('Database populated ... executing query ...');
                 //attempt again the initial queries
-                // console.log('$$ dbLoadedAndInitialized_5 $$', this.dbLoadedAndInitialized);
                 db.transaction(
                     this.runInitialQueriesAndLoadInitialData,
                     this.errorCB,
@@ -104,7 +110,6 @@ class AppSQLiteDb {
                       this.updateProgress('Transaction is now finished');
                       this.updateProgress('Processing completed');
                       this.dbLoadedAndInitialized = true;
-                      console.log('$$ dbLoadedAndInitialized_6 $$', this.dbLoadedAndInitialized);
                       this.closeDatabase();
                     });
               },
@@ -128,25 +133,17 @@ class AppSQLiteDb {
     //db bootstrap inserts
     this.runInitialInserts(dbtx);
 
-    //json data insert examples
-    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
-    //                 VALUES ("Sylvester Stallone", 2, 4, '{"known": true}')`, []);
-    // dbtx.executeSql(`INSERT INTO Employees (name, office, department, custom_info)
-    //                 VALUES ("Donald Trump", 2, 4, '{"known": true, "impeached": true}')`, []);
-
     console.log('All SQL stmts done');
 
   };
 
   runInitialTablesCreation = (dbtx) => {
 
-    this.updateProgress('Executing CREATE TABLE Version');
     dbtx.executeSql('CREATE TABLE IF NOT EXISTS Version ( '
         + 'version_id INTEGER PRIMARY KEY NOT NULL); ',
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE Version Success');
 
-    this.updateProgress('Executing CREATE TABLE APP_REF_KEYS');
     dbtx.executeSql('DROP TABLE IF EXISTS APP_REF_KEYS;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS APP_REF_KEYS (
         key VARCHAR(20),
@@ -157,7 +154,6 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE APP_REF_KEYS Success');
 
-    this.updateProgress('Executing CREATE TABLE USER');
     dbtx.executeSql('DROP TABLE IF EXISTS USER;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS USER (
         id VARCHAR(32),
@@ -172,7 +168,6 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE USER Success');
 
-    this.updateProgress('Executing CREATE TABLE USER_CREDENTIALS');
     dbtx.executeSql('DROP TABLE IF EXISTS USER_CREDENTIALS;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS USER_CREDENTIALS (
         username VARCHAR(16),
@@ -184,7 +179,6 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE USER_CREDENTIALS Success');
 
-    this.updateProgress('Executing CREATE TABLE RECIPE');
     dbtx.executeSql('DROP TABLE IF EXISTS RECIPE;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS RECIPE (
         id VARCHAR(32) NOT NULL,
@@ -203,7 +197,6 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE RECIPE Success');
 
-    this.updateProgress('Executing CREATE TABLE RECIPE_IMAGE');
     dbtx.executeSql('DROP TABLE IF EXISTS RECIPE_IMAGE;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS RECIPE_IMAGE (
         id VARCHAR(32) NOT NULL,
@@ -216,7 +209,6 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
     this.updateProgress('CREATE TABLE RECIPE_IMAGE Success');
 
-    this.updateProgress('Executing CREATE TABLE USER_RECIPE');
     dbtx.executeSql('DROP TABLE IF EXISTS USER_RECIPE;');
     dbtx.executeSql(`CREATE TABLE IF NOT EXISTS USER_RECIPE (
         user_id VARCHAR(32) NOT NULL,
@@ -308,69 +300,145 @@ class AppSQLiteDb {
         [], this.successCB, this.errorCB);
   };
 
+  getUserByEmailStmt = async (dbtx, email) => {
+    await dbtx.executeSql(`SELECT * FROM 
+          ${this.appDatabaseTables.USER.name} WHERE email='${email}';`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
+        }, this.errorCB);
+  };
+
+  getUserByUsernameStmt = async (dbtx, username) => {
+    await dbtx.executeSql(`SELECT * FROM 
+          ${this.appDatabaseTables.USER.name} WHERE username='${username}';`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
+        }, this.errorCB);
+  };
+
   runInitialQueriesAndLoadInitialData = async (dbtx) => {
 
-    console.log('Executing JSON1 queries...');
+    console.log('Executing queries...');
 
-    // 2. JSON_ARRAY
-    // Expected: [1,2,"3",4]
-    // await dbtx.executeSql(`SELECT JSON_ARRAY(1, 2, '3', 4) AS data `,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 3. JSON_ARRAY_LENGTH
-    // // Expected: 4
-    // await dbtx.executeSql(`SELECT JSON_ARRAY_LENGTH('[1, 2, 3, 4]') AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 5. JSON_INSERT
-    // // Expected: {"a":1,"b":2,"c":3}
-    // await dbtx.executeSql(`SELECT JSON_INSERT('{"a": 1, "b": 2}', '$.c', 3)  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 6. JSON_REPLACE
-    // // Expected: {"a":1,"b":3}
-    // await dbtx.executeSql(`SELECT JSON_REPLACE('{"a": 1, "b": 2}', '$.b', 3)  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 7. JSON_SET
-    // // Expected: {"a":1,"b":123}
-    // await dbtx.executeSql(`SELECT JSON_SET('{"a": 1, "b": 2}', '$.b', 123)  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 8. JSON_REMOVE
-    // // Expected: {"a":1"}
-    // await dbtx.executeSql(`SELECT JSON_REMOVE('{"a": 1, "b": 2}', '$.b')  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 9. JSON_TYPE
-    // // Expected: integer
-    // await dbtx.executeSql(`SELECT JSON_TYPE('{"a": 1, "b": 2}', '$.a')  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 10. JSON_VALID
-    // // Expected: 0
-    // await dbtx.executeSql(`SELECT JSON_VALID('{"a": 1, "b": 2')  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // // 11. JSON_QUOTE
-    // // Expected: "value"
-    // await dbtx.executeSql(`SELECT JSON_QUOTE('value')  AS data`,
-    //     [], this.querySuccess, this.errorCB);
-    //
-    // //get ref keys
-    // await dbtx.executeSql(`SELECT * from APP_REF_KEYS;`,
-    //     [], this.querySuccess, this.errorCB);
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.Version.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.Version.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.APP_REF_KEYS.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.APP_REF_KEYS.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.USER.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.USER_CREDENTIALS.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.USER_CREDENTIALS.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.RECIPE.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.RECIPE_IMAGE.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE_IMAGE.name);
+        }, this.errorCB);
+
+    await dbtx.executeSql(`SELECT * FROM ${this.appDatabaseTables.USER_RECIPE.name};`,
+        [], (sqltx, results) => {
+          this.querySuccess(sqltx, results, this.appDatabaseTables.USER_RECIPE.name);
+        }, this.errorCB);
 
   };
 
-  querySuccess = (dbtx, results) => {
+  querySuccess = (dbtx, results, type) => {
     console.log('querySuccess results: ', results);
     this.updateProgress('Query completed');
-    let len = results.rows.length;
-    for (let i = 0; i < len; i++) {
-      let row = results.rows.item(i);
-      this.updateProgress(`QuerySuccess :: ${row.data}`);
+
+    if (!isNullUndefined(results)) {
+
+      let len = results.rows.length;
+      console.log('len: ', len);
+
+      if (type === this.appDatabaseTables.USER.name) {
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          console.log('row: ', row);
+          this.queryResults.push(row);
+          this.usersQueryResults.push(row);
+          // this.updateProgress(`QuerySuccess :: ${row.data}`);
+        }
+      }
+      if (type === this.appDatabaseTables.USER_CREDENTIALS.name) {
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          console.log('row: ', row);
+          this.queryResults.push(row);
+          this.usersCredentialsQueryResults.push(row);
+          // this.updateProgress(`QuerySuccess :: ${row.data}`);
+        }
+      }
+      if (type === this.appDatabaseTables.RECIPE.name) {
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          console.log('row: ', row);
+          this.queryResults.push(row);
+          this.recipesQueryResults.push(row);
+          // this.updateProgress(`QuerySuccess :: ${row.data}`);
+        }
+      }
+      if (type === this.appDatabaseTables.RECIPE_IMAGE.name) {
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          console.log('row: ', row);
+          this.queryResults.push(row);
+          this.recipesPhotosQueryResults.push(row);
+          // this.updateProgress(`QuerySuccess :: ${row.data}`);
+        }
+      }
+      if (type === this.appDatabaseTables.USER_RECIPE.name) {
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          console.log('row: ', row);
+          this.queryResults.push(row);
+          this.usersRecipesQueryResults.push(row);
+          // this.updateProgress(`QuerySuccess :: ${row.data}`);
+        }
+      }
+
     }
+
+    //clear duplicates that come up from buggy sqlite
+    let dataset = new Set(this.usersQueryResults);
+    this.usersQueryResults = Array.from(dataset);
+    console.log('this.usersQueryResults', this.usersQueryResults);
+
+    dataset = new Set(this.usersCredentialsQueryResults);
+    this.usersCredentialsQueryResults = Array.from(dataset);
+    console.log('this.usersCredentialsQueryResults', this.usersCredentialsQueryResults);
+
+    dataset = new Set(this.recipesQueryResults);
+    this.recipesQueryResults = Array.from(dataset);
+    console.log('this.recipesQueryResults', this.recipesQueryResults);
+
+    dataset = new Set(this.recipesPhotosQueryResults);
+    this.recipesPhotosQueryResults = Array.from(dataset);
+    console.log('this.recipesPhotosQueryResults', this.recipesPhotosQueryResults);
+
+    dataset = new Set(this.usersRecipesQueryResults);
+    this.usersRecipesQueryResults = Array.from(dataset);
+    console.log('this.usersRecipesQueryResults', this.usersRecipesQueryResults);
+
+    dataset = new Set(this.queryResults);
+    this.queryResults = Array.from(dataset);
+    console.log('this.queryResults', this.queryResults);
+
   };
 
   deleteDatabase = () => {
@@ -392,17 +460,3 @@ class AppSQLiteDb {
 }
 
 export const appSQLiteDb = new AppSQLiteDb();
-
-//json data querying examples
-// let queryEmployees = async (dbtx) => {
-//
-//   // 1. JSON_OBJECT query example
-//   await dbtx.executeSql(`SELECT JSON_OBJECT('name', e.name, 'office_id', e.office, 'department_id', e.department)
-//                       AS data FROM Employees e`,
-//             [], this.querySuccess, this.errorCB);
-//
-//   // 4. JSON_EXTRACT query example
-//   await dbtx.executeSql(`SELECT JSON_EXTRACT(e.custom_info, '$.known')  AS data FROM Employees e`, [],
-//       this.querySuccess, this.errorCB);
-//
-// };

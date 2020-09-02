@@ -29,7 +29,6 @@ import appNavigation from "../../routing-and-navigation/app-navigation";
 export default function LoginForm(props) {
 
     let {login, notificationAlert, appStore, authStore, navigation} = props;
-    let {navStore} = appStore;
     let loginModel = login.loginForm;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
@@ -39,7 +38,7 @@ export default function LoginForm(props) {
         let validForm = true;
         set_press_submit(false);//assume not pressed
 
-        if (isEmptyString(loginModel['username_or_email'])) {
+        if (isEmptyString(loginModel['usernameOrEmail'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -62,13 +61,13 @@ export default function LoginForm(props) {
             ]}
         >
             {
-                submit_pressed && isEmptyString(loginModel.username_or_email) &&
+                submit_pressed && isEmptyString(loginModel.usernameOrEmail) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Username/Email"
-                onChangeText={text => textValueChanged(loginModel, text, 'username_or_email', null)}
+                onChangeText={text => textValueChanged(loginModel, text, 'usernameOrEmail', null)}
             />
             <BlankSpaceDivider/>
             {

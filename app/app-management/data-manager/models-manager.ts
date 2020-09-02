@@ -9,7 +9,7 @@
 
 //your app models here
 
-export interface AppRefKey {
+export interface AppRefKeys {
     key: string,
     label: string,
     value: string,

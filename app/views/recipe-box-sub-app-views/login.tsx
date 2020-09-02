@@ -80,10 +80,7 @@ function Login(props) {
     return (
 
         <RN.ImageBackground
-            // source={require('../../media/images/strawberry-3132973_1920.jpg')}
-            // source={require('../../media/images/breakfast-2151201_1920.jpg')}
             source={require('../../media/images/cake-1971556_1920.jpg')}
-            // source={require('../../media/images/pasta-794464_1920.jpg')}
             style={[
                 {
                     flex: 1,

@@ -13,10 +13,11 @@ import {APP_SQLITE_DATABASE} from '../app-management/data-manager/db-config';
 import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
 import {User, UserCredentials} from '../app-management/data-manager/models-manager';
 import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
-import {isEmptyString} from "../util/util";
+import {isEmptyArray, isEmptyString} from "../util/util";
 import {showToast} from "../util/react-native-based-utils";
 import {TIME_OUT} from "../app-config";
 import {invokeLoader} from "../shared-components-and-modules/loaders";
+import {serviceWorkerThread} from "./app-controller";
 
 /**
  * sd _ Kaybarax
@@ -27,12 +28,12 @@ import {invokeLoader} from "../shared-components-and-modules/loaders";
  */
 export function handleSignUp(signUpModel, appStore, notificationAlert, showLoginForm) {
 
-    console.log('handleSignUp');
     console.log('signUpModel:', toJS(signUpModel));
     // return;
 
-    //save to sqlitedb
+    let functionServiceWorkerThreadsPool = [];
 
+    //save to sqlitedb
     let user: User = toJS(signUpModel.user);
 
     console.log('user', user);
@@ -42,7 +43,6 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
         username: user.id,
         salt: undefined
     };
-    console.log('userCredentials 1', userCredentials);
 
     let listener = {
         done: false,
@@ -50,112 +50,193 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
 
     invokeLoader(appStore);
 
-    createPasswordHash(signUpModel.password, userCredentials, notificationAlert, listener)
-        .then((credentials: UserCredentials) => {
+    serviceWorkerThread(() => {
+            createPasswordHash(signUpModel.password, userCredentials,
+                notificationAlert, listener).then(null);
+        },
+        TIME_OUT, 1000,
+        () => {
+            return listener.done;
+        },
+        () => {
+            saveUserWork(userCredentials);
+        }, () => {
+            //do nothing, cuz has already been handled by the hashing function
+        }, functionServiceWorkerThreadsPool
+    );
 
-            console.log('credentials', credentials);
+    function saveUserWork(credentials) {
 
-            let timer = TIME_OUT;
-            let listenerInterval = setInterval(_ => {
-                if (timer >= 0) {
-                    if (listener.done) {
-                        clearInterval(listenerInterval);
-                        work(credentials);
-                    }
-                } else {
-                    if (!listener.done) {
-                        clearInterval(listenerInterval);
-                    }
-                }
-                timer -= 1000;
-            }, 1000);
+        invokeLoader(appStore);
 
-            function work(credentials) {
+        console.log('credentials password_hash', credentials.password_hash);
+        console.log('credentials salt', credentials.salt);
 
-                invokeLoader(appStore);
+        if (isEmptyString(credentials.password_hash) || isEmptyString(credentials.salt)) {
+            notificationCallback(
+                'err',
+                'Sign up failed! Password hashing failed',
+                notificationAlert,
+            );
+            return;
+        }
 
-                console.log('credentials password_hash', credentials.password_hash);
-                console.log('credentials salt', credentials.salt);
-
-                if (isEmptyString(credentials.password_hash) || isEmptyString(credentials.salt)) {
-                    notificationCallback(
-                        'err',
-                        'Sign up failed',
-                        notificationAlert,
-                    );
-                    return;
-                }
-
-                //save user
+        serviceWorkerThread(() => {
                 saveUser(user, notificationAlert);
+            },
+            TIME_OUT, 1000,
+            () => {
+                return appSQLiteDb.transactionSuccess;
+            },
+            () => {
+                showToast('User added!');
+                saveUserCredentialsWork();
+            }, () => {
+                notificationCallback(
+                    'err',
+                    'Sign up failed, cannot save user',
+                    notificationAlert,
+                );
+            }, functionServiceWorkerThreadsPool
+        );
 
-                let timer = TIME_OUT;
-                let userSavedInterval = setInterval(_ => {
-                    if (timer >= 0) {
-                        if (appSQLiteDb.transactionSuccess) {
-                            clearInterval(userSavedInterval);
-                            showToast('User added!');
-                            executeAddCredentials();
-                        }
-                    } else {
-                        if (!appSQLiteDb.transactionSuccess) {
-                            clearInterval(userSavedInterval);
-                            showToast('Failed to add User!');
-                            notificationCallback(
-                                'err',
-                                'User sign up failed',
-                                notificationAlert,
-                            );
-                        }
-                    }
-                    timer -= 1000;
-                }, 1000);
+    }
 
-                //save user credentials
-                function executeAddCredentials() {
+    function saveUserCredentialsWork() {
 
-                    invokeLoader(appStore);
+        invokeLoader(appStore);
 
-                    saveUserCredentials(userCredentials, notificationAlert);
+        serviceWorkerThread(() => {
+                saveUserCredentials(userCredentials, notificationAlert);
+            },
+            TIME_OUT, 1000,
+            () => {
+                return appSQLiteDb.transactionSuccess;
+            },
+            () => {
+                showToast('User credentials added!');
+                notificationCallback(
+                    'succ',
+                    'User signed up!',
+                    notificationAlert,
+                );
+                //some time for alert feedback
+                setTimeout(_ => showLoginForm(), 1500);
+            }, () => {
+                notificationCallback(
+                    'warn',
+                    'Sign up failed, cannot save credentials',
+                    notificationAlert,
+                );
+            }, functionServiceWorkerThreadsPool
+        );
 
-                    let timer = TIME_OUT;
-                    let saveCredentialsListener = setInterval(_ => {
-                        if (timer >= 0) {
-                            if (appSQLiteDb.transactionSuccess) {
-                                clearInterval(saveCredentialsListener);
-                                showToast('User credentials added!');
-                                //ready for next user
-                                //allowing the alert to display
-                                notificationCallback(
-                                    'succ',
-                                    'User signed up',
-                                    notificationAlert,
-                                );
-                                setTimeout(_ => showLoginForm(), 1500);
-                            }
-                        } else {
-                            if (!appSQLiteDb.transactionSuccess) {
-                                clearInterval(saveCredentialsListener);
-                                showToast('Failed to add user credentials!');
-                            }
-                        }
-                        timer -= 1000;
-                    }, 1000);
+    }
 
-                }
-
-            }
-
-        }).catch(err => {
-        console.log('createPasswordHash err', err);
-    });
+    // createPasswordHash(signUpModel.password, userCredentials, notificationAlert, listener)
+    //     .then((credentials: UserCredentials) => {
+    //
+    //         console.log('credentials', credentials);
+    //
+    //         let timer = TIME_OUT;
+    //         let listenerInterval = setInterval(_ => {
+    //             if (timer >= 0) {
+    //                 if (listener.done) {
+    //                     clearInterval(listenerInterval);
+    //                     work(credentials);
+    //                 }
+    //             } else {
+    //                 if (!listener.done) {
+    //                     clearInterval(listenerInterval);
+    //                 }
+    //             }
+    //             timer -= 1000;
+    //         }, 1000);
+    //
+    //         function work(credentials) {
+    //
+    //             invokeLoader(appStore);
+    //
+    //             console.log('credentials password_hash', credentials.password_hash);
+    //             console.log('credentials salt', credentials.salt);
+    //
+    //             if (isEmptyString(credentials.password_hash) || isEmptyString(credentials.salt)) {
+    //                 notificationCallback(
+    //                     'err',
+    //                     'Sign up failed',
+    //                     notificationAlert,
+    //                 );
+    //                 return;
+    //             }
+    //
+    //             //save user
+    //             saveUser(user, notificationAlert);
+    //
+    //             let timer = TIME_OUT;
+    //             let userSavedInterval = setInterval(_ => {
+    //                 if (timer >= 0) {
+    //                     if (appSQLiteDb.transactionSuccess) {
+    //                         clearInterval(userSavedInterval);
+    //                         showToast('User added!');
+    //                         executeAddCredentials();
+    //                     }
+    //                 } else {
+    //                     if (!appSQLiteDb.transactionSuccess) {
+    //                         clearInterval(userSavedInterval);
+    //                         showToast('Failed to add User!');
+    //                         notificationCallback(
+    //                             'err',
+    //                             'User sign up failed',
+    //                             notificationAlert,
+    //                         );
+    //                     }
+    //                 }
+    //                 timer -= 1000;
+    //             }, 1000);
+    //
+    //             //save user credentials
+    //             function executeAddCredentials() {
+    //
+    //                 invokeLoader(appStore);
+    //
+    //                 saveUserCredentials(userCredentials, notificationAlert);
+    //
+    //                 let timer = TIME_OUT;
+    //                 let saveCredentialsListener = setInterval(_ => {
+    //                     if (timer >= 0) {
+    //                         if (appSQLiteDb.transactionSuccess) {
+    //                             clearInterval(saveCredentialsListener);
+    //                             showToast('User credentials added!');
+    //                             //ready for next user
+    //                             //allowing the alert to display
+    //                             notificationCallback(
+    //                                 'succ',
+    //                                 'User signed up',
+    //                                 notificationAlert,
+    //                             );
+    //                             setTimeout(_ => showLoginForm(), 1500);
+    //                         }
+    //                     } else {
+    //                         if (!appSQLiteDb.transactionSuccess) {
+    //                             clearInterval(saveCredentialsListener);
+    //                             showToast('Failed to add user credentials!');
+    //                         }
+    //                     }
+    //                     timer -= 1000;
+    //                 }, 1000);
+    //
+    //             }
+    //
+    //         }
+    //
+    //     }).catch(err => {
+    //     console.log('createPasswordHash err', err);
+    // });
 
 }
 
 export function saveUser(user: User, notificationAlert) {
     console.log('saveUser');
-
-    //save to sqlitedb
 
     let db = APP_SQLITE_DATABASE.DB_REFERENCE;
     appSQLiteDb.transactionSuccess = false;
@@ -164,7 +245,6 @@ export function saveUser(user: User, notificationAlert) {
     try {
 
         appSQLiteDb.addUserStmt(db, user);
-        // saved = appSQLiteDb.transactionSuccess;
 
         notificationCallback(
             'succ',
@@ -182,14 +262,10 @@ export function saveUser(user: User, notificationAlert) {
 
     }
 
-    // return saved;
-
 }
 
 export function saveUserCredentials(userCredentials: UserCredentials, notificationAlert) {
     console.log('saveUserCredentials');
-
-    //save to sqlitedb
 
     let db = APP_SQLITE_DATABASE.DB_REFERENCE;
     appSQLiteDb.transactionSuccess = false;
@@ -227,13 +303,85 @@ export function saveUserCredentials(userCredentials: UserCredentials, notificati
  */
 export function handleLogin(loginForm, notificationAlert, appStore, authStore, navigation) {
 
-    notificationCallback(
-        'info',
-        'Signup Functionality upcoming',
-        notificationAlert,
-    );
+    console.log('handleLogin');
+    console.log('loginForm:', toJS(loginForm));
+    // return;
+
+    queryUser(loginForm.usernameOrEmail, notificationAlert);
+
+    // notificationCallback(
+    //     'info',
+    //     'Signup Functionality upcoming',
+    //     notificationAlert,
+    // );
 
 }
+
+export function queryUser(usernameOrEmail, notificationAlert) {
+
+    console.log('queryUser');
+
+    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
+    appSQLiteDb.transactionSuccess = false;
+    // appSQLiteDb.queryResults = [];
+
+    //put in db
+    try {
+
+        //try first by email
+        appSQLiteDb.getUserByEmailStmt(db, usernameOrEmail)
+            .then(resp => {
+
+                console.log('getUserByEmailStmt', resp);
+                console.log('appSQLiteDb.queryResults', appSQLiteDb.queryResults);
+                if (isEmptyArray(appSQLiteDb.queryResults)) {
+                    executeQueryByUsername();
+                    return;
+                }
+
+                //
+
+            }).catch(err => {
+            console.log('getUserByEmailStmt err', err);
+            showToast('Cannot get user with that email');
+        });
+
+        function executeQueryByUsername() {
+
+            appSQLiteDb.getUserByUsernameStmt(db, usernameOrEmail)
+                .then(resp => {
+
+                    console.log('getUserByUsernameStmt', resp);
+                    console.log('appSQLiteDb.queryResults', appSQLiteDb.queryResults);
+                    if (isEmptyArray(appSQLiteDb.queryResults)) {
+                        //
+                        return;
+                    }
+
+                }).catch(err => {
+                console.log('getUserByUsernameStmt err', err);
+                showToast('Cannot get user with that username');
+            });
+
+        }
+
+        // notificationCallback(
+        //     'succ',
+        //     'User saved',
+        //     notificationAlert,
+        // );
+
+    } catch (err) {
+
+        notificationCallback(
+            'err',
+            'Failed',
+            notificationAlert,
+        );
+
+    }
+
+};
 
 /**
  * sd _ Kaybarax
