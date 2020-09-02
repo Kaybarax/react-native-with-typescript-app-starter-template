@@ -24,7 +24,7 @@ import {handleLogin} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
 import {RegistrationButtonTextCN, UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
-import appNavigation from "../../routing-and-navigation/app-navigation";
+import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 
 export default function LoginForm(props) {
 
@@ -124,11 +124,9 @@ export default function LoginForm(props) {
                 ]}
                 onPress={_ => {
                     //todo: will be done
-                    // notificationCallback('info', 'I can leave this one to you mate! Cheers!',
-                    //     notificationAlert);
-
-                    //test access to recipe box app
-                    appNavigation.loginToRecipeBox(navigation, null);
+                    notificationCallback('info',
+                        'I can leave this one to you mate! Cheers!',
+                        notificationAlert);
                 }}
             >
                 <Text

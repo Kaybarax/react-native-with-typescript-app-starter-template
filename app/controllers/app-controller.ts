@@ -47,22 +47,22 @@ export function serviceWorkerThread(
                                         // and interval is at former length value
     work.call(null);
 
-    //if using arrays to prevent collision
     threadPool.push(
         setInterval(_ => {
-            if (countdown >= 0) {
-                if (isTrue(threadRunComplete.call(null))) {
-                    clearInterval(threadPool[threadIndex]);
-                    onWorkSuccess.call(null);
-                }
+            let done: boolean = threadRunComplete.call(null);
+            console.log('Thread work at -> ', countdown, done)
+            if (isTrue(done)) {
+                clearInterval(threadPool[threadIndex]);
+                onWorkSuccess.call(null);
             } else {
-                if (isFalse(threadRunComplete.call(null))) {
+                //if out of time, terminate
+                if (countdown <= 0) {
                     clearInterval(threadPool[threadIndex]);
                     onWorkFail.call(null);
                 }
             }
             countdown -= timeDown;
-        }, countdown)
+        }, 1000)
     );
 
 }

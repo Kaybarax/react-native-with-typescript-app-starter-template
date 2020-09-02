@@ -13,7 +13,6 @@ import {isEmptyString, isNullUndefined} from '../util/util';
 import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 import {showToast} from '../util/react-native-based-utils';
 
-
 /**
  *
  * @param passwordText
@@ -71,81 +70,62 @@ export function createPasswordHashCallback(resp, userCredentials, notificationAl
 
 }
 
-export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, notificationAlert) {
+export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt,
+                                                notificationAlert, validatePasswordFeedback) {
+  console.log('validatePasswordWithHashAndSalt');
 
-  DeviceEventEmitter.addListener('password_hash_result',
-      (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, notificationAlert));
+  DeviceEventEmitter.addListener('password_validation_result',
+      (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, validatePasswordFeedback));
 
-  AppSecurityModule.validatePasswordWithHashAndSalt(
-      passwordToValidate, hash, salt,
-      (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert));
+  AppSecurityModule.validatePasswordWithHashAndSalt(passwordToValidate, hash, salt,
+      (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert, validatePasswordFeedback),
+  );
 
 }
 
-export function validatePasswordWithHashAndSaltListener(eventResult, notificationAlert) {
+export function validatePasswordWithHashAndSaltListener(eventResult, validatePasswordFeedback) {
+
+  console.log('validatePasswordWithHashAndSaltListener');
+  console.log('\neventResult, ', eventResult,
+      '\nvalidatePassword, ', validatePasswordFeedback,
+  );
 
   if (isEmptyString(eventResult['passwordValidationPassed'])) {
-    notificationCallback(
-        'err',
-        'Validate Password Indeterminate Result',
-        notificationAlert,
-    );
+    showToast(`Validate Password Result Indeterminate`);
+    validatePasswordFeedback.done = true;
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result');
   } else {
     if (eventResult['passwordValidationPassed'] === 'true') {
-      notificationCallback(
-          'succ',
-          'Correct password',
-          notificationAlert,
-      );
-      // todo: what to do next??? -->>> probably login user
+      showToast(`Correct password`);
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
+      validatePasswordFeedback.isValidPassword = true;
     } else if (eventResult['passwordValidationPassed'] === 'false') {
-      notificationCallback(
-          'warn',
-          'Incorrect password',
-          notificationAlert,
-      );
-      // todo: what to do next???
+      showToast(`Incorrect password`);
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     } else {
-      notificationCallback(
-          'err',
-          'Validate Password Indeterminate Result',
-          notificationAlert,
-      );
+      showToast(`Validate Password Result Unknown`);
       //and unregister listener
       DeviceEventEmitter.removeListener('password_validation_result');
     }
+    validatePasswordFeedback.done = true;
   }
 
 }
 
-export function validatePasswordWithHashAndSaltCallback(message, notificationAlert) {
+export function validatePasswordWithHashAndSaltCallback(message, notificationAlert, validatePasswordFeedback) {
   if (message === 'SUCCESS') {
-    notificationCallback(
-        'succ',
-        'Validate password success',
-        notificationAlert,
-    );
+    showToast(`Validate password process successful`);
+    // validatePasswordFeedback.done = true;
   } else if (message === 'FAILURE') {
-    notificationCallback(
-        'warn',
-        'Password failed validation',
-        notificationAlert,
-    );
-    //and unregister listener
+    showToast(`Password validation process failed`);
     DeviceEventEmitter.removeListener('password_validation_result', null);
+    validatePasswordFeedback.done = true;
   } else {
-    notificationCallback(
-        'err',
-        'Cannot perform password validation',
-        notificationAlert,
-    );
-    //and unregister listener
+    showToast(`Cannot perform password validation`);
     DeviceEventEmitter.removeListener('password_validation_result', null);
+    validatePasswordFeedback.done = true;
   }
 }
