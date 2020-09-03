@@ -30,14 +30,14 @@ export function displayFieldExpectationSatisfied(key, model, expectationFunction
  * @param work
  * @param timer
  * @param timeDown
- * @param threadRunComplete
+ * @param threadRunCompletionDeterminant
  * @param onWorkSuccess
  * @param onWorkFail
  * @param threadPool
  */
 export function serviceWorkerThread(
     work: Function, timer: number, timeDown: number,
-    threadRunComplete: Function,
+    threadRunCompletionDeterminant: Function,
     onWorkSuccess: Function, onWorkFail: Function,
     threadPool: Array<any>
 ) {
@@ -49,7 +49,7 @@ export function serviceWorkerThread(
 
     threadPool.push(
         setInterval(_ => {
-            let done: boolean = threadRunComplete.call(null);
+            let done: boolean = threadRunCompletionDeterminant.call(null);
             console.log('Thread work at -> ', countdown, done)
             if (isTrue(done)) {
                 clearInterval(threadPool[threadIndex]);

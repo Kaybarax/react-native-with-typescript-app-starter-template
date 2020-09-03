@@ -25,6 +25,9 @@ import Loader from "./shared-components-and-modules/loaders";
 import NotFound from "./views/not-found";
 import className from "./util/react-native-based-utils";
 import {FlexColumnContainerCN} from "./theme/app-layout-styles-classnames";
+import {serviceWorkerThread} from "./controllers/app-controller";
+import {TIME_OUT} from "./app-config";
+import {isEmptyString} from "./util/util";
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
@@ -43,20 +46,27 @@ const App = () => {
     // console.warn = console.error = console.log = function (message) {};
 
     let [dbLoaded, loadDb] = React.useState(false);
+    let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');
 
     React.useEffect(() => {
 
         console.log('appSQLiteDb.dbLoadedAndInitialized :::: ', appSQLiteDb.dbLoadedAndInitialized);
+
         //init embedded app db
-        appSQLiteDb.loadAndInitDB();
-        let checkDbLoad = setInterval(_ => {
-
-            if (appSQLiteDb.dbLoadedAndInitialized) {
+        serviceWorkerThread(
+            _ => {
+                appSQLiteDb.loadAndInitDB();
+            }, TIME_OUT, 1000,
+            _ => {
+                return appSQLiteDb.dbLoadedAndInitialized;
+            },
+            _ => {
                 loadDb(true);
-                clearInterval(checkDbLoad);
-            }
-
-        }, 1000);
+            },
+            _ => {
+                setDbLoadFeedback('Failed to load app sqlite-db. Restart app to try again.')
+            }, []
+        );
 
     });
 
@@ -70,7 +80,11 @@ const App = () => {
                 ]}
             >
                 <NotFound/>
-                <Loader message={appSQLiteDb.latestProgressUpdate}/>
+                <Loader message={
+                    isEmptyString(dbLoadFeedback) ?
+                        appSQLiteDb.latestProgressUpdate :
+                        dbLoadFeedback
+                }/>
             </RN.ScrollView>
         )
     }
