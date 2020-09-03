@@ -135,7 +135,7 @@ export default function SignUpForm(props) {
             }
             <BlankSpaceDivider/>
             <TouchableOpacity
-                activeOpacity={.2}
+                activeOpacity={.6}
                 style={[
                     className(
                         FlexFluidRowContainerCN),

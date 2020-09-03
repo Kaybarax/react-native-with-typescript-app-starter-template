@@ -97,7 +97,7 @@ export default function PhotoInput(props) {
                         {
                             isEmptyString(photo) &&
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 style={[
                                     {
                                         borderRadius: 50,
@@ -134,7 +134,7 @@ export default function PhotoInput(props) {
                         {
                             !isEmptyString(photo) &&
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 style={[
                                     {
                                         borderRadius: 50,

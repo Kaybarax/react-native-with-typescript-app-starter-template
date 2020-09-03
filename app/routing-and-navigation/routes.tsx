@@ -10,30 +10,31 @@
 import React from "react";
 import {
     _404_VIEW,
-    APP_DEV_MOCKS_SCREEN_VIEW, MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
+    APP_DEV_MOCKS_SCREEN_VIEW,
+    APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
+    APP_DRAWER_NAV_SCREEN_VIEW,
+    APP_TOP_TABS_SCREEN_VIEW,
+    MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_HOME_SCREEN_VIEW,
-    MY_RECIPE_LOGIN_SCREEN_VIEW, MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
+    MY_RECIPE_LOGIN_SCREEN_VIEW,
+    MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
     MY_RECIPE_REQUESTS_SCREEN_VIEW,
     PAGE1EXAMPLE_SCREEN_VIEW,
     PAGE2EXAMPLE_SCREEN_VIEW,
     PAGE3EXAMPLE_SCREEN_VIEW,
     PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
-    PAGE4EXAMPLE_SCREEN_VIEW
+    PAGE4EXAMPLE_SCREEN_VIEW,
+    RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW,
+    RECIPE_BOX_SUB_APP_SCREEN_VIEW
 } from "./views-routes-declarations";
 import {createStackNavigator} from '@react-navigation/stack';
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {createDrawerNavigator} from "@react-navigation/drawer";
 import {makeId} from "../util/util";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createDrawerNavigator} from "@react-navigation/drawer";
+import AppDrawerNavigationContent from "./app-drawer-navigation-content";
 import {SCREEN_WIDTH} from "../App";
-
-//expose names of internal routes, mostly as a result of nested routing,
-//for availability for calls globally
-export const InternalRoutes = {
-    RNAST_HOME: 'RNAST_HOME',
-    MY_RECIPE_TABBING: 'MY_RECIPES_TABBING',
-    MY_APP_SIDEBAR: 'MY_APP_SIDEBAR',
-};
+import {MAIN_BG_COLOR} from "../theme/app-theme";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 
 /**
  * Manifest of all "main activity level" screens _ Kaybarax
@@ -41,90 +42,30 @@ export const InternalRoutes = {
  */
 export default function AppWithRouting() {
 
-    const AppStack = createStackNavigator();
-    const Tab = createMaterialTopTabNavigator();
-    const DefaultTabbedViewsDrawer = createDrawerNavigator();
+    const StackNav = createStackNavigator();
 
-    const defaultViewTabbedViewsRouteMap = [
-        <Tab.Screen
-            name={PAGE1EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE1EXAMPLE_SCREEN_VIEW.screen}
-            key={PAGE1EXAMPLE_SCREEN_VIEW.name}
-        />,
-        <Tab.Screen
-            name={PAGE2EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE2EXAMPLE_SCREEN_VIEW.screen}
-            key={PAGE2EXAMPLE_SCREEN_VIEW.name}
-        />,
-        <Tab.Screen
-            name={PAGE3EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE3EXAMPLE_SCREEN_VIEW.screen}
-            key={PAGE3EXAMPLE_SCREEN_VIEW.name}
-        />,
-        <Tab.Screen
-            name={PAGE4EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE4EXAMPLE_SCREEN_VIEW.screen}
-            key={PAGE4EXAMPLE_SCREEN_VIEW.name}
-        />,
-    ];
-
-    const DefaultViewTabbedViews = () => (
-        <Tab.Navigator
-            children={defaultViewTabbedViewsRouteMap}
-        />
-    );
-
-    const defaultTabbedViewsWithDrawerRouteMap = [
-        <DefaultTabbedViewsDrawer.Screen
-            name={InternalRoutes.RNAST_HOME}
-            component={DefaultViewTabbedViews}
+    const routeMap = [
+        <StackNav.Screen
+            name={APP_DRAWER_NAV_SCREEN_VIEW.name}
+            component={APP_DRAWER_NAV_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
-        <DefaultTabbedViewsDrawer.Screen
-            name={InternalRoutes.MY_APP_SIDEBAR}
-            component={AppDevMocksWithRouting}
-            key={makeId(16)}
-        />,
-        <DefaultTabbedViewsDrawer.Screen
-            name={'My Recipe Sub-app'}
-            component={RecipeBoxAppWithRouting}
-            key={makeId(16)}
-        />
-    ];
-
-    const DefaultTabbedViewsWithDrawer = () => (
-        <DefaultTabbedViewsDrawer.Navigator
-            children={defaultTabbedViewsWithDrawerRouteMap}
-            // drawerContent={ props => {}}
-            drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
-        />
-    );
-
-
-    const appStackRouteMap = [
-        <AppStack.Screen
-            name={InternalRoutes.RNAST_HOME}
-            component={DefaultTabbedViewsWithDrawer}
-            key={makeId(16)}
-        />,
-        <AppStack.Screen
+        <StackNav.Screen
             name={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
             component={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.screen}
-            key={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
+            key={makeId(16)}
         />,
-        <AppStack.Screen
+        <StackNav.Screen
             name={_404_VIEW.name}
             component={_404_VIEW.screen}
-            key={_404_VIEW.name}
+            key={makeId(16)}
         />,
     ];
 
-    //uncomment to run dev mocks only
-    return <AppDevMocksWithRouting/>;
-
     return (
-        <AppStack.Navigator
-            children={appStackRouteMap}
+        <StackNav.Navigator
+            initialRouteName={APP_DRAWER_NAV_SCREEN_VIEW.name}
+            children={routeMap}
             screenOptions={{
                 headerStyle: {
                     backgroundColor: '#f4511e',
@@ -134,7 +75,7 @@ export default function AppWithRouting() {
                     fontWeight: 'bold',
                 },
             }}
-            headerMode={'none'}
+            headerMode={'screen'}
         />
     );
 
@@ -142,45 +83,25 @@ export default function AppWithRouting() {
 
 export function RecipeBoxAppWithRouting() {
 
-    const AppStack = createStackNavigator();
-    const AppTabs = createBottomTabNavigator();
+    const StackNav = createStackNavigator();
 
-    const appTabsRouteMap = [
-        <AppTabs.Screen
-            name={MY_RECIPE_HOME_SCREEN_VIEW.name}
-            component={MY_RECIPE_HOME_SCREEN_VIEW.screen}
-            key={makeId(16)}
-        />,
-        <AppTabs.Screen
-            name={MY_RECIPE_REQUESTS_SCREEN_VIEW.name}
-            component={MY_RECIPE_REQUESTS_SCREEN_VIEW.screen}
-            key={makeId(16)}
-        />,
-    ];
-
-    const AppTabbing = () => (
-        <AppTabs.Navigator
-            children={appTabsRouteMap}
-        />
-    );
-
-    const appStackRouteMap = [
-        <AppStack.Screen
+    const routeMap = [
+        <StackNav.Screen
             name={MY_RECIPE_LOGIN_SCREEN_VIEW.name}
             component={MY_RECIPE_LOGIN_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
-        <AppStack.Screen
-            name={InternalRoutes.MY_RECIPE_TABBING}
-            component={AppTabbing}
+        <StackNav.Screen
+            name={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name}
+            component={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
-        <AppStack.Screen
+        <StackNav.Screen
             name={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name}
             component={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
-        <AppStack.Screen
+        <StackNav.Screen
             name={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name}
             component={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.screen}
             key={makeId(16)}
@@ -188,7 +109,7 @@ export function RecipeBoxAppWithRouting() {
     ];
 
     return (
-        <AppStack.Navigator children={appStackRouteMap}/>
+        <StackNav.Navigator children={routeMap}/>
     );
 
 }
@@ -209,6 +130,106 @@ export function AppDevMocksWithRouting() {
                 component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
             />
         </Stack.Navigator>
+    );
+
+}
+
+export function AppDrawerNavRouting() {
+
+    const DrawerNav = createDrawerNavigator();
+
+    const routeMap = [
+        <DrawerNav.Screen
+            name={APP_TOP_TABS_SCREEN_VIEW.name}
+            component={APP_TOP_TABS_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <DrawerNav.Screen
+            name={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name}
+            component={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <DrawerNav.Screen
+            name={RECIPE_BOX_SUB_APP_SCREEN_VIEW.name}
+            component={RECIPE_BOX_SUB_APP_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />
+    ];
+
+    return (
+        <DrawerNav.Navigator
+            children={routeMap}
+            drawerContent={props => {
+                return (
+                    <AppDrawerNavigationContent {...props}/>
+                );
+            }}
+            drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
+            drawerStyle={{
+                backgroundColor: MAIN_BG_COLOR,
+                width: SCREEN_WIDTH * 0.75,
+            }}
+        />
+    );
+
+}
+
+export function AppTopTabsNavRouting() {
+
+    const TopTabsNav = createMaterialTopTabNavigator();
+
+    const routeMap = [
+        <TopTabsNav.Screen
+            name={PAGE1EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE1EXAMPLE_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <TopTabsNav.Screen
+            name={PAGE2EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE2EXAMPLE_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <TopTabsNav.Screen
+            name={PAGE3EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE3EXAMPLE_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <TopTabsNav.Screen
+            name={PAGE4EXAMPLE_SCREEN_VIEW.name}
+            component={PAGE4EXAMPLE_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+    ];
+
+    return (
+        <TopTabsNav.Navigator
+            children={routeMap}
+        />
+    );
+
+}
+
+export function RecipeBoxBottomTabsRouting() {
+
+    const BottomTabsNav = createBottomTabNavigator();
+
+    const routeMap = [
+        <BottomTabsNav.Screen
+            name={MY_RECIPE_HOME_SCREEN_VIEW.name}
+            component={MY_RECIPE_HOME_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <BottomTabsNav.Screen
+            name={MY_RECIPE_REQUESTS_SCREEN_VIEW.name}
+            component={MY_RECIPE_REQUESTS_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+    ];
+
+    return (
+        <BottomTabsNav.Navigator
+            children={routeMap}
+        />
     );
 
 }

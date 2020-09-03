@@ -35,8 +35,7 @@ import {
     isValidRecipeFormData,
     removeCookingInstruction,
     removeIngredient,
-    submitRecipeClick,
-    updateRecipeClick
+    submitRecipeClick
 } from "../../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -453,7 +452,7 @@ export function CreateEditRecipeForm(props) {
                                                                     {
                                                                         (i === (recipe.ingredients.length - 1)) &&
                                                                         <RN.TouchableOpacity
-                                                                            activeOpacity={.2}
+                                                                            activeOpacity={.6}
                                                                             onPress={
                                                                                 _ => {
                                                                                     addIngredient(recipe);
@@ -488,7 +487,7 @@ export function CreateEditRecipeForm(props) {
                                                                     {
                                                                         (recipe.ingredients.length >= 2) &&
                                                                         <RN.TouchableOpacity
-                                                                            activeOpacity={.2}
+                                                                            activeOpacity={.6}
                                                                             onPress={
                                                                                 _ => {
                                                                                     removeIngredient(recipe, i);
@@ -604,7 +603,7 @@ export function CreateEditRecipeForm(props) {
                                                                 {
                                                                     (i === (recipe.cooking_instructions.length - 1)) &&
                                                                     <RN.TouchableOpacity
-                                                                        activeOpacity={.2}
+                                                                        activeOpacity={.6}
                                                                         onPress={
                                                                             _ => {
                                                                                 addCookingInstruction(recipe);
@@ -637,7 +636,7 @@ export function CreateEditRecipeForm(props) {
                                                                 {
                                                                     (recipe.cooking_instructions.length >= 2) &&
                                                                     <RN.TouchableOpacity
-                                                                        activeOpacity={.2}
+                                                                        activeOpacity={.6}
                                                                         onPress={
                                                                             _ => {
                                                                                 removeCookingInstruction(recipe, i);
@@ -762,7 +761,7 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE) &&
                                                 <RN.TouchableOpacity
-                                                    activeOpacity={.2}
+                                                    activeOpacity={.6}
                                                     onPress={
                                                         _ => {
                                                             Alert.alert('Confirm!',
@@ -852,9 +851,9 @@ export function CreateEditRecipeForm(props) {
                                             {
                                                 (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE) &&
                                                 <RN.TouchableOpacity
-                                                    activeOpacity={.2}
+                                                    activeOpacity={.6}
                                                     onPress={_ => {
-                                                        updateRecipeClick(recipe, null, recipeFormValidityTree, updateFormValidityTree)
+                                                        // updateRecipeClick(recipe, null, recipeFormValidityTree, updateFormValidityTree)
                                                     }}
                                                     style={[
                                                         {

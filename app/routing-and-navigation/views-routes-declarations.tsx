@@ -22,17 +22,20 @@ import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc
 import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/create-edit-recipe/create-edit-recipe-form";
 import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 import RecipeDetails from "../views/recipe-box-sub-app-views/recipe-details";
+import {
+    AppDevMocksWithRouting,
+    AppDrawerNavRouting,
+    AppTopTabsNavRouting,
+    RecipeBoxAppWithRouting,
+    RecipeBoxBottomTabsRouting
+} from "./routes";
 
-////declare the application views for routing
-//the default view on app bootstrap
-export const DEFAULT_SCREEN_VIEW: ViewRoute = {
-    name: 'DEFAULT_SCREEN_VIEW',
-    screen: Page1Example
-};
+/*Declare the application views for routing*/
 
-//and then the other views routes declarations
+/*App primitive views/screens*/
+
 export const PAGE1EXAMPLE_SCREEN_VIEW: ViewRoute = {
-    name: 'Page 1 Example',
+    name: 'PAGE1EXAMPLE_SCREEN_VIEW',
     screen: Page1Example
 };
 
@@ -56,7 +59,7 @@ export const PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW: ViewRoute = {
     screen: Page4SubItemExample
 };
 
-//and then finally the 404 route
+//the 404 route
 export const _404_VIEW: ViewRoute = {
     name: '_404_',
     screen: NotFound
@@ -64,89 +67,69 @@ export const _404_VIEW: ViewRoute = {
 
 // just added for your mocking of scenarios
 export const APP_DEV_MOCKS_SCREEN_VIEW = {
-    name: 'App Dev Scratchpad',
+    name: 'APP_DEV_MOCKS_SCREEN_VIEW',
     screen: WithStoresHoc(AppDevScratchPad, ['authStore', 'appStores'])
 };
 
-//recipe box, example sub-application views
+/*End app primitive views/screens*/
+
+/*App composite views/screens*/
+
+export const APP_DRAWER_NAV_SCREEN_VIEW = {
+    name: 'APP_DRAWER_NAV_SCREEN_VIEW',
+    screen: AppDrawerNavRouting
+};
+
+export const APP_TOP_TABS_SCREEN_VIEW = {
+    name: 'APP_TOP_TABS_SCREEN_VIEW',
+    screen: AppTopTabsNavRouting
+};
+
+export const APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW = {
+    name: 'APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW',
+    screen: AppDevMocksWithRouting
+};
+
+export const RECIPE_BOX_SUB_APP_SCREEN_VIEW = {
+    name: 'RECIPE_BOX_SUB_APP_SCREEN_VIEW',
+    screen: RecipeBoxAppWithRouting
+};
+
+/*End App composite views/screens*/
+
+/*Recipe-Box, example sub-application primitive views/screens*/
 export const MY_RECIPE_LOGIN_SCREEN_VIEW: ViewRoute = {
-    name: 'MY RECIPE LOGIN',
+    name: 'MY_RECIPE_LOGIN_SCREEN_VIEW',
     screen: LoginActivity
 };
 
 export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
-    name: 'MY RECIPE HOME',
+    name: 'MY_RECIPE_HOME_SCREEN_VIEW',
     screen: RecipeHomeActivity
 };
 
 export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
-    name: 'RECIPE DETAILS',
+    name: 'MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW',
     screen: WithStoresHoc(RecipeDetails, ['recipeBoxStore', 'appStore'])
 };
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {
-    name: 'CREATE-EDIT RECIPE',
+    name: 'MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW',
     screen: CreateEditRecipeFormActivity
 };
 
 export const MY_RECIPE_REQUESTS_SCREEN_VIEW: ViewRoute = {
-    name: 'RECIPE REQUESTS',
+    name: 'MY_RECIPE_REQUESTS_SCREEN_VIEW',
     screen: RecipeRequests
 };
 
+/*End Recipe-Box, example sub-application primitive views/screens*/
 
-/**
- * sd _ Kaybarax
- * @param fromState
- * @param toState
- * @returns {Promise}
- */
-// const onAccessSecuredActivityCheckIfAuthenticated = async (fromState, toState, rootStore) => {
-//   const {
-//     authStore
-//   } = rootStore;
-//
-//   let isAuthenticated = await authStore
-//       .isAuthenticated()
-//       .then((isAuthenticated) => {
-//         return isAuthenticated;
-//       });
-//
-//   if (isAuthenticated) {
-//     return Promise.resolve();
-//   } else {
-//     //grab the state/view/page that navigation towards was attempted,
-//     //so that on return after authentication, the user can still be routed to the intended page
-//     authStore.setSignInRedirect(toState);
-//     //then sent the user to first get authenticated before access is allowed
-//     return Promise.reject(new RouterState(DEFAULT_SCREEN_VIEW.routeName));
-//   }
-// };
+/*Recipe-Box, example sub-application composite views/screens*/
 
-/**
- * Redirect a user to the logged-in-app page if they are already logged in
- * and trying to access the login page
- * @returns {*}
- * by kevinbbarasa
- */
-// const redirectIfLoggedIn = async (fromState, toState, rootStore) => {
-//   const {
-//     authStore
-//   } = rootStore;
-//
-//   let isAuthenticated = await authStore
-//       .isAuthenticated()
-//       .then((isAuthenticated) => {
-//         return isAuthenticated;
-//       });
-//
-//   if (isAuthenticated) {
-//     return Promise.reject(new RouterState(PAGE1EXAMPLE_SCREEN_VIEW.routeName));
-//   } else {
-//     //grab the state/view/page that navigation towards was attempted,
-//     //so that on return after authentication, the user can still be routed to the intended page
-//     authStore.setSignInRedirect(toState);
-//     //then sent the user to first get authenticated before access is allowed
-//     return Promise.reject(new RouterState(DEFAULT_SCREEN_VIEW.routeName));
-//   }
-// };
+export const RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW = {
+    name: 'RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW',
+    screen: RecipeBoxBottomTabsRouting
+};
+
+/*End Recipe-Box, example sub-application composite views/screens*/

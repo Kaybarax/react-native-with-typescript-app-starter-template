@@ -9,22 +9,26 @@
 
 import {isEmptyObject, isNullUndefined} from '../util/util';
 import {
+    APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
+    APP_TOP_TABS_SCREEN_VIEW,
     MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
+    MY_RECIPE_LOGIN_SCREEN_VIEW,
     MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
     PAGE1EXAMPLE_SCREEN_VIEW,
     PAGE2EXAMPLE_SCREEN_VIEW,
     PAGE3EXAMPLE_SCREEN_VIEW,
     PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
-    PAGE4EXAMPLE_SCREEN_VIEW
+    PAGE4EXAMPLE_SCREEN_VIEW,
+    RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW,
+    RECIPE_BOX_SUB_APP_SCREEN_VIEW
 } from "./views-routes-declarations";
-import {InternalRoutes} from "./routes";
-import {toJS} from "mobx";
 
 /**
  * sd _ Kaybarax
  * NOTE1: THERE IS NO 'NAVIGATE TO DEFAULT' FOR THIS TEMPLATE FRAMEWORK, BECAUSE
  * THAT WOULD BE NAVIGATING TO LOGIN PAGE, AND THAT IS HANDLED BY LOGOUT LOGIC FROM 'AUTH-STORE'
- * NOTE2: HERE, NAVIGATION IS USING ".navigate(...) and .goBack()" BECAUSE THAT IS NAVIGATION FUNCTION PROVIDED BY
+ * NOTE2: HERE, NAVIGATION IS USING ".navigate(...) and .goBack()" BECAUSE
+ * THAT IS NAVIGATION FUNCTION PROVIDED BY
  * REACT-NAVIGATION IN USE HERE! REPLACE WITH APPROPRIATE NAVIGATION FUNCTION IF USING ANOTHER
  * ROUTER IN OF YOUR CHOICE. LOGIC REMAINS THE SAME
  */
@@ -74,15 +78,26 @@ export class AppNavigation {
         }
     }
 
-    navigateBack = (navigator, navStore, navParams = null) => {
+    navigateBack = (navigator, navStore, navParams: object | any = null) => {
         console.log('navigator, navParams, appNav \n',
             navigator, navParams, navStore)
         if (isNullUndefined(navStore?.navigatedFrom)) {
             return;
+        } else {
+            //todo: complete nav back logic
         }
     }
 
-    navigateToHome = (navigator, navParams = null) => {
+    navigateToHome = (navigator, navParams: object | any = null) => {
+        this.navigate(
+            navigator,
+            APP_TOP_TABS_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
+
+    navigateToPage1Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
             PAGE1EXAMPLE_SCREEN_VIEW.name,
@@ -91,7 +106,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage2Example = (navigator, navParams = null) => {
+    navigateToPage2Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
             PAGE2EXAMPLE_SCREEN_VIEW.name,
@@ -100,7 +115,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage3Example = (navigator, navParams = null) => {
+    navigateToPage3Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
             PAGE3EXAMPLE_SCREEN_VIEW.name,
@@ -109,7 +124,7 @@ export class AppNavigation {
         );
     }
 
-    navigateToPage4Example = (navigator, navParams = null) => {
+    navigateToPage4Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
             PAGE4EXAMPLE_SCREEN_VIEW.name,
@@ -127,29 +142,49 @@ export class AppNavigation {
         );
     }
 
-    loginToRecipeBox = (navigator, navParams = null) => {
-        console.log('\nnavigator', navigator);
-        console.log('\nnavParams', navParams);
+    navigateToAppDevScratchPad = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            InternalRoutes.MY_RECIPE_TABBING,
+            APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name,
             this.navigatedTo,
             navParams
         );
-        console.log('\nnavStore', toJS(this.navStore));
+    }
+
+    navigateToRecipeBoxSubApplication = (navigator, navParams: object | any = null) => {
+        this.navigate(
+            navigator,
+            RECIPE_BOX_SUB_APP_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
+
+    navigateToRecipeBoxLogin = (navigator, navParams: object | any = null) => {
+        this.navigate(
+            navigator,
+            MY_RECIPE_LOGIN_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
+    }
+
+    navigateToRecipeBoxHome = (navigator, navParams: object | any = null) => {
+        this.navigate(
+            navigator,
+            RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name,
+            this.navigatedTo,
+            navParams
+        );
     }
 
     navigateToRecipeDetails = (navigator, navParams: object | any = null) => {
-        console.log('\nnavigateToRecipeDetails\n\n');
-        console.log('\nnavigator', navigator);
-        console.log('\nnavParams', navParams);
         this.navigate(
             navigator,
             MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name,
             this.navigatedTo,
             navParams
         );
-        console.log('\nnavStore', toJS(this.navStore));
     }
 
     navigateToCreateEditRecipe = (navigator, navParams: object | any = null) => {

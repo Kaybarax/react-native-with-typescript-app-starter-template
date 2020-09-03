@@ -23,11 +23,12 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import {
     isEmptyArray,
-    isEmptyString, isNullUndefined,
+    isEmptyString,
     isTrue,
     localeDateStringFormatFromDatetime,
     localeTimeStringFormatFromDatetime,
-    makeId, numberItem
+    makeId,
+    numberItem
 } from "../../util/util";
 import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
 import {SCREEN_HEIGHT} from "../../App";
@@ -380,7 +381,7 @@ export default function RecipeDetails(props) {
                         >
 
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     recipeBoxStore.viewAction = null;
                                     appNavigation.navigateBack(navigation, navStore)
@@ -397,7 +398,7 @@ export default function RecipeDetails(props) {
                             </RN.TouchableOpacity>
 
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     // editRecipeClick(this, recipe);
                                 }}
@@ -413,7 +414,7 @@ export default function RecipeDetails(props) {
                             </RN.TouchableOpacity>
 
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     // deleteRecipe(recipe, this);
                                 }}

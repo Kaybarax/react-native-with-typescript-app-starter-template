@@ -86,7 +86,7 @@ export default function RnMultiSelectKaybarax(props) {
         >
 
             <RN.TouchableOpacity
-                activeOpacity={.2}
+                activeOpacity={.6}
                 onPress={openMultiSelectDialog}
                 style={[
                     className(
@@ -100,7 +100,7 @@ export default function RnMultiSelectKaybarax(props) {
             >
 
                 <RN.TouchableOpacity
-                    activeOpacity={.2}
+                    activeOpacity={.6}
                     onPress={openMultiSelectDialog}
                     style={[
                         className(
@@ -182,7 +182,7 @@ export default function RnMultiSelectKaybarax(props) {
                                     </RN.View>
 
                                     <RN.TouchableOpacity
-                                        activeOpacity={.2}
+                                        activeOpacity={.6}
                                         style={[
                                             {
                                                 backgroundColor: "#FFFFFF",
@@ -218,7 +218,7 @@ export default function RnMultiSelectKaybarax(props) {
                         {
                             isEmptyArray(state.selectedItems) &&
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 style={[
                                     className(
                                         FlexContainerChildItemFullWidthCN
@@ -286,7 +286,7 @@ export default function RnMultiSelectKaybarax(props) {
                                                             backgroundColor: `${(i % 2) === 0 ? "#FFFFFF" : "#ADBECF"}`
                                                         }
                                                     ]}
-                                                    activeOpacity={.2}
+                                                    activeOpacity={.6}
                                                     onPress={boundOnPress}
                                                     key={makeId(16)}
                                                 >
@@ -358,7 +358,7 @@ export default function RnMultiSelectKaybarax(props) {
                                             borderRadius: 15,
                                         }
                                     ]}
-                                    activeOpacity={.2}
+                                    activeOpacity={.6}
                                     onPress={closeDropdown}
                                 >
                                     <RN.Text
@@ -385,7 +385,7 @@ export default function RnMultiSelectKaybarax(props) {
                 </RN.TouchableOpacity>
 
                 <RN.TouchableOpacity
-                    activeOpacity={.2}
+                    activeOpacity={.6}
                     style={[
                         {
                             backgroundColor: MAIN_BG_COLOR,
@@ -482,7 +482,7 @@ export default function RnMultiSelectKaybarax(props) {
                                               </RN.View>
 
                                               <RN.TouchableOpacity
-                                                  activeOpacity={.2}
+                                                  activeOpacity={.6}
                                                   style={[
                                                       {
                                                           backgroundColor: "#FFFFFF",

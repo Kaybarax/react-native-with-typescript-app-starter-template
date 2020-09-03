@@ -124,7 +124,7 @@ function Login(props) {
                             >
 
                                 <TouchableOpacity
-                                    activeOpacity={.2}
+                                    activeOpacity={.6}
                                     style={[
                                         className(
                                             FlexContainerChildItemFullWidthCN,

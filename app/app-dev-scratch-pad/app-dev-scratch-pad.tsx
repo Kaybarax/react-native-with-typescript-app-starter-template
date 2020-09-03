@@ -238,7 +238,7 @@ export default function AppDevScratchPad(props) {
                     >
 
                         <RN.TouchableOpacity
-                            activeOpacity={.2}
+                            activeOpacity={.6}
                             style={[
                                 className(FlexContainerChildItemFullWidthCN),
                                 {

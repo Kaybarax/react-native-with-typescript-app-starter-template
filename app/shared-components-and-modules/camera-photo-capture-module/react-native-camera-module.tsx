@@ -153,7 +153,7 @@ export default function ReactNativeCameraModule(props) {
                               ]}
                           >
                             <TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     setCapturedImage(imagePreview);
                                     hideCameraModal();
@@ -191,7 +191,7 @@ export default function ReactNativeCameraModule(props) {
                             </TouchableOpacity>
                             <Spacer spaces={5}/>
                             <TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     cameraModuleProps.imagePreview = null;
                                     updateCameraModuleProps(cameraModuleProps);
@@ -289,7 +289,7 @@ export default function ReactNativeCameraModule(props) {
                                         ]}
                                     >
                                         <TouchableOpacity
-                                            activeOpacity={.2}
+                                            activeOpacity={.6}
                                             onPress={_ => {
                                                 showToast('Capturing photo...', 'short');
                                                 takePicture(camera).then(null);

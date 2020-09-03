@@ -82,7 +82,7 @@ export default function LoginForm(props) {
             />
             <BlankSpaceDivider/>
             <TouchableOpacity
-                activeOpacity={.2}
+                activeOpacity={.6}
                 style={[
                     className(
                         FlexFluidRowContainerCN,
@@ -115,7 +115,7 @@ export default function LoginForm(props) {
             </TouchableOpacity>
             <BlankSpaceDivider height={25}/>
             <TouchableOpacity
-                activeOpacity={.2}
+                activeOpacity={.6}
                 style={[
                     className(
                         FlexContainerChildItemFullWidthCN,

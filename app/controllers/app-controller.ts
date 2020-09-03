@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isFalse, isNullUndefined, isTrue, objectKeyExists} from "../util/util";
+import {isNullUndefined, isTrue, objectKeyExists} from "../util/util";
 import {TIME_OUT} from "../app-config";
 
 /**
@@ -62,7 +62,7 @@ export function serviceWorkerThread(
                 }
             }
             countdown -= timeDown;
-        }, 1000)
+        }, timeDown)
     );
 
 }

@@ -272,7 +272,7 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
     // );
 
     showToast('Login success');
-    appNavigation.loginToRecipeBox(navigation, null);
+    appNavigation.navigateToRecipeBoxHome(navigation, null);
 
 }
 

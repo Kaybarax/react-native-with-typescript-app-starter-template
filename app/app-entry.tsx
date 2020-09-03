@@ -18,8 +18,8 @@ function AppEntry() {
     return (
         <NavigationContainer>
             <StatusBar barStyle="dark-content"/>
-            {/*<AppWithRouting />*/}
-            <RecipeBoxAppWithRouting/>
+            <AppWithRouting />
+            {/*<RecipeBoxAppWithRouting/>*/}
         </NavigationContainer>
     );
 }

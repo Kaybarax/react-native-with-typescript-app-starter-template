@@ -200,7 +200,7 @@ export default function RecipeListItemCard(props) {
                         >
 
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     // viewRecipeFullDetailsClick({
                                     //         recipe, recipePhotos
@@ -231,7 +231,7 @@ export default function RecipeListItemCard(props) {
 
 
                             <RN.TouchableOpacity
-                                activeOpacity={.2}
+                                activeOpacity={.6}
                                 onPress={_ => {
                                     // editRecipeClick(this, recipe);
                                 }}

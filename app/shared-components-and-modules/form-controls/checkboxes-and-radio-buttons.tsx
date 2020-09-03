@@ -63,7 +63,7 @@ export function Checkbox(props) {
                 }}
             />
             <RN.TouchableOpacity
-                activeOpacity={.2}
+                activeOpacity={.6}
                 style={[
                     {
                         marginTop: 5
