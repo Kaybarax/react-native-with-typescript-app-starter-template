@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isEmptyObject, isNullUndefined} from '../util/util';
+import {isNullUndefined} from '../util/util';
 import {
     APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
     APP_TOP_TABS_SCREEN_VIEW,
@@ -22,6 +22,8 @@ import {
     RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW,
     RECIPE_BOX_SUB_APP_SCREEN_VIEW
 } from "./views-routes-declarations";
+import {toJS} from "mobx";
+import {showToast} from "../util/react-native-based-utils";
 
 /**
  * sd _ Kaybarax
@@ -36,30 +38,41 @@ export class AppNavigation {
 
     navigatedToParams = null;
     navigatedTo = null;
-    navigatedFrom = null;
+    navigatedFrom: string | any = null;
     navStore = null;
 
-    navigate = (navigator, navTo, navFrom: string | any = this.navigatedTo,
-                navParams: object | any = null, goingBack = false) => {
+    navigate = (navigator, navTo, navParams: object | any = null,
+                goingBack = false) => {
 
-        this.navigatedFrom = navFrom;
+        this.navigatedFrom = this.navigatedTo || 'home';
         this.navigatedTo = navTo;
+
+        if (!isNullUndefined(navParams)) {
+            this.navigatedToParams = navParams;
+        }
+
+        if (goingBack) {
+            this.navigatedFrom = null;
+            if (!isNullUndefined(this.navigatedToParams)) {
+                navigator.goBack();
+            } else {
+                //clear any previous navigation params
+                this.navigatedToParams = null;
+                navigator.goBack();
+            }
+        } else {
+            if (!isNullUndefined(this.navigatedToParams)) {
+                navigator.navigate(this.navigatedTo, this.navigatedToParams);
+            } else {
+                //clear any previous navigation params
+                this.navigatedToParams = null;
+                navigator.navigate(this.navigatedTo);
+            }
+        }
 
         //trail navigation
         if (!isNullUndefined(this.navStore)) {
             this.trailNavigation(goingBack, this.navStore);
-        }
-
-        //continue with navigation
-        if (goingBack) {
-            navigator.goBack();
-        }
-        if (!isEmptyObject(navParams)) {
-            this.navigatedToParams = navParams;
-            navigator.navigate(this.navigatedTo, navParams);
-        } else {
-            this.navigatedToParams = null;//clear any previous navigation params
-            navigator.navigate(this.navigatedTo);
         }
 
     };
@@ -71,20 +84,28 @@ export class AppNavigation {
         }
         if (goingBack) {
             //remove whence come from
-            navStore.navigationTrail.splice((navStore.currentNavigationTrailIndex + 1), 1);
+            navStore.navigationTrail.splice((navStore.currentNavigationTrailIndex), 1);
+            navStore.navigatedFrom = this.navigatedFrom;//should be null, if all works correctly
         } else {
             navStore.navigationTrail.push(this.navigatedTo);
             navStore.currentNavigationTrailIndex = navStore.navigationTrail.length - 1;
+            navStore.navigatedTo = this.navigatedTo;
+            navStore.navigatedFrom = this.navigatedFrom;
         }
     }
 
-    navigateBack = (navigator, navStore, navParams: object | any = null) => {
-        console.log('navigator, navParams, appNav \n',
-            navigator, navParams, navStore)
-        if (isNullUndefined(navStore?.navigatedFrom)) {
+    navigateBack = (navigator, navParams: object | any = null) => {
+        console.log('this.navStore', toJS(this.navStore));
+        if (isNullUndefined(this.navStore?.['navigatedFrom'])) {
+            showToast('Cannot determine where to return!', 'long');
             return;
         } else {
-            //todo: complete nav back logic
+            this.navigate(
+                navigator,
+                this.navigatedFrom,
+                navParams,
+                true
+            );
         }
     }
 
@@ -92,7 +113,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             APP_TOP_TABS_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -101,7 +121,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             PAGE1EXAMPLE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -110,7 +129,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             PAGE2EXAMPLE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -119,7 +137,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             PAGE3EXAMPLE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -128,16 +145,14 @@ export class AppNavigation {
         this.navigate(
             navigator,
             PAGE4EXAMPLE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
 
-    navigateToPage4SubItemExample = (navigator, navParams = null) => {
+    navigateToPage4SubItemExample = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
             PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -146,7 +161,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -155,7 +169,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             RECIPE_BOX_SUB_APP_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -164,7 +177,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             MY_RECIPE_LOGIN_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -173,7 +185,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -182,7 +193,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }
@@ -191,7 +201,6 @@ export class AppNavigation {
         this.navigate(
             navigator,
             MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name,
-            this.navigatedTo,
             navParams
         );
     }

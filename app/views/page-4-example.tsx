@@ -8,19 +8,21 @@
  */
 
 import React from "react";
-import {inject, observer} from "mobx-react";
-import {isEmptyArray} from "../util/util";
+import {isEmptyArray, makeId} from "../util/util";
 import {SOs_and_Credits_List} from "../app-management/data-manager/list-manager";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Image, Text, View} from "react-native";
 import {
-    AlignCenterContentCN,
+    AlignCenterTextCN,
     AlignLeftFlexContainerContentCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
+import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
+import {BlankSpaceDivider, NewLine, Spacer} from "../shared-components-and-modules/shared-components";
+import {BoldTextCN, ItalicizedTextCN, LinkText} from "../theme/app-text-styles-classnames";
 
 function Page4Example(props) {
 
@@ -51,7 +53,7 @@ function Page4Example(props) {
                     <Text
                         style={[
                             className(FlexContainerChildItemFullWidthCN,
-                                AlignCenterContentCN)
+                                AlignCenterTextCN)
                         ]}
                     >
                         Page 4 Example : About me, and S/Os and credits
@@ -89,125 +91,223 @@ function Page4Example(props) {
                                 ]}
                             >
                                 <Text
+                                    style={[]}
                                     // strong
-                                >About me:</Text><Text>{'\n'}</Text>
+                                >About me:</Text>
+                                <NewLine lines={3}/>
                                 Hi. I'm Kevin Barasa. A full stack software engineer currently based in my hometown
                                 and&nbsp;
-                                country, Nairobi, Kenya. At this time of this build and writing (May, 2020), I have 3
+                                country, Nairobi, Kenya. At this time of this build and writing (September, 2020), I have 3
                                 and&nbsp;a half years of professional (hired) software engineering experience, and 5 to
                                 6 yrs
                                 of&nbsp;
                                 total software engineering experience, both professionally and
-                                personally.<Text>{'\n'}</Text>
+                                personally.
+                                <NewLine lines={3}/>
                                 I'm especially, particularly well versed with
                                 <Text
-                                    // i
+                                    style={[
+                                        className(
+                                            ItalicizedTextCN
+                                        )
+                                    ]}
                                 >Java</Text>,
                                 <Text
-                                    // i
-                                >SQL
-                                    (MySQL/OracleSQL)</Text>,&nbsp;
+                                    style={[
+                                        className(
+                                            ItalicizedTextCN
+                                        )
+                                    ]}
+                                >SQL (MySQL/OracleSQL)</Text>,&nbsp;
                                 <Text
-                                    // i
+                                    style={[
+                                        className(
+                                            ItalicizedTextCN
+                                        )
+                                    ]}
                                 >Javascript and web technologies</Text>,
                                 <Text
-                                    // i
-                                >Mobile app development with React Native and
-                                    Android</Text>,&nbsp;
+                                    style={[
+                                        className(
+                                            ItalicizedTextCN
+                                        )
+                                    ]}
+                                >
+                                    Mobile app development with React Native and Android</Text>,&nbsp;
                                 and I have, and can as well work with other languages and technologies like&nbsp;
                                 <Text
-                                    // i
+                                    style={[
+                                        className(
+                                            ItalicizedTextCN
+                                        )]}
                                 >Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud</Text>.
-                                <Text>{'\n'}</Text><Text>{'\n'}</Text>
+                                <NewLine lines={3}/>
 
-                                <Text>Let's connect:</Text><Text>{'\n'}</Text>
-                                LinkedIn:
-                                <Text
-                                    // href={'https://linkedin.com/in/kaybarax'} target={'_blank'}
-                                >Kevin Barasa
-                                    (kaybarax)</Text><Text>{'\n'}</Text>
-                                Github:
-                                <Text
-                                    // href={'https://github.com/Kaybarax'} target={'_blank'}
-                                >Kaybarax</Text><Text>{'\n'}</Text>
-                                Twitter:
-                                <Text
-                                    // href={'https://twitter.com/Kaybarax'} target={'_blank'}
-                                >Kaybarax</Text>
-                                <Text>{'\n'}</Text><Text>{'\n'}</Text>
-
-                                <Text
-                                    // strong
-                                >Shout out's and credits:</Text><Text>{'\n'}</Text>
-
-                                <React.Fragment
-                                    //className="flex-column-container"
+                                <Text>Let's connect:</Text>
+                                <NewLine lines={3}/>
+                                <RN.Pressable
+                                    style={[
+                                        className(
+                                            FlexFluidRowContainerCN
+                                        )
+                                    ]}
+                                    onPress={_ => {
+                                        RN.Linking.openURL('https://linkedin.com/in/kaybarax').then(null);
+                                    }}
                                 >
-                                    {
-                                        !isEmptyArray(SOs_and_Credits_List) &&
-                                        SOs_and_Credits_List.map((item, i) => {
+                                    <RN.Text>
+                                        LinkedIn:
+                                    </RN.Text>
+                                    <Spacer/>
+                                    <Text
+                                        style={[
+                                            className(
+                                                LinkText
+                                            )
+                                        ]}
+                                    >
+                                        Kevin Barasa (kaybarax)
+                                    </Text>
+                                </RN.Pressable>
+                                <NewLine lines={3}/>
+                                <RN.Pressable
+                                    style={[
+                                        className(
+                                            FlexFluidRowContainerCN
+                                        )
+                                    ]}
+                                    onPress={_ => {
+                                        RN.Linking.openURL('https://github.com/Kaybarax').then(null);
+                                    }}
+                                >
+                                    <RN.Text>
+                                        Github:
+                                    </RN.Text>
+                                    <Spacer/>
+                                    <Text
+                                        style={[
+                                            className(
+                                                LinkText
+                                            )
+                                        ]}
+                                    >
+                                        Kaybarax
+                                    </Text>
+                                </RN.Pressable>
+                                <NewLine lines={3}/>
+                                <RN.Pressable
+                                    style={[
+                                        className(
+                                            FlexFluidRowContainerCN
+                                        )
+                                    ]}
+                                    onPress={_ => {
+                                        RN.Linking.openURL('https://twitter.com/Kaybarax').then(null);
+                                    }}
+                                >
+                                    <RN.Text>
+                                        Twitter:
+                                    </RN.Text>
+                                    <Spacer/>
+                                    <Text
+                                        style={[
+                                            className(
+                                                LinkText
+                                            )
+                                        ]}
+                                    >
+                                        Kaybarax
+                                    </Text>
+                                </RN.Pressable>
+                                <NewLine lines={3}/>
 
-                                            return (
-                                                <View key={i}
-                                                    //className="flex-container-child-item-full-width"
+                                <Text
+                                    style={[
+                                        className(
+                                            BoldTextCN
+                                        )
+                                    ]}
+                                >Shout out's and credits:</Text>
+                                <NewLine lines={1}/>
+
+                                {
+                                    !isEmptyArray(SOs_and_Credits_List) &&
+                                    SOs_and_Credits_List.map(item => {
+
+                                        return (
+                                            <View
+                                                key={makeId(16)}
+                                                style={[]}
+                                            >
+                                                <View
+                                                    style={[]}
                                                 >
                                                     <View
-                                                        //className="flex-fluid-row-container"
+                                                        style={[]}
                                                     >
+                                                        <BlankSpaceDivider/>
                                                         <View
-                                                            //className="flex-container-child-item-one-quarter-width"
+                                                            style={[]}
                                                         >
-                                                            <View
-                                                                //className=""
-                                                            >
+                                                            <View>
+                                                                <Image
+                                                                    source={require('../media/images/image.png')}
+                                                                    style={{
+                                                                        width: 96,
+                                                                        height: 96,
+                                                                    }}
+                                                                />
+                                                                <BlankSpaceDivider/>
                                                                 <View>
-                                                                    <Image
-                                                                        source={require('../media/images/image.png')}
-                                                                        // alt={'alt'}
-                                                                        style={{
-                                                                            width: 96,
-                                                                            height: 96,
+                                                                    <RN.Pressable
+                                                                        onPress={_ => {
+                                                                            _viewAttributedPersonDetails(item.person);
                                                                         }}
-                                                                    />
-                                                                    <View>
+                                                                    >
                                                                         <Text
-                                                                            // href={item.links[0].link}
-                                                                            // target={'_blank'}
-                                                                            // onPress={_ => _viewAttributedPersonDetails( item.person)}
+                                                                            style={[
+                                                                                className(
+                                                                                    LinkText,
+                                                                                    BoldTextCN
+                                                                                )
+                                                                            ]}
                                                                         >
                                                                             {item.person}
                                                                         </Text>
-                                                                    </View>
+                                                                    </RN.Pressable>
                                                                 </View>
                                                             </View>
                                                         </View>
-                                                        <View
-                                                            //className="flex-container-child-item-one-quarter-width"
+                                                    </View>
+                                                    <BlankSpaceDivider/>
+                                                    <View
+                                                        style={[]}
+                                                    >
+                                                        <RN.TouchableOpacity
+                                                            activeOpacity={.6}
+                                                            style={[]}
+                                                            onPress={_ => {
+                                                                _viewAttributedPersonDetails(item.person)
+                                                            }}
                                                         >
-                                                            <View
-                                                                //className=""
-                                                            >
-                                                                <Text>A little about {item.person}, click to view full
-                                                                    details</Text>
-                                                                <Image
-                                                                    source={require('../media/images/short-paragraph.png')}
-                                                                    // alt={'alt'}
-                                                                    style={{
-                                                                        width: 520,
-                                                                        height: 84,
-                                                                    }}
-                                                                    // onPress={e => _viewAttributedPersonDetails(e, item.person)}
-                                                                />
-                                                            </View>
-                                                        </View>
+                                                            <Text>A little about {item.person}, click to view full
+                                                                details</Text>
+                                                            <Image
+                                                                source={require('../media/images/short-paragraph.png')}
+                                                                style={{
+                                                                    width: 520,
+                                                                    height: 84,
+                                                                }}
+                                                            />
+                                                        </RN.TouchableOpacity>
                                                     </View>
                                                 </View>
-                                            );
+                                            </View>
+                                        );
 
-                                        })
-                                    }
-
-                                </React.Fragment>
+                                    })
+                                }
+                                <NewLine/>
 
                             </Text>
                         </RN.View>
@@ -220,4 +320,5 @@ function Page4Example(props) {
 
 }
 
-export default (inject('authStore', 'appStore')(observer(Page4Example)));
+const Page4ExampleView = WithStoresHoc(Page4Example, ['authStore', 'appStore']);
+export default Page4ExampleView;

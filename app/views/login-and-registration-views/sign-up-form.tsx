@@ -21,8 +21,8 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import {handleSignUp} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
-import {RegistrationButtonTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
+import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function SignUpForm(props) {
 
@@ -160,7 +160,8 @@ export default function SignUpForm(props) {
                         className(
                             FlexContainerChildItemFullWidthCN,
                             AlignCenterTextCN,
-                            RegistrationButtonTextCN),
+                            RegistrationButtonTextCN
+                        ),
                     ]}
                 >Sign Up</Text>
             </TouchableOpacity>

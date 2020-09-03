@@ -27,7 +27,7 @@ export const RECIPE_BOX_STORE_NAME = 'RECIPE_BOX_STORE_NAME';
 export function ActivityStoreSchema(namespace, name) {
   this.storeSchema = {
     storeName: name,
-    storeKey: !isEmptyString(namespace) ? namespace + name : '___'+name,
+    storeKey: !isEmptyString(namespace) ? namespace + name : '___' + name,
     loading: false,
     updated: false,
     loadingMessage: 'Loading...',
@@ -47,7 +47,9 @@ export function AppActivitySchema(namespace, name) {
   schema.user = null;
   schema.navStore = {
     navigationTrail: [],
-    currentNavigationTrailIndex: 0
+    currentNavigationTrailIndex: 0,
+    navigatedTo: null,
+    navigatedFrom: null,
   };
   // console.log('AppActivitySchema::', this.storeSchema)
   return this.storeSchema;
@@ -128,7 +130,7 @@ export function Page3ExampleActivitySchema(namespace, name) {
   schema.todo = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log('Page3ExampleActivitySchema::', this.storeSchema)
-  return this.storeSchema
+  return this.storeSchema;
 }
 
 /**

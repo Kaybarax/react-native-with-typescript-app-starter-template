@@ -8,30 +8,43 @@
  */
 
 import React from "react";
-import {inject, observer} from "mobx-react";
-import {isEmptyArray, isNullUndefined, makeId} from "../util/util";
+import {isEmptyArray, isNullUndefined, localeDateStringFormatFromDatetime, makeId} from "../util/util";
 import {SOs_and_Credits_List} from "../app-management/data-manager/list-manager";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faCoffee} from '@fortawesome/free-solid-svg-icons'
-import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Image, Text} from "react-native";
 import {
     AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN,
+    AlignCenterTextCN,
+    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
+import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
+import {SCREEN_HEIGHT} from "../App";
+import appNavigation from "../routing-and-navigation/app-navigation";
+import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
+import {NegativeButtonCN, NegativeButtonTextCN} from "../theme/component-themes";
+import {LinkText} from "../theme/app-text-styles-classnames";
 
 function Page4SubItemExample(props) {
 
+    console.log('Page4SubItemExample')
+    console.log('Page4SubItemExample props', props);
+
     const {
-        params
+        route: {params}, navigation
     } = props;
 
     let {item} = params;
     let person = SOs_and_Credits_List.find(it => it.person === item);
+
+    // RN.BackHandler.addEventListener('hardwareBackPress', () : boolean => {
+    //     appNavigation.navigateBack(navigation);
+    //     return true;
+    // });
 
     if (isNullUndefined(person)) {
         return (
@@ -55,7 +68,7 @@ function Page4SubItemExample(props) {
                         <Text
                             style={[
                                 className(FlexContainerChildItemFullWidthCN,
-                                    AlignCenterContentCN)
+                                    AlignCenterTextCN)
                             ]}
                             // h5
                         >
@@ -79,13 +92,12 @@ function Page4SubItemExample(props) {
                                     className(FlexContainerChildItemFullWidthCN)
                                 ]}
                                 onPress={_ => {
-                                    // appNavigation.navigateToPage4Example(navigation, null);
+                                    appNavigation.navigateBack(navigation);
                                 }}
                             >
                                 <Text
                                     style={[
                                         className(AlignCenterContentCN),
-                                        {width: '100%'}
                                     ]}
                                 >
                                     Go back
@@ -93,7 +105,7 @@ function Page4SubItemExample(props) {
                             </RN.TouchableOpacity>
                         </RN.View>
                     </RN.View>
-                    <RN.View style={[{height: 10}]}/>
+                    <BlankSpaceDivider/>
                 </RN.View>
             </RN.ScrollView>
         )
@@ -117,15 +129,13 @@ function Page4SubItemExample(props) {
                     style={[
                         className(FlexFluidRowContainerCN)
                     ]}
-                    // className={'flex-row-container'}
                 >
                     <Text
                         style={[
                             className(FlexContainerChildItemFullWidthCN,
-                                AlignCenterContentCN)
+                                AlignCenterTextCN)
                         ]}
                         // h5
-                        // className="title is-5"
                     >
                         Page 4 Item Example : Accredited Details
                     </Text>
@@ -149,6 +159,13 @@ function Page4SubItemExample(props) {
                     >
                         <Image
                             source={require("../media/images/image.png")}
+                            style={[
+                                {
+                                    height: SCREEN_HEIGHT * 0.5,
+                                    width: '100%',
+                                    resizeMode: 'cover',
+                                }
+                            ]}
                         />
                     </RN.View>
                 </RN.View>
@@ -177,15 +194,23 @@ function Page4SubItemExample(props) {
                         !isEmptyArray(person?.links) &&
                         person?.links.map(item => {
                             return (
-                                <RN.Text
-                                    style={[
-                                        className(FlexContainerChildItemFullWidthCN,
-                                            AlignLeftFlexContainerContentCN)
-                                    ]}
-                                    key={makeId(8)}
+                                <RN.Pressable
+                                    onPress={_ => {
+                                        RN.Linking.openURL(item.link).then(null);
+                                    }}
+                                    key={makeId(16)}
                                 >
-                                    {item.site}
-                                </RN.Text>
+                                    <RN.Text
+                                        style={[
+                                            className(
+                                                FlexContainerChildItemFullWidthCN,
+                                                AlignLeftTextCN, LinkText
+                                            )
+                                        ]}
+                                    >
+                                        {item.site}
+                                    </RN.Text>
+                                </RN.Pressable>
                             )
                         })
                     }
@@ -195,7 +220,9 @@ function Page4SubItemExample(props) {
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >
-                        <FontAwesomeIcon icon={faCoffee}/>
+                        <FontAwesomeIcon
+                            icon={faCoffee} size={30}
+                        />
                     </Text>
                     <Text
                         style={[
@@ -203,10 +230,12 @@ function Page4SubItemExample(props) {
                                 AlignLeftFlexContainerContentCN)
                         ]}
                     >
-                        {(new Date()).toLocaleDateString()}
+                        {localeDateStringFormatFromDatetime(new Date())}
                     </Text>
                 </RN.View>
             </RN.View>
+
+            <BlankSpaceDivider/>
 
             <RN.View
                 style={[
@@ -225,11 +254,12 @@ function Page4SubItemExample(props) {
                     >
                         <Image
                             source={require("../media/images/short-paragraph.png")}
-                            // alt="Placeholder image"
                         />
                     </RN.View>
                 </RN.View>
             </RN.View>
+
+            <BlankSpaceDivider/>
 
             <RN.View
                 style={[
@@ -239,31 +269,37 @@ function Page4SubItemExample(props) {
                 <RN.TouchableOpacity
                     activeOpacity={.6}
                     style={[
-                        className(FlexContainerChildItemFullWidthCN)
+                        className(
+                            FlexContainerChildItemFullWidthCN,
+                            NegativeButtonCN
+                        ),
                     ]}
                     onPress={_ => {
-                        // appNavigation.navigateToPage4Example(navigation, null);
+                        appNavigation.navigateBack(navigation);
                     }}
                 >
                     <Text
                         style={[
+                            className(
+                                AlignCenterTextCN,
+                                NegativeButtonTextCN
+                            ),
                             {
                                 width: '100%'
                             },
-                            className(AlignCenterContentCN)
                         ]}
-                        // className="button is-info"
                     >
                         Go back
                     </Text>
                 </RN.TouchableOpacity>
             </RN.View>
 
-            <RN.View style={[{height: 10}]}/>
+            <BlankSpaceDivider/>
 
         </RN.ScrollView>
     );
 
 }
 
-export default (inject('authStore', 'appStore')(observer(Page4SubItemExample)));
+const Page4SubItemExampleView = WithStoresHoc(Page4SubItemExample, ['authStore', 'appStore']);
+export default Page4SubItemExampleView;

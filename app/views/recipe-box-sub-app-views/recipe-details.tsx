@@ -384,7 +384,7 @@ export default function RecipeDetails(props) {
                                 activeOpacity={.6}
                                 onPress={_ => {
                                     recipeBoxStore.viewAction = null;
-                                    appNavigation.navigateBack(navigation, navStore)
+                                    appNavigation.navigateBack(navigation)
                                 }}
                                 style={[
                                     className(

@@ -1,6 +1,11 @@
 //key
 //sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 //your app-wide lists here
 
@@ -22,34 +27,19 @@ export const SOs_and_Credits_List = [
     ],
   },
   {
-    person: 'Naresh Bhatia',
-    attribution: 'Author of MobX State Router. The selected router for the app.',
+    person: 'Kevin Barasa',
+    attribution: 'Author of this React Native with Typescript, App Starter Template',
     links: [
       {
         site: 'Twitter',
-        link: 'https://twitter.com/NareshJBhatia',
+        link: 'https://twitter.com/Kaybarax',
       },
       {
-        site: 'MobX State Router',
-        link: 'https://nareshbhatia.github.io/mobx-state-router/docs/guides-getting-started',
+        site: 'Linkedin',
+        link: 'https://linkedin.com/in/kaybarax',
       },
     ],
   },
-  {
-    person: 'Andy Haskell',
-    attribution: 'Tutorial guide on implementing IndexedDb. Thanks a lot dude for your tutorial I ' +
-        'came across on @Medium and Dev.to.',
-    links: [
-      {
-        site: 'Twitter',
-        link: 'https://twitter.com/AndyHaskell2013',
-      },
-      {
-        site: 'Awesome intro to IndexedDb',
-        link: 'https://dev.to/andyhaskell/build-a-basic-web-app-with-indexeddb-38ef',
-      },
-    ],
-  }
 ];
 
 /**

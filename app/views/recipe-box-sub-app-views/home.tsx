@@ -222,7 +222,7 @@ export function NoRecipesDisplay(props) {
                         <RN.Button
                             title={'Exit'}
                             onPress={_ => {
-                                appNavigation.navigateBack(navigation, navStore, null);
+                                appNavigation.navigateBack(navigation);
                             }}
                             color={'red'}
                         />

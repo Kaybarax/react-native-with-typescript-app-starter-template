@@ -22,9 +22,10 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import {handleLogin} from "../../controllers/login-controller";
 import className from "../../util/react-native-based-utils";
-import {RegistrationButtonTextCN, UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
+import {UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
+import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function LoginForm(props) {
 

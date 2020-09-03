@@ -40,22 +40,22 @@ export const PAGE1EXAMPLE_SCREEN_VIEW: ViewRoute = {
 };
 
 export const PAGE2EXAMPLE_SCREEN_VIEW: ViewRoute = {
-    name: 'Page 2 Example',
+    name: 'PAGE2EXAMPLE_SCREEN_VIEW',
     screen: Page2Example
 };
 
 export const PAGE3EXAMPLE_SCREEN_VIEW: ViewRoute = {
-    name: 'Page 3 Example',
+    name: 'PAGE3EXAMPLE_SCREEN_VIEW',
     screen: Page3Example
 };
 
 export const PAGE4EXAMPLE_SCREEN_VIEW: ViewRoute = {
-    name: 'Page 4 Example',
+    name: 'PAGE4EXAMPLE_SCREEN_VIEW',
     screen: Page4Example
 };
 
 export const PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW: ViewRoute = {
-    name: 'Page 4 SubItem Example',
+    name: 'PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW',
     screen: Page4SubItemExample
 };
 

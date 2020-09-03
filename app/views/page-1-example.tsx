@@ -8,29 +8,25 @@
  */
 
 import React from 'react';
-import {inject, observer} from "mobx-react";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import RN, {Text} from "react-native";
 import {
-    AlignCenterContentCN,
-    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
+    AlignCenterTextCN,
+    AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
+import {LinkText} from "../theme/app-text-styles-classnames";
+import {NewLine} from "../shared-components-and-modules/shared-components";
+import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
 
-function Page1Example(props) {
+export function Page1Example(props) {
 
     const {
-        appStore,
-        authStore,
         navigation
     } = props;
-
-    const _continueToPage2 = () => {
-        appNavigation.navigateToPage2Example(navigation, null);
-    };
 
     return (
         <RN.ScrollView
@@ -45,13 +41,17 @@ function Page1Example(props) {
                 ]}>
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN)
+                        className(
+                            FlexFluidRowContainerCN,
+                        )
                     ]}
                 >
                     <Text
                         style={[
-                            className(FlexContainerChildItemFullWidthCN,
-                                AlignCenterContentCN)
+                            className(
+                                FlexContainerChildItemFullWidthCN,
+                                AlignCenterTextCN
+                            )
                         ]}
                     >Page 1 Example : Let's start here!</Text>
                 </RN.View>
@@ -86,25 +86,34 @@ function Page1Example(props) {
                                     ])
                                 ]}
                             >
-                                Hey there. So you have an SPA web app that you want to build with React
-                                Js.<Text>{'\n'}</Text>
-                                And you need to come up with an app-wide, system design setup. That is, system breakdown
-                                to&nbsp;
-                                individual bits and pieces like, routing and navigation, controllers, app's global&nbsp;
-                                state management, and sharing components' state information;&nbsp;
-                                configuring security access for your pages, as to which are publicly accessible, and
-                                which&nbsp;
-                                a user must be logged in and authenticated to access; and even different&nbsp;
-                                types of access based on roles.<Text>{'\n'}</Text>
+                                Hey there. So you have a React Native app that you want to build; with Typescript
+                                included.
+                                <NewLine lines={3}/>
+                                And you need to come up with an app-wide, design and setup. That is, system breakdown
+                                to&nbsp;individual bits and pieces like, routing and navigation, controllers,&nbsp;
+                                app's global state management, and sharing of components' state information;&nbsp;
+                                configuring security access for your views, as to which are publicly accessible, and
+                                which&nbsp;a user must be logged in and authenticated to access; and even
+                                different&nbsp;
+                                types of access based on roles.
+                                <NewLine lines={3}/>
                                 Well, this self-guiding design employed here in this,&nbsp;
                                 "<Text>React Js SPA Web App with Login Starter Template Framework Design</Text>"&nbsp;
-                                has got you covered.<Text>{'\n'}</Text><Text>{'\n'}</Text>
-                                <Text
-                                    // href={PAGE2EXAMPLE_SCREEN_VIEW.name}
-                                    // onPress={_ => {
-                                    //     _continueToPage2()
-                                    // }}
-                                >Continue to Page 2 Example to learn more...</Text>
+                                has got you covered.
+                                <NewLine lines={3}/>
+                                <RN.Pressable
+                                    onPress={_ => {
+                                        appNavigation.navigateToPage2Example(navigation, null);
+                                    }}
+                                >
+                                    <Text
+                                        style={[
+                                            className(
+                                                LinkText
+                                            )
+                                        ]}
+                                    >Continue to Page 2 Example to learn more...</Text>
+                                </RN.Pressable>
                             </Text>
                         </RN.View>
                     </RN.View>
@@ -115,4 +124,5 @@ function Page1Example(props) {
 
 }
 
-export default (inject('authStore', 'appStore')(observer(Page1Example)));
+const Page1ExampleView = WithStoresHoc(Page1Example, ['authStore', 'appStore']);
+export default Page1ExampleView;

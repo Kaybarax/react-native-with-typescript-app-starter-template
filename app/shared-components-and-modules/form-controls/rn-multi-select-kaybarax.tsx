@@ -1,10 +1,10 @@
 import React from "react";
-import RN, {Alert} from 'react-native';
+import RN from 'react-native';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import className from "../../util/react-native-based-utils";
 import {
-    AlignCenterContentCN,
+    AlignCenterContentCN, AlignCenterTextCN,
     AlignLeftFlexContainerContentCN,
     AlignLeftTextCN,
     FlexColumnContainerCN,
@@ -12,11 +12,12 @@ import {
     FlexContainerChildItemWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import {isEmptyArray, isEmptyString, isNullUndefined, isTrue, makeId} from "../../util/util";
+import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import {toJS} from "mobx";
 import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
 import {SCREEN_HEIGHT} from "../../App";
 import {BlankSpaceDivider} from "../shared-components";
+import {NegativeButtonCN, NegativeButtonTextCN} from "../../theme/component-themes";
 
 export default function RnMultiSelectKaybarax(props) {
 
@@ -333,7 +334,7 @@ export default function RnMultiSelectKaybarax(props) {
                                       <RN.Text
                                           style={[
                                               className(
-                                                  AlignCenterContentCN
+                                                  AlignCenterTextCN
                                               ),
                                               {
 
@@ -352,24 +353,19 @@ export default function RnMultiSelectKaybarax(props) {
 
                                 <RN.TouchableOpacity
                                     style={[
-                                        {
-                                            padding: 5,
-                                            backgroundColor: 'maroon',
-                                            borderRadius: 15,
-                                        }
+                                        className(
+                                            NegativeButtonCN
+                                        )
                                     ]}
                                     activeOpacity={.6}
                                     onPress={closeDropdown}
                                 >
                                     <RN.Text
                                         style={[
-                                            {
-                                                color: "white",
-                                                fontSize: 15,
-                                                fontWeight: 'bold',
-                                                paddingTop: 5
-                                            },
-                                            className(AlignCenterContentCN)
+                                            className(
+                                                AlignCenterTextCN,
+                                                NegativeButtonTextCN
+                                            )
                                         ]}
                                     >
                                         EXIT SELECTION
@@ -399,12 +395,9 @@ export default function RnMultiSelectKaybarax(props) {
                     ]}
                     onPress={openMultiSelectDialog}
                 >
-                    <RN.Text style={[
-                        {
-                            // marginTop:'10%',
-                            // marginTop:'10%',
-                        }
-                    ]}>
+                    <RN.Text
+                        style={[]}
+                    >
                         <FontAwesomeIcon
                             icon={faSearch}
                             color={SEASHELLS_COLOR}
