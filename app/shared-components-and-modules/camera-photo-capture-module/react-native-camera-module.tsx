@@ -24,7 +24,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCamera, faCheck, faExchangeAlt, faLightbulb as OnLightbulb, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Spacer} from "../shared-components";
 import {faLightbulb} from "@fortawesome/free-regular-svg-icons";
-import {FORESTGREEN_COLOR, MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
+import {POSITIVE_ACTION_COLOR, MAIN_BG_COLOR, SECONDARY_COLOR} from "../../theme/app-theme";
 
 export default function ReactNativeCameraModule(props) {
 
@@ -98,7 +98,7 @@ export default function ReactNativeCameraModule(props) {
                         style={[
                             className(FlexColumnContainerCN),
                             {
-                                backgroundColor: SEASHELLS_COLOR,
+                                backgroundColor: SECONDARY_COLOR,
                             }
                         ]}
                     >
@@ -162,7 +162,7 @@ export default function ReactNativeCameraModule(props) {
                                     {
                                         borderStyle: 'solid',
                                         borderWidth: 2,
-                                        borderColor: FORESTGREEN_COLOR,
+                                        borderColor: POSITIVE_ACTION_COLOR,
                                         borderRadius: 10,
                                         padding: 5,
                                     }
@@ -175,14 +175,14 @@ export default function ReactNativeCameraModule(props) {
                                       ),
                                       {
                                           fontSize: 20,
-                                          color: FORESTGREEN_COLOR,
+                                          color: POSITIVE_ACTION_COLOR,
                                           fontWeight: 'bold'
                                       }
                                   ]}
                               >
                                 <FontAwesomeIcon
                                     icon={faCheck}
-                                    color={FORESTGREEN_COLOR}
+                                    color={POSITIVE_ACTION_COLOR}
                                     size={30}
                                 />
                                 <Spacer/>
@@ -424,7 +424,7 @@ export default function ReactNativeCameraModule(props) {
 class PendingView extends Component {
     render() {
         return (
-            <View style={{backgroundColor: SEASHELLS_COLOR}}>
+            <View style={{backgroundColor: SECONDARY_COLOR}}>
                 <Text style={{textAlign: 'center'}}>Waiting for camera access...</Text>
             </View>
         );

@@ -9,13 +9,44 @@
 
 import React from "react";
 import RN from 'react-native';
+import className from "../../util/react-native-based-utils";
+import {
+    AlignCenterContentCN, AlignCenterTextCN,
+    FlexColumnContainerCN,
+    FlexContainerChildItemFullWidthCN
+} from "../../theme/app-layout-styles-classnames";
 
 export default function RecipeRequests(props) {
 
     return (
-        <React.Fragment>
-            <RN.Text>Recipe requests</RN.Text>
-        </React.Fragment>
+        <RN.View
+            style={[
+                className(
+                    FlexColumnContainerCN
+                )
+            ]}
+        >
+            <RN.View
+                style={[
+                    className(
+                        FlexContainerChildItemFullWidthCN,
+                        AlignCenterContentCN
+                    )
+                ]}
+            >
+                <RN.Text
+                    style={[
+                        className(
+                            AlignCenterTextCN
+                        ),
+                        {
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        }
+                    ]}
+                >Recipe requests, for example.</RN.Text>
+            </RN.View>
+        </RN.View>
     );
 
 }

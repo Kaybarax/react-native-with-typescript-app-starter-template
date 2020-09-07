@@ -7,12 +7,16 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
+/**
+ * Manifest of all "main activity level" screens _ Kaybarax
+ */
+
 import React from "react";
 import {
     _404_VIEW,
     APP_DEV_MOCKS_SCREEN_VIEW,
     APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
-    APP_DRAWER_NAV_SCREEN_VIEW,
+    MAIN_APP_STACK_SCREEN_VIEW,
     APP_TOP_TABS_SCREEN_VIEW,
     MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_HOME_SCREEN_VIEW,
@@ -35,19 +39,57 @@ import {SCREEN_WIDTH} from "../App";
 import {MAIN_BG_COLOR} from "../theme/app-theme";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import RecipeBoxBottomNavigationTabsContent from "./recipe-box-bottom-navigation-tabs-content";
 
-/**
- * Manifest of all "main activity level" screens _ Kaybarax
- * @constructor
- */
-export default function AppWithRouting() {
+
+export default function BaseAppWithDrawerNavigationRouting() {
+
+    const DrawerNav = createDrawerNavigator();
+
+    const routeMap = [
+        <DrawerNav.Screen
+            name={MAIN_APP_STACK_SCREEN_VIEW.name}
+            component={MAIN_APP_STACK_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <DrawerNav.Screen
+            name={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name}
+            component={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />,
+        <DrawerNav.Screen
+            name={RECIPE_BOX_SUB_APP_SCREEN_VIEW.name}
+            component={RECIPE_BOX_SUB_APP_SCREEN_VIEW.screen}
+            key={makeId(16)}
+        />
+    ];
+
+    return (
+        <DrawerNav.Navigator
+            children={routeMap}
+            drawerContent={props => {
+                return (
+                    <AppDrawerNavigationContent {...props}/>
+                );
+            }}
+            drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
+            drawerStyle={{
+                backgroundColor: MAIN_BG_COLOR,
+                width: SCREEN_WIDTH * 0.75,
+            }}
+        />
+    );
+
+}
+
+export function MainAppStackRouting() {
 
     const StackNav = createStackNavigator();
 
     const routeMap = [
         <StackNav.Screen
-            name={APP_DRAWER_NAV_SCREEN_VIEW.name}
-            component={APP_DRAWER_NAV_SCREEN_VIEW.screen}
+            name={APP_TOP_TABS_SCREEN_VIEW.name}
+            component={APP_TOP_TABS_SCREEN_VIEW.screen}
             key={makeId(16)}
         />,
         <StackNav.Screen
@@ -64,7 +106,7 @@ export default function AppWithRouting() {
 
     return (
         <StackNav.Navigator
-            initialRouteName={APP_DRAWER_NAV_SCREEN_VIEW.name}
+            initialRouteName={APP_TOP_TABS_SCREEN_VIEW.name}
             children={routeMap}
             screenOptions={{
                 headerStyle: {
@@ -110,66 +152,6 @@ export function RecipeBoxAppWithRouting() {
 
     return (
         <StackNav.Navigator children={routeMap}/>
-    );
-
-}
-
-export function AppDevMocksWithRouting() {
-
-    const Stack = createStackNavigator();
-
-    return (
-        <Stack.Navigator
-            initialRouteName={APP_DEV_MOCKS_SCREEN_VIEW.name}
-            screenOptions={{
-                title: 'App Dev Scratch Pad'
-            }}
-        >
-            <Stack.Screen
-                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
-                component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
-            />
-        </Stack.Navigator>
-    );
-
-}
-
-export function AppDrawerNavRouting() {
-
-    const DrawerNav = createDrawerNavigator();
-
-    const routeMap = [
-        <DrawerNav.Screen
-            name={APP_TOP_TABS_SCREEN_VIEW.name}
-            component={APP_TOP_TABS_SCREEN_VIEW.screen}
-            key={makeId(16)}
-        />,
-        <DrawerNav.Screen
-            name={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name}
-            component={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.screen}
-            key={makeId(16)}
-        />,
-        <DrawerNav.Screen
-            name={RECIPE_BOX_SUB_APP_SCREEN_VIEW.name}
-            component={RECIPE_BOX_SUB_APP_SCREEN_VIEW.screen}
-            key={makeId(16)}
-        />
-    ];
-
-    return (
-        <DrawerNav.Navigator
-            children={routeMap}
-            drawerContent={props => {
-                return (
-                    <AppDrawerNavigationContent {...props}/>
-                );
-            }}
-            drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
-            drawerStyle={{
-                backgroundColor: MAIN_BG_COLOR,
-                width: SCREEN_WIDTH * 0.75,
-            }}
-        />
     );
 
 }
@@ -228,8 +210,29 @@ export function RecipeBoxBottomTabsRouting() {
 
     return (
         <BottomTabsNav.Navigator
+            tabBar={props => <RecipeBoxBottomNavigationTabsContent {...props}/>}
             children={routeMap}
         />
+    );
+
+}
+
+export function AppDevMocksWithRouting() {
+
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator
+            initialRouteName={APP_DEV_MOCKS_SCREEN_VIEW.name}
+            screenOptions={{
+                title: 'App Dev Scratch Pad'
+            }}
+        >
+            <Stack.Screen
+                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
+                component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
+            />
+        </Stack.Navigator>
     );
 
 }

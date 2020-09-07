@@ -9,7 +9,7 @@
 
 import React from "react";
 import {StyleSheet, Text, TextInput, View} from "react-native";
-import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
+import {MAIN_BG_COLOR, SECONDARY_COLOR} from "../../theme/app-theme";
 
 const AppTextInput = (props) => {
     let {onChangeText, label, value, secureTextEntry, autoCorrect} = props;
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         borderColor: '#f5f5f5',
         borderRadius: 15,
         padding: 10,
-        backgroundColor: SEASHELLS_COLOR
+        backgroundColor: SECONDARY_COLOR
     },
     label: {
         fontSize: 12,

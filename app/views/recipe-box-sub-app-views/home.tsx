@@ -16,15 +16,13 @@ import {displayFieldExpectationSatisfied} from "../../controllers/app-controller
 import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
-    AlignCenterContentCN,
+    AlignCenterContentCN, AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
 import appNavigation from "../../routing-and-navigation/app-navigation";
-import {RecipeImage} from "../../app-management/data-manager/models-manager";
-import {TEST_RECIPES, TEST_RECIPES_PHOTOS} from "../../app-management/test-data";
 import {toJS} from "mobx";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -32,65 +30,52 @@ import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-comp
 import {createRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
+import {fetchUserRecipes} from "../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
+import {NEGATIVE_ACTION_COLOR} from "../../theme/app-theme";
 
 export function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
-    let {recipeBoxStore, navigation} = props;
-    let {
-        notificationAlert,
-        // recipes
-    } = recipeBoxStore;
+    let {recipeBoxStore, navigation, recipeBoxStore: {notificationAlert, user}} = props;
 
-    //use development test data for now
-    // let recipes: Array<Recipe> | any = [...TEST_RECIPES];
-    let recipes = TEST_RECIPES.map(item => {
-        let recipe = {};
-        let recipePhotos: Array<RecipeImage> = [];
-        for (let item1 of TEST_RECIPES_PHOTOS) {
-            if (item.id === item1.recipe_id) {
-                recipePhotos.push(item1);
-            }
-        }
-        recipe['recipe'] = item;
-        recipe['recipePhotos'] = recipePhotos;
-        return recipe;
-    });
+    let recipes = fetchUserRecipes(user.id);
 
     console.log('recipes!',);
-
-    if (isEmptyArray(recipes)) {
-        return (
-            <NoRecipesDisplay/>
-        );
-    }
 
     //inject needed appStore and recipeBoxStore
     let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
     return (
         <RN.View
-            // contentInsetAdjustmentBehavior={"automatic"}
             style={[
                 className(FlexColumnContainerCN)
             ]}
         >
-            <RN.View
-                style={[
-                    className(FlexContainerChildItemFullWidthCN)
-                ]}
-            >
-                <RN.FlatList
-                    data={recipes}
-                    renderItem={(item: any) => <RecipeListItemCardWithStores
-                        recipe={item.item.recipe}
-                        recipePhotos={item.item.recipePhotos}
-                        navigation={navigation}
-                    />}
-                    keyExtractor={_ => makeId(16)}
-                />
-            </RN.View>
+
+            {
+                isEmptyArray(recipes) &&
+                <NoRecipesDisplay/>
+            }
+
+            {
+                !isEmptyArray(recipes) &&
+                <RN.View
+                    style={[
+                        className(FlexContainerChildItemFullWidthCN)
+                    ]}
+                >
+                  <RN.FlatList
+                      data={recipes}
+                      renderItem={(item: any) => <RecipeListItemCardWithStores
+                          recipe={item.item.recipe}
+                          recipePhotos={item.item.recipePhotos}
+                          navigation={navigation}
+                      />}
+                      keyExtractor={_ => makeId(16)}
+                  />
+                </RN.View>
+            }
 
             <BlankSpaceDivider height={150}/>
 
@@ -100,7 +85,7 @@ export function RecipeHome(props) {
                         borderRadius: 50,
                         backgroundColor: 'teal',
                         position: 'absolute',
-                        bottom: 10,
+                        bottom: '12%',
                         height: 80,
                         width: 80,
                         right: 20,
@@ -167,10 +152,7 @@ export function RecipeHome(props) {
 
 }
 
-export function NoRecipesDisplay(props) {
-
-    let {navigation} = props;
-
+export function NoRecipesDisplay() {
     return (
         <RN.ScrollView
             style={[
@@ -191,42 +173,17 @@ export function NoRecipesDisplay(props) {
                         style={[
                             className(
                                 FlexContainerChildItemFullWidthCN,
-                                AlignCenterContentCN
+                                AlignCenterTextCN
                             ),
                             {
                                 fontSize: 18,
-                                fontWeight: 'bold'
+                                fontWeight: 'bold',
+                                color: NEGATIVE_ACTION_COLOR,
                             }
                         ]}
                     >
-                        You don't have any recipes. {'\n'}
-                        From the menu, go to "Create/Edit Recipes" to create your recipes.
+                        You don't have any recipes!
                     </RN.Text>
-                </RN.View>
-            </RN.View>
-            <RN.View
-                style={[
-                    className(FlexContainerChildItemFullWidthCN)
-                ]}
-            >
-                <RN.View
-                    style={[
-                        className(FlexFluidRowContainerCN)
-                    ]}
-                >
-                    <RN.View
-                        style={[
-                            className(FlexContainerChildItemFullWidthCN)
-                        ]}
-                    >
-                        <RN.Button
-                            title={'Exit'}
-                            onPress={_ => {
-                                appNavigation.navigateBack(navigation);
-                            }}
-                            color={'red'}
-                        />
-                    </RN.View>
                 </RN.View>
             </RN.View>
         </RN.ScrollView>

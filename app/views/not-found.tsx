@@ -19,7 +19,7 @@ import {
 import className from "../util/react-native-based-utils";
 import {SCREEN_HEIGHT} from "../App";
 import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
-import {SEASHELLS_COLOR} from "../theme/app-theme";
+import {SECONDARY_COLOR} from "../theme/app-theme";
 
 export default class NotFound extends Component {
     render() {
@@ -62,7 +62,7 @@ export default class NotFound extends Component {
                                             FlexContainerChildItemFullWidthCN
                                         ),
                                         {
-                                            backgroundColor: SEASHELLS_COLOR,
+                                            backgroundColor: SECONDARY_COLOR,
                                             borderRadius: 10,
                                             padding: 5,
                                         }

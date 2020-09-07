@@ -166,7 +166,7 @@ export default function SignUpForm(props) {
                     }
                     signUpForm.user.status_ref_key_key = "STATUS";
                     signUpForm.user.status_ref_key_value = "ACT";
-                    handleSignUp(signUpForm, recipeBoxStore, loginStore, notificationAlert, showLoginForm);
+                    handleSignUp(signUpForm.user, password.password, recipeBoxStore, loginStore, notificationAlert, showLoginForm);
                 }}
             >
                 <Text

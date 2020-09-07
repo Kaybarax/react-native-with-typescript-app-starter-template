@@ -10,7 +10,7 @@
 import {isNullUndefined} from '../util/util';
 import {
     APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
-    APP_TOP_TABS_SCREEN_VIEW,
+    MAIN_APP_STACK_SCREEN_VIEW,
     MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_LOGIN_SCREEN_VIEW,
     MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
@@ -112,7 +112,7 @@ export class AppNavigation {
     navigateToHome = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            APP_TOP_TABS_SCREEN_VIEW.name,
+            MAIN_APP_STACK_SCREEN_VIEW.name,
             navParams
         );
     }

@@ -45,7 +45,7 @@ import {RecipeImage} from "../../../app-management/data-manager/models-manager";
 import {toJS} from "mobx";
 import RnMultiSelectKaybarax from "../../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../../stores/actions-and-stores-data";
-import {FORESTGREEN_COLOR} from "../../../theme/app-theme";
+import {POSITIVE_ACTION_COLOR} from "../../../theme/app-theme";
 import ReactNativeCameraModule
     from "../../../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module";
 import {
@@ -834,7 +834,7 @@ export function CreateEditRecipeForm(props) {
                                                     style={[
                                                         {
                                                             width: '60%',
-                                                            backgroundColor: FORESTGREEN_COLOR,
+                                                            backgroundColor: POSITIVE_ACTION_COLOR,
                                                             borderRadius: 5,
                                                         }
                                                     ]}
@@ -863,7 +863,7 @@ export function CreateEditRecipeForm(props) {
                                                     style={[
                                                         {
                                                             width: '60%',
-                                                            backgroundColor: FORESTGREEN_COLOR,
+                                                            backgroundColor: POSITIVE_ACTION_COLOR,
                                                             borderRadius: 5,
                                                         }
                                                     ]}

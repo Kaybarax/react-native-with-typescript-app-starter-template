@@ -22,7 +22,7 @@ import {createPasswordHash} from '../android-custom-native-modules/app-security-
 import {makeId} from '../util/util';
 import ReactNativeCameraModule
     from "../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module";
-import {FORESTGREEN_COLOR} from "../theme/app-theme";
+import {POSITIVE_ACTION_COLOR} from "../theme/app-theme";
 import {
     CAMERA_PERMISSION,
     requestPermission
@@ -242,7 +242,7 @@ export default function AppDevScratchPad(props) {
                             style={[
                                 className(FlexContainerChildItemFullWidthCN),
                                 {
-                                    backgroundColor: FORESTGREEN_COLOR
+                                    backgroundColor: POSITIVE_ACTION_COLOR
                                 }
                             ]}
                             onPress={_ => {

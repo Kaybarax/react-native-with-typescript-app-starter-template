@@ -104,7 +104,7 @@ export const FlexContainerChildItemOneThirdWidthCN = {
   ...BlockPartitionsDisplayCN
 };
 
-export const FlexContainerChildItemWidthCN = (width) => ({
+export const FlexContainerChildItemWidthCN = (width: string) => ({
   flexBasis: width,
   padding: 2,
   ...BlockPartitionsDisplayCN

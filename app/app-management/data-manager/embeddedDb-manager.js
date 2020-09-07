@@ -224,13 +224,13 @@ class AppSQLiteDb {
 
   runInitialInserts = (dbtx) => {
 
-    dbtx.executeSql(`INSERT INTO APP_REF_KEYS (key, label, value) 
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, label, value) 
                   VALUES ("Status", "Active", "ACT")`,
         []);
-    dbtx.executeSql(`INSERT INTO APP_REF_KEYS (key, label, value) 
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, label, value) 
                   VALUES ("Status", "Disabled", "DIS")`,
         []);
-    dbtx.executeSql(`INSERT INTO APP_REF_KEYS (key, label, value) 
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, label, value) 
                   VALUES ("Status", "Deleted", "DEL")`,
         []);
 
@@ -242,7 +242,7 @@ class AppSQLiteDb {
     let {
       key, value, label,
     } = data;
-    dbtx.executeSql(`INSERT INTO APP_REF_KEYS (key, value, label) 
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, value, label) 
                     VALUES ("${key}", "${label}", "${value}")`,
         [], this.successCB, this.errorCB);
   };
@@ -252,7 +252,7 @@ class AppSQLiteDb {
       id, name, email, username,
       status_ref_key_key, status_ref_key_value,
     } = user;
-    return dbtx.executeSql(`INSERT INTO USER (id, name, email, username, status_ref_key_key, 
+    return dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.USER.name} (id, name, email, username, status_ref_key_key, 
                     status_ref_key_value) VALUES ("${id}", "${name}", "${email}", "${username}", 
                     "${status_ref_key_key}", "${status_ref_key_value}")`,
         [], this.successCB, this.errorCB);
@@ -260,7 +260,7 @@ class AppSQLiteDb {
 
   addUserCredentialsStmt = (dbtx, data) => {
     let {username, password_hash, salt} = data;
-    dbtx.executeSql(`INSERT INTO USER_CREDENTIALS (username, password_hash, salt)
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.USER_CREDENTIALS.name} (username, password_hash, salt)
                     VALUES ("${username}", "${password_hash}", "${salt}")`,
         [], this.successCB, this.errorCB);
   };
@@ -278,7 +278,7 @@ class AppSQLiteDb {
       status_ref_key_key,
       status_ref_key_value,
     } = data;
-    dbtx.executeSql(`INSERT INTO RECIPE (id, name, is_vegetarian, is_vegan,ingredients,
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.RECIPE.name} (id, name, is_vegetarian, is_vegan,ingredients,
                     cooking_instructions, groups_suitable, date_created, status_ref_key_key, status_ref_key_value) 
                     VALUES ("${id}", "${name}", "${is_vegetarian}", "${is_vegan}", "${ingredients}",
                             "${cooking_instructions}", "${groups_suitable}", "${date_created}", 
@@ -288,14 +288,14 @@ class AppSQLiteDb {
 
   addUserRecipeStmt = (dbtx, data) => {
     let {user_id, recipe_id} = data;
-    dbtx.executeSql(`INSERT INTO USER_RECIPE (user_id, recipe_id)
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.USER_RECIPE.name} (user_id, recipe_id)
                     VALUES ("${user_id}", "${recipe_id}")`,
         [], this.successCB, this.errorCB);
   };
 
   addRecipeImageStmt = (dbtx, data) => {
     let {id, recipe_id, image_url, image_file} = data;
-    dbtx.executeSql(`INSERT INTO USER (id, recipe_id, image_url, image_file)
+    dbtx.executeSql(`INSERT INTO ${this.appDatabaseTables.RECIPE_IMAGE.name} (id, recipe_id, image_url, image_file)
                     VALUES ("${id}", "${recipe_id}", "${image_url}", "${image_file}")`,
         [], this.successCB, this.errorCB);
   };

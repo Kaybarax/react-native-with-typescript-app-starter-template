@@ -24,8 +24,8 @@ import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 import RecipeDetails from "../views/recipe-box-sub-app-views/recipe-details";
 import {
     AppDevMocksWithRouting,
-    AppDrawerNavRouting,
     AppTopTabsNavRouting,
+    MainAppStackRouting,
     RecipeBoxAppWithRouting,
     RecipeBoxBottomTabsRouting
 } from "./routes";
@@ -75,9 +75,9 @@ export const APP_DEV_MOCKS_SCREEN_VIEW = {
 
 /*App composite views/screens*/
 
-export const APP_DRAWER_NAV_SCREEN_VIEW = {
-    name: 'APP_DRAWER_NAV_SCREEN_VIEW',
-    screen: AppDrawerNavRouting
+export const MAIN_APP_STACK_SCREEN_VIEW = {
+    name: 'MAIN_APP_STACK_SCREEN_VIEW',
+    screen: MainAppStackRouting
 };
 
 export const APP_TOP_TABS_SCREEN_VIEW = {

@@ -1,6 +1,6 @@
 //key
 //sd - self described
-import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "./app-theme";
+import {MAIN_BG_COLOR, SECONDARY_COLOR} from "./app-theme";
 
 /**
  * @authored by Kaybarax
@@ -31,7 +31,7 @@ export const NegativeButtonTextCN = {
 export const DetailsButtonCN = {
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: SEASHELLS_COLOR,
+    borderColor: SECONDARY_COLOR,
     borderRadius: 5,
 }
 
@@ -42,7 +42,7 @@ export const DetailsButtonTextCN = {
 }
 
 export const EditButtonCN = {
-    backgroundColor: SEASHELLS_COLOR,
+    backgroundColor: SECONDARY_COLOR,
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 5,
@@ -70,7 +70,7 @@ export const BackButtonTextCN = {
 export const DeleteButtonCN = {
     backgroundColor: 'maroon',
     borderWidth: 1,
-    borderColor: SEASHELLS_COLOR,
+    borderColor: SECONDARY_COLOR,
     borderRadius: 5,
 }
 

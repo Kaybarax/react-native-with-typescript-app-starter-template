@@ -22,21 +22,22 @@ import appNavigation from "../routing-and-navigation/app-navigation";
 
 /**
  * sd _ Kaybarax
- * @param signUpModel
+ * @param userModel
+ * @param password
  * @param recipeBoxStore
  * @param loginStore
  * @param notificationAlert
  * @param showLoginForm
  */
-export function handleSignUp(signUpModel, recipeBoxStore, loginStore, notificationAlert, showLoginForm) {
+export function handleSignUp(userModel, password, recipeBoxStore, loginStore, notificationAlert, showLoginForm) {
 
-    console.log('signUpModel:', toJS(signUpModel));
+    console.log('userModel:', toJS(userModel));
     // return;
 
     let functionServiceWorkerThreadsPool = [];
 
     //save to sqlitedb
-    let user: User = toJS(signUpModel.user);
+    let user: User = toJS(userModel);
 
     console.log('user', user);
 
@@ -56,7 +57,7 @@ export function handleSignUp(signUpModel, recipeBoxStore, loginStore, notificati
     invokeLoader(loginStore);
 
     serviceWorkerThread(() => {
-            createPasswordHash(signUpModel.password, userCredentials,
+            createPasswordHash(password, userCredentials,
                 notificationAlert, threadWorkListener).then(null);
         },
         () => {

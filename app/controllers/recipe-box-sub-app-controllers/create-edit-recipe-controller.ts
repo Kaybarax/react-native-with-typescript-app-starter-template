@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, isNumberType} from "../../util/util";
+import {isEmptyArray, isEmptyString, isNullUndefined, isNumberType} from "../../util/util";
 import {toJS} from "mobx";
 import {Recipe, RecipeImage, UserRecipe} from "../../app-management/data-manager/models-manager";
 import {showToast} from "../../util/react-native-based-utils";
@@ -17,6 +17,40 @@ import {appSQLiteDb} from "../../app-management/data-manager/embeddedDb-manager"
 import {serviceWorkerThread} from "../app-controller";
 import {TIME_OUT} from "../../app-config";
 import appNavigation from "../../routing-and-navigation/app-navigation";
+
+export function fetchUserRecipes(userId) {
+
+    if (isEmptyArray(appSQLiteDb.usersRecipesQueryResults)) {
+        return null;
+    }
+
+    let userRecipes: Array<UserRecipe> = appSQLiteDb.usersRecipesQueryResults.find((item: UserRecipe) => item.user_id === userId);
+    if (isEmptyArray(userRecipes)) {
+        return null;
+    }
+
+    let recipes: Array<Recipe> = appSQLiteDb.recipesQueryResults.filter((item: Recipe) => {
+        return !isNullUndefined(userRecipes.find(it => it.recipe_id === item.id));
+    });
+
+    if (isEmptyArray(recipes)) {
+        return null;
+    }
+
+    return recipes.map(item => {
+        let recipeItem = {};
+        let recipeItemPhotos: Array<RecipeImage> = [];
+        for (let it of appSQLiteDb.recipesPhotosQueryResults) {
+            if (item.id === it.recipe_id) {
+                recipeItemPhotos.push(it);
+            }
+        }
+        recipeItem['recipe'] = item;
+        recipeItem['recipePhotos'] = recipeItemPhotos;
+        return recipeItem;
+    });
+
+}
 
 /**
  * sd _ Kaybarax
@@ -242,6 +276,7 @@ export function submitRecipeClick(formData, notificationAlert, userId, navigator
     function saveRecipePhoto(recipePhoto: RecipeImage, idx: number) {
 
         serviceWorkerThread(() => {
+                console.log('Start save recipe photo:', recipePhoto)
                 appSQLiteDb.transactionSuccess = false;
                 appSQLiteDb.addRecipeImageStmt(db, recipePhoto);
             },

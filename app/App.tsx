@@ -64,7 +64,6 @@ const App = () => {
                 loadDb(true);
             },
             _ => {
-                loadDb(true);
                 setDbLoadFeedback('Failed to load app sqlite-db. Restart app to try again.')
             }, TIME_OUT, 1000
         );

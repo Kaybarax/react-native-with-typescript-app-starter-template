@@ -15,7 +15,7 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import {toJS} from "mobx";
-import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../../theme/app-theme";
+import {MAIN_BG_COLOR, SECONDARY_COLOR} from "../../theme/app-theme";
 import {SCREEN_HEIGHT} from "../../App";
 import {BlankSpaceDivider} from "../shared-components";
 import {NegativeButtonCN, NegativeButtonTextCN} from "../../theme/component-themes";
@@ -101,7 +101,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
             style={[
                 className(FlexColumnContainerCN),
                 {
-                    backgroundColor: SEASHELLS_COLOR,
+                    backgroundColor: SECONDARY_COLOR,
                     borderRadius: 15,
                 }
             ]}
@@ -130,7 +130,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                             FlexContainerChildItemWidthCN('80%'),
                         ),
                         {
-                            backgroundColor: SEASHELLS_COLOR,
+                            backgroundColor: SECONDARY_COLOR,
                             borderTopLeftRadius: 15,
                             borderBottomLeftRadius: 15,
                         }
@@ -277,7 +277,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                             style={[
                                 className(FlexColumnContainerCN),
                                 {
-                                    backgroundColor: SEASHELLS_COLOR,
+                                    backgroundColor: SECONDARY_COLOR,
                                     padding: 2,
                                     elevation: 5,
                                     zIndex: (props["zIndez"] || 1000000),
@@ -421,7 +421,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                     >
                         <FontAwesomeIcon
                             icon={faSearch}
-                            color={SEASHELLS_COLOR}
+                            color={SECONDARY_COLOR}
                             size={30}
                         />
                     </RN.Text>

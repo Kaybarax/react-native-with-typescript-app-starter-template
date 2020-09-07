@@ -12,7 +12,7 @@ import RN from 'react-native';
 import {DrawerContentScrollView, DrawerItem,} from '@react-navigation/drawer';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCoffee, faCog, faHome} from "@fortawesome/free-solid-svg-icons";
-import {MAIN_BG_COLOR, SEASHELLS_COLOR} from "../theme/app-theme";
+import {MAIN_BG_COLOR, SECONDARY_COLOR} from "../theme/app-theme";
 import className from "../util/react-native-based-utils";
 import {
     FlexColumnContainerCN,
@@ -68,7 +68,7 @@ export default function AppDrawerNavigationContent(props) {
                         FlexContainerChildItemFullWidthCN
                     ),
                     {
-                        backgroundColor: SEASHELLS_COLOR,
+                        backgroundColor: SECONDARY_COLOR,
                         padding: 0,
                     }
                 ]}
@@ -119,7 +119,7 @@ export default function AppDrawerNavigationContent(props) {
                         FlexContainerChildItemFullWidthCN
                     ),
                     {
-                        backgroundColor: SEASHELLS_COLOR,
+                        backgroundColor: SECONDARY_COLOR,
                         padding: 0,
                     }
                 ]}
@@ -170,7 +170,7 @@ export default function AppDrawerNavigationContent(props) {
                         FlexContainerChildItemFullWidthCN
                     ),
                     {
-                        backgroundColor: SEASHELLS_COLOR,
+                        backgroundColor: SECONDARY_COLOR,
                         padding: 0,
                     }
                 ]}
@@ -221,7 +221,7 @@ export default function AppDrawerNavigationContent(props) {
                         FlexContainerChildItemFullWidthCN
                     ),
                     {
-                        backgroundColor: SEASHELLS_COLOR,
+                        backgroundColor: SECONDARY_COLOR,
                         padding: 0,
                     }
                 ]}
