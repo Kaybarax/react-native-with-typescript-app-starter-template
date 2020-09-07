@@ -11,7 +11,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import AppWithRouting, {RecipeBoxAppWithRouting} from "./routing-and-navigation/routes";
+import AppWithRouting from "./routing-and-navigation/routes";
 
 function AppEntry() {
 
@@ -19,7 +19,6 @@ function AppEntry() {
         <NavigationContainer>
             <StatusBar barStyle="dark-content"/>
             <AppWithRouting />
-            {/*<RecipeBoxAppWithRouting/>*/}
         </NavigationContainer>
     );
 }

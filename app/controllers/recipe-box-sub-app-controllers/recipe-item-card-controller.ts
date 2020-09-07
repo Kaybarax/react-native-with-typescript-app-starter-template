@@ -33,10 +33,15 @@ export function viewRecipeFullDetailsClick(recipeDetails, recipeBoxStore,
  * @param navigation
  * @param recipeBoxStore
  */
-export function editRecipeClick(recipe, recipeBoxStore, navigation, activity = null) {
+export function editRecipeClick(recipe, recipePhotos, recipeBoxStore, navigation, activity = null) {
     recipeBoxStore.selectedRecipe = recipe;
+    recipeBoxStore.selectedRecipePhotos = recipePhotos;
     recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE;
-    appNavigation.navigateToCreateEditRecipe(navigation);
+    appNavigation.navigateToCreateEditRecipe(navigation,
+        {
+            recipe: recipeBoxStore.selectedRecipe,
+            recipePhotos: recipeBoxStore.selectedRecipePhotos,
+        });
 }
 
 /**

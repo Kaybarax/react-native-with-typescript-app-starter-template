@@ -7,8 +7,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import RootStore from './root-store';
+import AppStores from './app-stores';
 
-const rootStore = new RootStore();
+const appStores = new AppStores();
 
-export default rootStore;
+export default appStores;

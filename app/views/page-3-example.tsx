@@ -213,5 +213,5 @@ function Page3Example(props) {
 
 }
 
-const Page3ExampleView = WithStoresHoc(Page3Example, ['authStore', 'appStore']);
+const Page3ExampleView = WithStoresHoc(Page3Example, ['page3ExampleStore', 'appStore']);
 export default Page3ExampleView;

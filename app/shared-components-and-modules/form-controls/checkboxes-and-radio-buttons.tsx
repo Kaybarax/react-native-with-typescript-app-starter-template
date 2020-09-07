@@ -13,6 +13,7 @@ import CheckBox from '@react-native-community/checkbox';
 import RadioForm from 'react-native-simple-radio-button';
 import className from "../../util/react-native-based-utils";
 import {AlignLeftFlexContainerContentCN, FlexFluidRowContainerCN} from "../../theme/app-layout-styles-classnames";
+import {isBoolean, isNumberType} from "../../util/util";
 
 export function Radiobutton(props) {
     let {
@@ -38,7 +39,7 @@ export function Radiobutton(props) {
 export function Checkbox(props) {
 
     let {
-        label, onCheckBoxChange,
+        label, onCheckBoxChange, value
     } = props;
 
     const [checkBoxValue, changeCheckBoxValue] = React.useState(false);
@@ -57,7 +58,15 @@ export function Checkbox(props) {
         >
             <CheckBox
                 disabled={false}
-                value={checkBoxValue}
+                value={
+                    isBoolean(value) ?
+                        value :
+                        (
+                            isNumberType(value) ?
+                                value == 1 :
+                                checkBoxValue
+                        )
+                }
                 onValueChange={(value) => {
                     handleSetToggleCheckBox(value);
                 }}

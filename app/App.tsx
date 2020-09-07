@@ -18,7 +18,7 @@ import RN from 'react-native';
 import 'mobx-react-lite/batchingForReactNative';
 import {Provider} from 'mobx-react';
 import AppEntry from './app-entry';
-import rootStore from './stores/index';
+import appStores from './stores/index';
 import appNavigation from "./routing-and-navigation/app-navigation";
 import {appSQLiteDb} from "./app-management/data-manager/embeddedDb-manager";
 import Loader from "./shared-components-and-modules/loaders";
@@ -36,7 +36,7 @@ const App = () => {
 
     // @ts-ignore
     // pass navStore reference to appNavigation
-    appNavigation.navStore = rootStore.appStores.app.navStore;
+    appNavigation.navStore = appStores.stores.appStore.navStore;
 
     //disable throwing of inconsequential warnings
     // console.disableYellowBox = true;
@@ -56,7 +56,7 @@ const App = () => {
         serviceWorkerThread(
             _ => {
                 appSQLiteDb.loadAndInitDB();
-            }, TIME_OUT, 1000,
+            },
             _ => {
                 return appSQLiteDb.dbLoadedAndInitialized;
             },
@@ -64,8 +64,9 @@ const App = () => {
                 loadDb(true);
             },
             _ => {
+                loadDb(true);
                 setDbLoadFeedback('Failed to load app sqlite-db. Restart app to try again.')
-            }, []
+            }, TIME_OUT, 1000
         );
 
     });
@@ -89,13 +90,10 @@ const App = () => {
         )
     }
 
+    const {stores} = appStores;
+
     return (
-        <Provider
-            appStores={rootStore.appStores}
-            appStore={rootStore.appStores.app}
-            authStore={rootStore.authStore}
-            recipeBoxStore={rootStore.appStores.recipeBoxStore}
-        >
+        <Provider {...stores}>
             <AppEntry/>
         </Provider>
     );

@@ -67,17 +67,12 @@ export function LoginActivitySchema(namespace, name) {
   let schema = this.storeSchema;
   schema.loginForm = {
     usernameOrEmail: null,
-    password: null,
   };
   schema.signUpForm = {
     user: null,
-    password: null,
-    confirm_password: null,
   };
   schema.resetPasswordForm = {
     usernameOrEmail: null,
-    password: null,
-    confirmPassword: null,
   };
   schema.viewAction = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
@@ -160,7 +155,7 @@ export function RecipeBoxActivitySchema(namespace, name) {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.selectedRecipe = null;
-  schema.recipeFormValidityTree = null;
+  schema.user = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log("RecipeBoxActivitySchema::", this.storeSchema)
   return this.storeSchema;

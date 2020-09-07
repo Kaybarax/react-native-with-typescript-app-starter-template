@@ -59,6 +59,14 @@ export const TEST_RECIPES_PHOTOS: Array<RecipeImage> = [
         image_url: '', image_file: ''
     },
     {
+        id: '_2qwertyytrewqqwertyytrewqqwer1_', recipe_id: TEST_RECIPES[1].id,
+        image_url: '', image_file: ''
+    },
+    {
+        id: '_2qwertyytrewqqwertyytrewqqwer2_', recipe_id: TEST_RECIPES[1].id,
+        image_url: '', image_file: ''
+    },
+    {
         id: '_3qwertyytrewqqwertyytrewqqwerty', recipe_id: TEST_RECIPES[2].id,
         image_url: '', image_file: ''
     },

@@ -53,24 +53,24 @@ export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, st
   }
 
   //check for internal structural change
-  let {currentStoreObjectStructure} = storeProvider;
-  if (isNullUndefined(currentStoreObjectStructure)) {
+  let {currentStoreModelStructure} = storeProvider;
+  if (isNullUndefined(currentStoreModelStructure)) {
     return null;
   }
   let internalStructureChanged = false;
   for (let key in storeFromSchema) {
     let fromNewStoreSchema = stringifyObject(storeFromSchema[key]);
-    let fromCurrentStoreObjectStructure = stringifyObject(currentStoreObjectStructure[key]);
+    let fromCurrentStoreObjectStructure = stringifyObject(currentStoreModelStructure[key]);
     if (key !== 'storeName' && key !== 'storeKey' && fromNewStoreSchema !== fromCurrentStoreObjectStructure) {
       //update
-      currentStoreObjectStructure[key] = storeFromSchema[key];
+      currentStoreModelStructure[key] = storeFromSchema[key];
       //override and update
       savedStore[key] = storeFromSchema[key];
       internalStructureChanged = true;
     }
   }
   if (internalStructureChanged) {
-    await storeItemToAsyncStorage(storeFromSchema.storeName, currentStoreObjectStructure);
+    await storeItemToAsyncStorage(storeFromSchema.storeName, currentStoreModelStructure);
     await storeItemToAsyncStorage(storeKey, savedStore);
   }
   return savedStore;

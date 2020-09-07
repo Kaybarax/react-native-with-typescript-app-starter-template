@@ -36,16 +36,12 @@ function Login(props) {
 
     const {
         navigation,
-        authStore,
-        appStores: {app},
-        authStore: {
-            login,
-            login: {notificationAlert}
-        },
+        loginStore,
+        loginStore: {notificationAlert},
     } = props;
 
     const showLoginForm = () => {
-        login.viewAction = AUTHENTICATION_ACTIONS_ENUM.LOGIN;
+        loginStore.viewAction = AUTHENTICATION_ACTIONS_ENUM.LOGIN;
     };
 
     const showSignUpForm = () => {
@@ -53,30 +49,33 @@ function Login(props) {
         user.name = '';
         user.email = '';
         user.username = '';
-        login.signUpForm.user = user;
-        login.viewAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
+        loginStore.signUpForm.user = user;
+        loginStore.viewAction = AUTHENTICATION_ACTIONS_ENUM.SIGN_UP;
     };
 
     // const showResetPasswordForm = () => {
     //     login.viewAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
     // };
+
     const showResetPasswordForm = false;
 
     let showLogin = (
-        displayFieldExpectationSatisfied('viewAction', login,
+        displayFieldExpectationSatisfied('viewAction', loginStore,
             expectationOfX => isNullUndefined(expectationOfX))
         ||
-        displayFieldExpectationSatisfied('viewAction', login,
+        displayFieldExpectationSatisfied('viewAction', loginStore,
             expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.LOGIN)
     );
 
-    let showSignUp = displayFieldExpectationSatisfied('viewAction', login,
+    let showSignUp = displayFieldExpectationSatisfied('viewAction', loginStore,
         expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.SIGN_UP);
 
-    let showResetPassword = displayFieldExpectationSatisfied('viewAction', login,
-        expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
+    // let showResetPassword = displayFieldExpectationSatisfied('viewAction', loginStore,
+    //     expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
 
-    // @ts-ignore
+    let LoginFormWithStores = WithStoresHoc(LoginForm, ['recipeBoxStore', 'loginStore'])
+    let SignUpFormWithStores = WithStoresHoc(SignUpForm, ['recipeBoxStore', 'loginStore'])
+
     return (
 
         <RN.ImageBackground
@@ -219,11 +218,7 @@ function Login(props) {
                                         FlexContainerChildItemFullWidthCN),
                                 ]}
                             >
-                              <LoginForm
-                                  login={login}
-                                  notificationAlert={notificationAlert}
-                                  appStore={app}
-                                  authStore={authStore}
+                              <LoginFormWithStores
                                   navigation={navigation}
                               />
                             </View>
@@ -251,11 +246,8 @@ function Login(props) {
                                         FlexContainerChildItemFullWidthCN),
                                 ]}
                             >
-                              <SignUpForm
-                                  signUpModel={login.signUpForm}
-                                  notificationAlert={notificationAlert}
+                              <SignUpFormWithStores
                                   showLoginForm={showLoginForm}
-                                  appStore={app}
                               />
                             </View>
                           </View>
@@ -265,8 +257,8 @@ function Login(props) {
                 </View>
 
                 {
-                    (login.loading || app.loading) &&
-                    <Loader message={login.loadingMessage}/>
+                    (loginStore.loading) &&
+                    <Loader message={loginStore.loadingMessage}/>
                 }
 
                 {
@@ -294,5 +286,5 @@ function Login(props) {
 }
 
 const LoginActivity = WithStoresHoc(Login,
-    ['authStore', 'appStores']);
+    ['loginStore', 'appStore']);
 export default LoginActivity;

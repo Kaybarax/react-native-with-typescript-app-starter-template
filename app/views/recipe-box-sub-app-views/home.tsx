@@ -37,7 +37,7 @@ export function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
-    let {appStores: {recipeBoxStore}, navigation, appStores} = props;
+    let {recipeBoxStore, navigation} = props;
     let {
         notificationAlert,
         // recipes
@@ -67,7 +67,7 @@ export function RecipeHome(props) {
     }
 
     //inject needed appStore and recipeBoxStore
-    let RecipeListItem = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
+    let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
     return (
         <RN.View
@@ -83,7 +83,7 @@ export function RecipeHome(props) {
             >
                 <RN.FlatList
                     data={recipes}
-                    renderItem={(item: any) => <RecipeListItem
+                    renderItem={(item: any) => <RecipeListItemCardWithStores
                         recipe={item.item.recipe}
                         recipePhotos={item.item.recipePhotos}
                         navigation={navigation}
@@ -169,7 +169,7 @@ export function RecipeHome(props) {
 
 export function NoRecipesDisplay(props) {
 
-    let {navigation, navStore} = props;
+    let {navigation} = props;
 
     return (
         <RN.ScrollView
@@ -235,5 +235,5 @@ export function NoRecipesDisplay(props) {
 }
 
 const RecipeHomeActivity = WithStoresHoc(RecipeHome,
-    ['authStore', 'appStores']);
+    ['loginStore', 'appStore', 'recipeBoxStore']);
 export default RecipeHomeActivity;

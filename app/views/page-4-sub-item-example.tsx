@@ -16,7 +16,8 @@ import RN, {Image, Text} from "react-native";
 import {
     AlignCenterContentCN,
     AlignCenterTextCN,
-    AlignLeftFlexContainerContentCN, AlignLeftTextCN,
+    AlignLeftFlexContainerContentCN,
+    AlignLeftTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -31,7 +32,6 @@ import {LinkText} from "../theme/app-text-styles-classnames";
 
 function Page4SubItemExample(props) {
 
-    console.log('Page4SubItemExample')
     console.log('Page4SubItemExample props', props);
 
     const {
@@ -40,11 +40,6 @@ function Page4SubItemExample(props) {
 
     let {item} = params;
     let person = SOs_and_Credits_List.find(it => it.person === item);
-
-    // RN.BackHandler.addEventListener('hardwareBackPress', () : boolean => {
-    //     appNavigation.navigateBack(navigation);
-    //     return true;
-    // });
 
     if (isNullUndefined(person)) {
         return (
@@ -301,5 +296,5 @@ function Page4SubItemExample(props) {
 
 }
 
-const Page4SubItemExampleView = WithStoresHoc(Page4SubItemExample, ['authStore', 'appStore']);
+const Page4SubItemExampleView = WithStoresHoc(Page4SubItemExample, ['page4ExampleStore', 'appStore']);
 export default Page4SubItemExampleView;

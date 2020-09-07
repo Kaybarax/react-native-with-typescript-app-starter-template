@@ -9,13 +9,7 @@
 
 import {observable} from 'mobx';
 import {persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents} from './store-utils';
-import {
-  AppStoreProvider,
-  Page1ExampleStoreProvider,
-  Page2ExampleStoreProvider,
-  Page3ExampleStoreProvider,
-  Page4ExampleStoreProvider, RecipeBoxStoreProvider,
-} from './stores-providers';
+import StoreProviders from './stores-providers';
 import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
 
 /**
@@ -24,9 +18,6 @@ import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-dat
 export default class AppStores {
 
   constructor() {
-    //if doing persistence of stores,
-    // init handle of persistence to local storage
-    // this.persistMyStoresToAsyncStorageOnEvent(this.stores);
   }
 
   persistMyStoresToAsyncStorageOnEvent(myStores) {
@@ -37,52 +28,28 @@ export default class AppStores {
   // if application uses several stores classes
   static namespace = 'AppStores_' + MobX_StoreKey_Identifier_In_AsyncStorage;
 
-  @observable
-  app = AppStoreProvider.storeProvider(AppStores.namespace);
-
-  @observable
-  page1Example = Page1ExampleStoreProvider.storeProvider(AppStores.namespace);
-
-  @observable
-  page2Example = Page2ExampleStoreProvider.storeProvider(AppStores.namespace);
-
-  @observable
-  page3Example = Page3ExampleStoreProvider.storeProvider(AppStores.namespace);
-
-  @observable
-  page4Example = Page4ExampleStoreProvider.storeProvider(AppStores.namespace);
-
-  @observable
-  recipeBoxStore = RecipeBoxStoreProvider.storeProvider(AppStores.namespace);
-
-  // collect for provision for offline storage to such as AsyncStorogae
-  // Every store that you add, MAKE SURE to add it also here
-  stores = [
-    {
-      store: this.app,
-      storeSchema: () => AppStoreProvider.storeProvider(AppStores.namespace),
-      storeProvider: AppStoreProvider,
-    },
-    {
-      store: this.page1Example,
-      storeSchema: () => Page1ExampleStoreProvider.storeProvider(AppStores.namespace),
-      storeProvider: Page1ExampleStoreProvider,
-    },
-    {
-      store: this.page2Example,
-      storeSchema: () => Page2ExampleStoreProvider.storeProvider(AppStores.namespace),
-      storeProvider: Page2ExampleStoreProvider,
-    },
-    {
-      store: this.page3Example,
-      storeSchema: () => Page3ExampleStoreProvider.storeProvider(AppStores.namespace),
-      storeProvider: Page3ExampleStoreProvider,
-    },
-    {
-      store: this.page4Example,
-      storeSchema: () => Page4ExampleStoreProvider.storeProvider(AppStores.namespace),
-      storeProvider: Page4ExampleStoreProvider,
-    },
-  ];
+  stores = {
+    appStore: observable(
+        StoreProviders.appStore.storeProvider(AppStores.namespace),
+    ),
+    loginStore: observable(
+        StoreProviders.loginStore.storeProvider(AppStores.namespace),
+    ),
+    page1ExampleStore: observable(
+        StoreProviders.page1ExampleStore.storeProvider(AppStores.namespace),
+    ),
+    page2ExampleStore: observable(
+        StoreProviders.page2ExampleStore.storeProvider(AppStores.namespace),
+    ),
+    page3ExampleStore: observable(
+        StoreProviders.page3ExampleStore.storeProvider(AppStores.namespace),
+    ),
+    page4ExampleStore: observable(
+        StoreProviders.page4ExampleStore.storeProvider(AppStores.namespace),
+    ),
+    recipeBoxStore: observable(
+        StoreProviders.recipeBoxStore.storeProvider(AppStores.namespace),
+    ),
+  };
 
 }

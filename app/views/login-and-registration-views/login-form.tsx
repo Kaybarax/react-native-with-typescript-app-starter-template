@@ -29,10 +29,13 @@ import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function LoginForm(props) {
 
-    let {login, notificationAlert, appStore, authStore, navigation} = props;
-    let loginModel = login.loginForm;
+    let {notificationAlert, recipeBoxStore, loginStore, navigation} = props;
+    let loginModel = loginStore.loginForm;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
+    let [password, updatePassword] = React.useState({
+        password: '',
+    });
 
     let isValidFormData = () => {
 
@@ -44,7 +47,7 @@ export default function LoginForm(props) {
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(loginModel['password'])) {
+        if (isEmptyString(password.password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -72,13 +75,16 @@ export default function LoginForm(props) {
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(loginModel.password) &&
+                submit_pressed && isEmptyString(password.password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Password"
-                onChangeText={text => textValueChanged(loginModel, text, 'password', null)}
+                onChangeText={text => {
+                    textValueChanged(password, text, 'password', null);
+                    updatePassword(password);
+                }}
                 secureTextEntry={true}
             />
             <BlankSpaceDivider/>
@@ -99,7 +105,7 @@ export default function LoginForm(props) {
                     if (!isValidFormData()) {
                         return;
                     }
-                    handleLogin(loginModel, notificationAlert, appStore, authStore, navigation);
+                    handleLogin(loginModel, password.password, notificationAlert, recipeBoxStore, loginStore, navigation);
                 }}
             >
                 <Text

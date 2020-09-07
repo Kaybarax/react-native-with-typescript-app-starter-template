@@ -23,11 +23,12 @@ import appNavigation from "../routing-and-navigation/app-navigation";
 /**
  * sd _ Kaybarax
  * @param signUpModel
- * @param appStore
+ * @param recipeBoxStore
+ * @param loginStore
  * @param notificationAlert
  * @param showLoginForm
  */
-export function handleSignUp(signUpModel, appStore, notificationAlert, showLoginForm) {
+export function handleSignUp(signUpModel, recipeBoxStore, loginStore, notificationAlert, showLoginForm) {
 
     console.log('signUpModel:', toJS(signUpModel));
     // return;
@@ -45,30 +46,33 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
         salt: undefined
     };
 
-    let listener = {
+    let threadWorkListener = {
         done: false,
+        createPasswordHash: false,
+        saveUser: false,
+        saveUserCredentials: false,
     };
 
-    invokeLoader(appStore);
+    invokeLoader(loginStore);
 
     serviceWorkerThread(() => {
             createPasswordHash(signUpModel.password, userCredentials,
-                notificationAlert, listener).then(null);
+                notificationAlert, threadWorkListener).then(null);
         },
-        TIME_OUT, 1000,
         () => {
-            return listener.done;
+            return threadWorkListener.done;
         },
         () => {
             saveUserWork(userCredentials);
         }, () => {
             //do nothing, cuz has already been handled by the hashing function
-        }, functionServiceWorkerThreadsPool
+        }, TIME_OUT, 1000,
+        functionServiceWorkerThreadsPool
     );
 
     function saveUserWork(credentials) {
 
-        invokeLoader(appStore);
+        invokeLoader(loginStore);
 
         console.log('credentials password_hash', credentials.password_hash);
         console.log('credentials salt', credentials.salt);
@@ -85,7 +89,6 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
         serviceWorkerThread(() => {
                 saveUser(user, notificationAlert);
             },
-            TIME_OUT, 1000,
             () => {
                 return appSQLiteDb.transactionSuccess;
             },
@@ -98,19 +101,19 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
                     'Sign up failed, cannot save user',
                     notificationAlert,
                 );
-            }, functionServiceWorkerThreadsPool
+            }, TIME_OUT, 1000,
+            functionServiceWorkerThreadsPool
         );
 
     }
 
     function saveUserCredentialsWork() {
 
-        invokeLoader(appStore);
+        invokeLoader(loginStore);
 
         serviceWorkerThread(() => {
                 saveUserCredentials(userCredentials, notificationAlert);
             },
-            TIME_OUT, 1000,
             () => {
                 return appSQLiteDb.transactionSuccess;
             },
@@ -129,7 +132,8 @@ export function handleSignUp(signUpModel, appStore, notificationAlert, showLogin
                     'Sign up failed, cannot save credentials',
                     notificationAlert,
                 );
-            }, functionServiceWorkerThreadsPool
+            }, TIME_OUT, 1000,
+            functionServiceWorkerThreadsPool
         );
 
     }
@@ -197,23 +201,21 @@ export function saveUserCredentials(userCredentials: UserCredentials, notificati
 /**
  * sd _ Kaybarax
  * @param loginForm
+ * @param password
  * @param notificationAlert
- * @param appStore
- * @param authStore
+ * @param recipeBoxStore
+ * @param loginStore
  * @param navigation
  */
-export function handleLogin(loginForm, notificationAlert, appStore, authStore, navigation) {
+export function handleLogin(loginForm, password, notificationAlert, recipeBoxStore, loginStore, navigation) {
 
     console.log('handleLogin');
     console.log('loginForm:', toJS(loginForm));
     // return;
 
-    let functionServiceWorkerThreadsPool = [];
+    invokeLoader(loginStore);
 
     //check username/email
-
-    invokeLoader(appStore);
-
     let user: User = appSQLiteDb.usersQueryResults.find(item =>
         item.username === loginForm.usernameOrEmail ||
         item.email === loginForm.usernameOrEmail);
@@ -226,9 +228,6 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
     }
 
     //check credentials
-
-    invokeLoader(appStore);
-
     let userCredentials: UserCredentials = appSQLiteDb.usersCredentialsQueryResults.find(item =>
         item.username === user.id);
 
@@ -242,13 +241,13 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
     //verify password
     //NOTE! Not used because of the limits of the sqlite storage npm package.
     //the hashed password, cannot be be verified with the given salt and hash
-    // invokeLoader(appStore);
+    // invokeLoader(loginStore);
     // let validatePasswordFeedback = {
     //     done: false,
     //     isValidPassword: false,
     // };
     // serviceWorkerThread(() => {
-    //         validatePasswordWithHashAndSalt(loginForm.password, userCredentials.password_hash,
+    //         validatePasswordWithHashAndSalt(password, userCredentials.password_hash,
     //             userCredentials.salt, notificationAlert, validatePasswordFeedback);
     //     },
     //     TIME_OUT, 1000,
@@ -270,6 +269,9 @@ export function handleLogin(loginForm, notificationAlert, appStore, authStore, n
     //             notificationAlert);
     //     }, functionServiceWorkerThreadsPool
     // );
+
+    //set user
+    recipeBoxStore.user = user;
 
     showToast('Login success');
     appNavigation.navigateToRecipeBoxHome(navigation, null);

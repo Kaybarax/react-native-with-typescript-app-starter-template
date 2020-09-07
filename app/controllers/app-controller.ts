@@ -8,7 +8,6 @@
  */
 
 import {isNullUndefined, isTrue, objectKeyExists} from "../util/util";
-import {TIME_OUT} from "../app-config";
 
 /**
  * sd _ Kaybarax
@@ -27,42 +26,82 @@ export function displayFieldExpectationSatisfied(key, model, expectationFunction
 
 /**
  * sd _ Kaybarax
- * @param work
- * @param timer
- * @param timeDown
- * @param threadRunCompletionDeterminant
+ * @param threadWork
+ * @param threadRunTime
+ * @param threadRunTimeCountdown
+ * @param threadWorkRunSuccess
  * @param onWorkSuccess
  * @param onWorkFail
  * @param threadPool
+ * @param startOrJoinThread
+ * @param startOrJoinThreadCountdown
  */
 export function serviceWorkerThread(
-    work: Function, timer: number, timeDown: number,
-    threadRunCompletionDeterminant: Function,
+    threadWork: Function,
+    threadWorkRunSuccess: Function | boolean = false,
     onWorkSuccess: Function, onWorkFail: Function,
-    threadPool: Array<any>
+    threadRunTime: number = 5000,
+    threadRunTimeCountdown: number = 1000,
+    threadPool: Array<any> = [],
+    startOrJoinThread: Function | boolean = true,
+    startOrJoinThreadCountdown: number = 1000,
 ) {
 
-    let countdown: number = timer || TIME_OUT;
-    let threadIndex = threadPool.length;//because on push, length increases by one,
-                                        // and interval is at former length value
-    work.call(null);
+    let countdown: number = threadRunTime;
+    //because on push, length increases by one,
+    // and interval is at former length value
+    let threadIndex = threadPool.length;
 
     threadPool.push(
         setInterval(_ => {
-            let done: boolean = threadRunCompletionDeterminant.call(null);
-            console.log('Thread work at -> ', countdown, done)
-            if (isTrue(done)) {
+
+            let runThread: boolean | Function = (typeof startOrJoinThread === 'boolean') ?
+                startOrJoinThread :
+                startOrJoinThread.call(null);
+
+            if (runThread) {
+
+                //clear this top level thread
                 clearInterval(threadPool[threadIndex]);
-                onWorkSuccess.call(null);
+
+                //start thread work and
+                threadWork.call(null);
+
+                //next index for thread work
+                threadIndex = threadPool.length;
+
+                threadPool.push(
+                    setInterval(_ => {
+                        let done: boolean | Function = (typeof threadWorkRunSuccess === 'boolean') ?
+                            threadWorkRunSuccess :
+                            threadWorkRunSuccess.call(null);
+                        console.log('Thread work at -> ', countdown, done)
+                        if (isTrue(done)) {
+                            clearInterval(threadPool[threadIndex]);
+                            onWorkSuccess.call(null);
+                        } else {
+                            //if out of time, terminate
+                            if (countdown <= 0) {
+                                clearInterval(threadPool[threadIndex]);
+                                onWorkFail.call(null);
+                            }
+                        }
+                        countdown -= threadRunTimeCountdown;
+                    }, threadRunTimeCountdown)
+                );
+
             } else {
                 //if out of time, terminate
                 if (countdown <= 0) {
                     clearInterval(threadPool[threadIndex]);
+                    //and report thread work failure
                     onWorkFail.call(null);
                 }
             }
-            countdown -= timeDown;
-        }, timeDown)
+
+            countdown -= startOrJoinThreadCountdown;
+
+        }, startOrJoinThreadCountdown)
     );
 
 }

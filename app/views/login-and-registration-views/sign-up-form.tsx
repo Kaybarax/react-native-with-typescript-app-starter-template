@@ -26,41 +26,49 @@ import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function SignUpForm(props) {
 
-    let {signUpModel, notificationAlert, showLoginForm, appStore} = props;
+    let {
+        showLoginForm, recipeBoxStore,
+        loginStore: {notificationAlert, signUpForm},
+        loginStore,
+    } = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
+    let [password, updatePassword] = React.useState({
+        password: '',
+        confirm_password: '',
+    });
 
     let isValidFormData = () => {
 
         let validForm = true;
         set_press_submit(false);//assume not pressed
 
-        if (isEmptyString(signUpModel.user['name'])) {
+        if (isEmptyString(signUpForm.user['name'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel.user['email'])) {
+        if (isEmptyString(signUpForm.user['email'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel.user['username'])) {
+        if (isEmptyString(signUpForm.user['username'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel['password'])) {
+        if (isEmptyString(password.password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(signUpModel['confirm_password'])) {
+        if (isEmptyString(password.confirm_password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (signUpModel['password'] !== signUpModel['confirm_password']) {
+        if (password.password !== password.confirm_password) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -78,59 +86,65 @@ export default function SignUpForm(props) {
             ]}
         >
             {
-                submit_pressed && isEmptyString(signUpModel.user.name) &&
+                submit_pressed && isEmptyString(signUpForm.user.name) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Name"
-                onChangeText={value => textValueChanged(signUpModel.user, value, 'name', null)}
+                onChangeText={value => textValueChanged(signUpForm.user, value, 'name', null)}
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(signUpModel.user.username) &&
+                submit_pressed && isEmptyString(signUpForm.user.username) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Username"
-                onChangeText={value => textValueChanged(signUpModel.user, value, 'username', null)}
+                onChangeText={value => textValueChanged(signUpForm.user, value, 'username', null)}
             />
             {
-                submit_pressed && isEmptyString(signUpModel.user.email) &&
+                submit_pressed && isEmptyString(signUpForm.user.email) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Email"
-                onChangeText={value => textValueChanged(signUpModel.user, value, 'email', null)}
+                onChangeText={value => textValueChanged(signUpForm.user, value, 'email', null)}
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(signUpModel.password) &&
+                submit_pressed && isEmptyString(password.password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 secureTextEntry={true}
                 label="Password"
-                onChangeText={value => textValueChanged(signUpModel, value, 'password', null)}
+                onChangeText={value => {
+                    textValueChanged(password, value, 'password', null);
+                    updatePassword(password);
+                }}
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(signUpModel.confirm_password) &&
+                submit_pressed && isEmptyString(password.confirm_password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 secureTextEntry={true}
                 label="Confirm Password"
-                onChangeText={value => textValueChanged(signUpModel, value, 'confirm_password', null)}
+                onChangeText={value => {
+                    textValueChanged(password, value, 'confirm_password', null);
+                    updatePassword(password);
+                }}
             />
             <BlankSpaceDivider/>
             {
                 submit_pressed &&
-                (signUpModel.password !== signUpModel.confirm_password) &&
+                (password.password !== password.confirm_password) &&
                 <Text style={{color: 'red'}}>Passwords do not match.</Text>
             }
             <BlankSpaceDivider/>
@@ -150,9 +164,9 @@ export default function SignUpForm(props) {
                     if (!isValidFormData()) {
                         return;
                     }
-                    signUpModel.user.status_ref_key_key = "STATUS";
-                    signUpModel.user.status_ref_key_value = "ACT";
-                    handleSignUp(signUpModel, appStore, notificationAlert, showLoginForm);
+                    signUpForm.user.status_ref_key_key = "STATUS";
+                    signUpForm.user.status_ref_key_value = "ACT";
+                    handleSignUp(signUpForm, recipeBoxStore, loginStore, notificationAlert, showLoginForm);
                 }}
             >
                 <Text

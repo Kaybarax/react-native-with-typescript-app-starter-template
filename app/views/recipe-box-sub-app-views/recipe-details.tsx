@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import RN, {View} from 'react-native';
+import RN, {Alert, View} from 'react-native';
 import className from "../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
@@ -31,23 +31,33 @@ import {
     numberItem
 } from "../../util/util";
 import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
-import {SCREEN_HEIGHT} from "../../App";
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from "../../App";
 import StarRatings from "../../shared-components-and-modules/form-controls/star-ratings";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faLeaf} from "@fortawesome/free-solid-svg-icons";
-import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
+import {faCircle, faLeaf} from "@fortawesome/free-solid-svg-icons";
+import {BlankSpaceDivider, Spacer} from "../../shared-components-and-modules/shared-components";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 import {displayFieldExpectationSatisfied} from "../../controllers/app-controller";
 import AppNotificationToastAlert
     from "../../shared-components-and-modules/notification-center/app-notification-toast-alert";
 import {toJS} from "mobx";
+import {
+    BackButtonCN,
+    BackButtonTextCN,
+    DeleteButtonCN,
+    DeleteButtonTextCN,
+    EditButtonCN,
+    EditButtonTextCN
+} from "../../theme/component-themes";
+import {editRecipeClick} from "../../controllers/recipe-box-sub-app-controllers/recipe-item-card-controller";
+import {deleteRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 
 export default function RecipeDetails(props) {
 
     console.log('PROPS AT RecipeDetails:', toJS(props));
 
     let {
-        recipeBoxStore, navigation, appStore: {navStore},
+        recipeBoxStore, navigation, appStore,
         route: {params}, recipeBoxStore: {notificationAlert}
     } = props;
     console.log('#### RECIPEDETAILS ####:', params);
@@ -56,16 +66,12 @@ export default function RecipeDetails(props) {
     let recipePhotos: Array<RecipeImage> = params.recipePhotos;
     console.log('!!! RecipeDetails recipePhotos !!!:', recipePhotos);
 
-    // return (
-    //     <React.Fragment></React.Fragment>
-    // );
-
     let enumeratorArray = [];
 
     return (
         <RN.ScrollView
             style={[
-                className(FlexColumnContainerCN)
+                className(FlexColumnContainerCN),
             ]}
             contentInsetAdjustmentBehavior={"automatic"}
         >
@@ -76,59 +82,57 @@ export default function RecipeDetails(props) {
                 ]}
             >
 
-                <RN.View
-                    style={[
-                        className(FlexFluidRowContainerCN)
+                <RN.ScrollView
+                    horizontal={true}
+                    contentContainerStyle={[
+                        className(
+                            FlexFluidRowContainerCN,
+                            AlignCenterContentCN
+                        )
                     ]}
                 >
+                    {
+                        !isEmptyArray(recipePhotos) &&
+                        (recipePhotos.map((item: RecipeImage) => {
+                            console.log('We have recipe photos');
+                            return (
+                                <RN.View
+                                    style={[
+                                        className(
+                                            FlexContainerChildItemFullWidthCN,
+                                        ),
+                                        {
+                                            height: SCREEN_HEIGHT * 0.21
+                                        }
+                                    ]}
+                                    key={makeId(16)}
+                                >
+                                    <RN.Image
+                                        source={
+                                            !isEmptyString(item.image_url) ?
+                                                'data:image/jpeg;base64,' + item.image_url :
+                                                (
+                                                    !isEmptyString(item.image_file) ?
+                                                        'data:image/jpeg;base64,' + item.image_file :
+                                                        require('../../media/images/image.png')
+                                                )
 
-                    <RN.ScrollView
-                        horizontal={true}
-                        style={[
-                            className(FlexColumnContainerCN,
-                            ),
-                        ]}
-                    >
-                        {
-                            !isEmptyArray(recipePhotos) &&
-                            (recipePhotos.map((item: RecipeImage) => {
-                                console.log('We have recipe photos');
-                                return (
-                                    <RN.View
+                                        }
                                         style={[
-                                            className(FlexContainerChildItemFullWidthCN),
                                             {
-                                                height: SCREEN_HEIGHT * 0.21
+                                                width: SCREEN_WIDTH * 0.92,
+                                                height: SCREEN_HEIGHT * 0.2,
+                                                resizeMode: 'cover',
                                             }
                                         ]}
-                                        key={makeId(16)}
-                                    >
-                                        <RN.Image
-                                            source={
-                                                !isEmptyString(item.image_url) ?
-                                                    // require('' + item.image_url) : (
-                                                    require('../../media/images/image.png') : (
-                                                        !isEmptyString(item.image_file) ?
-                                                            'data:image/jpeg;base64,' + item.image_file :
-                                                            require('../../media/images/image.png')
-                                                    )
-                                            }
-                                            style={[
-                                                {
-                                                    width: '100%',
-                                                    // width: SCREEN_WIDTH * 0.8,
-                                                    height: SCREEN_HEIGHT * 0.2,
-                                                    // height: '100%',
-                                                }
-                                            ]}
-                                        />
-                                    </RN.View>
-                                );
-                            }))
-                        }
-                    </RN.ScrollView>
+                                    />
 
-                </RN.View>
+                                </RN.View>
+                            );
+                        }))
+                    }
+                </RN.ScrollView>
+
 
                 <RN.View
                     style={[
@@ -207,9 +211,10 @@ export default function RecipeDetails(props) {
 
                             <RN.Text
                                 style={[
-                                    className(FlexContainerChildItemFullWidthCN,
-                                        AlignLeftFlexContainerContentCN,),
-                                    {backgroundColor: 'teal'}
+                                    className(
+                                        FlexContainerChildItemFullWidthCN,
+                                        AlignLeftFlexContainerContentCN
+                                    )
                                 ]}
                             >
                                 Created on:&nbsp;{`${localeDateStringFormatFromDatetime(recipe.date_created)}`}&nbsp;
@@ -242,7 +247,6 @@ export default function RecipeDetails(props) {
                                         style={[
                                             className(FlexContainerChildItemFullWidthCN)
                                         ]}
-                                        // class="styled-ul"
                                     >
                                         <RN.FlatList
                                             data={recipe.ingredients}
@@ -251,7 +255,15 @@ export default function RecipeDetails(props) {
                                                 return (
                                                     <RN.Text
                                                     >
-                                                        {`${numberItem(enumeratorArray) + '. '}`}&nbsp;{item}
+                                                        <FontAwesomeIcon
+                                                            icon={faCircle}
+                                                            color={'black'}
+                                                            size={10}
+                                                            style={[
+                                                                //todo: any <Text> styles you fancy
+                                                            ]}
+                                                        />
+                                                        &nbsp;{item}
                                                     </RN.Text>
                                                 );
                                             }}
@@ -287,7 +299,6 @@ export default function RecipeDetails(props) {
                                         style={[
                                             className(FlexContainerChildItemFullWidthCN)
                                         ]}
-                                        // class="styled-ul"
                                     >
                                         <RN.FlatList
                                             data={recipe.cooking_instructions}
@@ -340,6 +351,15 @@ export default function RecipeDetails(props) {
                                               return (
                                                   <RN.Text
                                                   >
+                                                      <FontAwesomeIcon
+                                                          icon={faCircle}
+                                                          color={'black'}
+                                                          size={10}
+                                                          style={[
+                                                              //todo: any <Text> styles you fancy
+                                                          ]}
+                                                      />
+                                                      <Spacer/>
                                                       {item}
                                                   </RN.Text>
                                               );
@@ -358,7 +378,6 @@ export default function RecipeDetails(props) {
 
                     </RN.View>
 
-
                 </RN.View>
 
                 <BlankSpaceDivider/>
@@ -373,86 +392,153 @@ export default function RecipeDetails(props) {
                             className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
+
                         <RN.View
                             style={[
-                                className(FlexFluidRowContainerCN,
-                                    AlignRightFlexContainerContentCN)
+                                className(
+                                    FlexFluidRowContainerCN,
+                                    AlignCenterContentCN
+                                )
                             ]}
                         >
 
-                            <RN.TouchableOpacity
-                                activeOpacity={.6}
-                                onPress={_ => {
-                                    recipeBoxStore.viewAction = null;
-                                    appNavigation.navigateBack(navigation)
-                                }}
+                            <RN.View
                                 style={[
                                     className(
                                         FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AlignCenterContentCN
-                                    )
-                                ]}
+                                    )]}
                             >
-                                <RN.Text>Back</RN.Text>
-                            </RN.TouchableOpacity>
 
-                            <RN.TouchableOpacity
-                                activeOpacity={.6}
-                                onPress={_ => {
-                                    // editRecipeClick(this, recipe);
-                                }}
+                                <RN.TouchableOpacity
+                                    activeOpacity={.6}
+                                    onPress={_ => {
+                                        recipeBoxStore.viewAction = null;
+                                        appNavigation.navigateBack(navigation)
+                                    }}
+                                    style={[
+                                        className(
+                                            FlexContainerChildItemFullWidthCN,
+                                            AlignCenterContentCN,
+                                            BackButtonCN
+                                        )
+                                    ]}
+                                >
+                                    <RN.Text
+                                        style={[
+                                            className(
+                                                BackButtonTextCN
+                                            )
+                                        ]}>Back</RN.Text>
+                                </RN.TouchableOpacity>
+
+                            </RN.View>
+
+                            <RN.View
                                 style={[
                                     className(
                                         FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AlignCenterContentCN
-                                    )
-                                ]}
+                                    )]}
                             >
-                                <RN.Text>Edit</RN.Text>
-                            </RN.TouchableOpacity>
 
-                            <RN.TouchableOpacity
-                                activeOpacity={.6}
-                                onPress={_ => {
-                                    // deleteRecipe(recipe, this);
-                                }}
+                                <RN.TouchableOpacity
+                                    activeOpacity={.6}
+                                    onPress={_ => {
+                                        editRecipeClick(recipe, recipePhotos, recipeBoxStore, navigation);
+                                    }}
+                                    style={[
+                                        className(
+                                            FlexContainerChildItemFullWidthCN,
+                                            AlignCenterContentCN,
+                                            EditButtonCN
+                                        )
+                                    ]}
+                                >
+                                    <RN.Text
+                                        style={[
+                                            className(
+                                                EditButtonTextCN
+                                            )
+                                        ]}>Edit</RN.Text>
+                                </RN.TouchableOpacity>
+
+                            </RN.View>
+
+                            <RN.View
                                 style={[
                                     className(
                                         FlexContainerChildItemNoGrowCN,
                                         FlexContainerChildItemOneThirdWidthCN,
-                                        AlignCenterContentCN
-                                    )
-                                ]}
+                                    )]}
                             >
-                                <RN.Text>Delete</RN.Text>
-                            </RN.TouchableOpacity>
 
-                        </RN.View>
-                    </RN.View>
-                </RN.View>
+                                <RN.TouchableOpacity
+                                    activeOpacity={.6}
+                                    onPress={_ => {
+                                        Alert.alert(
+                                            `Delete ${recipe.name}`,
+                                            'Confirm deletion',
+                                            [
+                                                {
+                                                    text: 'Delete',
+                                                    style: 'destructive',
+                                                    onPress: () => {
+                                                        deleteRecipe(recipe);
+                                                    }
+                                                },
+                                                {
+                                                    text: 'Cancel',
+                                                    style: 'default',
+                                                    onPress: () => {
+                                                        //do nothing
+                                                    }
+                                                },
+                                            ]
+                                        );
+                                    }}
+                                        style={[
+                                        className(
+                                        FlexContainerChildItemFullWidthCN,
+                                        AlignCenterContentCN,
+                                        DeleteButtonCN
+                                        )
+                                        ]}
+                                        >
+                                        <RN.Text
+                                        style={[
+                                        className(
+                                        DeleteButtonTextCN
+                                        )
+                                        ]}>Delete</RN.Text>
+                                        </RN.TouchableOpacity>
 
-                {
-                    (displayFieldExpectationSatisfied('alert', notificationAlert,
-                        expectationOfX => isTrue(expectationOfX))) &&
-                    <View
-                        style={[
-                            {
-                                position: 'absolute',
-                                top: 0,
-                                width: '100%'
-                            }
-                        ]}
-                    >
-                      <AppNotificationToastAlert
-                          dropDownProps={notificationAlert}
-                      />
-                    </View>
-                }
+                                        </RN.View>
 
-            </RN.View>
-        </RN.ScrollView>
-    );
+                                        </RN.View>
+                                        </RN.View>
+                                        </RN.View>
 
-}
+                                    {
+                                        (displayFieldExpectationSatisfied('alert', notificationAlert,
+                                        expectationOfX => isTrue(expectationOfX))) &&
+                                        <View
+                                        style={[
+                                            {
+                                                position: 'absolute',
+                                                top: 0,
+                                                width: '100%'
+                                            }
+                                        ]}
+                                        >
+                                        <AppNotificationToastAlert
+                                        dropDownProps={notificationAlert}
+                                        />
+                                        </View>
+                                    }
+
+                                        </RN.View>
+                                        </RN.ScrollView>
+                                        );
+
+                                        }

@@ -55,7 +55,7 @@ export function isEmptyString(value) {
  */
 export function isNumberType(value) {
   try {
-    return typeof value === 'number';
+    return !isNaN(parseInt(value));
   } catch (err) {
     return false;
   }

@@ -4,7 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import className from "../../util/react-native-based-utils";
 import {
-    AlignCenterContentCN, AlignCenterTextCN,
+    AlignCenterContentCN,
+    AlignCenterTextCN,
     AlignLeftFlexContainerContentCN,
     AlignLeftTextCN,
     FlexColumnContainerCN,
@@ -19,7 +20,23 @@ import {SCREEN_HEIGHT} from "../../App";
 import {BlankSpaceDivider} from "../shared-components";
 import {NegativeButtonCN, NegativeButtonTextCN} from "../../theme/component-themes";
 
-export default function RnMultiSelectKaybarax(props) {
+interface RnMultiSelectKaybaraxProps {
+    selectedItems: Array<SelectedItem>,
+    itemsList: Array<SelectedItem>,
+    multiSelectDialogIsOpen?: boolean,
+    onItemSelected: Function,
+    onItemRemoved: Function,
+    toggleOpenMultiSelectDialog?: Function,
+    style?: object,
+}
+
+type SelectedItem = {
+    text?: string,
+    label?: string,
+    value: string,
+}
+
+export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps) {
 
     console.log('PROPS IN RnMultiSelectKaybarax', toJS(props));
 
@@ -35,7 +52,9 @@ export default function RnMultiSelectKaybarax(props) {
         let item = itemsList.find(item => item.value === value);
         isEmptyArray(selectedItems) && (selectedItems = []);
         if (!isNullUndefined(item)) {
+            // @ts-ignore
             selectedItems.push(item);
+            // @ts-ignore
             let idx = itemsList.indexOf(item);
             itemsList.splice(idx, 1);
         }
@@ -53,7 +72,9 @@ export default function RnMultiSelectKaybarax(props) {
         isNullUndefined(selectedItems) && (selectedItems = []);
         let item = selectedItems.find(item => item.value === value);
         if (!isNullUndefined(item)) {
+            // @ts-ignore
             itemsList.push(item);
+            // @ts-ignore
             let idx = selectedItems.indexOf(item);
             selectedItems.splice(idx, 1);
         }
@@ -66,13 +87,13 @@ export default function RnMultiSelectKaybarax(props) {
     let openMultiSelectDialog = () => {
         state.multiSelectDialogIsOpen = true;
         set_state(state);
-        props.toggleOpenMultiSelectDialog(true);
+        props?.toggleOpenMultiSelectDialog?.(true);
     };
 
     let closeDropdown = () => {
         state.multiSelectDialogIsOpen = false;
         set_state(state);
-        props.toggleOpenMultiSelectDialog(false);
+        props.toggleOpenMultiSelectDialog?.(false);
     };
 
     return (

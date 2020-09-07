@@ -14,6 +14,9 @@ import {showToast} from "../../util/react-native-based-utils";
 import {APP_SQLITE_DATABASE} from "../../app-management/data-manager/db-config";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {appSQLiteDb} from "../../app-management/data-manager/embeddedDb-manager";
+import {serviceWorkerThread} from "../app-controller";
+import {TIME_OUT} from "../../app-config";
+import appNavigation from "../../routing-and-navigation/app-navigation";
 
 /**
  * sd _ Kaybarax
@@ -99,27 +102,34 @@ export const isValidRecipeFormData = (formData, onUpdate = false, recipeFormVali
         return validForm;
     }
 
-    if (!isBoolean(recipe['is_vegetarian']) ||
-        // @ts-ignore
-        (isNumberType(recipe['is_vegetarian']) && (recipe['is_vegetarian'] !== 1 || recipe['is_vegetarian'] !== 0))
-    ) {
-        console.log('is_vegetarian')
-        recipeFormValidityTree['is_vegetarian'] = false;
-        console.log('recipeFormValidityTree', recipeFormValidityTree);
-        validForm = false;
-        return validForm;
-    }
-
-    if (!isBoolean(recipe['is_vegan']) ||
-        // @ts-ignore
-        (isNumberType(recipe['is_vegan']) && (recipe['is_vegan'] !== 1 || recipe['is_vegan'] !== 0))
-    ) {
-        console.log('is_vegan')
-        recipeFormValidityTree['is_vegan'] = false;
-        console.log('recipeFormValidityTree', recipeFormValidityTree);
-        validForm = false;
-        return validForm;
-    }
+    //faulty
+    // if (!isBoolean(recipe['is_vegetarian']) ||
+    //     // @ts-ignore
+    //     (isNumberType(recipe['is_vegetarian']) && (recipe['is_vegetarian'] != 1 && recipe['is_vegetarian'] != 0))
+    // ) {
+    //     console.log(`recipe['is_vegetarian']`, recipe['is_vegetarian'])
+    //     console.log(`OORR`,
+    //         (!isBoolean(recipe['is_vegetarian']) ||
+    //             // @ts-ignore
+    //             (isNumberType(recipe['is_vegetarian']) && (recipe['is_vegetarian'] != 1 && recipe['is_vegetarian'] != 0)))
+    //     );
+    //     console.log(`isNumberType(recipe['is_vegetarian']`, isNumberType(recipe['is_vegetarian']))
+    //     recipeFormValidityTree['is_vegetarian'] = false;
+    //     console.log('recipeFormValidityTree', recipeFormValidityTree);
+    //     validForm = false;
+    //     return validForm;
+    // }
+    //
+    // if (!isBoolean(recipe['is_vegan']) ||
+    //     // @ts-ignore
+    //     (isNumberType(recipe['is_vegan']) && (recipe['is_vegan'] !== 1 || recipe['is_vegan'] !== 0))
+    // ) {
+    //     console.log('is_vegan')
+    //     recipeFormValidityTree['is_vegan'] = false;
+    //     console.log('recipeFormValidityTree', recipeFormValidityTree);
+    //     validForm = false;
+    //     return validForm;
+    // }
 
     if (isEmptyString(recipe['status_ref_key_key'])) {
         console.log('status_ref_key_key')
@@ -154,18 +164,6 @@ export const isValidRecipeFormData = (formData, onUpdate = false, recipeFormVali
 
 };
 
-export function* submitRecipeClick(formData, notificationAlert, activity = null) {
-    console.log('submitRecipeClick');
-    let {recipe, recipePhotos} = formData;
-    yield saveRecipe(recipe, notificationAlert, activity);
-    yield saveRecipePhotos(recipePhotos, notificationAlert, activity);
-    yield saveUserRecipe(recipe, notificationAlert, activity);
-}
-
-export const updateRecipeClick = (formData, notificationAlert, activity = null) => {
-    console.log('updateRecipeClick');
-};
-
 export function addIngredient(recipe, activity = null) {
     recipe.ingredients.push('');
     console.log('addIngredient', toJS(recipe));
@@ -183,194 +181,157 @@ export function removeCookingInstruction(recipe, index, activity = null) {
     recipe.cooking_instructions.splice(index, 1);
 }
 
-export function saveRecipe(recipe: Recipe, notificationAlert, activity = null) {
-    console.log('saveRecipe');
+export function submitRecipeClick(formData, notificationAlert, userId, navigator, activity = null) {
+    console.log('submitRecipeClick');
+    let {recipe, recipePhotos}: { recipe: Recipe, recipePhotos: Array<RecipeImage> } = formData;
 
-    let saved = false;
+    let validPhotos = recipePhotos.filter(item => !isEmptyString(item.image_file) || !isEmptyString(item.image_url))
 
-    //save to sqlitedb
+    let threadWorkListener = {
+        recipeSaved: false,
+        recipePhotosSaved: 0,
+        allRecipePhotosSaved: false,
+        recipeUserSaved: false,
+    }
+
+    let threadPool = [];
 
     let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
 
-    //put in db
-    try {
+    // invokeLoader(appStore);
 
-        appSQLiteDb.addRecipeStmt(db, recipe);
-        saved = appSQLiteDb.transactionSuccess;
+    serviceWorkerThread(() => {
+            appSQLiteDb.transactionSuccess = false;
+            appSQLiteDb.addRecipeStmt(db, recipe);
+        },
+        (): boolean => {
+            return appSQLiteDb.transactionSuccess;
+        },
+        () => {
 
-        notificationCallback(
-            'succ',
-            'Recipe saved',
-            notificationAlert,
-        );
+            let workMessage = 'Recipe saved';
 
-    } catch (err) {
+            showToast(workMessage);
 
-        notificationCallback(
-            'err',
-            'Save recipe failed',
-            notificationAlert,
+            // notificationCallback(
+            //     'succ',
+            //     workMessage,
+            //     notificationAlert,
+            // );
+
+            threadWorkListener.recipeSaved = true;
+
+        }, () => {
+            let workMessage = 'Save recipe failed!';
+            showToast(workMessage);
+            notificationCallback(
+                'err',
+                workMessage,
+                notificationAlert,
+            );
+        }, TIME_OUT, 1000,
+        threadPool
+    );
+
+    //now save photos
+    for (let item of validPhotos) {
+        let idx = validPhotos.indexOf(item);
+        saveRecipePhoto(item, idx);
+    }
+
+    function saveRecipePhoto(recipePhoto: RecipeImage, idx: number) {
+
+        serviceWorkerThread(() => {
+                appSQLiteDb.transactionSuccess = false;
+                appSQLiteDb.addRecipeImageStmt(db, recipePhoto);
+            },
+            (): boolean => {
+                return appSQLiteDb.transactionSuccess;
+            },
+            () => {
+
+                let workMessage = `Recipe photo ${idx} saved`;
+
+                showToast(workMessage);
+
+                // notificationCallback(
+                //     'succ',
+                //     workMessage,
+                //     notificationAlert,
+                // );
+
+                if (idx === (validPhotos.length - 1)) {
+                    threadWorkListener.allRecipePhotosSaved = true;
+                }
+
+            },
+            () => {
+                let workMessage = `Failed to save recipe photo ${idx}`;
+                showToast(workMessage);
+                // notificationCallback(
+                //     'err',
+                //     workMessage,
+                //     notificationAlert,
+                // );
+            }, TIME_OUT * (idx + 1) * 2, 1000,
+            threadPool,
+            (): boolean => {
+                return threadWorkListener.recipeSaved;
+            }
         );
 
     }
 
-    return saved;
+    //now save recipe user
+    serviceWorkerThread(() => {
 
-}
+            let userRecipe: UserRecipe = {
+                user_id: userId,
+                recipe_id: recipe.id
+            }
 
-export function saveRecipePhotos(recipePhotos: Array<RecipeImage>, notificationAlert, activity = null) {
-    console.log('saveRecipePhotos');
+            appSQLiteDb.transactionSuccess = false;
 
-    let saved = false;
+            appSQLiteDb.addUserRecipeStmt(db, userRecipe);
+        },
+        (): boolean => {
+            return appSQLiteDb.transactionSuccess;
+        },
+        () => {
 
-    //save to sqlitedb
+            let workMessage = `Added recipe for user`;
 
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
+            showToast(workMessage);
 
-    //put in db
-    try {
+            notificationCallback(
+                'succ',
+                'Recipe saved',
+                notificationAlert,
+            );
+            appNavigation.navigateBack(navigator)
 
-        for (let item of recipePhotos) {
-            appSQLiteDb.addRecipeImageStmt(db, item);
+        },
+        () => {
+            let workMessage = `Failed to add recipe for user`;
+            showToast(workMessage);
+            // notificationCallback(
+            //     'err',
+            //     workMessage,
+            //     notificationAlert,
+            // );
+        }, TIME_OUT, 1000,
+        threadPool,
+        (): boolean => {
+            return threadWorkListener.allRecipePhotosSaved;
         }
-
-        saved = appSQLiteDb.transactionSuccess;
-
-        notificationCallback(
-            'succ',
-            'Recipe photos saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save recipe photos failed',
-            notificationAlert,
-        );
-
-    }
-
-    return saved;
+    );
 
 }
 
-export function saveUserRecipe(recipe: Recipe, userId, notificationAlert, activity = null) {
-    console.log('saveRecipePhotos');
-
-    let saved = false;
-
-    //save to sqlitedb
-
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
-
-    let userRecipe: UserRecipe = {
-        user_id: userId,
-        recipe_id: recipe.id
-    }
-
-    //put in db
-    try {
-
-        appSQLiteDb.addUserRecipeStmt(db, userRecipe);
-
-        saved = appSQLiteDb.transactionSuccess;
-
-        notificationCallback(
-            'succ',
-            'User recipe saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save user recipe failed',
-            notificationAlert,
-        );
-
-    }
-
-    return saved;
-
-}
-
-export function updateRecipe(recipe: Recipe, notificationAlert, activity = null) {
-    console.log('saveRecipe');
-
-    let saved = false;
-
-    //save to sqlitedb
-
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
-
-    //put in db
-    try {
-
-        appSQLiteDb.addRecipeStmt(db, recipe);
-        saved = appSQLiteDb.transactionSuccess;
-
-        notificationCallback(
-            'succ',
-            'Recipe saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save recipe failed',
-            notificationAlert,
-        );
-
-    }
-
-    return saved;
-
-}
-
-export function updateRecipePhotos(recipePhotos: Array<RecipeImage>, notificationAlert, activity = null) {
-    console.log('saveRecipePhotos');
-
-    let saved = false;
-
-    //save to sqlitedb
-
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
-
-    //put in db
-    try {
-
-        for (let item of recipePhotos) {
-            appSQLiteDb.addRecipeImageStmt(db, item);
-        }
-
-        saved = appSQLiteDb.transactionSuccess;
-
-        notificationCallback(
-            'succ',
-            'Recipe photos saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save recipe photos failed',
-            notificationAlert,
-        );
-
-    }
-
-    return saved;
-
-}
+export const updateRecipeClick = (formData, notificationAlert, activity: object | any = null) => {
+    notificationCallback(
+        'succ',
+        `Hey mate! You've gotten the gist by now from this starter template`,
+        notificationAlert,
+    );
+};

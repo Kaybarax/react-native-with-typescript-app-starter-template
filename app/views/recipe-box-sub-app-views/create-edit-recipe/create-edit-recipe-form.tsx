@@ -15,10 +15,11 @@ import AppNotificationToastAlert
 import {Checkbox} from "../../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons";
 import AppTextInput from "../../../shared-components-and-modules/form-controls/app-text-input";
 import {displayFieldExpectationSatisfied} from "../../../controllers/app-controller";
-import {isEmptyArray, isEmptyObject, isEmptyString, isFalse, isTrue, makeId} from "../../../util/util";
+import {isEmptyArray, isEmptyObject, isEmptyString, isTrue, makeId} from "../../../util/util";
 import className, {showToast} from "../../../util/react-native-based-utils";
 import {
     AlignCenterContentCN,
+    AlignCenterTextCN,
     AlignLeftFlexContainerContentCN,
     AlignLeftTextCN,
     FlexColumnContainerCN,
@@ -28,14 +29,14 @@ import {
     FlexRowContainerCN
 } from "../../../theme/app-layout-styles-classnames";
 import WithStoresHoc from "../../../shared-components-and-modules/hocs/with-stores-hoc";
-import {checkboxItemValueChanged, textValueChanged} from "../../../util/react-native-data-collection-utils";
+import {checkboxItemValueChanged, textValue, textValueChanged} from "../../../util/react-native-data-collection-utils";
 import {
     addCookingInstruction,
     addIngredient,
     isValidRecipeFormData,
     removeCookingInstruction,
     removeIngredient,
-    submitRecipeClick
+    submitRecipeClick, updateRecipeClick
 } from "../../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -53,6 +54,7 @@ import {
 } from "../../../shared-components-and-modules/camera-photo-capture-module/camera-capture-util";
 import PhotoInput from "./recipe-photo-input";
 import {NUMBER_OF_RECIPE_PHOTOS} from "../../../app-config";
+import {addRecipePhoto} from "../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 
 export function CreateEditRecipeForm(props) {
 
@@ -63,7 +65,7 @@ export function CreateEditRecipeForm(props) {
         recipeBoxStore,
         route: {
             params
-        }
+        }, navigation
     } = props;
     let {recipe, recipePhotos}: { recipe: any, recipePhotos: Array<RecipeImage> } = params;
     let {
@@ -184,7 +186,6 @@ export function CreateEditRecipeForm(props) {
         console.log('NAME VALIDITY:', recipeFormValidityTree['name']);
     }, []);
 
-
     const FormFieldIsRequiredMessage = props => (
         <RN.Text
             style={[
@@ -196,6 +197,8 @@ export function CreateEditRecipeForm(props) {
             {props?.message || '* This field is required.'}
         </RN.Text>
     );
+
+    let photoCount = !isEmptyArray(recipePhotos) ? recipePhotos.length : NUMBER_OF_RECIPE_PHOTOS;
 
     return (
         <RN.ScrollView
@@ -225,19 +228,6 @@ export function CreateEditRecipeForm(props) {
                             className(FlexContainerChildItemFullWidthCN)
                         ]}
                     >
-
-                        <RN.View
-                            style={[
-                                className(FlexFluidRowContainerCN)
-                            ]}
-                        >
-                            <RN.Text
-                                style={[
-                                    className(FlexContainerChildItemFullWidthCN,
-                                        AlignCenterContentCN)
-                                ]}
-                            >Create Recipe</RN.Text>
-                        </RN.View>
 
                         <RN.View
                             style={[
@@ -276,6 +266,7 @@ export function CreateEditRecipeForm(props) {
                                                 console.log('TEXT IS CHANGING', text);
                                                 textValueChanged(recipe, text, 'name');
                                             }}
+                                            value={textValue(recipe, 'name')}
                                         />
 
                                     </RN.View>
@@ -300,10 +291,11 @@ export function CreateEditRecipeForm(props) {
                                                 className(FlexFluidRowContainerCN)
                                             ]}
                                         >
+
                                             {
                                                 (_ => {
                                                     let photos: Array<Element> = []
-                                                    for (let i = 0; i < NUMBER_OF_RECIPE_PHOTOS; i++) {
+                                                    for (let i = 0; i < photoCount; i++) {
                                                         photos.push(
                                                             <RN.View
                                                                 style={[
@@ -320,10 +312,41 @@ export function CreateEditRecipeForm(props) {
                                                             </RN.View>
                                                         );
                                                     }
-                                                    // console.log('RR Photos count: ', photos.length);
                                                     return photos;
                                                 })()
                                             }
+
+                                            <RN.View
+                                                style={[
+                                                    className(
+                                                        FlexContainerChildItemOneThirdWidthCN,
+                                                        AlignCenterContentCN
+                                                    )
+                                                ]}
+                                            >
+                                                <RN.TouchableOpacity
+                                                    activeOpacity={.6}
+                                                    style={[
+                                                        {
+                                                            borderRadius: 50,
+                                                            backgroundColor: 'teal',
+                                                            padding: 15,
+                                                        }
+                                                    ]}
+                                                    onPress={_ => {
+                                                        addRecipePhoto(recipePhotos, recipe);
+                                                    }}
+                                                >
+                                                    <RN.Text>
+                                                        <FontAwesomeIcon
+                                                            icon={faPlus}
+                                                            color={'white'}
+                                                            size={30}
+                                                        />
+                                                    </RN.Text>
+                                                </RN.TouchableOpacity>
+                                            </RN.View>
+
                                         </RN.View>
 
                                     </RN.View>
@@ -347,6 +370,7 @@ export function CreateEditRecipeForm(props) {
                                                 checkboxItemValueChanged(recipe, check, 'is_vegetarian',
                                                     1, 0);
                                             }}
+                                            value={recipe['is_vegetarian']}
                                         />
                                     </RN.View>
 
@@ -369,6 +393,7 @@ export function CreateEditRecipeForm(props) {
                                                 checkboxItemValueChanged(recipe, check, 'is_vegan',
                                                     1, 0);
                                             }}
+                                            value={recipe['is_vegan']}
                                         />
                                     </RN.View>
 
@@ -702,18 +727,18 @@ export function CreateEditRecipeForm(props) {
                                             >
 
                                                 <RnMultiSelectKaybarax
-                                                    style={{zIndex: 100000000}}
+                                                    style={{zIndex: 100}}
                                                     itemsList={
                                                         isEmptyArray(recipe['groups_suitable']) ?
                                                             [...RecipeGroupsSuitable] :
                                                             [...(RecipeGroupsSuitable.filter(item =>
-                                                                !recipe['groups_suitable'].includes(item.value)))]
+                                                                !recipe['groups_suitable'].includes(item.label)))]
                                                     }
-                                                    selectedItems={recipe['groups_suitable']}
+                                                    selectedItems={
+                                                        [...(RecipeGroupsSuitable.filter(item =>
+                                                            recipe['groups_suitable'].includes(item.label)))]
+                                                    }
                                                     onItemSelected={value => {
-
-                                                        console.log('WAS SELECTED', value);
-
                                                         isEmptyArray(recipe['groups_suitable']) &&
                                                         (recipe['groups_suitable'] = []);//ensure array
                                                         //if was there, do nothing
@@ -723,15 +748,12 @@ export function CreateEditRecipeForm(props) {
                                                             return;
                                                         }
                                                         recipe['groups_suitable'].push(value);
-
                                                     }}
                                                     onItemRemoved={value => {
-
                                                         isEmptyArray(recipe['groups_suitable']) &&
                                                         (recipe['groups_suitable'] = []);//ensure array
                                                         let idx = recipe['groups_suitable'].indexOf(value);
                                                         (idx != -1) && recipe['groups_suitable'].splice(idx, 1);
-
                                                     }}
                                                     multiSelectDialogIsOpen={multiSelectDialogIsOpen}
                                                     toggleOpenMultiSelectDialog={(value) => {
@@ -762,89 +784,72 @@ export function CreateEditRecipeForm(props) {
                                                 (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE) &&
                                                 <RN.TouchableOpacity
                                                     activeOpacity={.6}
-                                                    onPress={
-                                                        _ => {
-                                                            Alert.alert('Confirm!',
-                                                                'Confirm Submit?',
-                                                                [
-                                                                    {
-                                                                        text: 'Submit',
-                                                                        onPress: () => {
+                                                    onPress={_ => {
+                                                        Alert.alert('Confirm!',
+                                                            'Confirm Submit?',
+                                                            [
+                                                                {
+                                                                    text: 'Submit',
+                                                                    onPress: () => {
 
-                                                                            let formData = {
-                                                                                recipe,
-                                                                                recipePhotos
-                                                                            };
+                                                                        let formData = {
+                                                                            recipe,
+                                                                            recipePhotos
+                                                                        };
 
-                                                                            //reset, just in case
-                                                                            setSubmitPressed(false);
+                                                                        //reset, just in case
+                                                                        setSubmitPressed(false);
 
-                                                                            //check that validation is setup
+                                                                        //set/re-setup form validation
+                                                                        setupFormValidation();
 
-                                                                            setupFormValidation();
+                                                                        //validate
+                                                                        if (!isEmptyObject(recipeFormValidityTree)) {
 
-                                                                            if (!isEmptyObject(recipeFormValidityTree)) {
-
-                                                                                if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
-                                                                                    setSubmitPressed(true);
-                                                                                    updateFormValidityTree(recipeFormValidityTree);
-                                                                                    console.log('submitPressed', submitPressed)
-                                                                                    console.log('NEW recipeFormValidityTree', recipeFormValidityTree)
-                                                                                    console.log('formData recipe', toJS(formData.recipe))
-                                                                                    console.log('formData recipePhotos', toJS(formData.recipePhotos))
-                                                                                    return;
-                                                                                }
-
-                                                                                let yieldedSubmitRecipeClick = submitRecipeClick(formData, notificationAlert);
-                                                                                let saveRecipeSuccess = yieldedSubmitRecipeClick.next().value;
-                                                                                console.log('saveRecipeSuccess', saveRecipeSuccess);
-                                                                                if (isFalse(saveRecipeSuccess)) {
-                                                                                    return;
-                                                                                }
-                                                                                let saveRecipePhotosSuccess = yieldedSubmitRecipeClick.next().value;
-                                                                                console.log('saveRecipePhotosSuccess', saveRecipePhotosSuccess);
-                                                                                if (isFalse(saveRecipePhotosSuccess)) {
-                                                                                    return;
-                                                                                }
-                                                                                let saveUserRecipeSuccess = yieldedSubmitRecipeClick.next().value;
-                                                                                console.log('saveUserRecipeSuccess', saveUserRecipeSuccess);
-                                                                                if (isFalse(saveUserRecipeSuccess)) {
-                                                                                    return;
-                                                                                }
-
-                                                                            } else {
-                                                                                Alert.alert('', 'Form validation delayed!');
+                                                                            if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
+                                                                                setSubmitPressed(true);
+                                                                                updateFormValidityTree(recipeFormValidityTree);
+                                                                                return;
                                                                             }
 
+                                                                            submitRecipeClick(
+                                                                                formData, notificationAlert,
+                                                                                recipeBoxStore.user.id, navigation);
+
+                                                                        } else {
+                                                                            Alert.alert('', 'Form validation delayed!');
                                                                         }
-                                                                    },
-                                                                    {
-                                                                        text: 'Cancel',
-                                                                        onPress: () => {
-                                                                            //do nothing
-                                                                        }
-                                                                    },
-                                                                ]);
-                                                        }
+
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: 'Cancel',
+                                                                    onPress: () => {
+                                                                        //do nothing
+                                                                    }
+                                                                },
+                                                            ]);
+                                                    }
                                                     }
                                                     style={[
                                                         {
                                                             width: '60%',
                                                             backgroundColor: FORESTGREEN_COLOR,
-                                                            borderRadius: 10,
+                                                            borderRadius: 5,
                                                         }
                                                     ]}
                                                 >
-                                                  <RN.Text style={[
-                                                      {
-                                                          fontWeight: 'bold',
-                                                          fontSize: 28,
-                                                          color: 'white',
-                                                      },
-                                                      className(
-                                                          AlignCenterContentCN
-                                                      )
-                                                  ]}>Save Recipe</RN.Text>
+                                                  <RN.Text
+                                                      style={[
+                                                          {
+                                                              fontWeight: 'bold',
+                                                              fontSize: 28,
+                                                              color: 'white',
+                                                          },
+                                                          className(
+                                                              AlignCenterTextCN
+                                                          )
+                                                      ]}>Save Recipe</RN.Text>
                                                 </RN.TouchableOpacity>
                                             }
 
@@ -853,16 +858,27 @@ export function CreateEditRecipeForm(props) {
                                                 <RN.TouchableOpacity
                                                     activeOpacity={.6}
                                                     onPress={_ => {
-                                                        // updateRecipeClick(recipe, null, recipeFormValidityTree, updateFormValidityTree)
+                                                        updateRecipeClick(recipe, notificationAlert)
                                                     }}
                                                     style={[
                                                         {
                                                             width: '60%',
-                                                            backgroundColor: FORESTGREEN_COLOR
+                                                            backgroundColor: FORESTGREEN_COLOR,
+                                                            borderRadius: 5,
                                                         }
                                                     ]}
                                                 >
-                                                  <RN.Text>Update Recipe</RN.Text>
+                                                  <RN.Text
+                                                      style={[
+                                                          {
+                                                              fontWeight: 'bold',
+                                                              fontSize: 28,
+                                                              color: 'white',
+                                                          },
+                                                          className(
+                                                              AlignCenterTextCN
+                                                          )
+                                                      ]}>Update Recipe</RN.Text>
                                                 </RN.TouchableOpacity>
                                             }
 
@@ -882,25 +898,6 @@ export function CreateEditRecipeForm(props) {
 
                 <BlankSpaceDivider/>
 
-                {
-                    (displayFieldExpectationSatisfied('alert', notificationAlert,
-                        expectationOfX => isTrue(expectationOfX))) &&
-                    <RN.View
-                        style={[
-                            className(FlexRowContainerCN),
-                            {
-                                position: 'absolute',
-                                top: 0,
-                                width: '100%'
-                            }
-                        ]}
-                    >
-                      <AppNotificationToastAlert
-                          dropDownProps={notificationAlert}
-                      />
-                    </RN.View>
-                }
-
             </RN.View>
 
             <ReactNativeCameraModule
@@ -916,10 +913,31 @@ export function CreateEditRecipeForm(props) {
                 updateCameraModuleProps={updateCameraModuleProps}
             />
 
+            {
+                (displayFieldExpectationSatisfied('alert', notificationAlert,
+                    expectationOfX => isTrue(expectationOfX))) &&
+                <RN.View
+                    style={[
+                        className(FlexRowContainerCN),
+                        {
+                            position: 'absolute',
+                            bottom: 50,
+                            left: 0,
+                            right: 0,
+                            width: '100%'
+                        }
+                    ]}
+                >
+                  <AppNotificationToastAlert
+                      dropDownProps={notificationAlert}
+                  />
+                </RN.View>
+            }
+
         </RN.ScrollView>
     );
 }
 
 const CreateEditRecipeFormActivity = WithStoresHoc(CreateEditRecipeForm,
-    ['authStore', 'appStores', 'recipeBoxStore']);
+    ['loginStore', 'appStore', 'recipeBoxStore']);
 export default CreateEditRecipeFormActivity;

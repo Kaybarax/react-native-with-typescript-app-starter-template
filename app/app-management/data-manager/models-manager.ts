@@ -59,13 +59,13 @@ export interface UserRecipe {
 /**
  * sd _ Kaybarax
  * @param code
- * @param name
+ * @param label
  * @returns {{code: *, name: *}}
  * @constructor
  */
-export function FoodGroupConsumer(code, name) {
+export function FoodGroupConsumer(code, label) {
     return {
         value: code,
-        label: name,
+        label: label,
     };
 }

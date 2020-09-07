@@ -68,7 +68,7 @@ export const _404_VIEW: ViewRoute = {
 // just added for your mocking of scenarios
 export const APP_DEV_MOCKS_SCREEN_VIEW = {
     name: 'APP_DEV_MOCKS_SCREEN_VIEW',
-    screen: WithStoresHoc(AppDevScratchPad, ['authStore', 'appStores'])
+    screen: WithStoresHoc(AppDevScratchPad, ['loginStore', 'appStore'])
 };
 
 /*End app primitive views/screens*/

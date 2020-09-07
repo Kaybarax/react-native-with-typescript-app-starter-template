@@ -1,12 +1,11 @@
 //key
 //sd - self described
 
-import {isNullUndefined, makeId, objectKeyExists} from "../../util/util";
+import {isEmptyArray, makeId} from "../../util/util";
 import {Recipe, RecipeImage} from "../../app-management/data-manager/models-manager";
 // import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
-import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
-import {toJS} from "mobx";
 import {NUMBER_OF_RECIPE_PHOTOS} from "../../app-config";
+import {showToast} from "../../util/react-native-based-utils";
 
 /**
  * sd _ Kaybarax
@@ -39,6 +38,27 @@ export function createRecipe(recipeBoxStore, activity = null) {
     }
     recipeBoxStore.selectedRecipe = recipe;
     recipeBoxStore.selectedRecipePhotos = recipePhotos;
+}
+
+export function addRecipePhoto(recipePhotos, recipe) {
+
+    if (isEmptyArray(recipePhotos)) {
+        showToast('Cannot add recipe photo.')
+        return;
+    }
+    if (recipePhotos.length >= 5) {
+        showToast('Maximum recipe photos reached.')
+        return;
+    }
+
+    let recipePhoto: RecipeImage = {
+        id: makeId(32),
+        recipe_id: recipe.id,
+        image_url: '',
+        image_file: ''
+    };
+    recipePhotos.push(recipePhoto);
+
 }
 
 /**
@@ -123,39 +143,7 @@ export function getAllRecipesForUser(activity, userId) {
  * @param recipe
  * @param activity
  */
-export function deleteRecipe(recipe, activity) {
-
-    // let recipeItem = toJS(recipe);//because of mobx proxies
-    // //save to indexedDb
-    // let db = window.db;//get db;
-    // let trans = db.transaction([
-    //     APP_INDEXED_DB_DATASTORES.RECIPES
-    // ], 'readwrite');
-    //
-    // //to delete, simply update status to deleted, following data
-    // //retention practices
-    // recipeItem.status = STATUS_REF_KEY_DELETED.VALUE;
-    //
-    // let putRecipeReq = trans
-    //     .objectStore(APP_INDEXED_DB_DATASTORES.RECIPES)
-    //     .put(recipeItem, recipe.id);
-    //
-    // putRecipeReq.onerror = function (e) {
-    //     console.log('Error updating recipe');
-    //     console.error(e);
-    // }
-    //
-    // trans.oncomplete = function (e) {
-    //     console.log('Deleted recipe');
-    //     notificationCallback('succ', 'Recipe deleted', activity);
-    //     //complete
-    //     getAllRecipesForUser(activity, activity.appStore.user.id);
-    //     //some time for notification alert
-    //     setTimeout(_ => window.location.reload(), 1500)
-    // }
-    // trans.onerror = function (e) {
-    //     console.log('IndexedDb error code: ' + e.target.errorCode);
-    //     notificationCallback('err', 'Failed to delete recipe!', activity);
-    // }
-
+export function deleteRecipe(recipe: Recipe, activity = null) {
+    recipe.status_ref_key_value = 'DEL';
+    //reload
 }

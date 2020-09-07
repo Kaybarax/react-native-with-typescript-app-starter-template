@@ -83,5 +83,5 @@ export function invokeLoader(loaderActivityStore) {
     loaderActivityStore.loading = true;
     setTimeout(_ => {
         loaderActivityStore.loading = false;
-    }, TIME_OUT || 3500);
+    },3000);
 }
