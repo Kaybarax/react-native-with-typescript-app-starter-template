@@ -1,6 +1,7 @@
 //key
 //sd - self described
 import {MAIN_BG_COLOR, SECONDARY_COLOR} from "./app-theme";
+import {SCREEN_HEIGHT} from "../App";
 
 /**
  * @authored by Kaybarax
@@ -8,6 +9,13 @@ import {MAIN_BG_COLOR, SECONDARY_COLOR} from "./app-theme";
  * Github @_ https://github.com/Kaybarax
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
+
+export const RegistrationButtonCN = {
+    backgroundColor: 'orange',
+    height: 0.06 * SCREEN_HEIGHT,
+    elevation: 2,
+    borderRadius: 8
+};
 
 export const RegistrationButtonTextCN = {
     fontSize: 24,

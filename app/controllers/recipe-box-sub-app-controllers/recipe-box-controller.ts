@@ -3,7 +3,6 @@
 
 import {isEmptyArray, isEmptyString, isNullUndefined, makeId} from "../../util/util";
 import {Recipe, RecipeImage, UserRecipe} from "../../app-management/data-manager/models-manager";
-// import {APP_INDEXED_DB_DATASTORES} from "../app-management/data-manager/indexeddb-manager";
 import {NUMBER_OF_RECIPE_PHOTOS} from "../../app-config";
 import {showToast} from "../../util/react-native-based-utils";
 import {appSQLiteDb} from "../../app-management/data-manager/embeddedDb-manager";

@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import {textValueChanged} from "../../util/react-native-data-collection-utils";
+import {textValue, textValueChanged} from "../../util/react-native-data-collection-utils";
 import {isEmptyString} from "../../util/util";
 import RN, {ScrollView, Text, TouchableOpacity} from "react-native";
 import AppTextInput from "../../shared-components-and-modules/form-controls/app-text-input";
@@ -29,7 +29,13 @@ import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function LoginForm(props) {
 
-    let {recipeBoxStore, loginStore, loginStore: {notificationAlert, loginForm}, navigation} = props;
+    console.log('LoginForm props:', props);
+
+    let {
+        recipeBoxStore, loginStore,
+        loginStore: {notificationAlert, loginForm},
+        navigation
+    } = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
     let [credentials, updateCredentials] = React.useState({
@@ -69,8 +75,9 @@ export default function LoginForm(props) {
             }
             <BlankSpaceDivider/>
             <AppTextInput
-                label="Username/Email"
-                onChangeText={text => textValueChanged(loginForm, text, 'usernameOrEmail', null)}
+                label={"Username/Email"}
+                value={textValue(loginForm,'usernameOrEmail')}
+                onChangeText={text => textValueChanged(loginForm, text, 'usernameOrEmail')}
             />
             <BlankSpaceDivider/>
             {
@@ -79,7 +86,7 @@ export default function LoginForm(props) {
             }
             <BlankSpaceDivider/>
             <AppTextInput
-                label="Password"
+                label={"Password"}
                 onChangeText={text => {
                     textValueChanged(credentials, text, 'password', null);
                     updateCredentials(credentials);
@@ -104,7 +111,8 @@ export default function LoginForm(props) {
                     if (!isValidFormData()) {
                         return;
                     }
-                    handleLogin(loginForm, credentials.password, notificationAlert, recipeBoxStore, loginStore, navigation);
+                    handleLogin(loginForm, credentials.password,
+                        notificationAlert, recipeBoxStore, loginStore, navigation);
                 }}
             >
                 <Text

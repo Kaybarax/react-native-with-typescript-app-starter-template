@@ -261,3 +261,22 @@ export function handleResetPassword(notificationAlert) {
         notificationAlert,
     );
 }
+
+/**
+ * sd _ Kaybarax
+ * @param recipeBoxStore
+ * @param loginStore
+ * @param navigator
+ */
+export function handleLogOut(recipeBoxStore, loginStore, navigator) {
+    recipeBoxStore.user = null;
+    recipeBoxStore.selectedRecipe = null;
+    recipeBoxStore.recipeItems = [];
+    appNavigation.navigateToRecipeBoxLogin(navigator);
+    notificationCallback('info',
+        `You have been logged out`,
+        loginStore.notificationAlert
+    );
+    //turn back off logout
+    appNavigation.globalNavigationProps.internalLogout = false;
+}

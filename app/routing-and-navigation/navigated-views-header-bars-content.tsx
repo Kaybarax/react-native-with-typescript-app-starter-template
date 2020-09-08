@@ -10,24 +10,17 @@
 import RN from "react-native";
 import className from "../util/react-native-based-utils";
 import {FlexFluidRowContainerCN} from "../theme/app-layout-styles-classnames";
-import {
-    MAIN_BG_COLOR,
-    MAIN_SUPPORT_COLOR,
-    NEGATIVE_ACTION_COLOR,
-    POSITIVE_ACTION_COLOR,
-    SECONDARY_SUPPORT_COLOR
-} from "../theme/app-theme";
+import {MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, NEGATIVE_ACTION_COLOR, SECONDARY_SUPPORT_COLOR} from "../theme/app-theme";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {Spacer} from "../shared-components-and-modules/shared-components";
 import React from "react";
-import {GlobalDrawerProps} from "./routes";
 import appNavigation from "./app-navigation";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../stores/actions-and-stores-data";
 import appStores from "../stores";
 
 export function AppTopTabsTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     return (
         <RN.View
             style={[
@@ -39,6 +32,7 @@ export function AppTopTabsTitleBar(props) {
                 }
             ]}
         >
+
             <RN.Pressable
                 onPress={_ => {
                     // console.log('GlobalDrawerProps', GlobalDrawerProps);
@@ -71,12 +65,13 @@ export function AppTopTabsTitleBar(props) {
             >
                 RN Ts App Starter Template
             </RN.Text>
+
         </RN.View>
     )
 }
 
 export function AppDevScratchTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     return (
         <RN.View
             style={[
@@ -119,12 +114,13 @@ export function AppDevScratchTitleBar(props) {
             >
                 App Dev Scratchpad
             </RN.Text>
+
         </RN.View>
     )
 }
 
 export function RecipeBoxTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     return (
         <RN.View
             style={[
@@ -172,7 +168,7 @@ export function RecipeBoxTitleBar(props) {
 }
 
 export function RecipeBoxHomeTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     return (
         <RN.View
             style={[
@@ -193,15 +189,20 @@ export function RecipeBoxHomeTitleBar(props) {
                     }
                 ]}
             >
-                Home
+                My Recipe : Home
             </RN.Text>
         </RN.View>
     )
 }
 
 export function RecipeDetailsTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     let {navigatedToParams} = appNavigation;
+    console.log(
+        '\nRecipeDetailsTitleBar props\n', props,
+        '\nGlobalDrawerProps\n', appNavigation.globalNavigationProps.drawerProps,
+        '\nnavigatedToParams\n', navigatedToParams,
+    );
     return (
         <RN.View
             style={[
@@ -229,7 +230,7 @@ export function RecipeDetailsTitleBar(props) {
 }
 
 export function CreateEditTitleBar(props) {
-    let drawerProps = GlobalDrawerProps.props;
+    let drawerProps = appNavigation.globalNavigationProps.drawerProps;
     return (
         <RN.View
             style={[

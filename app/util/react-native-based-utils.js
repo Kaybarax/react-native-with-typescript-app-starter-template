@@ -2,7 +2,7 @@
 //sd - self described
 //@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
 
-import {ToastAndroid} from "react-native";
+import {Alert, ToastAndroid} from 'react-native';
 import {isEmptyArray, isNullUndefined} from './util';
 
 /**
@@ -42,6 +42,14 @@ export default function className(...classNames) {
  * @param toastDuration - short (default), long
  */
 export function showToast(message, toastDuration = 'short') {
-  let duration = toastDuration === "long" ? ToastAndroid.LONG : ToastAndroid.SHORT;
+  let duration = toastDuration === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
   ToastAndroid.show(message, duration);
+}
+
+/**
+ * sd _ Kaybaarx
+ * @param message
+ */
+export function alertLog(message) {
+  Alert.alert('Alert Log', message);
 }

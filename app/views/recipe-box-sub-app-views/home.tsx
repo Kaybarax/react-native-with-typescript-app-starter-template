@@ -46,6 +46,18 @@ export function RecipeHome(props) {
     //inject needed appStore and recipeBoxStore
     let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
+    //prevent android hardware go back,
+    //to handle going back on your own
+
+    React.useEffect(() => navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            //logout if only doing so without back button
+            if (appNavigation.globalNavigationProps.internalLogout) {
+                navigation.dispatch(e.data.action);
+            }
+        }), [navigation]
+    );
+
     return (
         <RN.View
             style={[
@@ -130,7 +142,7 @@ export function RecipeHome(props) {
 
             {
                 (displayFieldExpectationSatisfied('alert', notificationAlert,
-                    expectationOfX => isTrue(expectationOfX))) &&
+                    eOfX => isTrue(eOfX))) &&
                 <RN.View
                     style={[
                         {

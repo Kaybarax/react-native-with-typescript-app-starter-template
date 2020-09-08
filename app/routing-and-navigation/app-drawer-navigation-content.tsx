@@ -23,7 +23,6 @@ import {Spacer} from "../shared-components-and-modules/shared-components";
 import {SCREEN_HEIGHT} from "../App";
 import {faCreditCard} from "@fortawesome/free-regular-svg-icons";
 import appNavigation from "./app-navigation";
-import {GlobalDrawerProps} from "./routes";
 
 export default function AppDrawerNavigationContent(props) {
     console.log('AppDrawerNavigationContent');
@@ -32,7 +31,8 @@ export default function AppDrawerNavigationContent(props) {
     let {navigation} = props;
 
     //avail drawer props globally
-    GlobalDrawerProps.props = props;
+    appNavigation.globalNavigationProps.drawerProps = props;
+    appNavigation.globalNavigationProps.navigator = navigation;
 
     return (
         <DrawerContentScrollView
@@ -92,9 +92,6 @@ export default function AppDrawerNavigationContent(props) {
                                 icon={faHome}
                                 color={MAIN_BG_COLOR}
                                 size={25}
-                                style={[
-                                    //todo: any <Text> styles you fancy
-                                ]}
                             />
                             <Spacer/>
                             <RN.Text
@@ -143,9 +140,6 @@ export default function AppDrawerNavigationContent(props) {
                                 icon={faCog}
                                 color={MAIN_BG_COLOR}
                                 size={25}
-                                style={[
-                                    //todo: any <Text> styles you fancy
-                                ]}
                             />
                             <Spacer/>
                             <RN.Text
@@ -194,9 +188,6 @@ export default function AppDrawerNavigationContent(props) {
                                 icon={faCoffee}
                                 color={MAIN_BG_COLOR}
                                 size={25}
-                                style={[
-                                    //todo: any <Text> styles you fancy
-                                ]}
                             />
                             <Spacer/>
                             <RN.Text
@@ -245,9 +236,6 @@ export default function AppDrawerNavigationContent(props) {
                                 icon={faCreditCard}
                                 color={MAIN_BG_COLOR}
                                 size={25}
-                                style={[
-                                    //todo: any <Text> styles you fancy
-                                ]}
                             />
                             <Spacer/>
                             <RN.Text

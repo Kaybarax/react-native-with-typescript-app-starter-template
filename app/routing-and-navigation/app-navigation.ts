@@ -40,6 +40,14 @@ export class AppNavigation {
     navigatedTo = null;
     navigatedFrom: string | any = null;
     navStore = null;
+    globalNavigationProps = {
+        drawerProps: null,
+        navigator: null,
+        executeHaltedBackNavigation: () => {
+            //perform the back nav
+        },
+        internalLogout: false,
+    }
 
     navigate = (navigator, navTo, navParams: object | any = null,
                 goingBack = false) => {

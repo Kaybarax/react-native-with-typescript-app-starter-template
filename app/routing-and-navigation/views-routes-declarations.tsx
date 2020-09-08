@@ -66,7 +66,7 @@ export const _404_VIEW: ViewRoute = {
 };
 
 // just added for your mocking of scenarios
-export const APP_DEV_MOCKS_SCREEN_VIEW = {
+export const APP_DEV_MOCKS_SCREEN_VIEW: ViewRoute = {
     name: 'APP_DEV_MOCKS_SCREEN_VIEW',
     screen: WithStoresHoc(AppDevScratchPad, ['loginStore', 'appStore'])
 };
@@ -75,22 +75,22 @@ export const APP_DEV_MOCKS_SCREEN_VIEW = {
 
 /*App composite views/screens*/
 
-export const MAIN_APP_STACK_SCREEN_VIEW = {
+export const MAIN_APP_STACK_SCREEN_VIEW: ViewRoute = {
     name: 'MAIN_APP_STACK_SCREEN_VIEW',
     screen: MainAppStackRouting
 };
 
-export const APP_TOP_TABS_SCREEN_VIEW = {
+export const APP_TOP_TABS_SCREEN_VIEW: ViewRoute = {
     name: 'APP_TOP_TABS_SCREEN_VIEW',
     screen: AppTopTabsNavRouting
 };
 
-export const APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW = {
+export const APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW: ViewRoute = {
     name: 'APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW',
     screen: AppDevMocksWithRouting
 };
 
-export const RECIPE_BOX_SUB_APP_SCREEN_VIEW = {
+export const RECIPE_BOX_SUB_APP_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE_BOX_SUB_APP_SCREEN_VIEW',
     screen: RecipeBoxAppWithRouting
 };
@@ -105,12 +105,13 @@ export const MY_RECIPE_LOGIN_SCREEN_VIEW: ViewRoute = {
 
 export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
     name: 'MY_RECIPE_HOME_SCREEN_VIEW',
-    screen: RecipeHomeActivity
+    screen: RecipeHomeActivity,
+    displayText: 'Home'
 };
 
 export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {
     name: 'MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW',
-    screen: WithStoresHoc(RecipeDetails, ['recipeBoxStore', 'appStore'])
+    screen: WithStoresHoc(RecipeDetails, ['recipeBoxStore'])
 };
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW: ViewRoute = {
@@ -127,7 +128,7 @@ export const MY_RECIPE_REQUESTS_SCREEN_VIEW: ViewRoute = {
 
 /*Recipe-Box, example sub-application composite views/screens*/
 
-export const RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW = {
+export const RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW',
     screen: RecipeBoxBottomTabsRouting
 };

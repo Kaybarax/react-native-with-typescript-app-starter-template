@@ -256,7 +256,7 @@ export default function RecipeListItemCard(props) {
 
                 {
                     (displayFieldExpectationSatisfied('alert', notificationAlert,
-                        expectationOfX => isTrue(expectationOfX))) &&
+                        eOfX => isTrue(eOfX))) &&
                     <View
                         style={[
                             {

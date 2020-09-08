@@ -42,13 +42,14 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import RecipeBoxBottomNavigationTabsContent from "./recipe-box-bottom-navigation-tabs-content";
 import {
     AppDevScratchTitleBar,
-    AppTopTabsTitleBar, CreateEditTitleBar,
-    Page4SubItemExampleTitleBar, RecipeBoxHomeTitleBar, RecipeBoxTitleBar
+    AppTopTabsTitleBar,
+    CreateEditTitleBar,
+    Page4SubItemExampleTitleBar,
+    RecipeBoxHomeTitleBar,
+    RecipeBoxTitleBar,
+    RecipeDetailsTitleBar
 } from "./navigated-views-header-bars-content";
-
-export const GlobalDrawerProps = {
-    props: null,
-};
+import {RecipeBoxPopupMenuWithStores} from "./popup-menu";
 
 export default function BaseAppWithDrawerNavigationRouting() {
 
@@ -163,12 +164,17 @@ export function RecipeBoxAppWithRouting() {
             key={makeId(16)}
             options={{
                 headerTitle: props => <RecipeBoxHomeTitleBar {...props} />,
+                headerRight: props => <RecipeBoxPopupMenuWithStores {...props}/>,
+                headerLeft: props => null//remove back arrow
             }}
         />,
         <StackNav.Screen
             name={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name}
             component={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <RecipeDetailsTitleBar {...props} />,
+            }}
         />,
         <StackNav.Screen
             name={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name}

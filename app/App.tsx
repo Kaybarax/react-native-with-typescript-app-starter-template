@@ -43,7 +43,7 @@ const App = () => {
     //hide in-development unnecessary console warnings
     // console.warn = console.error = function (message) {};
     //hide all react warnings in production
-    // console.warn = console.error = console.log = function (message) {};
+    console.warn = console.error = console.log = function (message) {};
 
     let [dbLoaded, loadDb] = React.useState(false);
     let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');

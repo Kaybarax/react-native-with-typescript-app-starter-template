@@ -18,6 +18,7 @@ import {serviceWorkerThread} from "../app-controller";
 import {TIME_OUT} from "../../app-config";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 import {fetchUserRecipes} from "./recipe-box-controller";
+import {invokeLoader} from "../../shared-components-and-modules/loaders";
 
 /**
  * sd _ Kaybarax
@@ -187,6 +188,8 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
     let {recipe, recipePhotos}: { recipe: Recipe, recipePhotos: Array<RecipeImage> } = formData;
     let userId = recipeBoxStore.user.id;
 
+    invokeLoader(recipeBoxStore);
+
     let validPhotos = recipePhotos.filter(item => !isEmptyString(item.image_file) || !isEmptyString(item.image_url))
 
     let threadWorkListener = {
@@ -201,9 +204,8 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
 
     let db = APP_SQLITE_DATABASE.DB_REFERENCE;
 
-    // invokeLoader(appStore);
-
     serviceWorkerThread(() => {
+            invokeLoader(recipeBoxStore);
             appSQLiteDb.transactionSuccess = false;
             appSQLiteDb.addRecipeStmt(db, recipe);
         },
@@ -215,12 +217,6 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
             let workMessage = 'Recipe saved';
 
             showToast(workMessage);
-
-            // notificationCallback(
-            //     'succ',
-            //     workMessage,
-            //     notificationAlert,
-            // );
 
             threadWorkListener.recipeSaved = true;
 
@@ -245,6 +241,7 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
     function saveRecipePhoto(recipePhoto: RecipeImage, idx: number) {
 
         serviceWorkerThread(() => {
+                invokeLoader(recipeBoxStore);
                 console.log('Start save recipe photo:', recipePhoto)
                 appSQLiteDb.transactionSuccess = false;
                 appSQLiteDb.addRecipeImageStmt(db, recipePhoto);
@@ -254,15 +251,9 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
             },
             () => {
 
-                let workMessage = `Recipe photo ${idx} saved`;
+                let workMessage = `Recipe photo ${idx + 1} saved`;
 
                 showToast(workMessage);
-
-                // notificationCallback(
-                //     'succ',
-                //     workMessage,
-                //     notificationAlert,
-                // );
 
                 if (idx === (validPhotos.length - 1)) {
                     threadWorkListener.allRecipePhotosSaved = true;
@@ -270,13 +261,8 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
 
             },
             () => {
-                let workMessage = `Failed to save recipe photo ${idx}`;
+                let workMessage = `Failed to save recipe photo ${idx + 1}`;
                 showToast(workMessage);
-                // notificationCallback(
-                //     'err',
-                //     workMessage,
-                //     notificationAlert,
-                // );
             }, TIME_OUT * (idx + 1) * 2, 1000,
             threadPool,
             (): boolean => {
@@ -294,6 +280,8 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
                 recipe_id: recipe.id
             }
 
+            invokeLoader(recipeBoxStore);
+
             appSQLiteDb.transactionSuccess = false;
 
             appSQLiteDb.addUserRecipeStmt(db, userRecipe);
@@ -307,23 +295,12 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
 
             showToast(workMessage);
 
-            // notificationCallback(
-            //     'succ',
-            //     'Recipe saved',
-            //     notificationAlert,
-            // );
-
             threadWorkListener.saveRecipeTransactionComplete = true;
 
         },
         () => {
             let workMessage = `Failed to add recipe for user`;
             showToast(workMessage);
-            // notificationCallback(
-            //     'err',
-            //     workMessage,
-            //     notificationAlert,
-            // );
         }, TIME_OUT * (validPhotos.length + 1), 1000,
         threadPool,
         (): boolean => {
@@ -334,6 +311,7 @@ export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, n
     //reload db
     serviceWorkerThread(
         _ => {
+            invokeLoader(recipeBoxStore);
             console.log('Recipe Transaction complete, start reload');
             appSQLiteDb.dbLoadedAndInitialized = false;
             appSQLiteDb.loadAndInitDB();

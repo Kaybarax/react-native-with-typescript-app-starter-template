@@ -61,17 +61,17 @@ function Login(props) {
 
     let showLogin = (
         displayFieldExpectationSatisfied('viewAction', loginStore,
-            expectationOfX => isNullUndefined(expectationOfX))
+            eOfX => isNullUndefined(eOfX))
         ||
         displayFieldExpectationSatisfied('viewAction', loginStore,
-            expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.LOGIN)
+            eOfX => eOfX === AUTHENTICATION_ACTIONS_ENUM.LOGIN)
     );
 
     let showSignUp = displayFieldExpectationSatisfied('viewAction', loginStore,
-        expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.SIGN_UP);
+        eOfX => eOfX === AUTHENTICATION_ACTIONS_ENUM.SIGN_UP);
 
     // let showResetPassword = displayFieldExpectationSatisfied('viewAction', loginStore,
-    //     expectationOfX => expectationOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
+    //     eOfX => eOfX === AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD);
 
     let LoginFormWithStores = WithStoresHoc(LoginForm, ['recipeBoxStore', 'loginStore'])
     let SignUpFormWithStores = WithStoresHoc(SignUpForm, ['recipeBoxStore', 'loginStore'])
@@ -263,7 +263,7 @@ function Login(props) {
 
                 {
                     (displayFieldExpectationSatisfied('alert', notificationAlert,
-                        expectationOfX => isTrue(expectationOfX))) &&
+                        eOfX => isTrue(eOfX))) &&
                     <View
                         style={[
                             {

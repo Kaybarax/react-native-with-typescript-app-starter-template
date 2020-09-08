@@ -478,15 +478,13 @@ export default function RecipeDetails(props) {
                                     onPress={_ => {
                                         Alert.alert(
                                             `Delete ${recipe.name}`,
-                                            'Confirm deletion',
+                                            'Confirm deletion (non-functional)',
                                             [
                                                 {
                                                     text: 'Delete',
                                                     style: 'destructive',
                                                     onPress: () => {
                                                         deleteRecipe(recipe);
-                                                        //update
-                                                        // recipeBoxStore.recipeItems = fetchUserRecipes(recipeBoxStore.user.id);
                                                         //go back
                                                         appNavigation.navigateBack(navigation);
                                                     }
@@ -525,7 +523,7 @@ export default function RecipeDetails(props) {
 
                 {
                     (displayFieldExpectationSatisfied('alert', notificationAlert,
-                        expectationOfX => isTrue(expectationOfX))) &&
+                        eOfX => isTrue(eOfX))) &&
                     <View
                         style={[
                             {

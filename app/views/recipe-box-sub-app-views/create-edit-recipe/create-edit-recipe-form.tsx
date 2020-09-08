@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import RN, {Alert} from 'react-native';
+import RN, {Alert, ScrollView} from 'react-native';
 import {BlankSpaceDivider, Spacer} from "../../../shared-components-and-modules/shared-components";
 import AppNotificationToastAlert
     from "../../../shared-components-and-modules/notification-center/app-notification-toast-alert";
@@ -36,7 +36,8 @@ import {
     isValidRecipeFormData,
     removeCookingInstruction,
     removeIngredient,
-    submitRecipeClick, updateRecipeClick
+    submitRecipeClick,
+    updateRecipeClick
 } from "../../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -55,6 +56,7 @@ import {
 import PhotoInput from "./recipe-photo-input";
 import {NUMBER_OF_RECIPE_PHOTOS} from "../../../app-config";
 import {addRecipePhoto} from "../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
+import Loader from "../../../shared-components-and-modules/loaders";
 
 export function CreateEditRecipeForm(props) {
 
@@ -203,271 +205,457 @@ export function CreateEditRecipeForm(props) {
     return (
         <RN.ScrollView
             style={[
-                className(FlexColumnContainerCN),
-                {
-                    backgroundColor: '#dedede'
-                }
+                className(
+                    FlexColumnContainerCN
+                )
             ]}
-            contentInsetAdjustmentBehavior={"automatic"}
         >
 
             <RN.View
                 style={[
-                    className(FlexContainerChildItemFullWidthCN)
+                    className(
+                        FlexContainerChildItemFullWidthCN
+                    )
                 ]}
+            >
+                {
+                    (displayFieldExpectationSatisfied('alert', notificationAlert,
+                        eOfX => isTrue(eOfX))) &&
+                    <RN.View
+                        style={[
+                            className(FlexRowContainerCN),
+                            {
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%'
+                            }
+                        ]}
+                    >
+                      <AppNotificationToastAlert
+                          dropDownProps={notificationAlert}
+                      />
+                    </RN.View>
+                }
+            </RN.View>
+
+            <RN.ScrollView
+                style={[
+                    className(FlexColumnContainerCN),
+                    {
+                        backgroundColor: '#dedede'
+                    }
+                ]}
+                contentInsetAdjustmentBehavior={"automatic"}
             >
 
                 <RN.View
                     style={[
-                        className(FlexFluidRowContainerCN)
+                        className(FlexContainerChildItemFullWidthCN)
                     ]}
                 >
 
                     <RN.View
                         style={[
-                            className(FlexContainerChildItemFullWidthCN)
+                            className(FlexFluidRowContainerCN)
                         ]}
                     >
 
                         <RN.View
                             style={[
-                                className(FlexFluidRowContainerCN)
+                                className(FlexContainerChildItemFullWidthCN)
                             ]}
                         >
 
                             <RN.View
                                 style={[
-                                    className(FlexContainerChildItemFullWidthCN)
+                                    className(FlexFluidRowContainerCN)
                                 ]}
                             >
 
                                 <RN.View
                                     style={[
-                                        className(FlexFluidRowContainerCN)
+                                        className(FlexContainerChildItemFullWidthCN)
                                     ]}
                                 >
+
                                     <RN.View
                                         style={[
-                                            className(FlexContainerChildItemFullWidthCN)
+                                            className(FlexFluidRowContainerCN)
                                         ]}
                                     >
+                                        <RN.View
+                                            style={[
+                                                className(FlexContainerChildItemFullWidthCN)
+                                            ]}
+                                        >
+
+                                            {
+                                                submitPressed && !recipeFormValidityTree['name'] &&
+                                                <React.Fragment>
+                                                  <FormFieldIsRequiredMessage/>
+                                                  <BlankSpaceDivider/>
+                                                </React.Fragment>
+                                            }
+
+                                            <AppTextInput
+                                                label="Name"
+                                                onChangeText={text => {
+                                                    console.log('TEXT IS CHANGING', text);
+                                                    textValueChanged(recipe, text, 'name');
+                                                }}
+                                                value={textValue(recipe, 'name')}
+                                            />
+
+                                        </RN.View>
 
                                         {
-                                            submitPressed && !recipeFormValidityTree['name'] &&
+                                            submitPressed && !recipeFormValidityTree['recipePhotos'] &&
+                                            <React.Fragment>
+                                              <FormFieldIsRequiredMessage
+                                                  message={'Please upload one or more recipe photos!'}/>
+                                              <BlankSpaceDivider/>
+                                            </React.Fragment>
+                                        }
+
+                                        <RN.View
+                                            style={[
+                                                className(FlexContainerChildItemFullWidthCN)
+                                            ]}
+                                        >
+
+                                            <RN.View
+                                                style={[
+                                                    className(FlexFluidRowContainerCN)
+                                                ]}
+                                            >
+
+                                                {
+                                                    (_ => {
+                                                        let photos: Array<Element> = []
+                                                        for (let i = 0; i < photoCount; i++) {
+                                                            photos.push(
+                                                                <RN.View
+                                                                    style={[
+                                                                        className(FlexContainerChildItemOneThirdWidthCN)
+                                                                    ]}
+                                                                    key={makeId(16)}
+                                                                >
+                                                                    <PhotoInput
+                                                                        photoIndex={i}
+                                                                        recipePhotos={recipePhotos}
+                                                                        removePhoto={removePhoto}
+                                                                        showCameraModal={showCameraModal}
+                                                                    />
+                                                                </RN.View>
+                                                            );
+                                                        }
+                                                        return photos;
+                                                    })()
+                                                }
+
+                                                <RN.View
+                                                    style={[
+                                                        className(
+                                                            FlexContainerChildItemOneThirdWidthCN,
+                                                            AlignCenterContentCN
+                                                        )
+                                                    ]}
+                                                >
+                                                    <RN.TouchableOpacity
+                                                        activeOpacity={.6}
+                                                        style={[
+                                                            {
+                                                                borderRadius: 50,
+                                                                backgroundColor: 'teal',
+                                                                padding: 15,
+                                                            }
+                                                        ]}
+                                                        onPress={_ => {
+                                                            addRecipePhoto(recipePhotos, recipe);
+                                                        }}
+                                                    >
+                                                        <RN.Text>
+                                                            <FontAwesomeIcon
+                                                                icon={faPlus}
+                                                                color={'white'}
+                                                                size={30}
+                                                            />
+                                                        </RN.Text>
+                                                    </RN.TouchableOpacity>
+                                                </RN.View>
+
+                                            </RN.View>
+
+                                        </RN.View>
+
+                                        {
+                                            submitPressed && !recipeFormValidityTree['is_vegetarian'] &&
                                             <React.Fragment>
                                               <FormFieldIsRequiredMessage/>
                                               <BlankSpaceDivider/>
                                             </React.Fragment>
                                         }
 
-                                        <AppTextInput
-                                            label="Name"
-                                            onChangeText={text => {
-                                                console.log('TEXT IS CHANGING', text);
-                                                textValueChanged(recipe, text, 'name');
-                                            }}
-                                            value={textValue(recipe, 'name')}
-                                        />
-
-                                    </RN.View>
-
-                                    {
-                                        submitPressed && !recipeFormValidityTree['recipePhotos'] &&
-                                        <React.Fragment>
-                                          <FormFieldIsRequiredMessage
-                                              message={'Please upload one or more recipe photos!'}/>
-                                          <BlankSpaceDivider/>
-                                        </React.Fragment>
-                                    }
-
-                                    <RN.View
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN)
-                                        ]}
-                                    >
-
-                                        <RN.View
-                                            style={[
-                                                className(FlexFluidRowContainerCN)
-                                            ]}
-                                        >
-
-                                            {
-                                                (_ => {
-                                                    let photos: Array<Element> = []
-                                                    for (let i = 0; i < photoCount; i++) {
-                                                        photos.push(
-                                                            <RN.View
-                                                                style={[
-                                                                    className(FlexContainerChildItemOneThirdWidthCN)
-                                                                ]}
-                                                                key={makeId(16)}
-                                                            >
-                                                                <PhotoInput
-                                                                    photoIndex={i}
-                                                                    recipePhotos={recipePhotos}
-                                                                    removePhoto={removePhoto}
-                                                                    showCameraModal={showCameraModal}
-                                                                />
-                                                            </RN.View>
-                                                        );
-                                                    }
-                                                    return photos;
-                                                })()
-                                            }
-
-                                            <RN.View
-                                                style={[
-                                                    className(
-                                                        FlexContainerChildItemOneThirdWidthCN,
-                                                        AlignCenterContentCN
-                                                    )
-                                                ]}
-                                            >
-                                                <RN.TouchableOpacity
-                                                    activeOpacity={.6}
-                                                    style={[
-                                                        {
-                                                            borderRadius: 50,
-                                                            backgroundColor: 'teal',
-                                                            padding: 15,
-                                                        }
-                                                    ]}
-                                                    onPress={_ => {
-                                                        addRecipePhoto(recipePhotos, recipe);
-                                                    }}
-                                                >
-                                                    <RN.Text>
-                                                        <FontAwesomeIcon
-                                                            icon={faPlus}
-                                                            color={'white'}
-                                                            size={30}
-                                                        />
-                                                    </RN.Text>
-                                                </RN.TouchableOpacity>
-                                            </RN.View>
-
-                                        </RN.View>
-
-                                    </RN.View>
-
-                                    {
-                                        submitPressed && !recipeFormValidityTree['is_vegetarian'] &&
-                                        <React.Fragment>
-                                          <FormFieldIsRequiredMessage/>
-                                          <BlankSpaceDivider/>
-                                        </React.Fragment>
-                                    }
-
-                                    <RN.View
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN)
-                                        ]}
-                                    >
-                                        <Checkbox
-                                            label={'Is vegetarian'}
-                                            onCheckBoxChange={check => {
-                                                checkboxItemValueChanged(recipe, check, 'is_vegetarian',
-                                                    1, 0);
-                                            }}
-                                            value={recipe['is_vegetarian']}
-                                        />
-                                    </RN.View>
-
-                                    {
-                                        submitPressed && !recipeFormValidityTree['is_vegan'] &&
-                                        <React.Fragment>
-                                          <FormFieldIsRequiredMessage/>
-                                          <BlankSpaceDivider/>
-                                        </React.Fragment>
-                                    }
-
-                                    <RN.View
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN)
-                                        ]}
-                                    >
-                                        <Checkbox
-                                            label={'Is Vegan'}
-                                            onCheckBoxChange={check => {
-                                                checkboxItemValueChanged(recipe, check, 'is_vegan',
-                                                    1, 0);
-                                            }}
-                                            value={recipe['is_vegan']}
-                                        />
-                                    </RN.View>
-
-                                    {
-                                        submitPressed && isEmptyArray(recipe['ingredients']) &&
-                                        <React.Fragment>
-                                          <FormFieldIsRequiredMessage message={'Please fill out ingredients'}/>
-                                          <BlankSpaceDivider/>
-                                        </React.Fragment>
-                                    }
-
-                                    <RN.Text
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN,
-                                                AlignLeftFlexContainerContentCN)
-                                        ]}
-                                    >Ingredients</RN.Text>
-
-                                    {
-                                        !isEmptyArray(recipe.ingredients) &&
                                         <RN.View
                                             style={[
                                                 className(FlexContainerChildItemFullWidthCN)
                                             ]}
                                         >
-                                            {
-                                                recipe.ingredients?.map((item, i) => {
-                                                    let ingredient = recipe.ingredients[i];
-                                                    return (
-                                                        <RN.View
-                                                            style={[
-                                                                className(FlexFluidRowContainerCN)
-                                                            ]}
-                                                            key={makeId(16)}
-                                                        >
+                                            <Checkbox
+                                                label={'Is vegetarian'}
+                                                onCheckBoxChange={check => {
+                                                    checkboxItemValueChanged(recipe, check, 'is_vegetarian',
+                                                        1, 0);
+                                                }}
+                                                value={recipe['is_vegetarian']}
+                                            />
+                                        </RN.View>
 
+                                        {
+                                            submitPressed && !recipeFormValidityTree['is_vegan'] &&
+                                            <React.Fragment>
+                                              <FormFieldIsRequiredMessage/>
+                                              <BlankSpaceDivider/>
+                                            </React.Fragment>
+                                        }
+
+                                        <RN.View
+                                            style={[
+                                                className(FlexContainerChildItemFullWidthCN)
+                                            ]}
+                                        >
+                                            <Checkbox
+                                                label={'Is Vegan'}
+                                                onCheckBoxChange={check => {
+                                                    checkboxItemValueChanged(recipe, check, 'is_vegan',
+                                                        1, 0);
+                                                }}
+                                                value={recipe['is_vegan']}
+                                            />
+                                        </RN.View>
+
+                                        {
+                                            submitPressed && isEmptyArray(recipe['ingredients']) &&
+                                            <React.Fragment>
+                                              <FormFieldIsRequiredMessage message={'Please fill out ingredients'}/>
+                                              <BlankSpaceDivider/>
+                                            </React.Fragment>
+                                        }
+
+                                        <RN.Text
+                                            style={[
+                                                className(FlexContainerChildItemFullWidthCN,
+                                                    AlignLeftFlexContainerContentCN)
+                                            ]}
+                                        >Ingredients</RN.Text>
+
+                                        {
+                                            !isEmptyArray(recipe.ingredients) &&
+                                            <RN.View
+                                                style={[
+                                                    className(FlexContainerChildItemFullWidthCN)
+                                                ]}
+                                            >
+                                                {
+                                                    recipe.ingredients?.map((item, i) => {
+                                                        let ingredient = recipe.ingredients[i];
+                                                        return (
                                                             <RN.View
                                                                 style={[
-                                                                    className(FlexContainerChildItemFullWidthCN)
+                                                                    className(FlexFluidRowContainerCN)
                                                                 ]}
-                                                            >
-
-                                                                {
-                                                                    submitPressed && isEmptyString(ingredient) &&
-                                                                    <React.Fragment>
-                                                                      <FormFieldIsRequiredMessage/>
-                                                                      <BlankSpaceDivider/>
-                                                                    </React.Fragment>
-                                                                }
-
-                                                                <AppTextInput
-                                                                    label={`${'' + (i + 1) + '. '}`}
-                                                                    value={recipe.ingredients[i]}
-                                                                    onChangeText={
-                                                                        text => {
-                                                                            textValueChanged(ingredients[i], text, 'txt');
-                                                                            recipe.ingredients[i] = ingredients[i].txt;
-                                                                        }
-                                                                    }
-                                                                />
-
-                                                            </RN.View>
-
-                                                            <RN.View
-                                                                style={[
-                                                                    className(FlexContainerChildItemFullWidthCN)
-                                                                ]}
+                                                                key={makeId(16)}
                                                             >
 
                                                                 <RN.View
                                                                     style={[
-                                                                        className(FlexFluidRowContainerCN,
-                                                                            AlignLeftFlexContainerContentCN,
-                                                                        ),
+                                                                        className(FlexContainerChildItemFullWidthCN)
+                                                                    ]}
+                                                                >
+
+                                                                    {
+                                                                        submitPressed && isEmptyString(ingredient) &&
+                                                                        <React.Fragment>
+                                                                          <FormFieldIsRequiredMessage/>
+                                                                          <BlankSpaceDivider/>
+                                                                        </React.Fragment>
+                                                                    }
+
+                                                                    <AppTextInput
+                                                                        label={`${'' + (i + 1) + '. '}`}
+                                                                        value={recipe.ingredients[i]}
+                                                                        onChangeText={
+                                                                            text => {
+                                                                                textValueChanged(ingredients[i], text, 'txt');
+                                                                                recipe.ingredients[i] = ingredients[i].txt;
+                                                                            }
+                                                                        }
+                                                                    />
+
+                                                                </RN.View>
+
+                                                                <RN.View
+                                                                    style={[
+                                                                        className(FlexContainerChildItemFullWidthCN)
+                                                                    ]}
+                                                                >
+
+                                                                    <RN.View
+                                                                        style={[
+                                                                            className(FlexFluidRowContainerCN,
+                                                                                AlignLeftFlexContainerContentCN,
+                                                                            ),
+                                                                            {
+                                                                                flexDirection: 'row-reverse'
+                                                                            }
+                                                                        ]}
+                                                                    >
+
+                                                                        {
+                                                                            (i === (recipe.ingredients.length - 1)) &&
+                                                                            <RN.TouchableOpacity
+                                                                                activeOpacity={.6}
+                                                                                onPress={
+                                                                                    _ => {
+                                                                                        addIngredient(recipe);
+                                                                                    }
+                                                                                }
+                                                                                style={[
+                                                                                    {
+                                                                                        borderRadius: 50,
+                                                                                        backgroundColor: 'forestgreen'
+                                                                                    },
+                                                                                    className(AlignCenterContentCN),
+                                                                                ]}
+                                                                            >
+                                                                              <RN.Text
+                                                                                  style={[
+                                                                                      {
+                                                                                          padding: 5
+                                                                                      }
+                                                                                  ]}
+                                                                              >
+                                                                                <FontAwesomeIcon
+                                                                                    icon={faPlus}
+                                                                                    color={'white'}
+                                                                                    size={30}
+                                                                                />
+                                                                              </RN.Text>
+                                                                            </RN.TouchableOpacity>
+                                                                        }
+
+                                                                        <Spacer/>
+
+                                                                        {
+                                                                            (recipe.ingredients.length >= 2) &&
+                                                                            <RN.TouchableOpacity
+                                                                                activeOpacity={.6}
+                                                                                onPress={
+                                                                                    _ => {
+                                                                                        removeIngredient(recipe, i);
+                                                                                    }
+                                                                                }
+                                                                                style={[
+                                                                                    {
+                                                                                        borderRadius: 50,
+                                                                                        backgroundColor: 'maroon'
+                                                                                    },
+                                                                                    className(AlignCenterContentCN)
+                                                                                ]}
+                                                                            >
+                                                                              <RN.Text
+                                                                                  style={[
+                                                                                      {
+                                                                                          padding: 5
+                                                                                      }]}
+                                                                              >
+                                                                                <FontAwesomeIcon
+                                                                                    icon={faMinus}
+                                                                                    color={'white'}
+                                                                                    size={30}
+                                                                                />
+                                                                              </RN.Text>
+                                                                            </RN.TouchableOpacity>
+                                                                        }
+
+                                                                    </RN.View>
+                                                                </RN.View>
+                                                            </RN.View>
+                                                        )
+                                                    })
+                                                }
+                                            </RN.View>
+                                        }
+
+                                        {
+                                            submitPressed && isEmptyArray(recipe['cooking_instructions']) &&
+                                            <React.Fragment>
+                                              <FormFieldIsRequiredMessage
+                                                  message={'Please fill out preparation instructions'}/>
+                                              <BlankSpaceDivider/>
+                                            </React.Fragment>
+                                        }
+
+                                        <RN.Text
+                                            style={[
+                                                className(
+                                                    FlexContainerChildItemFullWidthCN,
+                                                    AlignLeftTextCN
+                                                )
+                                            ]}
+                                        >Preparation Instructions</RN.Text>
+
+                                        {
+                                            !isEmptyArray(recipe.cooking_instructions) &&
+                                            <RN.View
+                                                style={[
+                                                    className(FlexContainerChildItemFullWidthCN)
+                                                ]}
+                                            >
+
+                                                {
+                                                    recipe.cooking_instructions?.map((item, i) => {
+                                                        let cooking_instruction = recipe.cooking_instructions[i];
+                                                        console.log('cooking_instruction', cooking_instruction);
+                                                        return (
+                                                            <RN.View
+                                                                style={[
+                                                                    className(FlexFluidRowContainerCN)
+                                                                ]}
+                                                                key={makeId(16)}
+                                                            >
+
+                                                                <RN.View
+                                                                    style={[
+                                                                        className(FlexContainerChildItemFullWidthCN)
+                                                                    ]}
+                                                                >
+
+                                                                    {
+                                                                        submitPressed && isEmptyString(cooking_instruction) &&
+                                                                        <React.Fragment>
+                                                                          <FormFieldIsRequiredMessage/>
+                                                                          <BlankSpaceDivider/>
+                                                                        </React.Fragment>
+                                                                    }
+
+                                                                    <AppTextInput
+                                                                        label={`${'' + (i + 1) + '. '}`}
+                                                                        value={recipe.cooking_instructions[i]}
+                                                                        onChangeText={
+                                                                            text => {
+                                                                                textValueChanged({text: item}, text, 'text');
+                                                                                recipe.cooking_instructions[i] = text;
+                                                                            }
+                                                                        }
+                                                                    />
+
+                                                                </RN.View>
+
+                                                                <RN.View
+                                                                    style={[
+                                                                        className(FlexContainerChildItemFullWidthCN,
+                                                                            AlignLeftFlexContainerContentCN),
                                                                         {
                                                                             flexDirection: 'row-reverse'
                                                                         }
@@ -475,12 +663,12 @@ export function CreateEditRecipeForm(props) {
                                                                 >
 
                                                                     {
-                                                                        (i === (recipe.ingredients.length - 1)) &&
+                                                                        (i === (recipe.cooking_instructions.length - 1)) &&
                                                                         <RN.TouchableOpacity
                                                                             activeOpacity={.6}
                                                                             onPress={
                                                                                 _ => {
-                                                                                    addIngredient(recipe);
+                                                                                    addCookingInstruction(recipe);
                                                                                 }
                                                                             }
                                                                             style={[
@@ -493,9 +681,7 @@ export function CreateEditRecipeForm(props) {
                                                                         >
                                                                           <RN.Text
                                                                               style={[
-                                                                                  {
-                                                                                      padding: 5
-                                                                                  }
+                                                                                  {padding: 5}
                                                                               ]}
                                                                           >
                                                                             <FontAwesomeIcon
@@ -510,12 +696,12 @@ export function CreateEditRecipeForm(props) {
                                                                     <Spacer/>
 
                                                                     {
-                                                                        (recipe.ingredients.length >= 2) &&
+                                                                        (recipe.cooking_instructions.length >= 2) &&
                                                                         <RN.TouchableOpacity
                                                                             activeOpacity={.6}
                                                                             onPress={
                                                                                 _ => {
-                                                                                    removeIngredient(recipe, i);
+                                                                                    removeCookingInstruction(recipe, i);
                                                                                 }
                                                                             }
                                                                             style={[
@@ -523,14 +709,13 @@ export function CreateEditRecipeForm(props) {
                                                                                     borderRadius: 50,
                                                                                     backgroundColor: 'maroon'
                                                                                 },
-                                                                                className(AlignCenterContentCN)
+                                                                                className(AlignCenterContentCN),
                                                                             ]}
                                                                         >
                                                                           <RN.Text
                                                                               style={[
-                                                                                  {
-                                                                                      padding: 5
-                                                                                  }]}
+                                                                                  {padding: 5}
+                                                                              ]}
                                                                           >
                                                                             <FontAwesomeIcon
                                                                                 icon={faMinus}
@@ -543,344 +728,198 @@ export function CreateEditRecipeForm(props) {
 
                                                                 </RN.View>
                                                             </RN.View>
-                                                        </RN.View>
-                                                    )
-                                                })
-                                            }
-                                        </RN.View>
-                                    }
+                                                        )
+                                                    })
+                                                }
+                                            </RN.View>
+                                        }
 
-                                    {
-                                        submitPressed && isEmptyArray(recipe['cooking_instructions']) &&
-                                        <React.Fragment>
-                                          <FormFieldIsRequiredMessage
-                                              message={'Please fill out preparation instructions'}/>
-                                          <BlankSpaceDivider/>
-                                        </React.Fragment>
-                                    }
+                                        <BlankSpaceDivider/>
 
-                                    <RN.Text
-                                        style={[
-                                            className(
-                                                FlexContainerChildItemFullWidthCN,
-                                                AlignLeftTextCN
-                                            )
-                                        ]}
-                                    >Preparation Instructions</RN.Text>
-
-                                    {
-                                        !isEmptyArray(recipe.cooking_instructions) &&
                                         <RN.View
                                             style={[
                                                 className(FlexContainerChildItemFullWidthCN)
                                             ]}
                                         >
 
-                                            {
-                                                recipe.cooking_instructions?.map((item, i) => {
-                                                    let cooking_instruction = recipe.cooking_instructions[i];
-                                                    console.log('cooking_instruction', cooking_instruction);
-                                                    return (
-                                                        <RN.View
-                                                            style={[
-                                                                className(FlexFluidRowContainerCN)
-                                                            ]}
-                                                            key={makeId(16)}
-                                                        >
-
-                                                            <RN.View
-                                                                style={[
-                                                                    className(FlexContainerChildItemFullWidthCN)
-                                                                ]}
-                                                            >
-
-                                                                {
-                                                                    submitPressed && isEmptyString(cooking_instruction) &&
-                                                                    <React.Fragment>
-                                                                      <FormFieldIsRequiredMessage/>
-                                                                      <BlankSpaceDivider/>
-                                                                    </React.Fragment>
-                                                                }
-
-                                                                <AppTextInput
-                                                                    label={`${'' + (i + 1) + '. '}`}
-                                                                    value={recipe.cooking_instructions[i]}
-                                                                    onChangeText={
-                                                                        text => {
-                                                                            textValueChanged({text: item}, text, 'text');
-                                                                            recipe.cooking_instructions[i] = text;
-                                                                        }
-                                                                    }
-                                                                />
-
-                                                            </RN.View>
-
-                                                            <RN.View
-                                                                style={[
-                                                                    className(FlexContainerChildItemFullWidthCN,
-                                                                        AlignLeftFlexContainerContentCN),
-                                                                    {
-                                                                        flexDirection: 'row-reverse'
-                                                                    }
-                                                                ]}
-                                                            >
-
-                                                                {
-                                                                    (i === (recipe.cooking_instructions.length - 1)) &&
-                                                                    <RN.TouchableOpacity
-                                                                        activeOpacity={.6}
-                                                                        onPress={
-                                                                            _ => {
-                                                                                addCookingInstruction(recipe);
-                                                                            }
-                                                                        }
-                                                                        style={[
-                                                                            {
-                                                                                borderRadius: 50,
-                                                                                backgroundColor: 'forestgreen'
-                                                                            },
-                                                                            className(AlignCenterContentCN),
-                                                                        ]}
-                                                                    >
-                                                                      <RN.Text
-                                                                          style={[
-                                                                              {padding: 5}
-                                                                          ]}
-                                                                      >
-                                                                        <FontAwesomeIcon
-                                                                            icon={faPlus}
-                                                                            color={'white'}
-                                                                            size={30}
-                                                                        />
-                                                                      </RN.Text>
-                                                                    </RN.TouchableOpacity>
-                                                                }
-
-                                                                <Spacer/>
-
-                                                                {
-                                                                    (recipe.cooking_instructions.length >= 2) &&
-                                                                    <RN.TouchableOpacity
-                                                                        activeOpacity={.6}
-                                                                        onPress={
-                                                                            _ => {
-                                                                                removeCookingInstruction(recipe, i);
-                                                                            }
-                                                                        }
-                                                                        style={[
-                                                                            {
-                                                                                borderRadius: 50,
-                                                                                backgroundColor: 'maroon'
-                                                                            },
-                                                                            className(AlignCenterContentCN),
-                                                                        ]}
-                                                                    >
-                                                                      <RN.Text
-                                                                          style={[
-                                                                              {padding: 5}
-                                                                          ]}
-                                                                      >
-                                                                        <FontAwesomeIcon
-                                                                            icon={faMinus}
-                                                                            color={'white'}
-                                                                            size={30}
-                                                                        />
-                                                                      </RN.Text>
-                                                                    </RN.TouchableOpacity>
-                                                                }
-
-                                                            </RN.View>
-                                                        </RN.View>
-                                                    )
-                                                })
-                                            }
-                                        </RN.View>
-                                    }
-
-                                    <BlankSpaceDivider/>
-
-                                    <RN.View
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN)
-                                        ]}
-                                    >
-
-                                        <RN.View
-                                            style={[
-                                                className(FlexFluidRowContainerCN)
-                                            ]}
-                                        >
-
-                                            <RN.Text
-                                                style={[
-                                                    className(FlexContainerChildItemFullWidthCN,
-                                                        AlignLeftFlexContainerContentCN)
-                                                ]}
-                                            >
-                                                Okay for
-                                            </RN.Text>
-
                                             <RN.View
                                                 style={[
-                                                    className(FlexContainerChildItemFullWidthCN)
+                                                    className(FlexFluidRowContainerCN)
                                                 ]}
                                             >
 
-                                                <RnMultiSelectKaybarax
-                                                    style={{zIndex: 100}}
-                                                    itemsList={
-                                                        isEmptyArray(recipe['groups_suitable']) ?
-                                                            [...RecipeGroupsSuitable] :
-                                                            [...(RecipeGroupsSuitable.filter(item =>
-                                                                !recipe['groups_suitable'].includes(item.value)))]
-                                                    }
-                                                    selectedItems={
-                                                        [...(RecipeGroupsSuitable.filter(item =>
-                                                            recipe['groups_suitable'].includes(item.value)))]
-                                                    }
-                                                    onItemSelected={value => {
-                                                        isEmptyArray(recipe['groups_suitable']) &&
-                                                        (recipe['groups_suitable'] = []);//ensure array
-                                                        //if was there, do nothing
-                                                        let idx = recipe['groups_suitable'].indexOf(value);
-                                                        if (idx != -1) {
-                                                            //already there
-                                                            return;
+                                                <RN.Text
+                                                    style={[
+                                                        className(FlexContainerChildItemFullWidthCN,
+                                                            AlignLeftFlexContainerContentCN)
+                                                    ]}
+                                                >
+                                                    Okay for
+                                                </RN.Text>
+
+                                                <RN.View
+                                                    style={[
+                                                        className(FlexContainerChildItemFullWidthCN)
+                                                    ]}
+                                                >
+
+                                                    <RnMultiSelectKaybarax
+                                                        style={{zIndex: 100}}
+                                                        itemsList={
+                                                            isEmptyArray(recipe['groups_suitable']) ?
+                                                                [...RecipeGroupsSuitable] :
+                                                                [...(RecipeGroupsSuitable.filter(item =>
+                                                                    !recipe['groups_suitable'].includes(item.value)))]
                                                         }
-                                                        recipe['groups_suitable'].push(value);
-                                                    }}
-                                                    onItemRemoved={value => {
-                                                        isEmptyArray(recipe['groups_suitable']) &&
-                                                        (recipe['groups_suitable'] = []);//ensure array
-                                                        let idx = recipe['groups_suitable'].indexOf(value);
-                                                        (idx != -1) && recipe['groups_suitable'].splice(idx, 1);
-                                                    }}
-                                                    multiSelectDialogIsOpen={multiSelectDialogIsOpen}
-                                                    toggleOpenMultiSelectDialog={(value) => {
-                                                        toggleOpenMultiSelectDialog(value);
-                                                    }}
-                                                />
+                                                        selectedItems={
+                                                            [...(RecipeGroupsSuitable.filter(item =>
+                                                                recipe['groups_suitable'].includes(item.value)))]
+                                                        }
+                                                        onItemSelected={value => {
+                                                            isEmptyArray(recipe['groups_suitable']) &&
+                                                            (recipe['groups_suitable'] = []);//ensure array
+                                                            //if was there, do nothing
+                                                            let idx = recipe['groups_suitable'].indexOf(value);
+                                                            if (idx != -1) {
+                                                                //already there
+                                                                return;
+                                                            }
+                                                            recipe['groups_suitable'].push(value);
+                                                        }}
+                                                        onItemRemoved={value => {
+                                                            isEmptyArray(recipe['groups_suitable']) &&
+                                                            (recipe['groups_suitable'] = []);//ensure array
+                                                            let idx = recipe['groups_suitable'].indexOf(value);
+                                                            (idx != -1) && recipe['groups_suitable'].splice(idx, 1);
+                                                        }}
+                                                        multiSelectDialogIsOpen={multiSelectDialogIsOpen}
+                                                        toggleOpenMultiSelectDialog={(value) => {
+                                                            toggleOpenMultiSelectDialog(value);
+                                                        }}
+                                                    />
+
+                                                </RN.View>
 
                                             </RN.View>
 
                                         </RN.View>
 
-                                    </RN.View>
-
-                                    <RN.View
-                                        style={[
-                                            className(FlexContainerChildItemFullWidthCN)
-                                        ]}
-                                    >
-
                                         <RN.View
                                             style={[
-                                                className(FlexFluidRowContainerCN,
-                                                    AlignCenterContentCN)
+                                                className(FlexContainerChildItemFullWidthCN)
                                             ]}
                                         >
 
-                                            {
-                                                (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE) &&
-                                                <RN.TouchableOpacity
-                                                    activeOpacity={.6}
-                                                    onPress={_ => {
-                                                        Alert.alert('Confirm!',
-                                                            'Confirm Submit?',
-                                                            [
-                                                                {
-                                                                    text: 'Submit',
-                                                                    onPress: () => {
+                                            <RN.View
+                                                style={[
+                                                    className(FlexFluidRowContainerCN,
+                                                        AlignCenterContentCN)
+                                                ]}
+                                            >
 
-                                                                        let formData = {
-                                                                            recipe,
-                                                                            recipePhotos
-                                                                        };
+                                                {
+                                                    (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE) &&
+                                                    <RN.TouchableOpacity
+                                                        activeOpacity={.6}
+                                                        onPress={_ => {
+                                                            Alert.alert('Confirm!',
+                                                                'Confirm Submit?',
+                                                                [
+                                                                    {
+                                                                        text: 'Submit',
+                                                                        onPress: () => {
 
-                                                                        //reset, just in case
-                                                                        setSubmitPressed(false);
+                                                                            let formData = {
+                                                                                recipe,
+                                                                                recipePhotos
+                                                                            };
 
-                                                                        //set/re-setup form validation
-                                                                        setupFormValidation();
+                                                                            //reset, just in case
+                                                                            setSubmitPressed(false);
 
-                                                                        //validate
-                                                                        if (!isEmptyObject(recipeFormValidityTree)) {
+                                                                            //set/re-setup form validation
+                                                                            setupFormValidation();
 
-                                                                            if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
-                                                                                setSubmitPressed(true);
-                                                                                updateFormValidityTree(recipeFormValidityTree);
-                                                                                return;
+                                                                            //validate
+                                                                            if (!isEmptyObject(recipeFormValidityTree)) {
+
+                                                                                if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
+                                                                                    setSubmitPressed(true);
+                                                                                    updateFormValidityTree(recipeFormValidityTree);
+                                                                                    return;
+                                                                                }
+
+                                                                                submitRecipeClick(
+                                                                                    formData, notificationAlert,
+                                                                                    recipeBoxStore, navigation);
+
+                                                                            } else {
+                                                                                Alert.alert('', 'Form validation delayed!');
                                                                             }
 
-                                                                            submitRecipeClick(
-                                                                                formData, notificationAlert,
-                                                                                recipeBoxStore, navigation);
-
-                                                                        } else {
-                                                                            Alert.alert('', 'Form validation delayed!');
                                                                         }
-
-                                                                    }
-                                                                },
-                                                                {
-                                                                    text: 'Cancel',
-                                                                    onPress: () => {
-                                                                        //do nothing
-                                                                    }
-                                                                },
-                                                            ]);
-                                                    }
-                                                    }
-                                                    style={[
-                                                        {
-                                                            width: '60%',
-                                                            backgroundColor: POSITIVE_ACTION_COLOR,
-                                                            borderRadius: 5,
+                                                                    },
+                                                                    {
+                                                                        text: 'Cancel',
+                                                                        onPress: () => {
+                                                                            //do nothing
+                                                                        }
+                                                                    },
+                                                                ]);
                                                         }
-                                                    ]}
-                                                >
-                                                  <RN.Text
-                                                      style={[
-                                                          {
-                                                              fontWeight: 'bold',
-                                                              fontSize: 28,
-                                                              color: 'white',
-                                                          },
-                                                          className(
-                                                              AlignCenterTextCN
-                                                          )
-                                                      ]}>Save Recipe</RN.Text>
-                                                </RN.TouchableOpacity>
-                                            }
-
-                                            {
-                                                (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE) &&
-                                                <RN.TouchableOpacity
-                                                    activeOpacity={.6}
-                                                    onPress={_ => {
-                                                        updateRecipeClick(recipe, notificationAlert)
-                                                    }}
-                                                    style={[
-                                                        {
-                                                            width: '60%',
-                                                            backgroundColor: POSITIVE_ACTION_COLOR,
-                                                            borderRadius: 5,
                                                         }
-                                                    ]}
-                                                >
-                                                  <RN.Text
-                                                      style={[
-                                                          {
-                                                              fontWeight: 'bold',
-                                                              fontSize: 28,
-                                                              color: 'white',
-                                                          },
-                                                          className(
-                                                              AlignCenterTextCN
-                                                          )
-                                                      ]}>Update Recipe</RN.Text>
-                                                </RN.TouchableOpacity>
-                                            }
+                                                        style={[
+                                                            {
+                                                                width: '60%',
+                                                                backgroundColor: POSITIVE_ACTION_COLOR,
+                                                                borderRadius: 5,
+                                                            }
+                                                        ]}
+                                                    >
+                                                      <RN.Text
+                                                          style={[
+                                                              {
+                                                                  fontWeight: 'bold',
+                                                                  fontSize: 28,
+                                                                  color: 'white',
+                                                              },
+                                                              className(
+                                                                  AlignCenterTextCN
+                                                              )
+                                                          ]}>Save Recipe</RN.Text>
+                                                    </RN.TouchableOpacity>
+                                                }
+
+                                                {
+                                                    (viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE) &&
+                                                    <RN.TouchableOpacity
+                                                        activeOpacity={.6}
+                                                        onPress={_ => {
+                                                            updateRecipeClick(recipe, notificationAlert)
+                                                        }}
+                                                        style={[
+                                                            {
+                                                                width: '60%',
+                                                                backgroundColor: POSITIVE_ACTION_COLOR,
+                                                                borderRadius: 5,
+                                                            }
+                                                        ]}
+                                                    >
+                                                      <RN.Text
+                                                          style={[
+                                                              {
+                                                                  fontWeight: 'bold',
+                                                                  fontSize: 28,
+                                                                  color: 'white',
+                                                              },
+                                                              className(
+                                                                  AlignCenterTextCN
+                                                              )
+                                                          ]}>Update Recipe</RN.Text>
+                                                    </RN.TouchableOpacity>
+                                                }
+
+                                            </RN.View>
 
                                         </RN.View>
 
@@ -894,44 +933,28 @@ export function CreateEditRecipeForm(props) {
 
                     </RN.View>
 
+                    <BlankSpaceDivider/>
+
                 </RN.View>
 
-                <BlankSpaceDivider/>
+                <ReactNativeCameraModule
+                    setCapturedImage={photo => {
+                        console.log('base64StringPhoto: ', photo);
+                        setCapturedImage(photo);
+                    }}
+                    hideCameraModal={_ => {
+                        cameraModuleProps.cameraLaunched = false;
+                        updateCameraModuleProps(cameraModuleProps)
+                    }}
+                    cameraModuleProps={cameraModuleProps}
+                    updateCameraModuleProps={updateCameraModuleProps}
+                />
 
-            </RN.View>
-
-            <ReactNativeCameraModule
-                setCapturedImage={photo => {
-                    console.log('base64StringPhoto: ', photo);
-                    setCapturedImage(photo);
-                }}
-                hideCameraModal={_ => {
-                    cameraModuleProps.cameraLaunched = false;
-                    updateCameraModuleProps(cameraModuleProps)
-                }}
-                cameraModuleProps={cameraModuleProps}
-                updateCameraModuleProps={updateCameraModuleProps}
-            />
+            </RN.ScrollView>
 
             {
-                (displayFieldExpectationSatisfied('alert', notificationAlert,
-                    expectationOfX => isTrue(expectationOfX))) &&
-                <RN.View
-                    style={[
-                        className(FlexRowContainerCN),
-                        {
-                            position: 'absolute',
-                            bottom: 50,
-                            left: 0,
-                            right: 0,
-                            width: '100%'
-                        }
-                    ]}
-                >
-                  <AppNotificationToastAlert
-                      dropDownProps={notificationAlert}
-                  />
-                </RN.View>
+                (recipeBoxStore.loading) &&
+                <Loader message={recipeBoxStore.loadingMessage}/>
             }
 
         </RN.ScrollView>
