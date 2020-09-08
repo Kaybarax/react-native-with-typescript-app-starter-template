@@ -732,11 +732,11 @@ export function CreateEditRecipeForm(props) {
                                                         isEmptyArray(recipe['groups_suitable']) ?
                                                             [...RecipeGroupsSuitable] :
                                                             [...(RecipeGroupsSuitable.filter(item =>
-                                                                !recipe['groups_suitable'].includes(item.label)))]
+                                                                !recipe['groups_suitable'].includes(item.value)))]
                                                     }
                                                     selectedItems={
                                                         [...(RecipeGroupsSuitable.filter(item =>
-                                                            recipe['groups_suitable'].includes(item.label)))]
+                                                            recipe['groups_suitable'].includes(item.value)))]
                                                     }
                                                     onItemSelected={value => {
                                                         isEmptyArray(recipe['groups_suitable']) &&
@@ -814,7 +814,7 @@ export function CreateEditRecipeForm(props) {
 
                                                                             submitRecipeClick(
                                                                                 formData, notificationAlert,
-                                                                                recipeBoxStore.user.id, navigation);
+                                                                                recipeBoxStore, navigation);
 
                                                                         } else {
                                                                             Alert.alert('', 'Form validation delayed!');

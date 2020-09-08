@@ -27,13 +27,13 @@ import {RegistrationButtonTextCN} from "../../theme/component-themes";
 export default function SignUpForm(props) {
 
     let {
-        showLoginForm, recipeBoxStore,
+        showLoginForm,
         loginStore: {notificationAlert, signUpForm},
         loginStore,
     } = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
-    let [password, updatePassword] = React.useState({
+    let [credentials, updateCredentials] = React.useState({
         password: '',
         confirm_password: '',
     });
@@ -58,17 +58,17 @@ export default function SignUpForm(props) {
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(password.password)) {
+        if (isEmptyString(credentials.password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(password.confirm_password)) {
+        if (isEmptyString(credentials.confirm_password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (password.password !== password.confirm_password) {
+        if (credentials.password !== credentials.confirm_password) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -115,7 +115,7 @@ export default function SignUpForm(props) {
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(password.password) &&
+                submit_pressed && isEmptyString(credentials.password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
@@ -123,13 +123,13 @@ export default function SignUpForm(props) {
                 secureTextEntry={true}
                 label="Password"
                 onChangeText={value => {
-                    textValueChanged(password, value, 'password', null);
-                    updatePassword(password);
+                    textValueChanged(credentials, value, 'password', null);
+                    updateCredentials(credentials);
                 }}
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(password.confirm_password) &&
+                submit_pressed && isEmptyString(credentials.confirm_password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
@@ -137,14 +137,14 @@ export default function SignUpForm(props) {
                 secureTextEntry={true}
                 label="Confirm Password"
                 onChangeText={value => {
-                    textValueChanged(password, value, 'confirm_password', null);
-                    updatePassword(password);
+                    textValueChanged(credentials, value, 'confirm_password', null);
+                    updateCredentials(credentials);
                 }}
             />
             <BlankSpaceDivider/>
             {
                 submit_pressed &&
-                (password.password !== password.confirm_password) &&
+                (credentials.password !== credentials.confirm_password) &&
                 <Text style={{color: 'red'}}>Passwords do not match.</Text>
             }
             <BlankSpaceDivider/>
@@ -166,7 +166,7 @@ export default function SignUpForm(props) {
                     }
                     signUpForm.user.status_ref_key_key = "STATUS";
                     signUpForm.user.status_ref_key_value = "ACT";
-                    handleSignUp(signUpForm.user, password.password, recipeBoxStore, loginStore, notificationAlert, showLoginForm);
+                    handleSignUp(signUpForm.user, credentials.password, loginStore, notificationAlert, showLoginForm);
                 }}
             >
                 <Text

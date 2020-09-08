@@ -23,12 +23,16 @@ import {Spacer} from "../shared-components-and-modules/shared-components";
 import {SCREEN_HEIGHT} from "../App";
 import {faCreditCard} from "@fortawesome/free-regular-svg-icons";
 import appNavigation from "./app-navigation";
+import {GlobalDrawerProps} from "./routes";
 
 export default function AppDrawerNavigationContent(props) {
     console.log('AppDrawerNavigationContent');
     console.log('AppDrawerNavigationContent props', props);
 
     let {navigation} = props;
+
+    //avail drawer props globally
+    GlobalDrawerProps.props = props;
 
     return (
         <DrawerContentScrollView

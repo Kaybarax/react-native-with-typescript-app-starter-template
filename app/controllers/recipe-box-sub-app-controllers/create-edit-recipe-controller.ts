@@ -17,40 +17,7 @@ import {appSQLiteDb} from "../../app-management/data-manager/embeddedDb-manager"
 import {serviceWorkerThread} from "../app-controller";
 import {TIME_OUT} from "../../app-config";
 import appNavigation from "../../routing-and-navigation/app-navigation";
-
-export function fetchUserRecipes(userId) {
-
-    if (isEmptyArray(appSQLiteDb.usersRecipesQueryResults)) {
-        return null;
-    }
-
-    let userRecipes: Array<UserRecipe> = appSQLiteDb.usersRecipesQueryResults.find((item: UserRecipe) => item.user_id === userId);
-    if (isEmptyArray(userRecipes)) {
-        return null;
-    }
-
-    let recipes: Array<Recipe> = appSQLiteDb.recipesQueryResults.filter((item: Recipe) => {
-        return !isNullUndefined(userRecipes.find(it => it.recipe_id === item.id));
-    });
-
-    if (isEmptyArray(recipes)) {
-        return null;
-    }
-
-    return recipes.map(item => {
-        let recipeItem = {};
-        let recipeItemPhotos: Array<RecipeImage> = [];
-        for (let it of appSQLiteDb.recipesPhotosQueryResults) {
-            if (item.id === it.recipe_id) {
-                recipeItemPhotos.push(it);
-            }
-        }
-        recipeItem['recipe'] = item;
-        recipeItem['recipePhotos'] = recipeItemPhotos;
-        return recipeItem;
-    });
-
-}
+import {fetchUserRecipes} from "./recipe-box-controller";
 
 /**
  * sd _ Kaybarax
@@ -215,9 +182,10 @@ export function removeCookingInstruction(recipe, index, activity = null) {
     recipe.cooking_instructions.splice(index, 1);
 }
 
-export function submitRecipeClick(formData, notificationAlert, userId, navigator, activity = null) {
+export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, navigator, activity = null) {
     console.log('submitRecipeClick');
     let {recipe, recipePhotos}: { recipe: Recipe, recipePhotos: Array<RecipeImage> } = formData;
+    let userId = recipeBoxStore.user.id;
 
     let validPhotos = recipePhotos.filter(item => !isEmptyString(item.image_file) || !isEmptyString(item.image_url))
 
@@ -226,6 +194,7 @@ export function submitRecipeClick(formData, notificationAlert, userId, navigator
         recipePhotosSaved: 0,
         allRecipePhotosSaved: false,
         recipeUserSaved: false,
+        saveRecipeTransactionComplete: false,
     }
 
     let threadPool = [];
@@ -338,12 +307,13 @@ export function submitRecipeClick(formData, notificationAlert, userId, navigator
 
             showToast(workMessage);
 
-            notificationCallback(
-                'succ',
-                'Recipe saved',
-                notificationAlert,
-            );
-            appNavigation.navigateBack(navigator)
+            // notificationCallback(
+            //     'succ',
+            //     'Recipe saved',
+            //     notificationAlert,
+            // );
+
+            threadWorkListener.saveRecipeTransactionComplete = true;
 
         },
         () => {
@@ -354,10 +324,49 @@ export function submitRecipeClick(formData, notificationAlert, userId, navigator
             //     workMessage,
             //     notificationAlert,
             // );
-        }, TIME_OUT, 1000,
+        }, TIME_OUT * (validPhotos.length + 1), 1000,
         threadPool,
         (): boolean => {
             return threadWorkListener.allRecipePhotosSaved;
+        }
+    );
+
+    //reload db
+    serviceWorkerThread(
+        _ => {
+            console.log('Recipe Transaction complete, start reload');
+            appSQLiteDb.dbLoadedAndInitialized = false;
+            appSQLiteDb.loadAndInitDB();
+        },
+        _ => {
+            return appSQLiteDb.dbLoadedAndInitialized;
+        },
+        _ => {
+            let workMessage = `Save recipe transaction success!`;
+            showToast(workMessage);
+            notificationCallback(
+                'succ',
+                workMessage,
+                notificationAlert,
+            );
+            //update user recipes
+            recipeBoxStore.recipeItems = fetchUserRecipes(userId);
+            // appNavigation.navigateBack(navigator)
+            appNavigation.navigateToRecipeBoxHome(navigator)
+        },
+        _ => {
+            let workMessage = `Failed to reload data`;
+            showToast(workMessage);
+            notificationCallback(
+                'err',
+                workMessage,
+                notificationAlert,
+            );
+        }, TIME_OUT * 2 * (validPhotos.length + 1), 1000,
+        threadPool,
+        (): boolean => {
+            console.log('Ready run reload');
+            return threadWorkListener.saveRecipeTransactionComplete;
         }
     );
 

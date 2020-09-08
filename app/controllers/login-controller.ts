@@ -13,30 +13,31 @@ import {APP_SQLITE_DATABASE} from '../app-management/data-manager/db-config';
 import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
 import {User, UserCredentials} from '../app-management/data-manager/models-manager';
 import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
-import {isEmptyString, isNullUndefined} from "../util/util";
+import {isNullUndefined} from "../util/util";
 import {showToast} from "../util/react-native-based-utils";
 import {TIME_OUT} from "../app-config";
 import {invokeLoader} from "../shared-components-and-modules/loaders";
 import {serviceWorkerThread} from "./app-controller";
 import appNavigation from "../routing-and-navigation/app-navigation";
+import {fetchUserRecipes} from "./recipe-box-sub-app-controllers/recipe-box-controller";
 
 /**
  * sd _ Kaybarax
  * @param userModel
  * @param password
- * @param recipeBoxStore
  * @param loginStore
  * @param notificationAlert
  * @param showLoginForm
  */
-export function handleSignUp(userModel, password, recipeBoxStore, loginStore, notificationAlert, showLoginForm) {
+export function handleSignUp(userModel, password, loginStore, notificationAlert, showLoginForm) {
 
     console.log('userModel:', toJS(userModel));
     // return;
 
+    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
+
     let functionServiceWorkerThreadsPool = [];
 
-    //save to sqlitedb
     let user: User = toJS(userModel);
 
     console.log('user', user);
@@ -56,146 +57,107 @@ export function handleSignUp(userModel, password, recipeBoxStore, loginStore, no
 
     invokeLoader(loginStore);
 
+    //create password hash
     serviceWorkerThread(() => {
-            createPasswordHash(password, userCredentials,
-                notificationAlert, threadWorkListener).then(null);
+            createPasswordHash(password, userCredentials, threadWorkListener).then(null);
         },
         () => {
-            return threadWorkListener.done;
+            invokeLoader(loginStore);
+            return threadWorkListener.createPasswordHash;
         },
         () => {
-            saveUserWork(userCredentials);
+            showToast('Password hashed');
+            //threadWorkListener.createPasswordHash set to true by hash function
         }, () => {
-            //do nothing, cuz has already been handled by the hashing function
+            notificationCallback(
+                'err',
+                'Sign up failed, cannot perform password hashing',
+                notificationAlert,
+            );
         }, TIME_OUT, 1000,
         functionServiceWorkerThreadsPool
     );
 
-    function saveUserWork(credentials) {
-
-        invokeLoader(loginStore);
-
-        console.log('credentials password_hash', credentials.password_hash);
-        console.log('credentials salt', credentials.salt);
-
-        if (isEmptyString(credentials.password_hash) || isEmptyString(credentials.salt)) {
+    //save user
+    serviceWorkerThread(() => {
+            appSQLiteDb.transactionSuccess = false;
+            appSQLiteDb.addUserStmt(db, user);
+        },
+        () => {
+            invokeLoader(loginStore);
+            return appSQLiteDb.transactionSuccess;
+        },
+        () => {
+            showToast('User saved!');
+            threadWorkListener.saveUser = true;
+        }, () => {
             notificationCallback(
                 'err',
-                'Sign up failed! Password hashing failed',
+                'Sign up failed, cannot save user',
                 notificationAlert,
             );
-            return;
+        }, TIME_OUT * 2, 1000,
+        functionServiceWorkerThreadsPool,
+        (): boolean => {
+            return threadWorkListener.createPasswordHash;
         }
+    );
 
-        serviceWorkerThread(() => {
-                saveUser(user, notificationAlert);
-            },
-            () => {
-                return appSQLiteDb.transactionSuccess;
-            },
-            () => {
-                showToast('User added!');
-                saveUserCredentialsWork();
-            }, () => {
-                notificationCallback(
-                    'err',
-                    'Sign up failed, cannot save user',
-                    notificationAlert,
-                );
-            }, TIME_OUT, 1000,
-            functionServiceWorkerThreadsPool
-        );
+    //save user credentials
+    serviceWorkerThread(() => {
+            appSQLiteDb.transactionSuccess = false;
+            appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
+        },
+        () => {
+            invokeLoader(loginStore);
+            return appSQLiteDb.transactionSuccess;
+        },
+        () => {
+            showToast('User credentials added!');
+            threadWorkListener.saveUserCredentials = true;
+        }, () => {
+            notificationCallback(
+                'err',
+                'Sign up failed, cannot save credentials',
+                notificationAlert,
+            );
+        }, TIME_OUT * 3, 1000,
+        functionServiceWorkerThreadsPool,
+        (): boolean => {
+            return threadWorkListener.saveUser;
+        }
+    );
 
-    }
-
-    function saveUserCredentialsWork() {
-
-        invokeLoader(loginStore);
-
-        serviceWorkerThread(() => {
-                saveUserCredentials(userCredentials, notificationAlert);
-            },
-            () => {
-                return appSQLiteDb.transactionSuccess;
-            },
-            () => {
-                showToast('User credentials added!');
-                notificationCallback(
-                    'succ',
-                    'User signed up!',
-                    notificationAlert,
-                );
-                //some time for alert feedback
-                setTimeout(_ => showLoginForm(), 1500);
-            }, () => {
-                notificationCallback(
-                    'warn',
-                    'Sign up failed, cannot save credentials',
-                    notificationAlert,
-                );
-            }, TIME_OUT, 1000,
-            functionServiceWorkerThreadsPool
-        );
-
-    }
-
-}
-
-export function saveUser(user: User, notificationAlert) {
-    console.log('saveUser');
-
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
-
-    //put in db
-    try {
-
-        appSQLiteDb.addUserStmt(db, user);
-
-        notificationCallback(
-            'succ',
-            'User saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save user failed',
-            notificationAlert,
-        );
-
-    }
-
-}
-
-export function saveUserCredentials(userCredentials: UserCredentials, notificationAlert) {
-    console.log('saveUserCredentials');
-
-    let db = APP_SQLITE_DATABASE.DB_REFERENCE;
-    appSQLiteDb.transactionSuccess = false;
-
-    //put in db
-    try {
-
-        appSQLiteDb.addUserCredentialsStmt(db, userCredentials);
-
-        notificationCallback(
-            'succ',
-            'User Credentials saved',
-            notificationAlert,
-        );
-
-    } catch (err) {
-
-        notificationCallback(
-            'err',
-            'Save user credentials failed',
-            notificationAlert,
-        );
-
-    }
+    //reload data from db and complete transaction
+    serviceWorkerThread(() => {
+            appSQLiteDb.dbLoadedAndInitialized = false;
+            appSQLiteDb.loadAndInitDB();
+        },
+        () => {
+            invokeLoader(loginStore);
+            return appSQLiteDb.dbLoadedAndInitialized;
+        },
+        () => {
+            showToast('Sign up user transaction success');
+            notificationCallback(
+                'succ',
+                'Sgn up user success',
+                notificationAlert,
+            );
+            // some time for alert feedback
+            setTimeout(_ => showLoginForm(), 2000);
+        }, () => {
+            notificationCallback(
+                'warn',
+                'User signed, but please restart app to get latest data',
+                notificationAlert,
+            );
+        }, TIME_OUT * 4, 1000,
+        functionServiceWorkerThreadsPool,
+        (): boolean => {
+            return threadWorkListener.saveUserCredentials;
+        }
+    );
 
 }
 
@@ -227,6 +189,8 @@ export function handleLogin(loginForm, password, notificationAlert, recipeBoxSto
             notificationAlert);
         return;
     }
+
+    invokeLoader(loginStore);
 
     //check credentials
     let userCredentials: UserCredentials = appSQLiteDb.usersCredentialsQueryResults.find(item =>
@@ -271,9 +235,15 @@ export function handleLogin(loginForm, password, notificationAlert, recipeBoxSto
     //     }, functionServiceWorkerThreadsPool
     // );
 
+    invokeLoader(loginStore);
+
     //set user
     recipeBoxStore.user = user;
 
+    //collect user recipes
+    recipeBoxStore.recipeItems = fetchUserRecipes(user.id);
+
+    //login
     showToast('Login success');
     appNavigation.navigateToRecipeBoxHome(navigation, null);
 

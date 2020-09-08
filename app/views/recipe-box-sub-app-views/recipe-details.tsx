@@ -51,20 +51,19 @@ import {
 } from "../../theme/component-themes";
 import {editRecipeClick} from "../../controllers/recipe-box-sub-app-controllers/recipe-item-card-controller";
 import {deleteRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
+import {RecipeGroupsSuitable} from "../../app-management/data-manager/list-manager";
 
 export default function RecipeDetails(props) {
 
     console.log('PROPS AT RecipeDetails:', toJS(props));
 
     let {
-        recipeBoxStore, navigation, appStore,
+        recipeBoxStore, navigation,
         route: {params}, recipeBoxStore: {notificationAlert}
     } = props;
-    console.log('#### RECIPEDETAILS ####:', params);
 
     let recipe: Recipe = params.recipe;
     let recipePhotos: Array<RecipeImage> = params.recipePhotos;
-    console.log('!!! RecipeDetails recipePhotos !!!:', recipePhotos);
 
     let enumeratorArray = [];
 
@@ -94,7 +93,17 @@ export default function RecipeDetails(props) {
                     {
                         !isEmptyArray(recipePhotos) &&
                         (recipePhotos.map((item: RecipeImage) => {
-                            console.log('We have recipe photos');
+
+                            let photo = (
+                                !isEmptyString(item.image_url) ?
+                                    ('data:image/jpeg;base64,' + item.image_url) :
+                                    (
+                                        !isEmptyString(item.image_file) ?
+                                            ('data:image/jpeg;base64,' + item.image_file) :
+                                            null
+                                    )
+                            );
+
                             return (
                                 <RN.View
                                     style={[
@@ -109,14 +118,11 @@ export default function RecipeDetails(props) {
                                 >
                                     <RN.Image
                                         source={
-                                            !isEmptyString(item.image_url) ?
-                                                'data:image/jpeg;base64,' + item.image_url :
-                                                (
-                                                    !isEmptyString(item.image_file) ?
-                                                        'data:image/jpeg;base64,' + item.image_file :
-                                                        require('../../media/images/image.png')
-                                                )
-
+                                            !isEmptyString(photo) ?
+                                                {
+                                                    uri: photo
+                                                } :
+                                                require('../../media/images/image.png')
                                         }
                                         style={[
                                             {
@@ -132,7 +138,6 @@ export default function RecipeDetails(props) {
                         }))
                     }
                 </RN.ScrollView>
-
 
                 <RN.View
                     style={[
@@ -168,7 +173,8 @@ export default function RecipeDetails(props) {
                     </RN.View>
 
                     {
-                        isTrue(recipe.is_vegetarian) &&
+                        displayFieldExpectationSatisfied('is_vegetarian', recipe,
+                            eOfX => isTrue(eOfX) || eOfX === 1) &&
                         <RN.View
                             style={[
                                 className(FlexContainerChildItemOneHalfWidthCN,
@@ -180,10 +186,8 @@ export default function RecipeDetails(props) {
                                 icon={faLeaf}
                                 color={'forestgreen'}
                                 size={30}
-                                style={{
-                                    // marginTop: 20
-                                }}
-                            />&nbsp;
+                            />
+                            <Spacer/>
                             Vegetarian
                           </RN.Text>
                         </RN.View>
@@ -259,15 +263,12 @@ export default function RecipeDetails(props) {
                                                             icon={faCircle}
                                                             color={'black'}
                                                             size={10}
-                                                            style={[
-                                                                //todo: any <Text> styles you fancy
-                                                            ]}
                                                         />
                                                         &nbsp;{item}
                                                     </RN.Text>
                                                 );
                                             }}
-                                            keyExtractor={item => makeId(16)}
+                                            keyExtractor={_ => makeId(16)}
                                         />
                                     </RN.View>
 
@@ -310,7 +311,7 @@ export default function RecipeDetails(props) {
                                                     </RN.Text>
                                                 );
                                             }}
-                                            keyExtractor={item => makeId(16)}
+                                            keyExtractor={_ => makeId(16)}
                                         />
                                     </RN.View>
 
@@ -355,16 +356,15 @@ export default function RecipeDetails(props) {
                                                           icon={faCircle}
                                                           color={'black'}
                                                           size={10}
-                                                          style={[
-                                                              //todo: any <Text> styles you fancy
-                                                          ]}
                                                       />
                                                       <Spacer/>
-                                                      {item}
+                                                      {
+                                                          RecipeGroupsSuitable.find(it => it.value === item)?.['label']
+                                                      }
                                                   </RN.Text>
                                               );
                                           }}
-                                          keyExtractor={item => makeId(16)}
+                                          keyExtractor={_ => makeId(16)}
                                       />
                                     </RN.View>
 
@@ -485,6 +485,10 @@ export default function RecipeDetails(props) {
                                                     style: 'destructive',
                                                     onPress: () => {
                                                         deleteRecipe(recipe);
+                                                        //update
+                                                        // recipeBoxStore.recipeItems = fetchUserRecipes(recipeBoxStore.user.id);
+                                                        //go back
+                                                        appNavigation.navigateBack(navigation);
                                                     }
                                                 },
                                                 {
@@ -497,48 +501,48 @@ export default function RecipeDetails(props) {
                                             ]
                                         );
                                     }}
-                                        style={[
+                                    style={[
                                         className(
-                                        FlexContainerChildItemFullWidthCN,
-                                        AlignCenterContentCN,
-                                        DeleteButtonCN
+                                            FlexContainerChildItemFullWidthCN,
+                                            AlignCenterContentCN,
+                                            DeleteButtonCN
                                         )
-                                        ]}
-                                        >
-                                        <RN.Text
+                                    ]}
+                                >
+                                    <RN.Text
                                         style={[
-                                        className(
-                                        DeleteButtonTextCN
-                                        )
+                                            className(
+                                                DeleteButtonTextCN
+                                            )
                                         ]}>Delete</RN.Text>
-                                        </RN.TouchableOpacity>
+                                </RN.TouchableOpacity>
 
-                                        </RN.View>
+                            </RN.View>
 
-                                        </RN.View>
-                                        </RN.View>
-                                        </RN.View>
+                        </RN.View>
+                    </RN.View>
+                </RN.View>
 
-                                    {
-                                        (displayFieldExpectationSatisfied('alert', notificationAlert,
-                                        expectationOfX => isTrue(expectationOfX))) &&
-                                        <View
-                                        style={[
-                                            {
-                                                position: 'absolute',
-                                                top: 0,
-                                                width: '100%'
-                                            }
-                                        ]}
-                                        >
-                                        <AppNotificationToastAlert
-                                        dropDownProps={notificationAlert}
-                                        />
-                                        </View>
-                                    }
+                {
+                    (displayFieldExpectationSatisfied('alert', notificationAlert,
+                        expectationOfX => isTrue(expectationOfX))) &&
+                    <View
+                        style={[
+                            {
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%'
+                            }
+                        ]}
+                    >
+                      <AppNotificationToastAlert
+                          dropDownProps={notificationAlert}
+                      />
+                    </View>
+                }
 
-                                        </RN.View>
-                                        </RN.ScrollView>
-                                        );
+            </RN.View>
+        </RN.ScrollView>
+    );
 
-                                        }
+}

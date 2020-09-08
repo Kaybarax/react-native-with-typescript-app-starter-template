@@ -29,11 +29,10 @@ import {RegistrationButtonTextCN} from "../../theme/component-themes";
 
 export default function LoginForm(props) {
 
-    let {notificationAlert, recipeBoxStore, loginStore, navigation} = props;
-    let loginModel = loginStore.loginForm;
+    let {recipeBoxStore, loginStore, loginStore: {notificationAlert, loginForm}, navigation} = props;
 
     let [submit_pressed, set_press_submit] = React.useState(false);
-    let [password, updatePassword] = React.useState({
+    let [credentials, updateCredentials] = React.useState({
         password: '',
     });
 
@@ -42,12 +41,12 @@ export default function LoginForm(props) {
         let validForm = true;
         set_press_submit(false);//assume not pressed
 
-        if (isEmptyString(loginModel['usernameOrEmail'])) {
+        if (isEmptyString(loginForm['usernameOrEmail'])) {
             validForm = false;
             set_press_submit(true);
             return validForm;
         }
-        if (isEmptyString(password.password)) {
+        if (isEmptyString(credentials.password)) {
             validForm = false;
             set_press_submit(true);
             return validForm;
@@ -65,25 +64,25 @@ export default function LoginForm(props) {
             ]}
         >
             {
-                submit_pressed && isEmptyString(loginModel.usernameOrEmail) &&
+                submit_pressed && isEmptyString(loginForm.usernameOrEmail) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Username/Email"
-                onChangeText={text => textValueChanged(loginModel, text, 'usernameOrEmail', null)}
+                onChangeText={text => textValueChanged(loginForm, text, 'usernameOrEmail', null)}
             />
             <BlankSpaceDivider/>
             {
-                submit_pressed && isEmptyString(password.password) &&
+                submit_pressed && isEmptyString(credentials.password) &&
                 <Text style={{color: 'red'}}> * This field is required.</Text>
             }
             <BlankSpaceDivider/>
             <AppTextInput
                 label="Password"
                 onChangeText={text => {
-                    textValueChanged(password, text, 'password', null);
-                    updatePassword(password);
+                    textValueChanged(credentials, text, 'password', null);
+                    updateCredentials(credentials);
                 }}
                 secureTextEntry={true}
             />
@@ -105,7 +104,7 @@ export default function LoginForm(props) {
                     if (!isValidFormData()) {
                         return;
                     }
-                    handleLogin(loginModel, password.password, notificationAlert, recipeBoxStore, loginStore, navigation);
+                    handleLogin(loginForm, credentials.password, notificationAlert, recipeBoxStore, loginStore, navigation);
                 }}
             >
                 <Text

@@ -16,8 +16,8 @@ import {
     _404_VIEW,
     APP_DEV_MOCKS_SCREEN_VIEW,
     APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
-    MAIN_APP_STACK_SCREEN_VIEW,
     APP_TOP_TABS_SCREEN_VIEW,
+    MAIN_APP_STACK_SCREEN_VIEW,
     MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
     MY_RECIPE_HOME_SCREEN_VIEW,
     MY_RECIPE_LOGIN_SCREEN_VIEW,
@@ -36,11 +36,19 @@ import {makeId} from "../util/util";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import AppDrawerNavigationContent from "./app-drawer-navigation-content";
 import {SCREEN_WIDTH} from "../App";
-import {MAIN_BG_COLOR} from "../theme/app-theme";
+import {MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, NEGATIVE_ACTION_COLOR, SECONDARY_SUPPORT_COLOR} from "../theme/app-theme";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import RecipeBoxBottomNavigationTabsContent from "./recipe-box-bottom-navigation-tabs-content";
+import {
+    AppDevScratchTitleBar,
+    AppTopTabsTitleBar, CreateEditTitleBar,
+    Page4SubItemExampleTitleBar, RecipeBoxHomeTitleBar, RecipeBoxTitleBar
+} from "./navigated-views-header-bars-content";
 
+export const GlobalDrawerProps = {
+    props: null,
+};
 
 export default function BaseAppWithDrawerNavigationRouting() {
 
@@ -61,6 +69,11 @@ export default function BaseAppWithDrawerNavigationRouting() {
             name={RECIPE_BOX_SUB_APP_SCREEN_VIEW.name}
             component={RECIPE_BOX_SUB_APP_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={({route, navigation}) => {
+                return {
+                    swipeEnabled: false,
+                };
+            }}
         />
     ];
 
@@ -91,11 +104,17 @@ export function MainAppStackRouting() {
             name={APP_TOP_TABS_SCREEN_VIEW.name}
             component={APP_TOP_TABS_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <AppTopTabsTitleBar {...props} />,
+            }}
         />,
         <StackNav.Screen
             name={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
             component={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <Page4SubItemExampleTitleBar {...props} />,
+            }}
         />,
         <StackNav.Screen
             name={_404_VIEW.name}
@@ -110,12 +129,14 @@ export function MainAppStackRouting() {
             children={routeMap}
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#f4511e',
+                    backgroundColor: MAIN_SUPPORT_COLOR,
                 },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                },
+                headerTitleStyle: [
+                    {
+                        // fontWeight: 'bold',
+                    }
+                ],
             }}
             headerMode={'screen'}
         />
@@ -132,11 +153,17 @@ export function RecipeBoxAppWithRouting() {
             name={MY_RECIPE_LOGIN_SCREEN_VIEW.name}
             component={MY_RECIPE_LOGIN_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <RecipeBoxTitleBar {...props} />,
+            }}
         />,
         <StackNav.Screen
             name={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name}
             component={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <RecipeBoxHomeTitleBar {...props} />,
+            }}
         />,
         <StackNav.Screen
             name={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name}
@@ -147,11 +174,23 @@ export function RecipeBoxAppWithRouting() {
             name={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name}
             component={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.screen}
             key={makeId(16)}
+            options={{
+                headerTitle: props => <CreateEditTitleBar {...props} />,
+            }}
         />,
     ];
 
     return (
-        <StackNav.Navigator children={routeMap}/>
+        <StackNav.Navigator
+            children={routeMap}
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: NEGATIVE_ACTION_COLOR,
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: [],
+            }}
+        />
     );
 
 }
@@ -225,12 +264,19 @@ export function AppDevMocksWithRouting() {
         <Stack.Navigator
             initialRouteName={APP_DEV_MOCKS_SCREEN_VIEW.name}
             screenOptions={{
-                title: 'App Dev Scratch Pad'
+                headerStyle: {
+                    backgroundColor: SECONDARY_SUPPORT_COLOR,
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: [],
             }}
         >
             <Stack.Screen
                 name={APP_DEV_MOCKS_SCREEN_VIEW.name}
                 component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
+                options={{
+                    headerTitle: props => <AppDevScratchTitleBar {...props} />,
+                }}
             />
         </Stack.Navigator>
     );

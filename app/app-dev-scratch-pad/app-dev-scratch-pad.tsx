@@ -18,8 +18,6 @@ import {
 } from "../theme/app-layout-styles-classnames";
 import className, {showToast} from "../util/react-native-based-utils";
 import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
-import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
-import {makeId} from '../util/util';
 import ReactNativeCameraModule
     from "../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module";
 import {POSITIVE_ACTION_COLOR} from "../theme/app-theme";
@@ -28,10 +26,12 @@ import {
     requestPermission
 } from "../shared-components-and-modules/camera-photo-capture-module/camera-capture-util";
 import RnMultiSelectKaybarax from "../shared-components-and-modules/form-controls/rn-multi-select-kaybarax";
+import appNavigation from "../routing-and-navigation/app-navigation";
 
 export default function AppDevScratchPad(props) {
 
-    console.log('Comp props: ', props);
+    console.log('AppDevScratchPad props: ', props);
+    let {navigation} = props;
 
     let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
     //for testing react native photo capture module
@@ -67,7 +67,6 @@ export default function AppDevScratchPad(props) {
                     ]}
                 >
                     <RN.Text
-                        // h5
                         style={[
                             className(
                                 FlexFluidRowContainerCN,
@@ -79,7 +78,6 @@ export default function AppDevScratchPad(props) {
                     </RN.Text>
                 </RN.View>
 
-
                 <RN.View
                     style={[
                         className(
@@ -90,11 +88,8 @@ export default function AppDevScratchPad(props) {
                 >
                     <RN.Button
                         title={'Go Home'}
-                        // style={[
-                        //     className()
-                        // ]}
                         onPress={_ => {
-                            // window.location.href = '/';
+                            appNavigation.navigateToHome(navigation);
                         }}
                     />
                     <BlankSpaceDivider/>
@@ -106,7 +101,6 @@ export default function AppDevScratchPad(props) {
                         ]}
                     >
                         <RN.View
-                            // form
                             style={[
                                 className(
                                     FlexContainerChildItemFullWidthCN,
@@ -126,27 +120,20 @@ export default function AppDevScratchPad(props) {
                             <BlankSpaceDivider/>
                             <RN.Button
                                 title={'Upload a file'}
-                                // style={[
-                                //     className()
-                                // ]}
                                 onPress={_ => {
-                                    // window.location.href = '/';
+                                    //
                                 }}
                             />
                             <BlankSpaceDivider/>
                             <RN.Button
                                 title={'Submit file upload'}
-                                // style={[
-                                //     className()
-                                // ]}
                                 onPress={_ => {
-                                    // window.location.href = '/';
+                                    //
                                 }}
                             />
                         </RN.View>
                         <BlankSpaceDivider/>
                         <RN.View
-                            // form
                             style={[
                                 className(
                                     FlexContainerChildItemFullWidthCN,
@@ -166,21 +153,8 @@ export default function AppDevScratchPad(props) {
                             <BlankSpaceDivider/>
                             <RN.Button
                                 title={'Call password hash native module'}
-                                // style={[
-                                //     className()
-                                // ]}
                                 onPress={_ => {
-
-                                    let password = makeId(8);
-
-                                    console.log('Call password hash for: ', password);
-                                    let yieldedUserCredentials = createPasswordHash(password, null, null);
-                                    let value = yieldedUserCredentials.next().value;
-                                    // let { password_hash, salt }: UserCredentials = yieldedUserCredentials.next().value;
-                                    console.log('yieldedUserCredentials: ', value);
-
-                                    // handleSignUp(null, null,null)
-
+                                    //
                                 }}
                             />
                         </RN.View>

@@ -16,7 +16,7 @@ import {displayFieldExpectationSatisfied} from "../../controllers/app-controller
 import {isEmptyArray, isNullUndefined, isTrue, makeId} from "../../util/util";
 import className from "../../util/react-native-based-utils";
 import {
-    AlignCenterContentCN, AlignCenterTextCN,
+    AlignCenterTextCN,
     FlexColumnContainerCN,
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
@@ -30,18 +30,18 @@ import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-comp
 import {createRecipe} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 import {notificationCallback} from "../../shared-components-and-modules/notification-center/notifications-controller";
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
-import {fetchUserRecipes} from "../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller";
 import {NEGATIVE_ACTION_COLOR} from "../../theme/app-theme";
+import {SCREEN_HEIGHT} from "../../App";
 
 export function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
-    let {recipeBoxStore, navigation, recipeBoxStore: {notificationAlert, user}} = props;
+    let {recipeBoxStore, navigation, recipeBoxStore: {notificationAlert}} = props;
 
-    let recipes = fetchUserRecipes(user.id);
+    let {recipeItems} = recipeBoxStore;
 
-    console.log('recipes!',);
+    console.log('recipeItems!', recipeItems);
 
     //inject needed appStore and recipeBoxStore
     let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
@@ -54,19 +54,19 @@ export function RecipeHome(props) {
         >
 
             {
-                isEmptyArray(recipes) &&
+                isEmptyArray(recipeItems) &&
                 <NoRecipesDisplay/>
             }
 
             {
-                !isEmptyArray(recipes) &&
+                !isEmptyArray(recipeItems) &&
                 <RN.View
                     style={[
                         className(FlexContainerChildItemFullWidthCN)
                     ]}
                 >
                   <RN.FlatList
-                      data={recipes}
+                      data={recipeItems}
                       renderItem={(item: any) => <RecipeListItemCardWithStores
                           recipe={item.item.recipe}
                           recipePhotos={item.item.recipePhotos}
@@ -74,10 +74,9 @@ export function RecipeHome(props) {
                       />}
                       keyExtractor={_ => makeId(16)}
                   />
+                  <BlankSpaceDivider height={SCREEN_HEIGHT * 0.1}/>
                 </RN.View>
             }
-
-            <BlankSpaceDivider height={150}/>
 
             <RN.TouchableOpacity
                 style={[

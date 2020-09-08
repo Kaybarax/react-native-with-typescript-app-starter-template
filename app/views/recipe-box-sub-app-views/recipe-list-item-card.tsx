@@ -47,8 +47,6 @@ export default function RecipeListItemCard(props) {
         recipe, recipePhotos, recipeBoxStore: {notificationAlert}
     } = props;
 
-    // let recipe: Recipe = recipeDetails.item.recipe;
-    // let recipePhotos: Array<RecipeImage> = recipeDetails.item.recipePhotos;
     console.log('!!! recipePhotos !!!:', recipePhotos);
 
     return (
@@ -81,7 +79,17 @@ export default function RecipeListItemCard(props) {
                     {
                         !isEmptyArray(recipePhotos) &&
                         (recipePhotos.map((item: RecipeImage) => {
-                            console.log('We have recipe photos', item);
+
+                            let photo = (
+                                !isEmptyString(item.image_url) ?
+                                    ('data:image/jpeg;base64,' + item.image_url) :
+                                    (
+                                        !isEmptyString(item.image_file) ?
+                                            ('data:image/jpeg;base64,' + item.image_file) :
+                                            null
+                                    )
+                            );
+
                             return (
                                 <RN.View
                                     style={[
@@ -96,12 +104,11 @@ export default function RecipeListItemCard(props) {
                                 >
                                     <RN.Image
                                         source={
-                                            !isEmptyString(item.image_url) ?
-                                                require('../../media/images/image.png') : (
-                                                    !isEmptyString(item.image_file) ?
-                                                        'data:image/jpeg;base64,' + item.image_file :
-                                                        require('../../media/images/image.png')
-                                                )
+                                            !isEmptyString(photo) ?
+                                                {
+                                                    uri: photo
+                                                } :
+                                                require('../../media/images/image.png')
                                         }
                                         style={[
                                             {
@@ -151,7 +158,8 @@ export default function RecipeListItemCard(props) {
                     </RN.View>
 
                     {
-                        isTrue(recipe.is_vegetarian) &&
+                        displayFieldExpectationSatisfied('is_vegetarian', recipe,
+                            eOfX => isTrue(eOfX) || eOfX === 1) &&
                         <RN.View
                             style={[
                                 className(FlexContainerChildItemOneHalfWidthCN,
@@ -163,10 +171,8 @@ export default function RecipeListItemCard(props) {
                                 icon={faLeaf}
                                 color={'forestgreen'}
                                 size={30}
-                                style={{
-                                    // marginTop: 20
-                                }}
-                            />&nbsp;
+                            />
+                            <Spacer/>
                             Vegetarian
                           </RN.Text>
                         </RN.View>

@@ -17,68 +17,56 @@ import {showToast} from '../util/react-native-based-utils';
  *
  * @param passwordText
  * @param userCredentials
- * @param notificationAlert
  * @param callbackResListener
  * @returns {Promise<*>}
  */
-export async function createPasswordHash(passwordText, userCredentials, notificationAlert, callbackResListener) {
+export async function createPasswordHash(passwordText, userCredentials, callbackResListener) {
 
   console.log('createPasswordHash');
 
   await AppSecurityModule.createPasswordHash(passwordText,
-      (response) => createPasswordHashCallback(response, userCredentials, notificationAlert, callbackResListener));
+      (response) => createPasswordHashCallback(response, userCredentials, callbackResListener));
 
   return userCredentials;
 
 }
 
-export function createPasswordHashCallback(resp, userCredentials, notificationAlert, callbackResListener) {
+export function createPasswordHashCallback(resp, userCredentials, callbackResListener) {
 
   console.log('createPasswordHashCallback');
   console.log('RES', resp);
 
   if (isNullUndefined(resp)) {
     callbackResListener.done = true;
-    notificationCallback(
-        'err',
-        'Cannot perform password hash',
-        notificationAlert,
-    );
+    showToast('Cannot perform password hash');
     return;
   }
 
   if (resp.message === 'SUCCESS') {
 
-    showToast('Password hashed');
+    showToast('Password hashed successfully');
 
     userCredentials.password_hash = resp.passwordHash;
     userCredentials.salt = resp.passwordSalt;
 
     callbackResListener.done = true;
+    callbackResListener.createPasswordHash = true;
 
   } else if (resp.message === 'FAILURE') {
-
     callbackResListener.done = true;
-
-    notificationCallback(
-        'warn',
-        'Password hash failed',
-        notificationAlert,
-    );
-
+    showToast('Password hashing failed');
   }
 
 }
 
-export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt,
-                                                notificationAlert, validatePasswordFeedback) {
+export function validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, validatePasswordFeedback) {
   console.log('validatePasswordWithHashAndSalt');
 
   DeviceEventEmitter.addListener('password_validation_result',
       (eventResult) => validatePasswordWithHashAndSaltListener(eventResult, validatePasswordFeedback));
 
   AppSecurityModule.validatePasswordWithHashAndSalt(passwordToValidate, hash, salt,
-      (message) => validatePasswordWithHashAndSaltCallback(message, notificationAlert, validatePasswordFeedback),
+      (message) => validatePasswordWithHashAndSaltCallback(message, validatePasswordFeedback),
   );
 
 }
@@ -115,7 +103,7 @@ export function validatePasswordWithHashAndSaltListener(eventResult, validatePas
 
 }
 
-export function validatePasswordWithHashAndSaltCallback(message, notificationAlert, validatePasswordFeedback) {
+export function validatePasswordWithHashAndSaltCallback(message, validatePasswordFeedback) {
   if (message === 'SUCCESS') {
     showToast(`Validate password process successful`);
     // validatePasswordFeedback.done = true;
