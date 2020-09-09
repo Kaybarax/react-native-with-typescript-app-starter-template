@@ -9,7 +9,7 @@
 
 import SQLite from 'react-native-sqlite-storage';
 import {APP_SQLITE_DATABASE} from './db-config';
-import {isNullUndefined, stringifyObject} from '../../util/util';
+import {isBoolean, isEmptyArray, isNullUndefined, stringifyObject} from '../../util/util';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -415,28 +415,51 @@ class AppSQLiteDb {
     }
 
     //clear duplicates that come up from buggy sqlite
-    let dataset = new Set(this.usersQueryResults);
-    this.usersQueryResults = Array.from(dataset);
+    let usersQueryResults = !isEmptyArray(this.usersQueryResults) && this.usersQueryResults.map(item => stringifyObject(item));
+    let dataset = !isEmptyArray(usersQueryResults) && new Set(usersQueryResults);
+    usersQueryResults = !isBoolean(dataset) && Array.from(dataset);
+    usersQueryResults = !isEmptyArray(usersQueryResults) && usersQueryResults.map(item => JSON.parse(item));
+    this.usersQueryResults = !isEmptyArray(usersQueryResults) ? [...usersQueryResults] : [];
     console.log('this.usersQueryResults', this.usersQueryResults);
 
-    dataset = new Set(this.usersCredentialsQueryResults);
-    this.usersCredentialsQueryResults = Array.from(dataset);
+
+    let usersCredentialsQueryResults = !isEmptyArray(this.usersCredentialsQueryResults) && this.usersCredentialsQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(usersCredentialsQueryResults) && new Set(usersCredentialsQueryResults);
+    usersCredentialsQueryResults = !isBoolean(dataset) && Array.from(dataset);
+    usersCredentialsQueryResults = !isEmptyArray(usersCredentialsQueryResults) && usersCredentialsQueryResults.map(item => JSON.parse(item));
+    this.usersCredentialsQueryResults = !isEmptyArray(usersCredentialsQueryResults) ? [...usersCredentialsQueryResults] : [];
     console.log('this.usersCredentialsQueryResults', this.usersCredentialsQueryResults);
 
-    dataset = new Set(this.recipesQueryResults);
-    this.recipesQueryResults = Array.from(dataset);
+
+    let recipesQueryResults = !isEmptyArray(this.recipesQueryResults) && this.recipesQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(recipesQueryResults) && new Set(recipesQueryResults);
+    recipesQueryResults = !isBoolean(dataset) && Array.from(dataset);
+    recipesQueryResults = !isEmptyArray(recipesQueryResults) && recipesQueryResults.map(item => JSON.parse(item));
+    this.recipesQueryResults = !isEmptyArray(recipesQueryResults) ? [...recipesQueryResults] : [];
     console.log('this.recipesQueryResults', this.recipesQueryResults);
 
-    dataset = new Set(this.recipesPhotosQueryResults);
-    this.recipesPhotosQueryResults = Array.from(dataset);
+
+    let recipesPhotosQueryResults = !isEmptyArray(this.recipesPhotosQueryResults) && this.recipesPhotosQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(recipesPhotosQueryResults) && new Set(recipesPhotosQueryResults);
+    recipesPhotosQueryResults = !isBoolean(dataset) && Array.from(dataset);
+    recipesPhotosQueryResults = !isEmptyArray(recipesPhotosQueryResults) && recipesPhotosQueryResults.map(item => JSON.parse(item));
+    this.recipesPhotosQueryResults = !isEmptyArray(recipesPhotosQueryResults) ? [...recipesPhotosQueryResults] : [];
     console.log('this.recipesPhotosQueryResults', this.recipesPhotosQueryResults);
 
-    dataset = new Set(this.usersRecipesQueryResults);
-    this.usersRecipesQueryResults = Array.from(dataset);
+
+    let usersRecipesQueryResults = !isEmptyArray(this.usersRecipesQueryResults) && this.usersRecipesQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(usersRecipesQueryResults) && new Set(usersRecipesQueryResults);
+    usersRecipesQueryResults = !isBoolean(dataset) && Array.from(dataset);
+    usersRecipesQueryResults = !isEmptyArray(usersRecipesQueryResults) && usersRecipesQueryResults.map(item => JSON.parse(item));
+    this.usersRecipesQueryResults = !isEmptyArray(usersRecipesQueryResults) ? [...usersRecipesQueryResults] : [];
     console.log('this.usersRecipesQueryResults', this.usersRecipesQueryResults);
 
-    dataset = new Set(this.queryResults);
-    this.queryResults = Array.from(dataset);
+
+    let queryResults = !isEmptyArray(this.queryResults) && this.queryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(queryResults) && new Set(queryResults);
+    queryResults = !isBoolean(dataset) && Array.from(dataset);
+    queryResults = !isEmptyArray(queryResults) && queryResults.map(item => JSON.parse(item));
+    this.queryResults = !isEmptyArray(queryResults) ? [...queryResults] : [];
     console.log('this.queryResults', this.queryResults);
 
   };
