@@ -14,7 +14,6 @@ import {
   getItemFromAsyncStorage,
   getObjectFromAsyncStorage,
   removeItemFromAsyncStorage,
-  showToast,
   storeObjectToAsyncStorage,
 } from '../util/react-native-based-utils';
 import StoreProviders from './stores-providers';
@@ -84,8 +83,8 @@ export async function persistStoreToAsyncStorage(store) {
   try {
     let storeKey = store.storeKey;
     //only persist if data has changed
-    let oldStoreData = await getObjectFromAsyncStorage(storeKey)
-    let newStoreData = toJS(store)
+    let oldStoreData = await getObjectFromAsyncStorage(storeKey);
+    let newStoreData = toJS(store);
     console.log('persistStoreToAsyncStorage oldStoreData', oldStoreData);
     console.log('persistStoreToAsyncStorage newStoreData', newStoreData);
     if (stringifyObject(oldStoreData) === stringifyObject(newStoreData)) {
@@ -102,8 +101,9 @@ export async function persistStoreToAsyncStorage(store) {
       let storeProvider = StoreProviders[store.storeName];
       console.log('persistStoreToAsyncStorage storeProvider', storeProvider);
       await storeObjectToAsyncStorage(store.storeName, storeProvider.storeProvider(store.namespace));
-      console.log('persistStoreToAsyncStorage DONE');
+      console.log('persistStoreToAsyncStorage storeModelStructure added');
     }
+    console.log('persistStoreToAsyncStorage SUCCESS');
   } catch (err) {
     console.log('persistStoreToAsyncStorage failure!!');
     console.log('Critical failure in persistence of app store!!');
@@ -120,18 +120,31 @@ export async function persistStoresToAsyncStorage(...stores) {
   try {
     for (let store of stores) {
       let storeKey = store.storeKey;
+      //only persist if data has changed
+      let oldStoreData = await getObjectFromAsyncStorage(storeKey);
+      let newStoreData = toJS(store);
+      console.log('persistStoresToAsyncStorage oldStoreData', oldStoreData);
+      console.log('persistStoresToAsyncStorage newStoreData', newStoreData);
+      if (stringifyObject(oldStoreData) === stringifyObject(newStoreData)) {
+        return;
+      }
+      console.log('persistStoresToAsyncStorage DATA CHANGE FOR STORE', store.storeName);
       await storeObjectToAsyncStorage(storeKey, store);
       //store the current store model structure, if not there already,
       //for internal structure changes monitoring and update
       let storeModelStructure = await getItemFromAsyncStorage(store.storeName);
+      console.log('persistStoresToAsyncStorage storeModelStructure', storeModelStructure);
       if (isNullUndefined(storeModelStructure)) {
         let storeProvider = StoreProviders[store.storeName];
+        console.log('persistStoresToAsyncStorage storeModelStructure', storeProvider);
         await storeObjectToAsyncStorage(store.storeName, storeProvider.storeProvider(store.namespace));
+        console.log('persistStoresToAsyncStorage storeModelStructure added');
       }
+      console.log('persistStoreToAsyncStorage SUCCESS');
     }
   } catch (err) {
     console.log('persistStoresToAsyncStorage failure!!');
-    showToast('Critical failure in persistence of app stores!!');
+    console.log('Critical failure in persistence of app stores!!');
   }
 }
 

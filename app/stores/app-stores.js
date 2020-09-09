@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {observable} from 'mobx';
+import {observable, toJS} from 'mobx';
 import {persistedStoreFromAsyncStorage} from './store-utils';
 import StoreProviders from './stores-providers';
 import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
@@ -29,19 +29,41 @@ export default class AppStores {
 
   loadAppStores = async () => {
 
-    this.stores = {};
-    this.appStoresLoaded = false;
+    try {
 
-    for (let key in StoreProviders) {
-      let storeKey = StoreProviders[key].storeKey(AppStores.namespace);
-      let storeProvider = StoreProviders[key];
-      let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace);
-      isNullUndefined(store) && (store = storeProvider.storeProvider(AppStores.namespace));
-      this.stores[key] = observable(store);
-      // console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
+      this.stores = {};
+      this.appStoresLoaded = false;
+
+      for (let key in StoreProviders) {
+        let storeKey = StoreProviders[key].storeKey(AppStores.namespace);
+        let storeProvider = StoreProviders[key];
+        let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace);
+        isNullUndefined(store) && (store = storeProvider.storeProvider(AppStores.namespace));
+        this.stores[key] = observable(store);
+        console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
+      }
+
+      this.appStoresLoaded = true;
+
+    } catch (err) {
+
+      console.log('loadAppStores err', err);
+
+      //create brand new stores
+
+      this.stores = {};
+      this.appStoresLoaded = false;
+
+      for (let key in StoreProviders) {
+        let storeProvider = StoreProviders[key];
+        let store = storeProvider.storeProvider(AppStores.namespace);
+        this.stores[key] = observable(store);
+        console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
+      }
+
+      this.appStoresLoaded = true;
+
     }
-
-    this.appStoresLoaded = true;
 
   };
 
