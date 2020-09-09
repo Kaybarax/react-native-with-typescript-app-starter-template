@@ -3,7 +3,8 @@
 //@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
 
 import {Alert, ToastAndroid} from 'react-native';
-import {isEmptyArray, isNullUndefined} from './util';
+import {isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject} from './util';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /**
  * sd _ Kaybarax
@@ -52,4 +53,61 @@ export function showToast(message, toastDuration = 'short') {
  */
 export function alertLog(message) {
   Alert.alert('Alert Log', message);
+}
+
+/**
+ * sd _ Kaybarax
+ * @param key
+ * @param item
+ */
+export async function storeObjectToAsyncStorage(key, item) {
+  await AsyncStorage.setItem('' + key, stringifyObject(item));
+}
+
+/**
+ * sd _ Kaybarax
+ * @param key
+ * @param item
+ */
+export async function storeStringDataToAsyncStorage(key, item) {
+  await AsyncStorage.setItem('' + key, item);
+}
+
+/**
+ * sd _ Kaybarax
+ * @param key
+ */
+export async function removeItemFromAsyncStorage(key) {
+  await AsyncStorage.removeItem('' + key);
+}
+
+/**
+ * sd _ Kaybarax
+ * @param key
+ * @returns {string|null}
+ */
+export async function getItemFromAsyncStorage(key) {
+  const value = await AsyncStorage.getItem('' + key);
+  return value;
+}
+
+/**
+ * sd _ Kaybarax
+ * @param key
+ * @returns {Promise<null|any>}
+ */
+export async function getObjectFromAsyncStorage(key) {
+  let item = await getItemFromAsyncStorage(key);
+  if (!isEmptyString(item)) {
+    try {
+      let jsonItem = JSON.parse(item);
+      if (isObject(jsonItem)) {
+        return jsonItem;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 }

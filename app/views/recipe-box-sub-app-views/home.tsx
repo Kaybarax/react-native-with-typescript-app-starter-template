@@ -21,7 +21,7 @@ import {
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
+import WithStoresHoc from "../../stores/with-stores-hoc";
 import appNavigation from "../../routing-and-navigation/app-navigation";
 import {toJS} from "mobx";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -32,6 +32,7 @@ import {notificationCallback} from "../../shared-components-and-modules/notifica
 import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from "../../stores/actions-and-stores-data";
 import {NEGATIVE_ACTION_COLOR} from "../../theme/app-theme";
 import {SCREEN_HEIGHT} from "../../App";
+import {persistStoreToAsyncStorage} from "../../stores/store-utils";
 
 export function RecipeHome(props) {
 
@@ -46,9 +47,11 @@ export function RecipeHome(props) {
     //inject needed appStore and recipeBoxStore
     let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
-    //prevent android hardware go back,
-    //to handle going back on your own
+    //persist this store
+    persistStoreToAsyncStorage(recipeBoxStore).then(null);
 
+    //prevent android hardware go back,
+    //to handle going back on your own, for logout cleanliness
     React.useEffect(() => navigation.addListener('beforeRemove', (e) => {
             e.preventDefault();
             //logout if only doing so without back button

@@ -7,8 +7,6 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import AsyncStorage from '@react-native-community/async-storage';
-
 /**
  * sd _ Kaybarax
  * @param obj
@@ -222,61 +220,13 @@ export function objectAHasSameKeysAsObjectB(objA, objB) {
 
 /**
  * sd _ Kaybarax
- * @param key
- * @param item
- */
-export async function storeItemToAsyncStorage(key, item) {
-  await AsyncStorage.setItem('' + key, stringifyObject(item));
-}
-
-/**
- * sd _ Kaybarax
- * @param key
- */
-export async function removeItemToAsyncStorage(key) {
-  await AsyncStorage.removeItem('' + key);
-}
-
-/**
- * sd _ Kaybarax
- * @param key
- * @returns {string|null}
- */
-export async function getItemFromAsyncStorage(key) {
-  const value = await AsyncStorage.getItem('' + key);
-  return value;
-}
-
-/**
- * sd _ Kaybarax
- * @param key
- * @returns {string|null|any}
- */
-export async function getObjectFromAsyncStorage(key) {
-  let item = await getItemFromAsyncStorage(key);
-  if (!isEmptyString(item)) {
-    try {
-      // @ts-ignore
-      let jsonItem = JSON.parse(item);
-      if (isObject(jsonItem)) {
-        return jsonItem;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-  return item;
-}
-
-/**
- * sd _ Kaybarax
  * @param obj
  * @returns {boolean}
  */
 export function isEmptyObject(obj) {
   try {
     let keys = Object.keys(obj);
+    console.log('TEST EMPTY OBJ KEYS', keys, '\t->for->\t', obj);
     return isEmptyArray(keys);
 
   } catch (e) {

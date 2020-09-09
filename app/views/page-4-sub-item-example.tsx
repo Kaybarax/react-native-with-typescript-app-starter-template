@@ -23,7 +23,7 @@ import {
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
-import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
+import WithStoresHoc from "../stores/with-stores-hoc";
 import {SCREEN_HEIGHT} from "../App";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";

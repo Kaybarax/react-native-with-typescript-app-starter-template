@@ -27,26 +27,24 @@ import className from "./util/react-native-based-utils";
 import {FlexColumnContainerCN} from "./theme/app-layout-styles-classnames";
 import {serviceWorkerThread} from "./controllers/app-controller";
 import {TIME_OUT} from "./app-config";
-import {isEmptyString} from "./util/util";
+import {isEmptyObject, isEmptyString} from "./util/util";
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
 
 const App = () => {
 
-    // @ts-ignore
-    // pass navStore reference to appNavigation
-    appNavigation.navStore = appStores.stores.appStore.navStore;
-
     //disable throwing of inconsequential warnings
     // console.disableYellowBox = true;
     //hide in-development unnecessary console warnings
     // console.warn = console.error = function (message) {};
     //hide all react warnings in production
-    console.warn = console.error = console.log = function (message) {};
+    // console.warn = console.error = console.log = function (message) {};
 
     let [dbLoaded, loadDb] = React.useState(false);
     let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');
+    let [loadAppStores, setAppStoresLoaded] = React.useState(false);
+    let [loadAppStoresFeedback, setAppStoresLoadedFeedback] = React.useState('Initializing app state...');
 
     React.useEffect(() => {
 
@@ -65,6 +63,26 @@ const App = () => {
             },
             _ => {
                 setDbLoadFeedback('Failed to load app sqlite-db. Restart app to try again.')
+            }, TIME_OUT, 1000
+        );
+
+        //init app stores
+        serviceWorkerThread(
+            _ => {
+                appStores.loadAppStores().then(null);
+            },
+            _ => {
+                return appStores.appStoresLoaded;
+            },
+            _ => {
+                setAppStoresLoaded(true);
+                // @ts-ignore
+                // pass navStore reference to appNavigation
+                appNavigation.navStore = appStores.stores.appStore.navStore;
+            },
+            _ => {
+                setAppStoresLoaded(false);
+                setAppStoresLoadedFeedback('Failed to load app state. Restart to try again');
             }, TIME_OUT, 1000
         );
 
@@ -89,10 +107,28 @@ const App = () => {
         )
     }
 
-    const {stores} = appStores;
+    if (!loadAppStores || isEmptyObject(appStores.stores)) {
+        return (
+            <RN.ScrollView
+                style={[
+                    className(
+                        FlexColumnContainerCN
+                    )
+                ]}
+            >
+                <NotFound/>
+                <Loader message={loadAppStoresFeedback}/>
+            </RN.ScrollView>
+        )
+    }
+
+    const stores = appStores.stores;
+    // const stores = appStores.appStores;
 
     return (
-        <Provider {...stores}>
+        <Provider
+            {...stores}
+        >
             <AppEntry/>
         </Provider>
     );

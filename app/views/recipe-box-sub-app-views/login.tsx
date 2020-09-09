@@ -27,8 +27,9 @@ import {
 } from "../../theme/app-layout-styles-classnames";
 import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from '../../theme/app-text-styles-classnames';
-import WithStoresHoc from "../../shared-components-and-modules/hocs/with-stores-hoc";
+import WithStoresHoc from "../../stores/with-stores-hoc";
 import {toJS} from "mobx";
+import {persistStoreToAsyncStorage} from "../../stores/store-utils";
 
 function Login(props) {
 
@@ -54,10 +55,8 @@ function Login(props) {
     };
 
     // const showResetPasswordForm = () => {
-    //     login.viewAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
+    //     loginStore.viewAction = AUTHENTICATION_ACTIONS_ENUM.RESET_PASSWORD;
     // };
-
-    const showResetPasswordForm = false;
 
     let showLogin = (
         displayFieldExpectationSatisfied('viewAction', loginStore,
@@ -75,6 +74,9 @@ function Login(props) {
 
     let LoginFormWithStores = WithStoresHoc(LoginForm, ['recipeBoxStore', 'loginStore'])
     let SignUpFormWithStores = WithStoresHoc(SignUpForm, ['recipeBoxStore', 'loginStore'])
+
+    //persist login store
+    persistStoreToAsyncStorage(loginStore).then(null);
 
     return (
 
@@ -131,9 +133,9 @@ function Login(props) {
                                         ),
                                     ]}
                                     onPress={_ => {
-                                        if (showLogin && !showResetPasswordForm) {
+                                        if (showLogin) {
                                             showSignUpForm();
-                                        } else if (showSignUp && !showResetPasswordForm) {
+                                        } else if (showSignUp) {
                                             showLoginForm();
                                         }
                                     }}

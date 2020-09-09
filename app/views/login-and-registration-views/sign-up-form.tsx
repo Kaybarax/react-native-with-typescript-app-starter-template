@@ -19,7 +19,7 @@ import {
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import {handleSignUp} from "../../controllers/login-controller";
+import {handleSignUp} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller";
 import className from "../../util/react-native-based-utils";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";
 import {RegistrationButtonTextCN} from "../../theme/component-themes";

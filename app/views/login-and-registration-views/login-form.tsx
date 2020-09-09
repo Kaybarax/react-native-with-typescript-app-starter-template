@@ -20,7 +20,7 @@ import {
     FlexContainerChildItemFullWidthCN,
     FlexFluidRowContainerCN
 } from "../../theme/app-layout-styles-classnames";
-import {handleLogin} from "../../controllers/login-controller";
+import {handleLogin} from "../../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller";
 import className from "../../util/react-native-based-utils";
 import {UnderlinedTextCN} from "../../theme/app-text-styles-classnames";
 import {BlankSpaceDivider} from "../../shared-components-and-modules/shared-components";

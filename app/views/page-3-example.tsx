@@ -20,7 +20,7 @@ import {
 import className from "../util/react-native-based-utils";
 import {NewLine} from "../shared-components-and-modules/shared-components";
 import {LinkText} from "../theme/app-text-styles-classnames";
-import WithStoresHoc from "../shared-components-and-modules/hocs/with-stores-hoc";
+import WithStoresHoc from "../stores/with-stores-hoc";
 
 function Page3Example(props) {
 

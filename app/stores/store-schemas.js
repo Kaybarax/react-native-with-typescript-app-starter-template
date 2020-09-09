@@ -10,8 +10,8 @@
 import {isEmptyString, objectInstanceProvider} from '../util/util';
 import {notificationAlertProps} from '../shared-components-and-modules/notification-center/notifications-controller';
 
-export const APP_STORE_NAME = 'APP';
-export const LOGIN_STORE_NAME = 'LOGIN';
+export const APP_STORE_NAME = 'APP_STORE_NAME';
+export const LOGIN_STORE_NAME = 'LOGIN_STORE_NAME';
 export const PAGE1EXAMPLE_STORE_NAME = 'PAGE1EXAMPLE_STORE_NAME';
 export const PAGE2EXAMPLE_STORE_NAME = 'PAGE2EXAMPLE_STORE_NAME';
 export const PAGE3EXAMPLE_STORE_NAME = 'PAGE3EXAMPLE_STORE_NAME';
@@ -27,6 +27,7 @@ export const RECIPE_BOX_STORE_NAME = 'RECIPE_BOX_STORE_NAME';
 export function ActivityStoreSchema(namespace, name) {
   this.storeSchema = {
     storeName: name,
+    namespace: namespace,
     storeKey: !isEmptyString(namespace) ? namespace + name : '___' + name,
     loading: false,
     updated: false,

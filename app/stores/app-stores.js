@@ -8,9 +8,10 @@
  */
 
 import {observable} from 'mobx';
-import {persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents} from './store-utils';
+import {persistedStoreFromAsyncStorage} from './store-utils';
 import StoreProviders from './stores-providers';
 import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
+import {isNullUndefined} from '../util/util';
 
 /**
  * sd _ Kaybarax
@@ -18,38 +19,30 @@ import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-dat
 export default class AppStores {
 
   constructor() {
-  }
-
-  persistMyStoresToAsyncStorageOnEvent(myStores) {
-    persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents(myStores);
+    this.stores = null;
+    this.appStoresLoaded = false;
   }
 
   //to assist with differentiation during storage to persistence media,
   // if application uses several stores classes
   static namespace = 'AppStores_' + MobX_StoreKey_Identifier_In_AsyncStorage;
 
-  stores = {
-    appStore: observable(
-        StoreProviders.appStore.storeProvider(AppStores.namespace),
-    ),
-    loginStore: observable(
-        StoreProviders.loginStore.storeProvider(AppStores.namespace),
-    ),
-    page1ExampleStore: observable(
-        StoreProviders.page1ExampleStore.storeProvider(AppStores.namespace),
-    ),
-    page2ExampleStore: observable(
-        StoreProviders.page2ExampleStore.storeProvider(AppStores.namespace),
-    ),
-    page3ExampleStore: observable(
-        StoreProviders.page3ExampleStore.storeProvider(AppStores.namespace),
-    ),
-    page4ExampleStore: observable(
-        StoreProviders.page4ExampleStore.storeProvider(AppStores.namespace),
-    ),
-    recipeBoxStore: observable(
-        StoreProviders.recipeBoxStore.storeProvider(AppStores.namespace),
-    ),
+  loadAppStores = async () => {
+
+    this.stores = {};
+    this.appStoresLoaded = false;
+
+    for (let key in StoreProviders) {
+      let storeKey = StoreProviders[key].storeKey(AppStores.namespace);
+      let storeProvider = StoreProviders[key];
+      let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace);
+      isNullUndefined(store) && (store = storeProvider.storeProvider(AppStores.namespace));
+      this.stores[key] = observable(store);
+      // console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
+    }
+
+    this.appStoresLoaded = true;
+
   };
 
 }

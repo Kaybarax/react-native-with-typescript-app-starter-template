@@ -252,7 +252,7 @@ export function CreateEditTitleBar(props) {
                 ]}
             >
                 {
-                    appStores.stores.recipeBoxStore['viewAction'] === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE ?
+                    appStores.stores?.recipeBoxStore['viewAction'] === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE ?
                         'Create Recipe' : 'Edit Recipe'
                 }
             </RN.Text>

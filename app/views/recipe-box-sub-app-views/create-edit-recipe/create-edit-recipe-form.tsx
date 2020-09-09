@@ -28,7 +28,7 @@ import {
     FlexFluidRowContainerCN,
     FlexRowContainerCN
 } from "../../../theme/app-layout-styles-classnames";
-import WithStoresHoc from "../../../shared-components-and-modules/hocs/with-stores-hoc";
+import WithStoresHoc from "../../../stores/with-stores-hoc";
 import {checkboxItemValueChanged, textValue, textValueChanged} from "../../../util/react-native-data-collection-utils";
 import {
     addCookingInstruction,

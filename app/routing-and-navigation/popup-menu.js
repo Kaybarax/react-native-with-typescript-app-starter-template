@@ -14,8 +14,8 @@ import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import {SECONDARY_COLOR} from '../theme/app-theme';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import appNavigation from './app-navigation';
-import WithStoresHoc from '../shared-components-and-modules/hocs/with-stores-hoc';
-import {handleLogOut} from '../controllers/login-controller';
+import WithStoresHoc from '../stores/with-stores-hoc';
+import {handleLogOut} from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
 
 export class PopupMenu extends React.Component {
 

@@ -7,19 +7,19 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
+import {notificationCallback} from '../../shared-components-and-modules/notification-center/notifications-controller';
 import {toJS} from 'mobx';
-import {APP_SQLITE_DATABASE} from '../app-management/data-manager/db-config';
-import {appSQLiteDb} from '../app-management/data-manager/embeddedDb-manager';
-import {User, UserCredentials} from '../app-management/data-manager/models-manager';
-import {createPasswordHash} from '../android-custom-native-modules/app-security-custom-native-module';
-import {isNullUndefined} from "../util/util";
-import {showToast} from "../util/react-native-based-utils";
-import {TIME_OUT} from "../app-config";
-import {invokeLoader} from "../shared-components-and-modules/loaders";
-import {serviceWorkerThread} from "./app-controller";
-import appNavigation from "../routing-and-navigation/app-navigation";
-import {fetchUserRecipes} from "./recipe-box-sub-app-controllers/recipe-box-controller";
+import {APP_SQLITE_DATABASE} from '../../app-management/data-manager/db-config';
+import {appSQLiteDb} from '../../app-management/data-manager/embeddedDb-manager';
+import {User, UserCredentials} from '../../app-management/data-manager/models-manager';
+import {createPasswordHash} from '../../android-custom-native-modules/app-security-custom-native-module';
+import {isNullUndefined} from "../../util/util";
+import {showToast} from "../../util/react-native-based-utils";
+import {TIME_OUT} from "../../app-config";
+import {invokeLoader} from "../../shared-components-and-modules/loaders";
+import {serviceWorkerThread} from "../app-controller";
+import appNavigation from "../../routing-and-navigation/app-navigation";
+import {fetchUserRecipes} from "./recipe-box-controller";
 
 /**
  * sd _ Kaybarax

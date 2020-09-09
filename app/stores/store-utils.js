@@ -7,26 +7,25 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
+import {isNullUndefined, objectAHasSameKeysAsObjectB, objectKeyExists, stringifyObject} from '../util/util';
+import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   getItemFromAsyncStorage,
   getObjectFromAsyncStorage,
-  isNullUndefined,
-  objectAHasSameKeysAsObjectB,
-  objectKeyExists,
-  removeItemToAsyncStorage,
-  storeItemToAsyncStorage,
-  stringifyObject,
-} from '../util/util';
-import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
-import AsyncStorage from '@react-native-community/async-storage';
-import {Alert} from 'react-native';
+  removeItemFromAsyncStorage,
+  showToast,
+  storeObjectToAsyncStorage,
+} from '../util/react-native-based-utils';
+import StoreProviders from './stores-providers';
+import {toJS} from 'mobx';
 
 /**
  * sd _ Kaybarax
- * @returns {object}
  * @param storeKey
  * @param storeProvider
  * @param storeNamespace
+ * @returns {Promise<null|*>}
  */
 export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, storeNamespace) => {
   let savedStore = await getObjectFromAsyncStorage(storeKey);
@@ -47,13 +46,13 @@ export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, st
     }
 
     //update persisted store
-    await storeItemToAsyncStorage(storeKey, storeFromSchema);
+    await storeObjectToAsyncStorage(storeKey, storeFromSchema);
     // and return the updated one
     return storeFromSchema;
   }
 
   //check for internal structural change
-  let {currentStoreModelStructure} = storeProvider;
+  let currentStoreModelStructure = await storeProvider.currentStoreModelStructure;
   if (isNullUndefined(currentStoreModelStructure)) {
     return null;
   }
@@ -70,52 +69,70 @@ export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, st
     }
   }
   if (internalStructureChanged) {
-    await storeItemToAsyncStorage(storeFromSchema.storeName, currentStoreModelStructure);
-    await storeItemToAsyncStorage(storeKey, savedStore);
+    await storeObjectToAsyncStorage(storeFromSchema.storeName, currentStoreModelStructure);
+    await storeObjectToAsyncStorage(storeKey, savedStore);
   }
   return savedStore;
 };
 
 /**
  * sd _ Kaybarax
- * @param stores
+ * @param store
  */
-export async function persistStoresToAsyncStorage(stores) {
+export async function persistStoreToAsyncStorage(store) {
+  console.log('persistStoreToAsyncStorage store', toJS(store));
   try {
-    for (let store of stores) {
-      let storeKey = store.store.storeKey;
-      await storeItemToAsyncStorage(storeKey, store.store);
-      //store the reference for internal structure change if not there already
-      let reference = await getItemFromAsyncStorage(store.store.storeName);
-      isNullUndefined(reference) &&
-      await storeItemToAsyncStorage(store.store.storeName, store.storeSchema());
+    let storeKey = store.storeKey;
+    //only persist if data has changed
+    let oldStoreData = await getObjectFromAsyncStorage(storeKey)
+    let newStoreData = toJS(store)
+    console.log('persistStoreToAsyncStorage oldStoreData', oldStoreData);
+    console.log('persistStoreToAsyncStorage newStoreData', newStoreData);
+    if (stringifyObject(oldStoreData) === stringifyObject(newStoreData)) {
+      return;
+    }
+    console.log('persistStoreToAsyncStorage DATA CHANGE FOR STORE', store.storeName);
+    await storeObjectToAsyncStorage(storeKey, store);
+    console.log('persistStoreToAsyncStorage storeKey', storeKey);
+    //store the current store model structure, if not there already,
+    //for internal structure changes monitoring and update
+    let storeModelStructure = await getItemFromAsyncStorage(store.storeName);
+    console.log('persistStoreToAsyncStorage storeModelStructure', storeModelStructure);
+    if (isNullUndefined(storeModelStructure)) {
+      let storeProvider = StoreProviders[store.storeName];
+      console.log('persistStoreToAsyncStorage storeProvider', storeProvider);
+      await storeObjectToAsyncStorage(store.storeName, storeProvider.storeProvider(store.namespace));
+      console.log('persistStoreToAsyncStorage DONE');
     }
   } catch (err) {
-    console.log('persistStoresToAsyncStorage failure!!');
-    Alert.alert('Critical failure in persistence of your stores!!');
-    //and stop persistence
-    await clearAllPersistedStoresToAsyncStorage();
+    console.log('persistStoreToAsyncStorage failure!!');
+    console.log('Critical failure in persistence of app store!!');
   }
 }
 
 /**
  * sd _ Kaybarax
  * @param stores
+ * @returns {Promise<void>}
  */
-export const persistStoreUpdatesAsyncStorageOnEvent = async (stores) => {
+export async function persistStoresToAsyncStorage(...stores) {
+  console.log('persistStoresToAsyncStorage stores', stores);
   try {
-    await persistStoresToAsyncStorage(stores);
+    for (let store of stores) {
+      let storeKey = store.storeKey;
+      await storeObjectToAsyncStorage(storeKey, store);
+      //store the current store model structure, if not there already,
+      //for internal structure changes monitoring and update
+      let storeModelStructure = await getItemFromAsyncStorage(store.storeName);
+      if (isNullUndefined(storeModelStructure)) {
+        let storeProvider = StoreProviders[store.storeName];
+        await storeObjectToAsyncStorage(store.storeName, storeProvider.storeProvider(store.namespace));
+      }
+    }
   } catch (err) {
-    console.log('persistStoreUpdatesAsyncStorageOnEvent failure!!');
+    console.log('persistStoresToAsyncStorage failure!!');
+    showToast('Critical failure in persistence of app stores!!');
   }
-};
-
-/**
- * sd _ Kaybarax
- * @param storeKey
- */
-export async function clearPersistedStoreFromAsyncStorage(storeKey) {
-  await removeItemToAsyncStorage(storeKey);
 }
 
 /**
@@ -127,13 +144,11 @@ export async function clearAllPersistedStoresToAsyncStorage() {
     for (let key of keys) {
       let storeKey = '' + key;
       if (storeKey.includes(MobX_StoreKey_Identifier_In_AsyncStorage)) {
-        await clearPersistedStoreFromAsyncStorage(storeKey);
+        await removeItemFromAsyncStorage(storeKey);
       }
     }
   } catch (e) {
-    console.log(
-        'clearAllPersistedStoresToAsyncStorage failed!!',
-    );
+    console.log('clearAllPersistedStoresToAsyncStorage failed!!');
   }
 }
 
@@ -149,28 +164,15 @@ export function getPersistedStoreKey(namespaceProvider, assignedName) {
 
 /**
  * sd _ Kaybarax
- * @param stores
+ * @param storeName
+ * @param storeSchemaInstance
+ * @returns {Promise<T | *>}
  */
-export function persistStoreUpdatesToAsyncStorageOnPossibleUpdateOfEvents(stores) {
-  // window.addEventListener('mouseup', async () => {
-  //   // console.log("PERSIST on mouseup registered")
-  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  // });
-  // window.addEventListener('mousemove', async () => {
-  //   // console.log("PERSIST on mousedown registered")
-  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  // });
-  // window.addEventListener('keyup', async () => {
-  //   // console.log("PERSIST on keyup registered")
-  //   await persistStoreUpdatesAsyncStorageOnEvent(stores);
-  // });
-}
-
-/**
- * sd _ by Kaybarax
- */
-export function unregisterPersistenceEventListeners() {
-  // window.removeEventListener('mouseup', persistStoreUpdatesAsyncStorageOnEvent);
-  // window.removeEventListener('mousemove', persistStoreUpdatesAsyncStorageOnEvent);
-  // window.removeEventListener('keyup', persistStoreUpdatesAsyncStorageOnEvent);
+export function createCurrentStoreModelStructure(storeName, storeSchemaInstance) {
+  return getObjectFromAsyncStorage(storeName)
+      .then(item => item || storeSchemaInstance)
+      .catch(error => {
+        console.log('recipeBoxStore currentStoreModelStructure error', error);
+        return storeSchemaInstance;
+      });
 }
