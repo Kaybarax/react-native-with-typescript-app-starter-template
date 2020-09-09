@@ -36,27 +36,31 @@ import {
 
 export const PAGE1EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE1EXAMPLE_SCREEN_VIEW',
-    screen: Page1Example
+    screen: Page1Example,
+    viewTitle: 'Page 1 Example',
 };
 
 export const PAGE2EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE2EXAMPLE_SCREEN_VIEW',
-    screen: Page2Example
+    screen: Page2Example,
+    viewTitle: 'Page 2 Example',
 };
 
 export const PAGE3EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE3EXAMPLE_SCREEN_VIEW',
-    screen: Page3Example
+    screen: Page3Example,
+    viewTitle: 'Page 3 Example',
 };
 
 export const PAGE4EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE4EXAMPLE_SCREEN_VIEW',
-    screen: Page4Example
+    screen: Page4Example,
+    viewTitle: 'Page 4 Example',
 };
 
 export const PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW',
-    screen: Page4SubItemExample
+    screen: Page4SubItemExample,
 };
 
 //the 404 route
@@ -106,7 +110,7 @@ export const MY_RECIPE_LOGIN_SCREEN_VIEW: ViewRoute = {
 export const MY_RECIPE_HOME_SCREEN_VIEW: ViewRoute = {
     name: 'MY_RECIPE_HOME_SCREEN_VIEW',
     screen: RecipeHomeActivity,
-    displayText: 'Home'
+    viewTitle: 'Home'
 };
 
 export const MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW: ViewRoute = {

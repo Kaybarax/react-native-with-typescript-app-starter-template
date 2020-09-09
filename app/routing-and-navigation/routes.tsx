@@ -39,7 +39,7 @@ import {SCREEN_WIDTH} from "../App";
 import {MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, NEGATIVE_ACTION_COLOR, SECONDARY_SUPPORT_COLOR} from "../theme/app-theme";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import RecipeBoxBottomNavigationTabsContent from "./recipe-box-bottom-navigation-tabs-content";
+import RecipeBoxBottomNavigationTabsCustomTabBars from "./recipe-box-bottom-navigation-tabs-custom-tab-bars";
 import {
     AppDevScratchTitleBar,
     AppTopTabsTitleBar,
@@ -50,6 +50,7 @@ import {
     RecipeDetailsTitleBar
 } from "./navigated-views-header-bars-content";
 import {RecipeBoxPopupMenuWithStores} from "./popup-menu";
+import MainAppTopNavigationTabsCustomTabBars from "./main-app-top-navigation-tabs-custom-tab-bars";
 
 export default function BaseAppWithDrawerNavigationRouting() {
 
@@ -230,6 +231,7 @@ export function AppTopTabsNavRouting() {
 
     return (
         <TopTabsNav.Navigator
+            tabBar={props => <MainAppTopNavigationTabsCustomTabBars {...props}/>}
             children={routeMap}
         />
     );
@@ -255,7 +257,7 @@ export function RecipeBoxBottomTabsRouting() {
 
     return (
         <BottomTabsNav.Navigator
-            tabBar={props => <RecipeBoxBottomNavigationTabsContent {...props}/>}
+            tabBar={props => <RecipeBoxBottomNavigationTabsCustomTabBars {...props}/>}
             children={routeMap}
         />
     );

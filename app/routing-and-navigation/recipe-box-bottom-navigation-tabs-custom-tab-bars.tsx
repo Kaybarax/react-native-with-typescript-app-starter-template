@@ -21,9 +21,9 @@ import {MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, SECONDARY_COLOR, SECONDARY_SUPPORT_CO
 import {makeId} from "../util/util";
 import {SCREEN_HEIGHT} from "../App";
 
-export default function RecipeBoxBottomNavigationTabsContent({state, descriptors, navigation}) {
+export default function RecipeBoxBottomNavigationTabsCustomTabBars({state, descriptors, navigation}) {
 
-    console.log('RecipeBoxBottomNavigationTabsContent');
+    console.log('RecipeBoxBottomNavigationTabsCustomTabBars');
     console.log('PROSSSS', state, descriptors, navigation);
 
     const TAB_NAMES = [
