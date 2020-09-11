@@ -28,7 +28,7 @@ import {
     MainAppStackRouting,
     RecipeBoxAppWithRouting,
     RecipeBoxBottomTabsRouting
-} from "./routes";
+} from "./routing-composition";
 
 /*Declare the application views for routing*/
 

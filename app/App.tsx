@@ -28,18 +28,18 @@ import {FlexColumnContainerCN} from "./theme/app-layout-styles-classnames";
 import {serviceWorkerThread} from "./controllers/app-controller";
 import {TIME_OUT} from "./app-config";
 import {isEmptyObject, isEmptyString} from "./util/util";
+import SafeComponentWrapper from "./safe-component-wrapper";
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
 
 const App = () => {
 
-    //disable throwing of inconsequential warnings
-    // console.disableYellowBox = true;
     //hide in-development unnecessary console warnings
     // console.warn = console.error = function (message) {};
     //hide all react warnings in production
-    // console.warn = console.error = console.log = function (message) {};
+    console.warn = console.error = console.log = function (message) {
+    };
 
     let [dbLoaded, loadDb] = React.useState(false);
     let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');
@@ -123,13 +123,14 @@ const App = () => {
     }
 
     const stores = appStores.stores;
-    // const stores = appStores.appStores;
 
     return (
         <Provider
             {...stores}
         >
-            <AppEntry/>
+            <SafeComponentWrapper>
+                <AppEntry/>
+            </SafeComponentWrapper>
         </Provider>
     );
 
