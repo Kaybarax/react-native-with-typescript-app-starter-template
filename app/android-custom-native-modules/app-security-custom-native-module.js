@@ -10,7 +10,6 @@
 import {DeviceEventEmitter} from 'react-native';
 import {AppSecurityModule} from './custom-native-modules';
 import {isEmptyString, isNullUndefined} from '../util/util';
-import {notificationCallback} from '../shared-components-and-modules/notification-center/notifications-controller';
 import {showToast} from '../util/react-native-based-utils';
 
 /**
