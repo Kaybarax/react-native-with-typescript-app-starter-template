@@ -86,20 +86,43 @@ export function Page1Example(props) {
                                     ])
                                 ]}
                             >
-                                Hey there. So you have a React Native app that you want to build; with Typescript
-                                included.
+                                Hey
                                 <NewLine lines={3}/>
-                                And you need to come up with an app-wide, design and setup. That is, system breakdown
-                                to&nbsp;individual bits and pieces like, routing and navigation, controllers,&nbsp;
-                                app's global state management, and sharing of components' state information;&nbsp;
-                                configuring security access for your views, as to which are publicly accessible, and
-                                which&nbsp;a user must be logged in and authenticated to access; and even
-                                different&nbsp;
-                                types of access based on roles.
-                                <NewLine lines={3}/>
-                                Well, this self-guiding design employed here in this,&nbsp;
-                                "<Text>React Js SPA Web App with Login Starter Template Framework Design</Text>"&nbsp;
-                                has got you covered.
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
+                                Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!!
                                 <NewLine lines={3}/>
                                 <RN.Pressable
                                     onPress={_ => {
@@ -124,5 +147,5 @@ export function Page1Example(props) {
 
 }
 
-const Page1ExampleView = WithStoresHoc(Page1Example, ['page1ExampleStore', 'appStore']);
-export default Page1ExampleView;
+const Page1ExampleActivity = WithStoresHoc(Page1Example, ['page1ExampleStore', 'appStore']);
+export default Page1ExampleActivity;

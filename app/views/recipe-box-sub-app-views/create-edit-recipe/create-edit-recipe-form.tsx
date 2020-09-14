@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import RN, {Alert, ScrollView} from 'react-native';
+import RN, {Alert} from 'react-native';
 import {BlankSpaceDivider, Spacer} from "../../../shared-components-and-modules/shared-components";
 import AppNotificationToastAlert
     from "../../../shared-components-and-modules/notification-center/app-notification-toast-alert";

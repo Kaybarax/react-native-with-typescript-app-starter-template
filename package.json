@@ -31,7 +31,6 @@
     "@react-navigation/material-top-tabs": "^5.2.14",
     "@react-navigation/native": "^5.5.1",
     "@react-navigation/stack": "^5.7.1",
-    "bcrypt": "^5.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "prop-types": "^15.7.2",

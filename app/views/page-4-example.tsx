@@ -91,17 +91,19 @@ function Page4Example(props) {
                                 ]}
                             >
                                 <Text
-                                    style={[]}
-                                    // strong
+                                    style={[
+                                        {
+                                            fontWeight: 'bold'
+                                        }
+                                    ]}
                                 >About me:</Text>
                                 <NewLine lines={3}/>
                                 Hi. I'm Kevin Barasa. A full stack software engineer currently based in my hometown
                                 and&nbsp;
-                                country, Nairobi, Kenya. At this time of this build and writing (September, 2020), I have 3
+                                country, Nairobi, Kenya. At this time of this build and writing (September, 2020), I
+                                have 3
                                 and&nbsp;a half years of professional (hired) software engineering experience, and 5 to
-                                6 yrs
-                                of&nbsp;
-                                total software engineering experience, both professionally and
+                                6 yrs of total software engineering experience, both professionally and
                                 personally.
                                 <NewLine lines={3}/>
                                 I'm especially, particularly well versed with
@@ -142,7 +144,6 @@ function Page4Example(props) {
                                         )]}
                                 >Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud</Text>.
                                 <NewLine lines={3}/>
-
                                 <Text>Let's connect:</Text>
                                 <NewLine lines={3}/>
                                 <RN.Pressable
@@ -320,5 +321,5 @@ function Page4Example(props) {
 
 }
 
-const Page4ExampleView = WithStoresHoc(Page4Example, ['page4ExampleStore', 'appStore']);
-export default Page4ExampleView;
+const Page4ExampleActivity = WithStoresHoc(Page4Example, ['page4ExampleStore', 'appStore']);
+export default Page4ExampleActivity;

@@ -8,10 +8,10 @@
  */
 
 import React from 'react';
-import Page1Example from "../views/page-1-example";
-import Page2Example from "../views/page-2-example";
-import Page3Example from "../views/page-3-example";
-import Page4Example from "../views/page-4-example";
+import Page1ExampleActivity from "../views/page-1-example";
+import Page2ExampleActivity from "../views/page-2-example";
+import Page3ExampleActivity from "../views/page-3-example";
+import Page4ExampleActivity from "../views/page-4-example";
 import Page4SubItemExample from "../views/page-4-sub-item-example";
 import NotFound from "../views/not-found";
 import AppDevScratchPad from "../app-dev-scratch-pad/app-dev-scratch-pad";
@@ -36,25 +36,25 @@ import {
 
 export const PAGE1EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE1EXAMPLE_SCREEN_VIEW',
-    screen: Page1Example,
+    screen: Page1ExampleActivity,
     viewTitle: 'Page 1 Example',
 };
 
 export const PAGE2EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE2EXAMPLE_SCREEN_VIEW',
-    screen: Page2Example,
+    screen: Page2ExampleActivity,
     viewTitle: 'Page 2 Example',
 };
 
 export const PAGE3EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE3EXAMPLE_SCREEN_VIEW',
-    screen: Page3Example,
+    screen: Page3ExampleActivity,
     viewTitle: 'Page 3 Example',
 };
 
 export const PAGE4EXAMPLE_SCREEN_VIEW: ViewRoute = {
     name: 'PAGE4EXAMPLE_SCREEN_VIEW',
-    screen: Page4Example,
+    screen: Page4ExampleActivity,
     viewTitle: 'Page 4 Example',
 };
 

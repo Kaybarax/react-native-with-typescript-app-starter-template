@@ -65,7 +65,6 @@ function Page4SubItemExample(props) {
                                 className(FlexContainerChildItemFullWidthCN,
                                     AlignCenterTextCN)
                             ]}
-                            // h5
                         >
                             No user details
                         </Text>
@@ -130,7 +129,6 @@ function Page4SubItemExample(props) {
                             className(FlexContainerChildItemFullWidthCN,
                                 AlignCenterTextCN)
                         ]}
-                        // h5
                     >
                         Page 4 Item Example : Accredited Details
                     </Text>
@@ -181,7 +179,6 @@ function Page4SubItemExample(props) {
                             className(FlexContainerChildItemFullWidthCN,
                                 AlignLeftFlexContainerContentCN)
                         ]}
-                        // h4
                     >
                         {person && person.person}
                     </Text>
