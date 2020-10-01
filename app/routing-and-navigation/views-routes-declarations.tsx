@@ -23,11 +23,11 @@ import CreateEditRecipeFormActivity from "../views/recipe-box-sub-app-views/crea
 import RecipeRequests from "../views/recipe-box-sub-app-views/recipe-requests";
 import RecipeDetails from "../views/recipe-box-sub-app-views/recipe-details";
 import {
-    AppDevMocksWithRouting,
-    AppTopTabsNavRouting,
-    MainAppStackRouting,
-    RecipeBoxAppWithRouting,
-    RecipeBoxBottomTabsRouting
+    AppDevMocksStackRoutingComposition,
+    AppTopTabsNavigationRoutingComposition,
+    MainAppStackRoutingComposition,
+    RecipeBoxSubAppStackRoutingComposition,
+    RecipeBoxBottomTabsNavigationRoutingComposition
 } from "./routing-composition";
 
 /*Declare the application views for routing*/
@@ -81,22 +81,22 @@ export const APP_DEV_MOCKS_SCREEN_VIEW: ViewRoute = {
 
 export const MAIN_APP_STACK_SCREEN_VIEW: ViewRoute = {
     name: 'MAIN_APP_STACK_SCREEN_VIEW',
-    screen: MainAppStackRouting
+    screen: MainAppStackRoutingComposition
 };
 
 export const APP_TOP_TABS_SCREEN_VIEW: ViewRoute = {
     name: 'APP_TOP_TABS_SCREEN_VIEW',
-    screen: AppTopTabsNavRouting
+    screen: AppTopTabsNavigationRoutingComposition
 };
 
 export const APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW: ViewRoute = {
     name: 'APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW',
-    screen: AppDevMocksWithRouting
+    screen: AppDevMocksStackRoutingComposition
 };
 
 export const RECIPE_BOX_SUB_APP_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE_BOX_SUB_APP_SCREEN_VIEW',
-    screen: RecipeBoxAppWithRouting
+    screen: RecipeBoxSubAppStackRoutingComposition
 };
 
 /*End App composite views/screens*/
@@ -134,7 +134,7 @@ export const MY_RECIPE_REQUESTS_SCREEN_VIEW: ViewRoute = {
 
 export const RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW: ViewRoute = {
     name: 'RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW',
-    screen: RecipeBoxBottomTabsRouting
+    screen: RecipeBoxBottomTabsNavigationRoutingComposition
 };
 
 /*End Recipe-Box, example sub-application composite views/screens*/

@@ -52,7 +52,7 @@ import {
 import {RecipeBoxPopupMenuWithStores} from "./popup-menu";
 import MainAppTopNavigationTabsCustomTabBars from "./main-app-top-navigation-tabs-custom-tab-bars";
 
-export default function BaseAppWithDrawerNavigationRouting() {
+export default function AppWithDrawerNavigationRoutingComposition() {
 
     const DrawerNav = createDrawerNavigator();
 
@@ -97,7 +97,7 @@ export default function BaseAppWithDrawerNavigationRouting() {
 
 }
 
-export function MainAppStackRouting() {
+export function MainAppStackRoutingComposition() {
 
     const StackNav = createStackNavigator();
 
@@ -146,7 +146,7 @@ export function MainAppStackRouting() {
 
 }
 
-export function RecipeBoxAppWithRouting() {
+export function RecipeBoxSubAppStackRoutingComposition() {
 
     const StackNav = createStackNavigator();
 
@@ -202,7 +202,7 @@ export function RecipeBoxAppWithRouting() {
 
 }
 
-export function AppTopTabsNavRouting() {
+export function AppTopTabsNavigationRoutingComposition() {
 
     const TopTabsNav = createMaterialTopTabNavigator();
 
@@ -238,7 +238,7 @@ export function AppTopTabsNavRouting() {
 
 }
 
-export function RecipeBoxBottomTabsRouting() {
+export function RecipeBoxBottomTabsNavigationRoutingComposition() {
 
     const BottomTabsNav = createBottomTabNavigator();
 
@@ -264,7 +264,7 @@ export function RecipeBoxBottomTabsRouting() {
 
 }
 
-export function AppDevMocksWithRouting() {
+export function AppDevMocksStackRoutingComposition() {
 
     const Stack = createStackNavigator();
 

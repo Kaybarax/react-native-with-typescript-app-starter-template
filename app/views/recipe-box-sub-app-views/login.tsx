@@ -85,7 +85,6 @@ function Login(props) {
             style={[
                 {
                     flex: 1,
-                    // resizeMode: "cover",
                     justifyContent: "center",
                 }
             ]}
