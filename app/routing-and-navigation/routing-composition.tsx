@@ -14,8 +14,8 @@
 import React from "react";
 import {
     _404_VIEW,
-    APP_DEV_MOCKS_VIEW_ROUTE,
     APP_DEV_MOCKS_STACK_VIEW_ROUTE,
+    APP_DEV_MOCKS_VIEW_ROUTE,
     APP_TOP_TABS_VIEW_ROUTE,
     MAIN_APP_STACK_VIEW_ROUTE,
     MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE,
@@ -134,11 +134,7 @@ export function MainAppStackRoutingComposition() {
                     backgroundColor: MAIN_SUPPORT_COLOR,
                 },
                 headerTintColor: '#fff',
-                headerTitleStyle: [
-                    {
-                        // fontWeight: 'bold',
-                    }
-                ],
+                headerTitleStyle: [],
             }}
             headerMode={'screen'}
         />
