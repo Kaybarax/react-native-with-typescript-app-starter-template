@@ -17,7 +17,7 @@ export interface ViewRoute {
     name: string;
     screen: any;
     options?: object;
-    viewTitle?: string;
+    viewTitle: string;
 }
 
 /**

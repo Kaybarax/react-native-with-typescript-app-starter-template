@@ -20,9 +20,8 @@ import {
 import className from "../util/react-native-based-utils";
 import {LinkText} from "../theme/app-text-styles-classnames";
 import {NewLine} from "../shared-components-and-modules/shared-components";
-import WithStoresHoc from "../stores/with-stores-hoc";
 
-function Page2Example(props) {
+export default function Page2Example(props) {
 
     const {
         navigation
@@ -149,6 +148,3 @@ function Page2Example(props) {
     );
 
 }
-
-const Page2ExampleActivity = WithStoresHoc(Page2Example, ['page2ExampleStore', 'appStore']);
-export default Page2ExampleActivity;

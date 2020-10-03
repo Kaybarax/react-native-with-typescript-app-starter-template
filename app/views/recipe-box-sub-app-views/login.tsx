@@ -31,7 +31,7 @@ import WithStoresHoc from "../../stores/with-stores-hoc";
 import {toJS} from "mobx";
 import {persistStoreToAsyncStorage} from "../../stores/store-utils";
 
-function Login(props) {
+export default function Login(props) {
 
     console.log('props at login:', toJS(props));
 
@@ -285,7 +285,3 @@ function Login(props) {
     );
 
 }
-
-const LoginActivity = WithStoresHoc(Login,
-    ['loginStore', 'appStore']);
-export default LoginActivity;

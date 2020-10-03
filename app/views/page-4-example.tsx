@@ -20,11 +20,10 @@ import {
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
-import WithStoresHoc from "../stores/with-stores-hoc";
 import {BlankSpaceDivider, NewLine, Spacer} from "../shared-components-and-modules/shared-components";
 import {BoldTextCN, ItalicizedTextCN, LinkText} from "../theme/app-text-styles-classnames";
 
-function Page4Example(props) {
+export default function Page4Example(props) {
 
     const {
         navigation
@@ -320,6 +319,3 @@ function Page4Example(props) {
     );
 
 }
-
-const Page4ExampleActivity = WithStoresHoc(Page4Example, ['page4ExampleStore', 'appStore']);
-export default Page4ExampleActivity;

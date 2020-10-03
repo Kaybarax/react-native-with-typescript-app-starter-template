@@ -14,10 +14,10 @@ import {MAIN_SUPPORT_COLOR, NEGATIVE_ACTION_COLOR, SECONDARY_COLOR, SECONDARY_SU
 import {makeId} from "../util/util";
 import {SCREEN_HEIGHT} from "../App";
 import {
-    PAGE1EXAMPLE_SCREEN_VIEW,
-    PAGE2EXAMPLE_SCREEN_VIEW,
-    PAGE3EXAMPLE_SCREEN_VIEW,
-    PAGE4EXAMPLE_SCREEN_VIEW
+    PAGE1EXAMPLE_VIEW_ROUTE,
+    PAGE2EXAMPLE_VIEW_ROUTE,
+    PAGE3EXAMPLE_VIEW_ROUTE,
+    PAGE4EXAMPLE_VIEW_ROUTE
 } from "./views-routes-declarations";
 
 export default function MainAppTopNavigationTabsCustomTabBars({state, descriptors, navigation, position}) {
@@ -26,10 +26,10 @@ export default function MainAppTopNavigationTabsCustomTabBars({state, descriptor
     console.log('PROPS', state, descriptors, navigation);
 
     const TAB_NAMES = [
-        PAGE1EXAMPLE_SCREEN_VIEW.viewTitle,
-        PAGE2EXAMPLE_SCREEN_VIEW.viewTitle,
-        PAGE3EXAMPLE_SCREEN_VIEW.viewTitle,
-        PAGE4EXAMPLE_SCREEN_VIEW.viewTitle,
+        PAGE1EXAMPLE_VIEW_ROUTE.viewTitle,
+        PAGE2EXAMPLE_VIEW_ROUTE.viewTitle,
+        PAGE3EXAMPLE_VIEW_ROUTE.viewTitle,
+        PAGE4EXAMPLE_VIEW_ROUTE.viewTitle,
     ];
 
     return (

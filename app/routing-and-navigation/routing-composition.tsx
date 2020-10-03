@@ -14,22 +14,22 @@
 import React from "react";
 import {
     _404_VIEW,
-    APP_DEV_MOCKS_SCREEN_VIEW,
-    APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
-    APP_TOP_TABS_SCREEN_VIEW,
-    MAIN_APP_STACK_SCREEN_VIEW,
-    MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
-    MY_RECIPE_HOME_SCREEN_VIEW,
-    MY_RECIPE_LOGIN_SCREEN_VIEW,
-    MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
-    MY_RECIPE_REQUESTS_SCREEN_VIEW,
-    PAGE1EXAMPLE_SCREEN_VIEW,
-    PAGE2EXAMPLE_SCREEN_VIEW,
-    PAGE3EXAMPLE_SCREEN_VIEW,
-    PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
-    PAGE4EXAMPLE_SCREEN_VIEW,
-    RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW,
-    RECIPE_BOX_SUB_APP_SCREEN_VIEW
+    APP_DEV_MOCKS_VIEW_ROUTE,
+    APP_DEV_MOCKS_STACK_VIEW_ROUTE,
+    APP_TOP_TABS_VIEW_ROUTE,
+    MAIN_APP_STACK_VIEW_ROUTE,
+    MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE,
+    MY_RECIPE_HOME_VIEW_ROUTE,
+    MY_RECIPE_LOGIN_VIEW_ROUTE,
+    MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE,
+    MY_RECIPE_REQUESTS_VIEW_ROUTE,
+    PAGE1EXAMPLE_VIEW_ROUTE,
+    PAGE2EXAMPLE_VIEW_ROUTE,
+    PAGE3EXAMPLE_VIEW_ROUTE,
+    PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
+    PAGE4EXAMPLE_VIEW_ROUTE,
+    RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE,
+    RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE
 } from "./views-routes-declarations";
 import {createStackNavigator} from '@react-navigation/stack';
 import {makeId} from "../util/util";
@@ -58,18 +58,18 @@ export default function AppWithDrawerNavigationRoutingComposition() {
 
     const routeMap = [
         <DrawerNav.Screen
-            name={MAIN_APP_STACK_SCREEN_VIEW.name}
-            component={MAIN_APP_STACK_SCREEN_VIEW.screen}
+            name={MAIN_APP_STACK_VIEW_ROUTE.name}
+            component={MAIN_APP_STACK_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <DrawerNav.Screen
-            name={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name}
-            component={APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.screen}
+            name={APP_DEV_MOCKS_STACK_VIEW_ROUTE.name}
+            component={APP_DEV_MOCKS_STACK_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <DrawerNav.Screen
-            name={RECIPE_BOX_SUB_APP_SCREEN_VIEW.name}
-            component={RECIPE_BOX_SUB_APP_SCREEN_VIEW.screen}
+            name={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.name}
+            component={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={({route, navigation}) => {
                 return {
@@ -103,16 +103,16 @@ export function MainAppStackRoutingComposition() {
 
     const routeMap = [
         <StackNav.Screen
-            name={APP_TOP_TABS_SCREEN_VIEW.name}
-            component={APP_TOP_TABS_SCREEN_VIEW.screen}
+            name={APP_TOP_TABS_VIEW_ROUTE.name}
+            component={APP_TOP_TABS_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <AppTopTabsTitleBar {...props} />,
             }}
         />,
         <StackNav.Screen
-            name={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.screen}
+            name={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name}
+            component={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <Page4SubItemExampleTitleBar {...props} />,
@@ -127,7 +127,7 @@ export function MainAppStackRoutingComposition() {
 
     return (
         <StackNav.Navigator
-            initialRouteName={APP_TOP_TABS_SCREEN_VIEW.name}
+            initialRouteName={APP_TOP_TABS_VIEW_ROUTE.name}
             children={routeMap}
             screenOptions={{
                 headerStyle: {
@@ -152,16 +152,16 @@ export function RecipeBoxSubAppStackRoutingComposition() {
 
     const routeMap = [
         <StackNav.Screen
-            name={MY_RECIPE_LOGIN_SCREEN_VIEW.name}
-            component={MY_RECIPE_LOGIN_SCREEN_VIEW.screen}
+            name={MY_RECIPE_LOGIN_VIEW_ROUTE.name}
+            component={MY_RECIPE_LOGIN_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <RecipeBoxTitleBar {...props} />,
             }}
         />,
         <StackNav.Screen
-            name={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name}
-            component={RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.screen}
+            name={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.name}
+            component={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <RecipeBoxHomeTitleBar {...props} />,
@@ -170,16 +170,16 @@ export function RecipeBoxSubAppStackRoutingComposition() {
             }}
         />,
         <StackNav.Screen
-            name={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name}
-            component={MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.screen}
+            name={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.name}
+            component={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <RecipeDetailsTitleBar {...props} />,
             }}
         />,
         <StackNav.Screen
-            name={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name}
-            component={MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.screen}
+            name={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.name}
+            component={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.screen}
             key={makeId(16)}
             options={{
                 headerTitle: props => <CreateEditTitleBar {...props} />,
@@ -208,23 +208,23 @@ export function AppTopTabsNavigationRoutingComposition() {
 
     const routeMap = [
         <TopTabsNav.Screen
-            name={PAGE1EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE1EXAMPLE_SCREEN_VIEW.screen}
+            name={PAGE1EXAMPLE_VIEW_ROUTE.name}
+            component={PAGE1EXAMPLE_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <TopTabsNav.Screen
-            name={PAGE2EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE2EXAMPLE_SCREEN_VIEW.screen}
+            name={PAGE2EXAMPLE_VIEW_ROUTE.name}
+            component={PAGE2EXAMPLE_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <TopTabsNav.Screen
-            name={PAGE3EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE3EXAMPLE_SCREEN_VIEW.screen}
+            name={PAGE3EXAMPLE_VIEW_ROUTE.name}
+            component={PAGE3EXAMPLE_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <TopTabsNav.Screen
-            name={PAGE4EXAMPLE_SCREEN_VIEW.name}
-            component={PAGE4EXAMPLE_SCREEN_VIEW.screen}
+            name={PAGE4EXAMPLE_VIEW_ROUTE.name}
+            component={PAGE4EXAMPLE_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
     ];
@@ -244,13 +244,13 @@ export function RecipeBoxBottomTabsNavigationRoutingComposition() {
 
     const routeMap = [
         <BottomTabsNav.Screen
-            name={MY_RECIPE_HOME_SCREEN_VIEW.name}
-            component={MY_RECIPE_HOME_SCREEN_VIEW.screen}
+            name={MY_RECIPE_HOME_VIEW_ROUTE.name}
+            component={MY_RECIPE_HOME_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
         <BottomTabsNav.Screen
-            name={MY_RECIPE_REQUESTS_SCREEN_VIEW.name}
-            component={MY_RECIPE_REQUESTS_SCREEN_VIEW.screen}
+            name={MY_RECIPE_REQUESTS_VIEW_ROUTE.name}
+            component={MY_RECIPE_REQUESTS_VIEW_ROUTE.screen}
             key={makeId(16)}
         />,
     ];
@@ -270,7 +270,7 @@ export function AppDevMocksStackRoutingComposition() {
 
     return (
         <Stack.Navigator
-            initialRouteName={APP_DEV_MOCKS_SCREEN_VIEW.name}
+            initialRouteName={APP_DEV_MOCKS_VIEW_ROUTE.name}
             screenOptions={{
                 headerStyle: {
                     backgroundColor: SECONDARY_SUPPORT_COLOR,
@@ -280,8 +280,8 @@ export function AppDevMocksStackRoutingComposition() {
             }}
         >
             <Stack.Screen
-                name={APP_DEV_MOCKS_SCREEN_VIEW.name}
-                component={APP_DEV_MOCKS_SCREEN_VIEW.screen}
+                name={APP_DEV_MOCKS_VIEW_ROUTE.name}
+                component={APP_DEV_MOCKS_VIEW_ROUTE.screen}
                 options={{
                     headerTitle: props => <AppDevScratchTitleBar {...props} />,
                 }}

@@ -9,18 +9,18 @@
 
 import {isNullUndefined} from '../util/util';
 import {
-    APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW,
-    MAIN_APP_STACK_SCREEN_VIEW,
-    MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW,
-    MY_RECIPE_LOGIN_SCREEN_VIEW,
-    MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW,
-    PAGE1EXAMPLE_SCREEN_VIEW,
-    PAGE2EXAMPLE_SCREEN_VIEW,
-    PAGE3EXAMPLE_SCREEN_VIEW,
-    PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW,
-    PAGE4EXAMPLE_SCREEN_VIEW,
-    RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW,
-    RECIPE_BOX_SUB_APP_SCREEN_VIEW
+    APP_DEV_MOCKS_STACK_VIEW_ROUTE,
+    MAIN_APP_STACK_VIEW_ROUTE,
+    MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE,
+    MY_RECIPE_LOGIN_VIEW_ROUTE,
+    MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE,
+    PAGE1EXAMPLE_VIEW_ROUTE,
+    PAGE2EXAMPLE_VIEW_ROUTE,
+    PAGE3EXAMPLE_VIEW_ROUTE,
+    PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE,
+    PAGE4EXAMPLE_VIEW_ROUTE,
+    RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE,
+    RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE
 } from "./views-routes-declarations";
 import {toJS} from "mobx";
 import {showToast} from "../util/react-native-based-utils";
@@ -120,7 +120,7 @@ export class AppNavigation {
     navigateToHome = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            MAIN_APP_STACK_SCREEN_VIEW.name,
+            MAIN_APP_STACK_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -128,7 +128,7 @@ export class AppNavigation {
     navigateToPage1Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE1EXAMPLE_SCREEN_VIEW.name,
+            PAGE1EXAMPLE_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -136,7 +136,7 @@ export class AppNavigation {
     navigateToPage2Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE2EXAMPLE_SCREEN_VIEW.name,
+            PAGE2EXAMPLE_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -144,7 +144,7 @@ export class AppNavigation {
     navigateToPage3Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE3EXAMPLE_SCREEN_VIEW.name,
+            PAGE3EXAMPLE_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -152,7 +152,7 @@ export class AppNavigation {
     navigateToPage4Example = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE4EXAMPLE_SCREEN_VIEW.name,
+            PAGE4EXAMPLE_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -160,7 +160,7 @@ export class AppNavigation {
     navigateToPage4SubItemExample = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            PAGE4_SUB_ITEM_EXAMPLE_SCREEN_VIEW.name,
+            PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -168,7 +168,7 @@ export class AppNavigation {
     navigateToAppDevScratchPad = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            APP_DEV_MOCKS_WITH_ROUTING_SCREEN_VIEW.name,
+            APP_DEV_MOCKS_STACK_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -176,7 +176,7 @@ export class AppNavigation {
     navigateToRecipeBoxSubApplication = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            RECIPE_BOX_SUB_APP_SCREEN_VIEW.name,
+            RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -184,7 +184,7 @@ export class AppNavigation {
     navigateToRecipeBoxLogin = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            MY_RECIPE_LOGIN_SCREEN_VIEW.name,
+            MY_RECIPE_LOGIN_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -192,7 +192,7 @@ export class AppNavigation {
     navigateToRecipeBoxHome = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            RECIPE_BOX_BOTTOM_TABS_SCREEN_VIEW.name,
+            RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -200,7 +200,7 @@ export class AppNavigation {
     navigateToRecipeDetails = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            MY_RECIPE_RECIPE_DETAILS_SCREEN_VIEW.name,
+            MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.name,
             navParams
         );
     }
@@ -208,7 +208,7 @@ export class AppNavigation {
     navigateToCreateEditRecipe = (navigator, navParams: object | any = null) => {
         this.navigate(
             navigator,
-            MY_RECIPE_CREATE_EDIT_RECIPE_SCREEN_VIEW.name,
+            MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.name,
             navParams
         );
     }

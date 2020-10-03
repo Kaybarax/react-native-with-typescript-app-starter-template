@@ -28,7 +28,6 @@ import {
     FlexFluidRowContainerCN,
     FlexRowContainerCN
 } from "../../../theme/app-layout-styles-classnames";
-import WithStoresHoc from "../../../stores/with-stores-hoc";
 import {checkboxItemValueChanged, textValue, textValueChanged} from "../../../util/react-native-data-collection-utils";
 import {
     addCookingInstruction,
@@ -58,7 +57,7 @@ import {NUMBER_OF_RECIPE_PHOTOS} from "../../../app-config";
 import {addRecipePhoto} from "../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller";
 import Loader from "../../../shared-components-and-modules/loaders";
 
-export function CreateEditRecipeForm(props) {
+export default function CreateEditRecipeForm(props) {
 
     console.log('props at CreateEditRecipeForm:', toJS(props));
     console.log('CreateEditRecipeForm rn count!');
@@ -960,7 +959,3 @@ export function CreateEditRecipeForm(props) {
         </RN.ScrollView>
     );
 }
-
-const CreateEditRecipeFormActivity = WithStoresHoc(CreateEditRecipeForm,
-    ['loginStore', 'appStore', 'recipeBoxStore']);
-export default CreateEditRecipeFormActivity;

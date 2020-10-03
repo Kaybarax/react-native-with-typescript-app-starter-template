@@ -23,14 +23,13 @@ import {
     FlexFluidRowContainerCN
 } from "../theme/app-layout-styles-classnames";
 import className from "../util/react-native-based-utils";
-import WithStoresHoc from "../stores/with-stores-hoc";
 import {SCREEN_HEIGHT} from "../App";
 import appNavigation from "../routing-and-navigation/app-navigation";
 import {BlankSpaceDivider} from "../shared-components-and-modules/shared-components";
 import {NegativeButtonCN, NegativeButtonTextCN} from "../theme/component-themes";
 import {LinkText} from "../theme/app-text-styles-classnames";
 
-function Page4SubItemExample(props) {
+export default function Page4SubItemExample(props) {
 
     console.log('Page4SubItemExample props', props);
 
@@ -292,6 +291,3 @@ function Page4SubItemExample(props) {
     );
 
 }
-
-const Page4SubItemExampleView = WithStoresHoc(Page4SubItemExample, ['page4ExampleStore', 'appStore']);
-export default Page4SubItemExampleView;

@@ -34,7 +34,7 @@ import {NEGATIVE_ACTION_COLOR} from "../../theme/app-theme";
 import {SCREEN_HEIGHT} from "../../App";
 import {persistStoreToAsyncStorage} from "../../stores/store-utils";
 
-export function RecipeHome(props) {
+export default function RecipeHome(props) {
 
     console.log('props at RecipeHome:', toJS(props));
 
@@ -204,7 +204,3 @@ export function NoRecipesDisplay() {
     );
 
 }
-
-const RecipeHomeActivity = WithStoresHoc(RecipeHome,
-    ['loginStore', 'appStore', 'recipeBoxStore']);
-export default RecipeHomeActivity;
