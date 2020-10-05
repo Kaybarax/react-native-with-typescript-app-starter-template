@@ -185,7 +185,7 @@ export function createCurrentStoreModelStructure(storeName, storeSchemaInstance)
   return getObjectFromAsyncStorage(storeName)
       .then(item => item || storeSchemaInstance)
       .catch(error => {
-        console.log('recipeBoxStore currentStoreModelStructure error', error);
+        console.log('createCurrentStoreModelStructure error', error);
         return storeSchemaInstance;
       });
 }

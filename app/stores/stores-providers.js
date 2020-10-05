@@ -25,7 +25,6 @@ const StoreProviders = {
       return 'appStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeSchema: AppActivitySchema,
     storeProvider: (namespace) => new AppActivitySchema(namespace, this.storeName),
     currentStoreModelStructure: createCurrentStoreModelStructure(
         this.storeName,
