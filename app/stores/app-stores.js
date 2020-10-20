@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //key
 //sd - self described
 /**
@@ -10,7 +11,7 @@
 import {observable, toJS} from 'mobx';
 import {persistedStoreFromAsyncStorage} from './store-utils';
 import StoreProviders from './stores-providers';
-import {MobX_StoreKey_Identifier_In_AsyncStorage} from './actions-and-stores-data';
+import {_StoreKey_} from './actions-and-stores-data';
 import {isNullUndefined} from '../util/util';
 
 /**
@@ -25,7 +26,7 @@ export default class AppStores {
 
   //to assist with differentiation during storage to persistence media,
   // if application uses several stores classes
-  static namespace = 'AppStores_' + MobX_StoreKey_Identifier_In_AsyncStorage;
+  static namespace = 'AppStores_' + _StoreKey_;
 
   loadAppStores = async () => {
 
@@ -38,7 +39,7 @@ export default class AppStores {
         let storeKey = StoreProviders[key].storeKey(AppStores.namespace);
         let storeProvider = StoreProviders[key];
         let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace);
-        isNullUndefined(store) && (store = storeProvider.storeProvider(AppStores.namespace));
+        isNullUndefined(store) && (store = storeProvider.storeProvidedBy(AppStores.namespace));
         this.stores[key] = observable(store);
         console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
       }
@@ -56,7 +57,7 @@ export default class AppStores {
 
       for (let key in StoreProviders) {
         let storeProvider = StoreProviders[key];
-        let store = storeProvider.storeProvider(AppStores.namespace);
+        let store = storeProvider.storeProvidedBy(AppStores.namespace);
         this.stores[key] = observable(store);
         console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
       }

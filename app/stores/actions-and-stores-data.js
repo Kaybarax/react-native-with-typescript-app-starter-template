@@ -7,7 +7,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-export const MobX_StoreKey_Identifier_In_AsyncStorage = '_MobX_storeKey_';
+export const _StoreKey_ = '_StoreKey_';
+export const _StoreSnapshot_ = '_StoreSnapshot_';
 
 export const AUTHENTICATION_ACTIONS_ENUM = {
   LOGIN: 'LOGIN',

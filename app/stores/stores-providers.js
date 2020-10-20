@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //key
 //sd - self described
 /**
@@ -16,7 +17,7 @@ import {
   Page4ExampleActivitySchema,
   RecipeBoxActivitySchema,
 } from './store-schemas';
-import {createCurrentStoreModelStructure, getPersistedStoreKey} from './store-utils';
+import {createStoreModelSnapshot, getPersistedStoreKey} from './store-utils';
 
 const StoreProviders = {
 
@@ -25,8 +26,8 @@ const StoreProviders = {
       return 'appStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new AppActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new AppActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new AppActivitySchema(null, this.storeName),
     ),
@@ -37,8 +38,8 @@ const StoreProviders = {
       return 'loginStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new LoginActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new LoginActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new LoginActivitySchema(null, this.storeName),
     ),
@@ -49,8 +50,8 @@ const StoreProviders = {
       return 'page1ExampleStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new Page1ExampleActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new Page1ExampleActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new Page1ExampleActivitySchema(null, this.storeName),
     ),
@@ -61,8 +62,8 @@ const StoreProviders = {
       return 'page2ExampleStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new Page2ExampleActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new Page2ExampleActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new Page2ExampleActivitySchema(null, this.storeName),
     ),
@@ -73,8 +74,8 @@ const StoreProviders = {
       return 'page3ExampleStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new Page3ExampleActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new Page3ExampleActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new Page3ExampleActivitySchema(null, this.storeName),
     ),
@@ -85,8 +86,8 @@ const StoreProviders = {
       return 'page4ExampleStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new Page4ExampleActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new Page4ExampleActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new Page4ExampleActivitySchema(null, this.storeName),
     ),
@@ -97,8 +98,8 @@ const StoreProviders = {
       return 'recipeBoxStore';
     },
     storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvider: (namespace) => new RecipeBoxActivitySchema(namespace, this.storeName),
-    currentStoreModelStructure: createCurrentStoreModelStructure(
+    storeProvidedBy: (namespace) => new RecipeBoxActivitySchema(namespace, this.storeName),
+    storeModelSnapshot: createStoreModelSnapshot(
         this.storeName,
         new RecipeBoxActivitySchema(null, this.storeName),
     ),

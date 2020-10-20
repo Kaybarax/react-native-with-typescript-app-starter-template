@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //key
 //sd - self described
 //@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
@@ -61,7 +62,7 @@ export function alertLog(message) {
  * @param item
  */
 export async function storeObjectToAsyncStorage(key, item) {
-  await AsyncStorage.setItem('' + key, stringifyObject(item));
+  await AsyncStorage.setItem(key, stringifyObject(item));
 }
 
 /**
@@ -69,8 +70,8 @@ export async function storeObjectToAsyncStorage(key, item) {
  * @param key
  * @param item
  */
-export async function storeStringDataToAsyncStorage(key, item) {
-  await AsyncStorage.setItem('' + key, item);
+export async function storeItemToAsyncStorage(key, item) {
+  await AsyncStorage.setItem(key, item);
 }
 
 /**

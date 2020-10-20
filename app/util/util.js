@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //key
 //sd - self described
 /**
@@ -13,7 +14,7 @@
  * @returns {string}
  */
 export function stringifyObject(obj) {
-  return JSON.stringify(obj);
+    return JSON.stringify(obj);
 }
 
 /**
@@ -22,12 +23,12 @@ export function stringifyObject(obj) {
  * @returns {null}
  */
 export function deepCloneObject(obj) {
-  try {
-    return {...obj};
-  } catch (err) {
-    console.log('operation error');
-    return null;
-  }
+    try {
+        return {...obj};
+    } catch (err) {
+        console.log('operation error');
+        return null;
+    }
 }
 
 /**
@@ -36,14 +37,14 @@ export function deepCloneObject(obj) {
  * @returns {boolean}
  */
 export function isEmptyString(value) {
-  try {
-    if (typeof value !== 'string') {
-      return true;
+    try {
+        if (typeof value !== 'string') {
+            return true;
+        }
+        return value.trim() === '';
+    } catch (err) {
+        return true;
     }
-    return value.trim() === '';
-  } catch (err) {
-    return true;
-  }
 }
 
 /**
@@ -52,11 +53,11 @@ export function isEmptyString(value) {
  * @returns {boolean}
  */
 export function isNumberType(value) {
-  try {
-    return !isNaN(parseInt(value));
-  } catch (err) {
-    return false;
-  }
+    try {
+        return !isNaN(parseInt(value));
+    } catch (err) {
+        return false;
+    }
 }
 
 /**
@@ -65,11 +66,11 @@ export function isNumberType(value) {
  * @returns {boolean}
  */
 export function isNullUndefined(item) {
-  try {
-    return item === null || item === undefined;
-  } catch (err) {
-    return true;
-  }
+    try {
+        return item === null || item === undefined;
+    } catch (err) {
+        return true;
+    }
 }
 
 /**
@@ -78,13 +79,13 @@ export function isNullUndefined(item) {
  * @returns {boolean}
  */
 export function isStringDatatype(item) {
-  try {
-    if (typeof item === 'string') {
-      return true;
+    try {
+        if (typeof item === 'string') {
+            return true;
+        }
+    } catch (err) {
+        return false;
     }
-  } catch (err) {
-    return false;
-  }
 }
 
 /**
@@ -93,13 +94,13 @@ export function isStringDatatype(item) {
  * @returns {boolean}
  */
 export function isArrayDatatype(item) {
-  try {
-    if (Array.isArray(item)) {
-      return true;
+    try {
+        if (Array.isArray(item)) {
+            return true;
+        }
+    } catch (err) {
+        return false;
     }
-  } catch (err) {
-    return false;
-  }
 }
 
 /**
@@ -108,11 +109,11 @@ export function isArrayDatatype(item) {
  * @returns {boolean}
  */
 export function isObject(item) {
-  try {
-    return item !== null && item !== undefined && typeof item === 'object';
-  } catch (err) {
-    return false;
-  }
+    try {
+        return item !== null && item !== undefined && typeof item === 'object';
+    } catch (err) {
+        return false;
+    }
 }
 
 /**
@@ -121,11 +122,11 @@ export function isObject(item) {
  * @param key
  */
 export function objectKeyExists(obj, key) {
-  try {
-    return obj.hasOwnProperty(key);
-  } catch (err) {
-    return false;
-  }
+    try {
+        return obj.hasOwnProperty(key);
+    } catch (err) {
+        return false;
+    }
 }
 
 /**
@@ -133,11 +134,11 @@ export function objectKeyExists(obj, key) {
  * @param item
  */
 export function isBoolean(item) {
-  try {
-    return typeof item === 'boolean';
-  } catch (err) {
-    return false;
-  }
+    try {
+        return typeof item === 'boolean';
+    } catch (err) {
+        return false;
+    }
 }
 
 /**
@@ -146,15 +147,15 @@ export function isBoolean(item) {
  * @returns {boolean}
  */
 export function isEmptyArray(array) {
-  try {
-    if (isNullUndefined(array)) {
-      return true;
-    } else {
-      return !(array instanceof Array && array.length > 0);
+    try {
+        if (isNullUndefined(array)) {
+            return true;
+        } else {
+            return !(array instanceof Array && array.length > 0);
+        }
+    } catch (err) {
+        return true;
     }
-  } catch (err) {
-    return true;
-  }
 }
 
 /**
@@ -163,10 +164,10 @@ export function isEmptyArray(array) {
  * @returns {*[]|any}
  */
 export function objectInstanceProvider(obj) {
-  if (isArrayDatatype(obj)) {
-    return [...obj];
-  }
-  return deepCloneObject(obj);
+    if (isArrayDatatype(obj)) {
+        return [...obj];
+    }
+    return deepCloneObject(obj);
 }
 
 /**
@@ -175,7 +176,7 @@ export function objectInstanceProvider(obj) {
  * @returns {*|boolean|boolean}
  */
 export function isFalse(item) {
-  return isBoolean(item) && !item;
+    return isBoolean(item) && !item;
 }
 
 /**
@@ -184,7 +185,7 @@ export function isFalse(item) {
  * @returns {*|boolean|boolean}
  */
 export function isTrue(item) {
-  return isBoolean(item) && item;
+    return isBoolean(item) && item;
 }
 
 /**
@@ -195,27 +196,27 @@ export function isTrue(item) {
  */
 export function objectAHasSameKeysAsObjectB(objA, objB) {
 
-  let allKeysMatch = true;
-  let objA_keys = Object.keys(objA);
-  let objB_keys = Object.keys(objB);
+    let allKeysMatch = true;
+    let objA_keys = Object.keys(objA);
+    let objB_keys = Object.keys(objB);
 
-  if (objA_keys.length !== objB_keys.length) {
-    return false;
-  }
-
-  for (let key in objA) {
-    let keyInObjAExistsInObjB = true;
-    if (!objectKeyExists(objB, key)) {
-      keyInObjAExistsInObjB = false;
+    if (objA_keys.length !== objB_keys.length) {
+        return false;
     }
 
-    if (!keyInObjAExistsInObjB) {
-      allKeysMatch = false;
-      break;
-    }
-  }
+    for (let key in objA) {
+        let keyInObjAExistsInObjB = true;
+        if (!objectKeyExists(objB, key)) {
+            keyInObjAExistsInObjB = false;
+        }
 
-  return allKeysMatch;
+        if (!keyInObjAExistsInObjB) {
+            allKeysMatch = false;
+            break;
+        }
+    }
+
+    return allKeysMatch;
 }
 
 /**
@@ -224,14 +225,11 @@ export function objectAHasSameKeysAsObjectB(objA, objB) {
  * @returns {boolean}
  */
 export function isEmptyObject(obj) {
-  try {
-    let keys = Object.keys(obj);
-    console.log('TEST EMPTY OBJ KEYS', keys, '\t->for->\t', obj);
-    return isEmptyArray(keys);
-
-  } catch (e) {
-    return true;
-  }
+    try {
+        return isEmptyArray(Object.keys(obj));
+    } catch (e) {
+        return true;
+    }
 }
 
 /**
@@ -241,17 +239,17 @@ export function isEmptyObject(obj) {
  * NOTE: This is just my declaration of a void item. You can have yours that is totally different from mine
  */
 export function isVoid(item) {
-  try {
-    if (isNaN(parseInt(item))) {
-      return (isNullUndefined(item) ||
-          isEmptyArray(item) ||
-          isEmptyString(item) ||
-          isFalse(item));
+    try {
+        if (isNaN(parseInt(item))) {
+            return (isNullUndefined(item) ||
+                isEmptyArray(item) ||
+                isEmptyString(item) ||
+                isFalse(item));
+        }
+        return false;
+    } catch (e) {
+        return true;
     }
-    return false;
-  } catch (e) {
-    return true;
-  }
 }
 
 /**
@@ -259,13 +257,13 @@ export function isVoid(item) {
  * @param length
  */
 export function makeId(length) {
-  let result = '';
-  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
 
@@ -276,17 +274,17 @@ export function makeId(length) {
  */
 export function utcToLocalDateTimeConverter(dateTime) {
 
-  //enforce that is datetime object
-  let utcDateTime = new Date('' + dateTime);
+    //enforce that is datetime object
+    let utcDateTime = new Date('' + dateTime);
 
-  let localDateTime = new Date(utcDateTime.getTime() + utcDateTime.getTimezoneOffset() * 60 * 1000);
+    let localDateTime = new Date(utcDateTime.getTime() + utcDateTime.getTimezoneOffset() * 60 * 1000);
 
-  let offset = utcDateTime.getTimezoneOffset() / 60;
-  let hours = utcDateTime.getHours();
+    let offset = utcDateTime.getTimezoneOffset() / 60;
+    let hours = utcDateTime.getHours();
 
-  localDateTime.setHours(hours - offset);
+    localDateTime.setHours(hours - offset);
 
-  return localDateTime;
+    return localDateTime;
 }
 
 /**
@@ -295,7 +293,7 @@ export function utcToLocalDateTimeConverter(dateTime) {
  * @returns {string}
  */
 export function localeTimeStringFormatFromDatetime(dateTime) {
-  return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
+    return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
 }
 
 /**
@@ -305,18 +303,18 @@ export function localeTimeStringFormatFromDatetime(dateTime) {
  * @returns {string}
  */
 export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 'en-GB') {
-  let dateTimeObj = new Date(dateTime);//enforce that is datetime object
-  // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
-  let localeDateString;
-  localeDateString = dateTimeObj.toLocaleDateString();
-  //for US Time format orientation
-  if (localeTimeFormat === 'en-US') {
-    localeDateString = localeDateString.split('/').join('-');
-    localeDateString = localeDateString.split('-');
-    localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
-  }
-  // console.log(' ## localeDateStringFormat ## ', localeDateString);//log
-  return localeDateString;
+    let dateTimeObj = new Date(dateTime);//enforce that is datetime object
+    // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
+    let localeDateString;
+    localeDateString = dateTimeObj.toLocaleDateString();
+    //for US Time format orientation
+    if (localeTimeFormat === 'en-US') {
+        localeDateString = localeDateString.split('/').join('-');
+        localeDateString = localeDateString.split('-');
+        localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
+    }
+    // console.log(' ## localeDateStringFormat ## ', localeDateString);//log
+    return localeDateString;
 }
 
 /**
@@ -325,11 +323,11 @@ export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 
  * @returns {string}
  */
 export function localeTimeStringFormat(dateTime) {
-  let dateTimeObj = new Date('' + dateTime);//enforce that is datetime object
-  // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
-  let localeTimeString = dateTimeObj.toLocaleTimeString();
-  // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
-  return localeTimeString;
+    let dateTimeObj = new Date('' + dateTime);//enforce that is datetime object
+    // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
+    let localeTimeString = dateTimeObj.toLocaleTimeString();
+    // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
+    return localeTimeString;
 }
 
 /**
@@ -339,10 +337,10 @@ export function localeTimeStringFormat(dateTime) {
  * by Kaybarax
  */
 export function numberItem(numbersArray) {
-  let num = 1;
-  if (numbersArray.length > 0) {
-    num = (numbersArray[numbersArray.length - 1] + 1);
-  }
-  numbersArray.push(num);
-  return num;
+    let num = 1;
+    if (numbersArray.length > 0) {
+        num = (numbersArray[numbersArray.length - 1] + 1);
+    }
+    numbersArray.push(num);
+    return num;
 }
