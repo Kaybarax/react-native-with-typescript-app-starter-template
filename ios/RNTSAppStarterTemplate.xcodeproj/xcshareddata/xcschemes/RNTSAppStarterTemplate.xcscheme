@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ReactNativeTsAppStarterTemplate.app"
-               BlueprintName = "ReactNativeTsAppStarterTemplate"
-               ReferencedContainer = "container:ReactNativeTsAppStarterTemplate.xcodeproj">
+               BuildableName = "RNTSAppStarterTemplate.app"
+               BlueprintName = "RNTSAppStarterTemplate"
+               ReferencedContainer = "container:RNTSAppStarterTemplate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ReactNativeTsAppStarterTemplateTests.xctest"
-               BlueprintName = "ReactNativeTsAppStarterTemplateTests"
-               ReferencedContainer = "container:ReactNativeTsAppStarterTemplate.xcodeproj">
+               BuildableName = "RNTSAppStarterTemplateTests.xctest"
+               BlueprintName = "RNTSAppStarterTemplateTests"
+               ReferencedContainer = "container:RNTSAppStarterTemplate.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ReactNativeTsAppStarterTemplate.app"
-            BlueprintName = "ReactNativeTsAppStarterTemplate"
-            ReferencedContainer = "container:ReactNativeTsAppStarterTemplate.xcodeproj">
+            BuildableName = "RNTSAppStarterTemplate.app"
+            BlueprintName = "RNTSAppStarterTemplate"
+            ReferencedContainer = "container:RNTSAppStarterTemplate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ReactNativeTsAppStarterTemplate.app"
-            BlueprintName = "ReactNativeTsAppStarterTemplate"
-            ReferencedContainer = "container:ReactNativeTsAppStarterTemplate.xcodeproj">
+            BuildableName = "RNTSAppStarterTemplate.app"
+            BlueprintName = "RNTSAppStarterTemplate"
+            ReferencedContainer = "container:RNTSAppStarterTemplate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
