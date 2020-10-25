@@ -7,28 +7,28 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {StyleSheet} from "react-native";
+import {StyleSheet} from 'react-native';
 
 export const UnderlinedTextCN = {
-    textDecorationLine: 'underline'
-}
+  textDecorationLine: 'underline',
+};
 
 export const BoldTextCN = {
-    fontWeight: 'bold',
-}
+  fontWeight: 'bold',
+};
 
 export const ItalicizedTextCN = {
-    fontStyle: 'italic',
-}
+  fontStyle: 'italic',
+};
 
 export const LinkText = {
-    textDecorationLine: 'underline',
-    color: 'blue'
-}
+  textDecorationLine: 'underline',
+  color: 'blue',
+};
 
 const stylingTests = StyleSheet.create({
-    styles: {
-        fontStyle: 'italic',
-        fontWeight: 'bold',
-    }
+  styles: {
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+  },
 });

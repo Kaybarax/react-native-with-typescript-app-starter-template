@@ -12,12 +12,13 @@ import {notificationCallback} from '../shared-components-and-modules/notificatio
 import {AppIntentsModule} from './custom-native-modules';
 
 export function openWebPageIntent(url, notificationAlert) {
+  DeviceEventEmitter.addListener('password_hash_result', (eventResult) =>
+    openWebPageIntentListener(eventResult, notificationAlert),
+  );
 
-  DeviceEventEmitter.addListener('password_hash_result',
-      (eventResult) => openWebPageIntentListener(eventResult, notificationAlert));
-
-  AppIntentsModule.openWebPageIntent(url,
-      (message) => openWebPageIntentCallback(message, notificationAlert));
+  AppIntentsModule.openWebPageIntent(url, (message) =>
+    openWebPageIntentCallback(message, notificationAlert),
+  );
 }
 
 export function openWebPageIntentListener(passwordToValidate, hash, salt) {
@@ -27,23 +28,23 @@ export function openWebPageIntentListener(passwordToValidate, hash, salt) {
 export function openWebPageIntentCallback(message, notificationAlert) {
   if (message === 'SUCCESS') {
     notificationCallback(
-        'succ',
-        'Validate password success',
-        notificationAlert,
+      'succ',
+      'Validate password success',
+      notificationAlert,
     );
   } else if (message === 'FAILURE') {
     notificationCallback(
-        'warn',
-        'Password failed validation',
-        notificationAlert,
+      'warn',
+      'Password failed validation',
+      notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);
   } else {
     notificationCallback(
-        'err',
-        'Cannot perform password validation',
-        notificationAlert,
+      'err',
+      'Cannot perform password validation',
+      notificationAlert,
     );
     //and unregister listener
     DeviceEventEmitter.removeListener('password_validation_result', null);

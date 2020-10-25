@@ -8,7 +8,14 @@
  */
 
 import React from 'react';
-import {isBoolean, isEmptyArray, isEmptyString, isNullUndefined, makeId, objectKeyExists} from './util';
+import {
+  isBoolean,
+  isEmptyArray,
+  isEmptyString,
+  isNullUndefined,
+  makeId,
+  objectKeyExists,
+} from './util';
 import {enforceReactNaturalStateUpdateBehavior} from './react-native-based-utils';
 import {Picker} from '@react-native-community/picker';
 import {toJS} from 'mobx';
@@ -56,7 +63,7 @@ export function textValueChanged(model, text, key, activity = null) {
   }
   model[key] = text;
   !isNullUndefined(activity) &&
-  enforceReactNaturalStateUpdateBehavior(activity);
+    enforceReactNaturalStateUpdateBehavior(activity);
 }
 
 //END
@@ -98,9 +105,22 @@ export function checkboxItemChecked(model, key) {
  * @param activity
  * @returns {*}
  */
-export function checkboxItemValueChanged(model, checkedTrue, key,
-                                         trueValue, falseValue, activity = null) {
-  console.log('key-> ', key, '\tof model->', toJS(model), '\tcheckedTrue-> ', toJS(checkedTrue));
+export function checkboxItemValueChanged(
+  model,
+  checkedTrue,
+  key,
+  trueValue,
+  falseValue,
+  activity = null,
+) {
+  console.log(
+    'key-> ',
+    key,
+    '\tof model->',
+    toJS(model),
+    '\tcheckedTrue-> ',
+    toJS(checkedTrue),
+  );
   let feedback = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -118,7 +138,7 @@ export function checkboxItemValueChanged(model, checkedTrue, key,
     model[key] = falseValue;
   }
   !isNullUndefined(activity) &&
-  enforceReactNaturalStateUpdateBehavior(activity);
+    enforceReactNaturalStateUpdateBehavior(activity);
   return model[key];
 }
 
@@ -153,7 +173,13 @@ export function radioButtonSelected(val, key, model) {
  * @param activity
  * @returns {*}
  */
-export function radioButtonValueChanged(checkedTrue, value, key, model, activity) {
+export function radioButtonValueChanged(
+  checkedTrue,
+  value,
+  key,
+  model,
+  activity,
+) {
   let feedback = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -175,7 +201,7 @@ export function radioButtonValueChanged(checkedTrue, value, key, model, activity
     model[key] = null;
   }
   !isNullUndefined(activity) &&
-  enforceReactNaturalStateUpdateBehavior(activity);
+    enforceReactNaturalStateUpdateBehavior(activity);
   return feedback;
 }
 
@@ -191,23 +217,25 @@ export function radioButtonValueChanged(checkedTrue, value, key, model, activity
  * @returns {*}
  */
 export function spinnerSelectedValue(
-    model,
-    spinnerDefaultValue,
-    spinnerItemsArray,
-    key,
+  model,
+  spinnerDefaultValue,
+  spinnerItemsArray,
+  key,
 ) {
   // noinspection EqualityComparisonWithCoercionJS
   return isNullUndefined(model) || isEmptyArray(spinnerItemsArray)
-      ? spinnerDefaultValue || null
-      : isNullUndefined(
-          spinnerItemsArray.find((item) => item.value == spinnerDefaultValue),
+    ? spinnerDefaultValue || null
+    : isNullUndefined(
+        spinnerItemsArray.find((item) => item.value == spinnerDefaultValue),
       )
-          ? spinnerDefaultValue || null
-          : !objectKeyExists(model, key)
-              ? spinnerDefaultValue
-              : isNullUndefined(spinnerItemsArray.find((item) => item.value == model[key]))
-                  ? spinnerDefaultValue || null
-                  : model[key];
+    ? spinnerDefaultValue || null
+    : !objectKeyExists(model, key)
+    ? spinnerDefaultValue
+    : isNullUndefined(
+        spinnerItemsArray.find((item) => item.value == model[key]),
+      )
+    ? spinnerDefaultValue || null
+    : model[key];
 }
 
 /**
@@ -232,7 +260,7 @@ export function spinnerOnValueChanged(model, val, key, activity = null) {
   }
   model[key] = val;
   !isNullUndefined(activity) &&
-  enforceReactNaturalStateUpdateBehavior(activity);
+    enforceReactNaturalStateUpdateBehavior(activity);
 }
 
 /**
@@ -242,19 +270,17 @@ export function spinnerOnValueChanged(model, val, key, activity = null) {
  */
 export function generateSpinnerOptions(itemsArray) {
   let spinnerOptions = [];
-  !isEmptyArray(itemsArray) && (
-      (_ => (
-          spinnerOptions = itemsArray.map(item => {
-            return (
-                <Picker.Item
-                    label={item.text || item.label}
-                    value={item.value}
-                    key={item.value || makeId(16)}
-                />
-            );
-          })
-      ))()
-  );
+  !isEmptyArray(itemsArray) &&
+    ((_) =>
+      (spinnerOptions = itemsArray.map((item) => {
+        return (
+          <Picker.Item
+            label={item.text || item.label}
+            value={item.value}
+            key={item.value || makeId(16)}
+          />
+        );
+      })))();
   return spinnerOptions;
 }
 

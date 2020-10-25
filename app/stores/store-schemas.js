@@ -20,7 +20,9 @@ export function ActivityStoreSchema(namespace, name) {
   this.storeSchema = {
     storeName: name,
     namespace: namespace,
-    storeKey: !isEmptyString(namespace) ? namespace + name : 'StoreKey___' + name,
+    storeKey: !isEmptyString(namespace)
+      ? namespace + name
+      : 'StoreKey___' + name,
     loading: false,
     updated: false,
     loadingMessage: 'Loading...',

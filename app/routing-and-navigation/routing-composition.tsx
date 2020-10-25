@@ -1,3 +1,4 @@
+/* eslint-disable */
 //key
 //sd - self described
 /**

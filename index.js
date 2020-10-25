@@ -3,7 +3,6 @@
  */
 
 import {AppRegistry} from 'react-native';
-import ReactNativeIntro from './ReactNativeIntro';
 import {name as appName} from './app.json';
 import App from './app/App';
 

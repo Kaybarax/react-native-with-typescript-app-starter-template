@@ -7,8 +7,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from "react";
-import {inject, observer} from "mobx-react";
+import React from 'react';
+import {inject, observer} from 'mobx-react';
 
 /**
  * sd _ Kaybarax
@@ -17,15 +17,11 @@ import {inject, observer} from "mobx-react";
  * @constructor
  */
 const WithStoresHoc = (Wrapped, stores: Array<string>) => {
+  let WithStores = inject(...stores)(observer(Wrapped));
 
-    let WithStores = (inject(...stores)(observer(Wrapped)));
-
-    return function (props) {
-        return (
-            <WithStores {...props}/>
-        );
-    }
-
-}
+  return function (props) {
+    return <WithStores {...props} />;
+  };
+};
 
 export default WithStoresHoc;

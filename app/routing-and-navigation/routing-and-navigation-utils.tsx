@@ -7,17 +7,16 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {Animated, Easing} from "react-native";
-import React from "react";
+import {Animated, Easing} from 'react-native';
 
 /**
  * sd _ Kaybarax
  */
 export interface ViewRoute {
-    name: string;
-    screen: any;
-    options?: object;
-    viewTitle: string;
+  name: string;
+  screen: any;
+  options?: object;
+  viewTitle: string;
 }
 
 /**
@@ -26,21 +25,21 @@ export interface ViewRoute {
  * @returns {any}
  */
 export function routeConfigMapBuilder(viewRoutes: Array<ViewRoute>) {
-    let viewMap = {};
-    for (let item of viewRoutes) {
-        // @ts-ignore
-        viewMap[item.name] = item.screen;
-    }
-    return viewMap;
+  let viewMap = {};
+  for (let item of viewRoutes) {
+    // @ts-ignore
+    viewMap[item.name] = item.screen;
+  }
+  return viewMap;
 }
 
 /**
  * Define transition behavior during screen to screen navigation
  */
 export const transitionConfig = () => ({
-    transitionSpec: {
-        duration: 0,
-        timing: Animated.timing,
-        easing: Easing.step0
-    }
+  transitionSpec: {
+    duration: 0,
+    timing: Animated.timing,
+    easing: Easing.step0,
+  },
 });

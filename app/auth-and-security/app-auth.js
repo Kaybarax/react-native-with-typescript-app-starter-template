@@ -15,7 +15,6 @@ import appStores from '../stores';
  * Your app auth control needs
  */
 export default class AppAuth {
-
   /**
    * Your frontend app, authentication logic for access: JWT, AWS Cognito, Google sign in,
    * facebook sign in, Twitter sign in ...  your fancy
@@ -36,7 +35,6 @@ export default class AppAuth {
 
     //my logic for this framework template share. Of course, remove it and use your own
     //like I have guided you above
-    return !(isNullUndefined(appStores.stores.recipeBoxStore.user));
+    return !isNullUndefined(appStores.stores.recipeBoxStore.user);
   };
-
 }

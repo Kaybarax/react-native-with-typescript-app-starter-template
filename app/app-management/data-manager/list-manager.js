@@ -28,7 +28,8 @@ export const SOs_and_Credits_List = [
   },
   {
     person: 'Kevin Barasa',
-    attribution: 'Author of this React Native with Typescript, App Starter Template',
+    attribution:
+      'Author of this React Native with Typescript, App Starter Template',
     links: [
       {
         site: 'Twitter',

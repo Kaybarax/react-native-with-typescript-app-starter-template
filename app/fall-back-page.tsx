@@ -8,14 +8,14 @@
  */
 
 import React from 'react';
-import {Text} from "react-native";
+import {Text} from 'react-native';
 
 export default class FallBackPage extends React.Component {
-    render() {
-        return (
-            <React.Fragment>
-                <Text>Fallback! Something went wrong.</Text>
-            </React.Fragment>
-        );
-    }
+  render() {
+    return (
+      <React.Fragment>
+        <Text>Fallback! Something went wrong.</Text>
+      </React.Fragment>
+    );
+  }
 }

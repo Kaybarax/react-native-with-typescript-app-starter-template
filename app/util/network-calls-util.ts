@@ -8,8 +8,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {TIME_OUT} from "../app-config";
-import {isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject} from "./util";
+import {TIME_OUT} from '../app-config';
+import {isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject} from './util';
 
 /**
  * sd _ Kaybarax
