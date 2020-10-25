@@ -85,7 +85,9 @@ export default function CreateEditRecipeForm(props) {
   let {notificationAlert, viewAction} = recipeBoxStore;
 
   let [submitPressed, setSubmitPressed] = React.useState(false);
-  let [recipeFormValidityTree, updateFormValidityTree] = React.useState({});
+  let [recipeFormValidityTree, updateFormValidityTree] = React.useState({
+    ...recipe,
+  });
   let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(
     false,
   );
