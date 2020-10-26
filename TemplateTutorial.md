@@ -23,6 +23,8 @@ For my dev environment, the following are the artifacts in my toolbox/machine.
 - Java – check out Digital Ocean for installation directions. 
 
 - Android studio and SDK (and do the configurations, e.g. setup ANDROID_HOME for your machine), for any needed android native stuff.  
+ 
+- Cocoapods in Mac, for installing RN iOS cocoa dependencies. To install cocoapods through Homebrew, from terminal, run `$ brew install cocoapods`. 
 
 - XCode for iOS configurations, any needed iOS native stuff, and eventually deployment to AppStore when the app is ready for release. 
 

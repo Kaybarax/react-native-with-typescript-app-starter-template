@@ -1,21 +1,26 @@
+## Architecting and Designing a React Native Application
 ## React Native with Typescript App Starter Template
+ 
 
-### Dev
+#### Quick start!! 
 
-`$ git clone https://github.com/Kaybarax/react-native-with-typescript-app-starter-template.git`
 
-`$ yarn install`
+`$ git clone https://github.com/Kaybarax/react-native-with-typescript-app-starter-template.git`  
 
-`$ yarn start`
+`$ yarn install`  
 
-#### Android
-`$ npx react-native run-android`
-#### iOS
-`$ npx react-native run-ios`
+`$ yarn start`  
 
-### Release
-#### Test Release Android
-`$ cd android && ./gradlew installRelease`
+Android 
 
-#### Build Release Android
-`$ cd android && ./gradlew assembleRelease`
+`$ npx react-native run-android`  
+
+iOS 
+
+`$ cd ios/ && pod install`  
+
+`$ npx react-native run-ios`  
+
+
+Check out the [Template Tutorial Writeup](TemplateTutorial.md) for more details.
+
