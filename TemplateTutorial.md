@@ -4,6 +4,8 @@
 
 ###(with React Native v0.63)
 
+### 1.0 What this article is about 
+
 This writeup is a primer on getting started with building React Native (RN) applications, while presenting a startup template I have created, that you can use as a foundation to build your next RN application, or borrow from the design and architecture pattern in the template, to implement in your RN application. Find the template here on my [GitHub account](https://github.com/Kaybarax/react-native-with-typescript-app-starter-template).  
 
 In this article, through the template, I will guide you through the parts of a RN application, while through the template’s architecture and design, guide you on some best practices, that I employ, on how to architect a RN application. 
