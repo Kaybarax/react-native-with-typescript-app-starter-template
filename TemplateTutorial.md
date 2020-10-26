@@ -2,7 +2,7 @@
 
 ## React Native with Typescript App Starter Template  
 
-###(with React Native v0.63)
+### (with React Native v0.63)
 
 ### 1.0 What this article is about 
 
