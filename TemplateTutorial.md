@@ -66,11 +66,11 @@ To get started with your first RN application:
 
 * * * If using an emulator, if from a Personal Computer (PC), press Ctrl+M or ⌘+M from a Mac to bring up the RN development context-menu, then select “Settings”, then select “Debug server host & port for device”, and then, if Genymotion emulator, enter 10.0.3.2:8081; if Android emulator, enter 10.0.2.2:8081, and then click “Ok” to set it. Exit back to the app, and then double tap R from the keyboard to reload/push the UI code to the app. 
 
-* * * If using a physical device, make sure your device and PC/Mac are both connected to the same network. Shake the device to raise the RN development context-menu, then select “Settings”, then “Debug server host & port for device”, and then enter your PC/Mac’s <IP address>:8081 and click “Ok” to set it. Exit back to the app, and then shake the device again, and from RN development context-menu, tap “Reload” to reload/push the UI code to the app. 
+* * * If using a physical device, make sure your device and PC/Mac are both connected to the same network. Shake the device to raise the RN development context-menu, then select “Settings”, then “Debug server host & port for device”, and then enter your PC/Mac’s < IP address >:8081 and click “Ok” to set it. Exit back to the app, and then shake the device again, and from RN development context-menu, tap “Reload” to reload/push the UI code to the app. 
 
 * For iOS, firstly to state it, it’s best to run it from XCode, so that you can also make any configurations, such as “Schemes” and “PList” configurations, and, as well select an iOS simulator. As thus: 
 
-* * Install iOS cocoa dependencies; in preferably a new terminal window, under the project root directory, run `$ cd ios/ && pod install`. This will create the <your-project-name.xcworkspace file> under the <ios directory>, and it is that file that later you will open in XCode. Please make sure to add the generated files to your git. 
+* * Install iOS cocoa dependencies; in preferably a new terminal window, under the project root directory, run `$ cd ios/ && pod install`. This will create the < your-project-name.xcworkspace file > under the < ios directory >, and it is that file that later you will open in XCode. Please make sure to add the generated files to your git. 
 
 * * Open the project in XCode and make any configuration as you fancy.  
 
@@ -98,17 +98,17 @@ You can:
 
 2. Run `$ yarn install` to install node dependencies. 
 
-3. Install iOS cocoa dependencies; in preferably a new terminal window, under the project root directory, run `$ cd ios/ && pod install`. If not there, this will create the <your-project-name.xcworkspace file> under the <ios directory>.  
+3. Install iOS cocoa dependencies; in preferably a new terminal window, under the project root directory, run `$ cd ios/ && pod install`. If not there, this will create the < your-project-name.xcworkspace file > under the < ios directory >.  
 
-4. In <package.json file> rename project name to your app’s project name. As well, remove any of my, unnecessary, details. 
+4. In < package.json file > rename project name to your app’s project name. As well, remove any of my, unnecessary, details. 
 
 5. If you do not have it, install this npm package globally, i.e. Run `$ npm install react-native-rename –g`. You will use it to rename the application. 
 
 6. Be safe with your project, so checkout a new branch to perform the app renaming; run `$ git checkout -b rename-app`.  
 
-7. Rename application; run `$ react-native-rename "your-app-name e.g. My App" -b "your-app-bundle e.g. com.myorg.myapp"`. This will rename to your app details in <app.json file> and in <android directory>. However, it will not update the app bundle name for iOS, so you will have to do that from XCode as detailed below. 
+7. Rename application; run `$ react-native-rename "your-app-name e.g. My App" -b "your-app-bundle e.g. com.myorg.myapp"`. This will rename to your app details in < app.json file > and in < android directory >. However, it will not update the app bundle name for iOS, so you will have to do that from XCode as detailed below. 
 
- 7.1 Start XCode, and from it open the <your-project-name.xcworkspace file> that was generated upper above. 
+ 7.1 Start XCode, and from it open the < your-project-name.xcworkspace file > that was generated upper above. 
 
  7.2 Rename the app bundle to your appropriate app bundle name, e.g. as displayed from the first figure to the next figure, in the figures below. 
 
@@ -119,7 +119,7 @@ You can:
 
 7.3 Exit XCode. 
 
-7.4 Delete node modules, i.e. from the terminal in the project’s root directory run `$ rm -rf node_modules`. Then delete also the iOS cocoa pods, i.e. from <ios directory> run `$ rm –rf Podfile.lock`, then `$ rm –rf Pods`.  
+7.4 Delete node modules, i.e. from the terminal in the project’s root directory run `$ rm -rf node_modules`. Then delete also the iOS cocoa pods, i.e. from < ios directory > run `$ rm –rf Podfile.lock`, then `$ rm –rf Pods`.  
 
 7.5 Reinstall node modules. Then reinstall iOS cocoa pods. And you can now open XCode and run the RN iOS app in your iOS simulator or physical device. 
 
@@ -133,57 +133,57 @@ If you have already been developing your application, you can just go through th
 
 ### 5.0 A Walk through “React Native with Typescript App Starter Template” architecture and design  
 
-At the root directory, I would like to discuss the directory, <app directory>. I always create an “app” directory where I contain and organize 99% of the bulk of my development code. This way, should the android, or iOS native parts crash beyond recovery, or into tedium recovery, I can always start a new RN app, and copy over this “app” directory which, essentially, has everything.  
+At the root directory, I would like to discuss the directory, < app directory >. I always create an “app” directory where I contain and organize 99% of the bulk of my development code. This way, should the android, or iOS native parts crash beyond recovery, or into tedium recovery, I can always start a new RN app, and copy over this “app” directory which, essentially, has everything.  
 
-##### < app directory> contents 
+##### <  app directory > contents 
 
 The following are the contents of this directory. 
 
-###### <App.tsx file>  
+###### < App.tsx file >  
 
 This is the point that connects the whole js/ts, application UI code/logic in this directory to the outside “index.js” where the app is bootstrapped. 
 
 This is also where the application’s global state (stores) with MobX state manager (further discussion on MobX later) is loaded into the application. 
 
-###### <app-entry.tsx file> 
+###### < app-entry.tsx file > 
 
-This is where the app with all its “composed routes” (more explanation on this, later under routing and navigation (R&N) discussion) is loaded and exported to <App.tsx file>. Because it deals with loading the app with its “composed routes,” which in this app, is being handled by React Navigation (RNvg); it is in this file, where “react-native-gesture-handler” is loaded as the very first “import”, as required by RNvg. 
+This is where the app with all its “composed routes” (more explanation on this, later under routing and navigation (R&N) discussion) is loaded and exported to < App.tsx file >. Because it deals with loading the app with its “composed routes,” which in this app, is being handled by React Navigation (RNvg); it is in this file, where “react-native-gesture-handler” is loaded as the very first “import”, as required by RNvg. 
 
-###### <safe-component-wrapper.tsx file>  
+###### < safe-component-wrapper.tsx file >  
 
 This is my error boundary component file for catching React run-time errors. I use it also in my React web applications. 
 
-###### <fallback-page.tsx file>  
+###### < fallback-page.tsx file >  
 
-When <safe-component-wrapper.tsx file> catches a React component run-time error, this is the component that is rendered, and reports that there has been a problem. This and the former component, work well together for graceful app failure and error reporting, when that incidence occurs. 
+When < safe-component-wrapper.tsx file > catches a React component run-time error, this is the component that is rendered, and reports that there has been a problem. This and the former component, work well together for graceful app failure and error reporting, when that incidence occurs. 
 
-###### <app-config.tsx file>  
+###### < app-config.tsx file >  
 
 This is just a file I created where I can declare some global constants that I am working with.  
 
-###### <views directory> 
+###### < views directory > 
 
 This contains the components that render an interaction point/screen (view) to the user. A view works in conjunction with its MobX global state/store, and other MobX global states/stores that it may subscribe to, a controller with functions that the view uses to perform its logic, its child sub-views, and associated routing and navigations.  
 
-###### <controllers directory> 
+###### < controllers directory > 
 
 The files with the controller functions for the views; they perform such as API calls, to state/store updates. 
 
-###### <media directory> 
+###### < media directory > 
 
 Store here static images, videos, gifs, etc. 
 
-###### <theme directory> 
+###### < theme directory > 
 
 Application theme, and styling files that will be used by the view components and their sub-views. As well, global themes and styling for any modules you have. 
 
-###### <shared-components-and-modules directory> 
+###### < shared-components-and-modules directory > 
 
 Items that are shared across the application, for example: 
 
-- Notifications <notification-center directory> 
+- Notifications < notification-center directory > 
 
-- Form controls <form-controls directory> like: 
+- Form controls < form-controls directory > like: 
 
 * * Text inputs. 
 
@@ -193,19 +193,19 @@ Items that are shared across the application, for example:
 
 * * Etc. 
 
-- Camera photo/video capture module <camera-photo-capture-module directory> 
+- Camera photo/video capture module < camera-photo-capture-module directory > 
 
 - Task progress loaders. 
 
 - Etc. 
 
 
-###### < stores directory> 
+###### <  stores directory > 
 
 
 The application's global state (stores). I used MobX here in this template, but you can replace it with any other React global state manager such as Redux, Zustand etc. To learn more about MoBX, see official documentation, https://mobx-state-tree.js.org/intro. 
 
-I declare the stores through schemas in </stores/ store-schemas.js file>, then I make them ready for provisioning through the object, StoreProviders, in </stores/ store-providers.js file>. Then they are instantiated in the function loadAppStores() in </stores/ app-stores.js file>. I like this approach of creating MobX stores from schemas, because:  
+I declare the stores through schemas in < /stores/ store-schemas.js file >, then I make them ready for provisioning through the object, StoreProviders, in < /stores/ store-providers.js file >. Then they are instantiated in the function loadAppStores() in < /stores/ app-stores.js file >. I like this approach of creating MobX stores from schemas, because:  
 
 a). The schemas are useful in defining a store’s structure.  
 
@@ -226,13 +226,13 @@ The main view activities that will render the main screens/views, each have a st
         let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace); 
         isNullUndefined(store) && (store = storeProvider.storeProvidedBy(AppStores.namespace)); 
         this.stores[key] = observable(store); 
-        console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key])); 
+        console.log('CREATED STORE - > ', key, ' - > ', toJS(this.stores[key])); 
       } 
      
       this.appStoresLoaded = true; 
       ...
 
-The function above, when called, gets, and creates store objects from StoreProviders and wraps the created stores in an observable high order component (HOC) from MoBX. Notice that I attempt to first find a store first, from AsyncStorage before creating it. This is because I have provided functionality for persisting stores to AsyncStorage. This is useful, for such as offline storage of data, and also persisting data during app development to save time, from such as re-entering huge form data, especially, across reloads. To persist store data, just call a store persistence function from </stores/store-utils.js file> in a view component, that needs to persist that/those stores. Here is sample code from <app/views/recipe-box-sub-app-views/login.tsx file>, showing persistence of loginStore, so that on subsequent app restarts, a user does not have to re-enter their username. 
+The function above, when called, gets, and creates store objects from StoreProviders and wraps the created stores in an observable high order component (HOC) from MoBX. Notice that I attempt to first find a store first, from AsyncStorage before creating it. This is because I have provided functionality for persisting stores to AsyncStorage. This is useful, for such as offline storage of data, and also persisting data during app development to save time, from such as re-entering huge form data, especially, across reloads. To persist store data, just call a store persistence function from < /stores/store-utils.js file > in a view component, that needs to persist that/those stores. Here is sample code from < app/views/recipe-box-sub-app-views/login.tsx file >, showing persistence of loginStore, so that on subsequent app restarts, a user does not have to re-enter their username. 
 
     ...
     //persist login store 
@@ -242,20 +242,20 @@ The function above, when called, gets, and creates store objects from StoreProvi
 
 *** Notice that I do not hold the user’s password in the loginStore. This is to avoid any potential security incident. Do not persist sensitive user credentials, if it might cause a security incident. ***  
 
-In </stores/with-stores-hoc.tsx file> I have a HOC which I use to pair observable stores with an observer view component. It is not only the main views that can be “observers.” Sometimes you might need a child-view(s) composed inside a parent view, to be subscribed to store(s), for some needed data, and you do not want to do prop-drilling of that/those store(s) to the child-view component(s). In that case you can use the same HOC from above to inject the store(s) to the child view component(s). See this sample code from <app/views/recipe-box-sub-app-views/home.tsx file>, for example:      
+In < /stores/with-stores-hoc.tsx file > I have a HOC which I use to pair observable stores with an observer view component. It is not only the main views that can be “observers.” Sometimes you might need a child-view(s) composed inside a parent view, to be subscribed to store(s), for some needed data, and you do not want to do prop-drilling of that/those store(s) to the child-view component(s). In that case you can use the same HOC from above to inject the store(s) to the child view component(s). See this sample code from < app/views/recipe-box-sub-app-views/home.tsx file >, for example:      
     
     ...
     //inject needed appStore and recipeBoxStore 
     let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']); 
     ...
     
-Besides </stores/ app-stores.js file>, there can be any other number of “<...-store.js/ts files>” if you want to use them to separate instantiations of different stores or groupings of stores, e.g. for sub-applications in your application. 
+Besides < /stores/ app-stores.js file >, there can be any other number of “< ...-store.js/ts files >” if you want to use them to separate instantiations of different stores or groupings of stores, e.g. for sub-applications in your application. 
 
-###### <routing-and-navigation directory> 
+###### < routing-and-navigation directory > 
 
 The application’s routing and navigation logic is stored here. Like I had mentioned earlier, I have used the popular React Navigation (RNvg) library, for this functionality. In this template, I have tried to use as much of the functionalities availed by the RNvg, to show you as much as possible, the various R&N facilities availed by RNvg. For your in-depth knowledge and information on RNvg, see RNvg official documentation https://reactnavigation.org/.  
 
-You can see all these various functionalities of RNvg, here in <app/routing-and-navigation/routing-composition.tsx file>. 
+You can see all these various functionalities of RNvg, here in < app/routing-and-navigation/routing-composition.tsx file >. 
 
  
 - Drawer navigation – Used as the main/base R&N that the app’s main views sit upon.  
@@ -268,27 +268,27 @@ You can see all these various functionalities of RNvg, here in <app/routing-and-
 
 In this directory the other important/main files are: 
 
-- <views-routes-declarations.tsx file> - Here, I import all the views, and as well their groupings, that will need to be registered as routes (view routes) with RNvg, so that they be navigated to. The registration happens in <routing-composition.tsx file>, where a route is made known to RNvg routing functionalities.  
+- < views-routes-declarations.tsx file > - Here, I import all the views, and as well their groupings, that will need to be registered as routes (view routes) with RNvg, so that they be navigated to. The registration happens in < routing-composition.tsx file >, where a route is made known to RNvg routing functionalities.  
 
-- <app-navigation.ts file> - Has the class that defines the functionalities for controlled navigation in the app using ANY (R&N agnostic) library you might want to use. Once again, ANY, not just RNvg; so, whatever R&N library you fancy, you can pair it with the navigation functionalities in this class for a controlled navigation in your app. 
+- < app-navigation.ts file > - Has the class that defines the functionalities for controlled navigation in the app using ANY (R&N agnostic) library you might want to use. Once again, ANY, not just RNvg; so, whatever R&N library you fancy, you can pair it with the navigation functionalities in this class for a controlled navigation in your app. 
 
-- <routing-and-navigation-utils.tsx file> - R&N utility functions and stuff. 
+- < routing-and-navigation-utils.tsx file > - R&N utility functions and stuff. 
 
 The afore discussed, are the main and important files in R&N directory. The other files in that directory, come in to serve their R&N functionalities as needed. 
 
-###### <android-custom-native-modules directory>  
+###### < android-custom-native-modules directory >  
 
 In RN, when you want to handle some stuff with custom native code (java/kotlin/objective-c), RN facilitates this through custom native modules. You write the native functionality in native code (custom native modules), and then you import your native functionality across the RN bridge to the ts/js side, for its use. To demonstrate this, in tis template, I created a java module for hashing a user password on sign-up for the recipe-box sub-application. And as well, validating that password on login.  
 
 An android custom native module on the android native side of RN consists of 2 parts: 
 
-- A module class, <android/app/src/main/java/app_custom_native_modules/ AppSecurityModule.java file>, for example. 
+- A module class, < android/app/src/main/java/app_custom_native_modules/ AppSecurityModule.java file >, for example. 
 
-- A module packager class, <android/app/src/main/java/app_custom_native_modules/ AppSecurityPackage.java file>, for example. 
+- A module packager class, < android/app/src/main/java/app_custom_native_modules/ AppSecurityPackage.java file >, for example. 
 
 The methods in the module class for, both hashing and validating the password, that will be called from the js/ts side, MUST be annotated with @ReactMethod. See sample code below.  
 
-In <android/app/src/main/java/app_custom_native_modules/AppSecurityModule.java file>. 
+In < android/app/src/main/java/app_custom_native_modules/AppSecurityModule.java file >. 
 
     ...
     @ReactMethod 
@@ -322,27 +322,27 @@ And
         } 
     ...
 
-The module packager class, then gets an instance of the module class and exports it to <../MainApplication.java file> so that the module can be availed for import on the js/ts side. 
+The module packager class, then gets an instance of the module class and exports it to < ../MainApplication.java file > so that the module can be availed for import on the js/ts side. 
 
-In <android/app/src/main/java/app_custom_native_modules/AppSecurityPackage.java file>. 
+In < android/app/src/main/java/app_custom_native_modules/AppSecurityPackage.java file >. 
 
     ...
     @NonNull 
     @Override 
-    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) { 
-        List<NativeModule> modules = new ArrayList<>(); 
+    public List< NativeModule > createNativeModules(@NonNull ReactApplicationContext reactContext) { 
+        List< NativeModule > modules = new ArrayList<  >(); 
         modules.add(new AppSecurityModule(reactContext)); 
         return modules; 
     } 
     ...
 
-And in <../MainApplication.java file> 
+And in < ../MainApplication.java file > 
 
     ...
     @Override 
-    protected List<ReactPackage> getPackages() { 
+    protected List< ReactPackage > getPackages() { 
       @SuppressWarnings("UnnecessaryLocalVariable") 
-      List<ReactPackage> packages = new PackageList(this).getPackages(); 
+      List< ReactPackage > packages = new PackageList(this).getPackages(); 
       // Packages that cannot be autolinked yet can be added manually here, for example: 
       // packages.add(new MyReactNativePackage()); 
         packages.add(new AppSecurityPackage()); 
@@ -351,11 +351,11 @@ And in <../MainApplication.java file>
     } 
     ...
 
-On the js/ts side, in <app/android-custom-native-modules/custom-native-modules.js file> the java custom native modules are imported. Then the modules’ functions are consumed in <app/android-custom-native-modules/app-security-custom-native-module.js file> 
+On the js/ts side, in < app/android-custom-native-modules/custom-native-modules.js file > the java custom native modules are imported. Then the modules’ functions are consumed in < app/android-custom-native-modules/app-security-custom-native-module.js file > 
 
 When a js/ts function makes a call to custom native module, the function call is asynchronous. So, it needs a promise, or a callback function for feedback. I am using a callback in this case. The native module, can return a result through the callback/promise functionality and/or as well emitting the result through an event emitter, in which case the result is listened for on the js/ts side, by an event listener. See sample code below. 
 
-Result feedback through a callback from <android/app/src/main/java/app_custom_native_modules/AppSecurityModule.java file>  
+Result feedback through a callback from < android/app/src/main/java/app_custom_native_modules/AppSecurityModule.java file >  
 
 
     ...
@@ -373,7 +373,7 @@ Result feedback through a callback from <android/app/src/main/java/app_custom_na
     ...
 
 
-Result feedback through an eventEmitter from <android/app/src/main/java/app_custom_native_modules/Util.java file> 
+Result feedback through an eventEmitter from < android/app/src/main/java/app_custom_native_modules/Util.java file > 
 
     ...
     public static void emitPasswordValidationResult(ReactContext reactContext, WritableMap params) { 
@@ -385,29 +385,29 @@ Result feedback through an eventEmitter from <android/app/src/main/java/app_cust
 When the js/ts function call’s result is to be received through a callback, you need to just make the function call, and pass a callback function to return the result. If the result will be returned from listening to a DeviceEventEmitter, then before making in the js/ts function call, you first initialize an event listener for that event’s name, and then pass to it an event listener function, that will listen for the result feedback for that “event name.” 
 
 
-###### < util directory>  
+###### <  util directory >  
 
 Utility functionalities for the application. 
 
-- <app/util/util.js file> - Just JavaScript utility functions. 
+- < app/util/util.js file > - Just JavaScript utility functions. 
 
-- <app/util/network-calls-util.ts file> - Network calls utility.  
+- < app/util/network-calls-util.ts file > - Network calls utility.  
 
-- <app/util/react-native-based-utils.js file> - JavaScript utility functions that solely fit within the the RN environment.  
+- < app/util/react-native-based-utils.js file > - JavaScript utility functions that solely fit within the the RN environment.  
 
-- <app/util/react-native-data-collection-utils.js file> - Used by Form-controls on data collection. 
+- < app/util/react-native-data-collection-utils.js file > - Used by Form-controls on data collection. 
 
  
 
 ##### Extras/Miscellaneous: 
 
-###### < app-dev-scratch-pad directory> 
+###### <  app-dev-scratch-pad directory > 
 I just added this for mocking and testing out stuff. 
 
-###### < app-management directory> 
+###### <  app-management directory > 
 This is not really needed. I just added it, to put in it, stuff that I have been using during the template development. This is stuff such as data that I should have been receiving from a server. 
 
-###### < auth-and-security directory> 
+###### <  auth-and-security directory > 
 Not really needed, but you can place in here anything that you would like to do with your app’s security and/or authentication. 
 
 ### 6.0 Finally releasing an RN app to production  
@@ -420,13 +420,13 @@ Before an RN app can be published to production, to Google PlayStore or Apple Ap
 
 * * Generate a signing key, as very well guided from official RN documentation. 
 
-* * As directed from RN documentation, fill out the details in <android/gradle.properties file> and <android/app/build.gradle file>. For this template, I have already filled out the details in both files, so, if using this template, just overwrite the credentials in <android/gradle.properties file> with your own. 
+* * As directed from RN documentation, fill out the details in < android/gradle.properties file > and < android/app/build.gradle file >. For this template, I have already filled out the details in both files, so, if using this template, just overwrite the credentials in < android/gradle.properties file > with your own. 
 
-* * Place the generated signing keystore under the directory <android/app/ directory>. I have provided a keystore there, which you can use to test building a release android apk when using this template. Replace with your key if using this template, for your publication into production.  
+* * Place the generated signing keystore under the directory < android/app/ directory >. I have provided a keystore there, which you can use to test building a release android apk when using this template. Replace with your key if using this template, for your publication into production.  
 
-To test building the production apk when using this template, from <android directory>, run `$ ./gradlew installRelease` to install and test the release apk in your device. To prepare the release apk to upload to Google Playstore, from <android directory> run `$ ./gradlew assembleRelease`. 
+To test building the production apk when using this template, from < android directory >, run `$ ./gradlew installRelease` to install and test the release apk in your device. To prepare the release apk to upload to Google Playstore, from < android directory > run `$ ./gradlew assembleRelease`. 
 
-Note that on subsequent updates of your app to Google PlayStore, after the first publication, you must increment the “versionCode” number in the file <android/app/build.gradle file>. 
+Note that on subsequent updates of your app to Google PlayStore, after the first publication, you must increment the “versionCode” number in the file < android/app/build.gradle file >. 
 
 - iOS release: 
 
