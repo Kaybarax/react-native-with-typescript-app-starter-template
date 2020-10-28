@@ -10,6 +10,16 @@
 import {isEmptyString, objectInstanceProvider} from '../util/util';
 import {notificationAlertProps} from '../shared-components-and-modules/notification-center/notifications-controller';
 
+export const StoreNames = {
+  appStore: 'appStore',
+  loginStore: 'loginStore',
+  page1ExampleStore: 'page1ExampleStore',
+  page2ExampleStore: 'page2ExampleStore',
+  page3ExampleStore: 'page3ExampleStore',
+  page4ExampleStore: 'page4ExampleStore',
+  recipeBoxStore: 'recipeBoxStore',
+};
+
 /**
  * sd _ Kaybarax
  * @param namespace

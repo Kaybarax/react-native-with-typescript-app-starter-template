@@ -15,93 +15,72 @@ import {
   Page2ExampleActivitySchema,
   Page3ExampleActivitySchema,
   Page4ExampleActivitySchema,
-  RecipeBoxActivitySchema,
+  RecipeBoxActivitySchema, StoreNames,
 } from './store-schemas';
 import {createStoreModelSnapshot, getPersistedStoreKey} from './store-utils';
 
 const StoreProviders = {
 
   appStore: {
-    get storeName() {
-      return 'appStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new AppActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.appStore),
+    storeProvidedBy: (namespace) => new AppActivitySchema(namespace, StoreNames.appStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new AppActivitySchema(null, this.storeName),
+        StoreNames.appStore,
+        new AppActivitySchema(null, StoreNames.appStore),
     ),
   },
 
   loginStore: {
-    get storeName() {
-      return 'loginStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new LoginActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.loginStore),
+    storeProvidedBy: (namespace) => new LoginActivitySchema(namespace, StoreNames.loginStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new LoginActivitySchema(null, this.storeName),
+        StoreNames.loginStore,
+        new LoginActivitySchema(null, StoreNames.loginStore),
     ),
   },
 
   page1ExampleStore: {
-    get storeName() {
-      return 'page1ExampleStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new Page1ExampleActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.page1ExampleStore),
+    storeProvidedBy: (namespace) => new Page1ExampleActivitySchema(namespace, StoreNames.page1ExampleStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new Page1ExampleActivitySchema(null, this.storeName),
+        StoreNames.page1ExampleStore,
+        new Page1ExampleActivitySchema(null, StoreNames.page1ExampleStore),
     ),
   },
 
   page2ExampleStore: {
-    get storeName() {
-      return 'page2ExampleStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new Page2ExampleActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.page2ExampleStore),
+    storeProvidedBy: (namespace) => new Page2ExampleActivitySchema(namespace, StoreNames.page2ExampleStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new Page2ExampleActivitySchema(null, this.storeName),
+        StoreNames.page2ExampleStore,
+        new Page2ExampleActivitySchema(null, StoreNames.page2ExampleStore),
     ),
   },
 
   page3ExampleStore: {
-    get storeName() {
-      return 'page3ExampleStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new Page3ExampleActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.page3ExampleStore),
+    storeProvidedBy: (namespace) => new Page3ExampleActivitySchema(namespace, StoreNames.page3ExampleStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new Page3ExampleActivitySchema(null, this.storeName),
+        StoreNames.page3ExampleStore,
+        new Page3ExampleActivitySchema(null, StoreNames.page3ExampleStore),
     ),
   },
 
   page4ExampleStore: {
-    get storeName() {
-      return 'page4ExampleStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new Page4ExampleActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.page4ExampleStore),
+    storeProvidedBy: (namespace) => new Page4ExampleActivitySchema(namespace, StoreNames.page4ExampleStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new Page4ExampleActivitySchema(null, this.storeName),
+        StoreNames.page4ExampleStore,
+        new Page4ExampleActivitySchema(null, StoreNames.page4ExampleStore),
     ),
   },
 
   recipeBoxStore: {
-    get storeName() {
-      return 'recipeBoxStore';
-    },
-    storeKey: (namespace) => getPersistedStoreKey(namespace, this.storeName),
-    storeProvidedBy: (namespace) => new RecipeBoxActivitySchema(namespace, this.storeName),
+    storeKey: (namespace) => getPersistedStoreKey(namespace, StoreNames.recipeBoxStore),
+    storeProvidedBy: (namespace) => new RecipeBoxActivitySchema(namespace, StoreNames.recipeBoxStore),
     storeModelSnapshot: createStoreModelSnapshot(
-        this.storeName,
-        new RecipeBoxActivitySchema(null, this.storeName),
+        StoreNames.recipeBoxStore,
+        new RecipeBoxActivitySchema(null, StoreNames.recipeBoxStore),
     ),
   },
 
