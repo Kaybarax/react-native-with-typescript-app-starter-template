@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 //key
 //sd - self described
 /**
@@ -7,12 +8,13 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from "react";
-import {StyleSheet, Text, TextInput, View} from "react-native";
-import {MAIN_BG_COLOR, SECONDARY_COLOR} from "../../theme/app-theme";
+import React from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {MAIN_BG_COLOR, SECONDARY_COLOR} from '../../theme/app-theme';
 
 const AppTextInput = (props) => {
     let {onChangeText, label, value, secureTextEntry, autoCorrect} = props;
+    let [textValue, textValueChange] = React.useState(value);
     return (
         <View style={[
             styles.container,
@@ -24,14 +26,20 @@ const AppTextInput = (props) => {
             >{`${label}`}</Text>
             <TextInput
                 style={styles.input}
-                value={value}
-                onChangeText={onChangeText}
+                value={textValue}
+                onChangeText={text => {
+                    textValueChange(text);
+                }}
+                onBlur={_ => {
+                    onChangeText(textValue);
+                }}
+                placeholder={label}
                 autoCorrect={autoCorrect || false}
                 secureTextEntry={secureTextEntry || false}
             />
         </View>
     );
-}
+};
 
 export default AppTextInput;
 
@@ -50,20 +58,20 @@ const styles = StyleSheet.create({
         borderColor: '#f5f5f5',
         borderRadius: 15,
         padding: 10,
-        backgroundColor: SECONDARY_COLOR
+        backgroundColor: SECONDARY_COLOR,
     },
     label: {
         fontSize: 12,
         fontWeight: 'bold',
         marginRight: 8,
         marginLeft: 8,
-        color: 'black'
+        color: 'black',
     },
     error: {
         fontSize: 12,
-        color: '#e74c3c'
+        color: '#e74c3c',
     },
     errorContainer: {
-        padding: 8
-    }
+        padding: 8,
+    },
 });
