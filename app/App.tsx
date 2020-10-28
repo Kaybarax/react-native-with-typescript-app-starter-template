@@ -36,11 +36,39 @@ export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
 
 const App = () => {
 
-    //hide in-development unnecessary console warnings
-    // console.warn = console.error = function (message) {};
-    //hide all react warnings in production
-    console.warn = console.error = console.log = function (message) {
-    };
+    //manage runtime errors, warnings and logs feedback
+    if (__DEV__) {
+
+        // @ts-ignore
+        if (global.location && global.location.pathname.includes('/debugger-ui')) {
+
+            // RN.Alert.alert('Remote debug is ON');
+            //hide in-development unnecessary console warnings. Comment to display
+            // console.warn = console.error = function (message) {
+            //     // do nothing
+            // };
+
+            //disable all warnings, errors, and logs when
+            //remote debugging during development. Comment to enable
+            // console.warn = console.error = console.log = function (message) {
+            //     //do nothing
+            // };
+
+        } else {
+            // RN.Alert.alert('Remote debug is OFF');
+            //disable all warnings, errors, and logs when not
+            //remote debugging during development
+            console.warn = console.error = console.log = function (message) {
+                //do nothing
+            };
+        }
+
+    } else {
+        //disable all warnings, errors, and logs in release
+        console.warn = console.error = console.log = function (message) {
+            //do nothing
+        };
+    }
 
     let [dbLoaded, loadDb] = React.useState(false);
     let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');
